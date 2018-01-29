@@ -1,0 +1,724 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+    <link rel="shortcut icon" href="{{MEDIA_URL}}circles/images/favicon.ico" />
+    <link rel="apple-touch-icon" href="{{MEDIA_URL}}circles/images/base/apple-touch-icon.png" />
+    <link rel="stylesheet" href="{{MEDIA_URL}}circles/font/font-awesome.css" type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}circles/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}circles/css/custom.css" />
+    <link href="{{MEDIA_URL}}circles/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}select2-3.5.1/select2.css" />
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+        }
+        .ui-tabs-anchor{
+            color:black !important;
+        }
+        .connectedSortable { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; background: #eee; width: 15%; border:groove;}
+        .connectedSortable li{ margin: 0% 5% 5% 5%; padding-left: 5%; font-size: 1.1em; width: 80%; text-align:center;  cursor: move;}
+    </style>
+
+    <script type="text/javascript" src="{{MEDIA_URL}}circles/js/bootstrap.js"></script> 
+    <script src="{{MEDIA_URL}}circles/js/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="{{MEDIA_URL}}circles/js/jquery.contextMenu.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}circles/js/jquery.path.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}circles/js/circle.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}select2-3.5.1/select2.js"></script>
+
+    <script>
+    $(document).ready(function() {
+
+        wgList=new Array();
+        circlesList={};
+        $("#htabs-outer-account").tabs();
+        $("#htabs-outer").tabs();
+        $("#htabs-outer-request").tabs();
+        $("#htabs-inner").tabs();
+        $("#htabs-extern2").tabs();
+        $("#htabs-notifications").tabs();
+        $("#htabs-circles").tabs();
+        $("#htabs-extern").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        $("#htabs-extern > ul > li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        $('#htabs-extern').css({'display':'block'});
+        $( ".accordionVideo" ).accordion({
+            collapsible: true,
+            heightStyle: "content",
+            active: false
+        });
+
+	    {% for wg in workingGroups %}
+            circlesList[{{wg.wg.id}}]={};
+	        $(function() {
+                $( "#my-select_{{ wg.wg.id }}" ).multiSelect({
+                    keepOrder: true,
+	                selectableHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Available activities</div>",
+            	    selectionHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Requested activities</div>",
+	            });
+	        });
+
+	        $('#select-all_{{ wg.wg.id }}').click(function(){
+                $('#my-select_{{ wg.wg.id }}').multiSelect('select_all');
+                return false;
+            });
+
+	        $('#deselect-all_{{ wg.wg.id }}').click(function(){
+                $('#my-select_{{ wg.wg.id }}').multiSelect('deselect_all');
+	            return false;
+	        });
+
+            permsList=new Array();
+            WG={};
+            WG.id={{wg.wg.id}};
+            WG.laspermission=new Array();
+            {% for act in wg.activities %}
+                {% for perm in act.laspermissions%}
+                    if ($.inArray({{perm.id}}, permsList)==-1){
+                        p={};
+                        p.name='{{perm.name}}';
+                        p.id={{perm.id}};
+                        p.tags=new Array();
+                        p.selectedTags=new Array();
+                        p.recipients=new Array();
+                        p.selectedRecipients=new Array();
+                        {% for r in perm.tags %}
+                            p.tags.push('{{r.name}}');
+                        {% endfor %}
+                        {% for r in perm.selectedTags %}
+                            p.selectedTags.push('{{r.name}}');
+                        {% endfor %}
+                        {% for u in perm.recipients %}
+                            p.recipients.push('{{u}}');
+                        {% endfor %}
+                        {% for u in perm.selectedRecipients %}
+                            p.selectedRecipients.push('{{u}}');
+                        {% endfor %}
+                        p.templateMail='{{perm.templateMail}}';
+                        WG.laspermission.push(p);
+                        permsList.push({{perm.id}});
+                    }
+                {%endfor%}
+            {% endfor %}
+            wgList.push(WG);
+	    {% endfor %}
+
+        $( "#htabs-notifications" ).on('click', '.tagsCheck', function() {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            value=$(this).val();
+            if (this.checked){ //AGGIUNGO - TOLGO SELEZIONE A MAXI ARRAY
+                $(wgList).each(function(){
+                    if ($(this).prop('id')==wgID){
+                        $(this.laspermission).each(function(){
+                            if ($(this).prop('id')==permID){
+                                index=$.inArray(value,this.selectedTags);
+                                if (index==-1){
+                                    this.selectedTags.push(value);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                $(wgList).each(function(){
+                    if ($(this).prop('id')==wgID){
+                        $(this.laspermission).each(function(){
+                            if ($(this).prop('id')==permID){
+                                index=$.inArray(value,this.selectedTags);
+                                if (index!=-1){
+                                    this.selectedTags.splice(index,1);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+        $( "#htabs-notifications" ).on('change', '.recipientsCheck', function(e) {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            value=$(this).val();
+            selectedArray=value.split(',');
+            select=$(this);
+            var fail=false;
+            $(wgList).each(function(){
+                if ($(this).prop('id')==wgID){
+                    $(this.laspermission).each(function(){
+                        if ($(this).prop('id')==permID){
+                            this.selectedRecipients=selectedArray;
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $('#htabs-notifications').on('keyup focusout' , '.templateMail', function() {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            textArea=$(this);
+            $(wgList).each(function(){
+                if ($(this).prop('id')==wgID){
+                    $(this.laspermission).each(function(){
+                        if ($(this).prop('id')==permID){
+                            this.templateMail=textArea.val();
+                        }
+                    });
+                }
+            });
+        });
+
+
+        //loadCirclesItem
+        {% for wg in workingGroups%}
+            $("#dialog_{{wg.wg.id}}").dialog({
+                autoOpen: false
+            });
+            $('#newCircle_{{wg.wg.id}}').click(function() {
+                $("#dialog_{{wg.wg.id}}").dialog("open");
+            });
+            $("#formCircles_{{wg.wg.id}}").submit(function(e) {
+                e.preventDefault();
+                var name = $("#circleName_{{wg.wg.id}}").val();
+                var re = /^\w+$/;
+                if (!re.test(name)) {
+                    alert('Please insert a valid circle name, using only letters, numbers and/or underscores');
+                    return false;
+                }
+                name = name.toLowerCase().replace(/([^a-z]|^)([a-z])(?=[a-z]{1})/g, function(_, g1, g2) {
+                    return g1 + g2.toUpperCase(); } );
+                $("#circleName_{{wg.wg.id}}").val('');
+                if (name === '') {
+                    alert("Please fill all fields.");
+                    return false;
+                }
+                if (name in circlesList[{{wg.wg.id}}]){
+                    alert("Name already used!");
+                    return false;
+                }
+                // API VALIDITA'
+                $.ajax({
+                    url:"{% url loginmanager.views.manageAccount %}",
+                        type: "POST",
+                        data: {name:name,
+                               action:'manageCircles',
+                               step:'checkName'},
+                }).done(function(data) {
+                    if(data["message"]=='error'){
+                        alert("Error! Please retry later.");
+                        return false;
+                    }
+                    else if (data['message']=='invalid'){
+                        alert("You can't use this name! Please try another");
+                        return false;
+                    }
+                    else{
+                        html="<li class='col-lg-4 m-b10 circle-popover context-menu-one' id='"+name+"_{{wg.wg.id}}'><div class='circle-ui circle-drop' identifier='"+name+"_{{wg.wg.id}}'>";
+                        html+="<span class='dorp-action delete'>1</span><span class='dorp-action add-new'>1</span><div class='circle-drop-inner'><div class='inner'>";
+                        html+="<h5>"+name+"</h5><span class='members'>0</span></div></div></div></li>";
+                        $('#ul_{{wg.wg.id}}').append(html);
+                        circlesList['{{wg.wg.id}}'][name]=new Array();
+                        initCircles();
+                        $("#dialog_{{wg.wg.id}}").dialog("close");
+                    }
+                });
+            });
+            {% for tag,v in wg.tags.items %}
+                circlesList['{{wg.wg.id}}']['{{tag}}']=new Array();
+                {% for username in v%}
+                    loadCirclesItem("{{wg.wg.id}}","{{username}}","{{tag}}");
+                {% endfor%}
+            {% endfor%}
+         {% endfor%}
+         });
+
+        function loadNotificationPage(wgID,permID){
+            var selected='';
+            var values ='';
+
+            $(wgList).each(function(){    
+                if (this.id==wgID){
+                    $(this.laspermission).each(function(){
+                        if (this.id==permID){
+                            $('#contentDiv_'+wgID).html();
+                            var html='<label for="textArea">Mail Template for functionality: '+this.name+' </label><br>'
+                            html+='<textarea name="textArea" class="templateMail" wgID='+wgID+' permID='+permID+' rows="4" cols="100" style=style="width:30%; float:left;>'+this.templateMail+'</textarea><br><br>';
+                            html+='<fieldset style="width:35%; float:left;"><legend>Select Tag(s) :</legend>';
+                            if ($(this.tags).length>0){
+                                var selectedTags=this.selectedTags;
+                                $(this.tags).each(function(){
+                                    if ($.inArray(this.valueOf(),selectedTags)!==-1){
+                                        if (this.valueOf()=='Executor')
+                                            html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" checked="checked" value="'+this.valueOf()+'">'+this.valueOf()+'&nbsp(Me)<br>';
+                                        else
+                                            html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" checked="checked" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+                                    }
+                                    else{
+                                        if (this.valueOf()=='Executor') 
+                                            html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" value="'+this.valueOf()+'">'+this.valueOf()+'&nbsp(Me)<br>';
+                                        else
+                                            html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+
+                                    }
+
+                                });
+                            }
+                            html+='</fieldset>';
+                            html+='<fieldset style="width:40%; float:right;"><legend>Select other recipients :</legend>';
+                            if ($(this.recipients).length>0){
+                                var selectedRecipients=this.selectedRecipients;
+                                //html+='<select multiple class="recipientsCheck" id="recipientsCheck_'+wgID+'" wgID='+wgID+' permID='+permID+' style="width:300px">';
+                                //html+='<input type="hidden" id="recipientsCheck_'+wgID+'" style="width: 300px; display: none;" value="brown,red,green" tabindex="-1">';
+                                $(this.recipients).each(function(){
+                                    values+=this.valueOf()+',';
+                                    if ($.inArray(this.valueOf(),selectedRecipients)!==-1){
+                                //        html+='<option value="'+this.valueOf()+'"  selected="selected" >'+this.valueOf()+'</option>';
+                                          selected+=this.valueOf()+',';
+                                    }
+                                    else{
+                                //        html+='<option value="'+this.valueOf()+'">'+this.valueOf()+'</option>';
+                                    }
+                                });
+
+                            }
+                            
+                            html+='<input type="hidden" wgID='+wgID+' permID='+permID+' class="recipientsCheck" id="recipientsCheck_'+wgID+'" style="width: 300px;" value="'+selected.substring(0,selected.length - 1)+'" tabindex="-1">';
+                            html+='</fieldset>';
+                            $('#contentDiv_'+wgID).html(html);
+                            $('#contentDiv_'+wgID).attr('wgID',wgID);
+                            $('#contentDiv_'+wgID).attr('permID',permID);
+                        }
+                    });
+                }
+            });
+            $(wgList).each(function(){
+                $("#recipientsCheck_"+this.id).select2({
+
+                    createSearchChoice: function(term) {
+                        if(term.match(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i))
+                            return { id: term, text: term };
+                     },
+                    formatNoMatches: "Enter valid email",
+                    placeholder: "Select other recipients..",
+                    tags:values.substring(0,values.length - 1).split(','),
+                });
+            });
+        }
+
+
+        function updateNotifications(){
+            startLag();
+            $.ajax({
+                url:"{% url loginmanager.views.manageAccount %}",
+                    type: "POST",
+                    data: {wgList:JSON.stringify(wgList),
+                           action:'manageNotifications'},
+            }).done(function(data) {
+                endLag();
+                if(data["message"]=='error')
+                    alert("Error! Please retry later.");
+                else{
+                    alert("Notifications successfully updated!");
+                }
+            });
+
+         }
+
+
+         function evaluateRequest(wgID){
+             var choose='';
+             if($("#selectBox-"+wgID ).val()=='yes'){
+                 action='accept';
+             }
+             else{
+                 action='reject';
+                 var c=confirm('You are rejecting the request for the working group.\nAre you sure?');
+                 if (c==false) return false;
+             }
+             startLag();
+                $.ajax({
+                url:"{% url loginmanager.views.manageAccount %}",
+                    type: "POST",
+                    data: {
+                       action:action,
+                       wgID:wgID },
+                }).done(function(data) {
+                    endLag();
+                    if(data["message"]=='error')
+                        alert("Error during request evaluation!");
+                    else
+                        alert("Request processed!");
+                    window.location.href = "{% url loginmanager.views.manageAccount %}"
+                });
+            return;
+        }
+
+        function requestFunctionalities(wgID){
+            var userActivities=new Array()
+            $("#my-select option:selected").each(function () {
+                var $this = $(this);
+                if ($this.length) {
+                    userActivities.push($this.val());
+                }
+            });
+            if (userActivities.length == 0){
+                alert ('You have to choose at least one activity for the current WG!');
+	            return;
+	        }
+            startLag();
+            $.ajax({
+                url:"{% url loginmanager.views.manageAccount %}",
+                    type: "POST",
+                    data: {userActivities:userActivities,
+                       userID:{{user.id}},
+                       wgID:wgID,
+                       action:'requestActivities',},
+            }).done(function(data) {
+                    endLag();
+                if(data["message"]=="error"){
+                    alert("Errore!");
+                    }
+                else{
+                    alert("Activities requested!");
+                }
+            });
+        }
+
+        function updateCircles(wgID){
+            startLag();
+            $.ajax({
+                url:"{% url loginmanager.views.manageAccount %}",
+                    type: "POST",
+                    data: {wgID:wgID,
+                       circlesList:JSON.stringify(circlesList[wgID]),
+                       action:'manageCircles',
+                       step:'update'
+                   },
+            }).done(function(data) {
+                endLag();
+                if(data["message"]=="error"){
+                    alert("Error!");
+                }
+                else{
+                    alert("Circles successfully updated!");
+                    location.reload();
+                }
+            });
+        }
+    </script>
+    <script>$("section#content").addClass("home");</script>
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+
+    <nav>
+        <div id="htabs-extern" style="display: none;">
+            <ul>
+
+                <li><a href="#htabs-circles">Manage Your Circles</a></li>
+                <li><a href="#htabs-notifications">Manage Notifications</a></li>
+                <li><a href="#htabs-outer-request">Request Functionalities</a></li>
+                <li><a href="#htabs-outer">Manage Working Groups Invitations</a></li>
+                <li><a href="#htabs-outer-account">Account</a></li>
+            </ul>
+            <div id="htabs-outer-account">
+               <p style='font-weight:bold;'>ACCOUNT DETAILS</p><br>
+               <label style='font-weight:bold;'>First Name: </label>{{user.first_name}} <br><br>
+               <label style='font-weight:bold;'>Last Name: </label>{{user.last_name}} <br><br>
+               <label style='font-weight:bold;'>E-mail: </label>{{user.email}} <br><br>
+               <br><br>
+               <a href="{% url auth_password_change %}" style="border:solid; background-color: #BBA;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 14px;color: black;font-weight: bold;text-decoration: none;">Click here to change your Password</a>
+            </div>
+            <div id="htabs-notifications">
+                <h1>Select group...</h2>
+                <ul>
+                {% for wg in workingGroups %}
+                            <li><a href="#htab-outer-notifications-{{wg.wg.id}}">{{wg.wg.name}}</a></li>
+                {% endfor %}
+                </ul>
+                <input type='button' class='button' style='float:right;' value="Update all" onClick='updateNotifications();' ></input>
+                 
+                {% for wg in workingGroups %}
+                    <div id = "htab-outer-notifications-{{wg.wg.id}}">
+                        <h2>Working group: {{wg.wg.name}}</h2>
+
+                            <div id='activities' style="float:left; width:35%;">
+                                <fieldset style='width:60%'>
+                                    <legend>Activities</legend>
+                                    <div id="htabs-inner-notifications-{{wg.id}}" class="accordionVideo">
+                                        {% for act in wg.macroActivities %}
+                                        <h3>{{act.name}}</h3>
+                                        <div class='accordionVideo'>
+                                            {% for a in wg.activities%}
+                                                {%ifequal a.father_activity.name act.name%}
+                                                    <h3>{{a.name}}</h3>
+                                                    <div>
+                                                    {% for perm in a.laspermissions%}
+                                                        <p><a href="#" id="{{wg.id}}_{{a.id}}"onClick="loadNotificationPage('{{wg.wg.id}}','{{perm.id}}')">{{perm.name}}</a>
+                                                    {% endfor %}
+                                                    </div>
+                                                {% endifequal %}
+                                            {% endfor %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                        <div id='contentDiv_{{wg.wg.id}}' wgID='' permID='' style="float:left; width:50%">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="htabs-circles">
+                <h1>Select group...</h2>
+                <ul>
+                    {% for wg in workingGroups %}
+                        <li><a href="#htab-outer-circles-{{wg.wg.id}}">{{wg.wg.name}}</a></li>
+
+                    {% endfor %}
+                </ul>
+
+                 
+                {% for wg in workingGroups %}
+
+                    <div id = "htab-outer-circles-{{wg.wg.id}}">
+
+                        <div class="content{{wg.wg.id}}" >
+                            <div class="col-lg-12" >
+                         	    <div class="row">
+                        <input type='button' class='button' style='float:right;' value="Update {{wg.wg.name}}" onClick='updateCircles({{wg.wg.id}});' ></input>
+                         	        <div class="circle-left-ctn col-lg-8 col-md-8">
+                                        <div class="row">
+                            	            <ul class="circle-list-ul clearfix" id="circle-list-ul_{{wg.wg.id}}">
+                                                {% for u in wg.users %}
+                                                   {% ifnotequal u.username  user.username %}
+                                                      <li class="col-lg-4 col-md-4 circle-card left-drop-card" username='{{u.username}}' title='{{u.first_name}}&nbsp;{{u.last_name}}' wg='{{wg.wg.id}}'>  <!-- ROW UTENTE !ID-->
+                                                     	<div class="circle-bdr">
+                                                    		<div class="circle-list-item drag-cursor personPopupTrigger" rel="4218,a17bee64-8593-436e-a2f8-599a626370df">
+                                                        		<span class="fa fa-times  close-btn"></span>
+                                                        		<div class="list-row" >
+                                                    				<!<span class="item-cell" href="#"  >
+                                            							<img src="{{MEDIA_URL}}circles/images/photo.png" alt="" width="20px" height="100%">
+                                          							</span>
+                                                       				<div class="item-cell item-dec">
+                                        								<h5>{{u.first_name}}&nbsp;{{u.last_name}}</h5>
+                                                            			
+								                                    </div>
+                                                         		</div>
+                                                        	</div>
+                                                        </div>
+                                                      </li>
+                                                    {% endifnotequal %}
+                       	                        {%endfor%}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="circles-ctn" id="affixCircles_{{wg.wg.id}}" style="clear: both; width:50%;">
+                                       <div class="circle-right-ctn ">      
+                                    		<ul class="circle-drop-ul clearfix" id='ul_{{wg.wg.id}}'>
+                                                <li class="col-lg-4 circle-popover">
+                                                	<div class="circle-ui add-circles" id='newCircle_{{wg.wg.id}}'>
+                                                    	<div class="circle-drop-inner">
+								                            <h5 class="inner"><i class="fa fa-plus"></i>click to create circle</h5>
+                                                        </div>
+						                            </div>
+                                                </li>
+                                               {% for k in wg.tags %}
+                                                   <li class="col-lg-4 m-b10 circle-popover context-menu-one" id="{{k}}_{{wg.wg.id}}"> <!-- ROW TAG !ID-->
+                                                       <div class="circle-ui circle-drop" identifier='{{k}}_{{wg.wg.id}}'>
+                                                           <span  class="dorp-action delete">1</span>
+                                                		   <span class="dorp-action add-new">1</span>
+                                                      	   <div class="circle-drop-inner">
+                                        		               <div class="inner">
+             								                     <h5>{{k}}</h5>
+								                                 <span class="members">0</span>
+                                              	               </div>
+						                                   </div>
+                                                       </div>
+                                                   </li>
+                                                {%endfor%}
+                            	            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dialog_{{wg.wg.id}}" title="Insert circle name">
+                        <form action="" id='formCircles_{{wg.wg.id}}' method="post">
+                            <label>Name:</label>
+                            <input id="circleName_{{wg.wg.id}}" name="name" type="text"><br><br>
+                            <input id="submitCircle_{{wg.wg.id}}" type="submit" value="Create!">
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="htabs-outer-request">
+                <h1>Select group...</h2>
+                <ul>
+                    {% for wg in workingGroups %}
+                        <li><a href="#htab-outer-{{wg.wg.id}}">{{wg.wg.name}}</a></li>
+                    {% endfor %}
+                </ul>  
+                {% for wg in workingGroups %}
+                    <div id = "htab-outer-{{wg.wg.id}}">
+                        <h2>Working group: {{wg.wg.name}}</h2>
+                        <div id="htabs-inner-{{wg.wg.id}}">
+                            <div>
+                              <fieldset style="width:20%; float:left;">
+                                <br>
+                                <legend style='font-size: 1.2em;'><h1>Current Activities</h1></legend>
+                                  {% for item in fatherActivities %}
+                                     <p id='fatherActP_{{wg.wg.id}}_{{item.id}}'>{{item.name}}</p>
+                                        <ul style='list-style:inherit;'>
+                                            {% for act in wg.currentActivities %}
+                                                 {% ifequal act.father_activity item%}
+                                                    <li style='list-style:inherit;'>{{act.name}} </li>
+				                                {% endifequal %}
+				                            {% endfor %}
+                                       </ul>
+                                  {% endfor %}
+                               </fieldset>
+                               <fieldset style="width:30%; float:right; margin-right: 30%;">
+                               {% if wg.requestedActivities %}
+                                  <br>
+                                  <legend style='font-size: 1.2em;'><h1>Request Activities</h1></legend>
+                                  <p>You already have a pending request for this Working Group!</p>
+                                    {% for act in wg.potentialActivities %}
+                                      <li>{{act.name}} </li>
+                                    {%endfor%}
+                                 </optgroup>
+                               {% else %}
+                                    <br>
+                                    {% ifequal wg.potentialActivities|length 0 %}
+                                      <p>You already have a all the functionalities!</p>
+                                    {% else %}    
+                                        <legend style='font-size: 1.2em;'>Request Activities</legend>
+                                      <a href='#' id='select-all_{{ wg.wg.id }}'>SELECT ALL /</a>
+                                        <a href='#' id='deselect-all_{{ wg.wg.id }}'>DESELECT ALL</a><br><br>
+
+                                              <select multiple="multiple" id="my-select_{{ wg.wg.id }}" name="my-select_{{ wg.wg.id }}[]">
+                                                 {% for item in fatherActivities %}
+                                                  <optgroup label="{{item.name}}">
+                                                    {% for act in wg.potentialActivities %}
+                                                     {% ifequal act.father_activity item%}
+                                                      <option value="{{act.id}}" id=multi{{act.id}}>{{act.name}} </option>
+                                                     {% endifequal%}
+                                                    {%endfor%}
+                                                 </optgroup>
+                                                {% endfor %}
+                                              </select>
+
+                                        </fieldset>
+                                        <button id='requestFunctionalities' class='button' onClick="requestFunctionalities('{{wg.wg.id}}');" style="float:left">Request Functionalities</button>
+                                        </fieldset>
+                                    {% endifequal%}
+				                {% endif%}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                <!--end htab outer panels-->
+            </div>
+
+
+            <div id="htabs-outer">
+                    <!--begin htab outer menu-->
+
+                    {% if tempRecord %}
+                    <ul>
+                      {% regroup tempRecord by WG as wg_list %}
+                      {% for wg in wg_list%}
+                         <li><a href="#htab-outer-{{wg.grouper.id}}">{{wg.grouper.name}}</a></li>
+                      {% endfor %}
+                      </ul>
+                      {% for wg in wg_list %}
+                         <div id = "htab-outer-{{wg.grouper.id}}">
+                           <h2>Working group: {{wg.grouper.name}}</h2>
+                           <div id="htabs-inner-{{wg.grouper.id}}">
+                           <p>Choose 'yes' in order to accept the invitation</p>
+                           <select id="selectBox-{{wg.grouper.id}}">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                           </select>
+                            <p></p>
+                             <fieldset>
+                               <br>
+                               <label style="font-weight:bold;">Principal Investigator: </label> {{wg.grouper.owner.first_name}}&nbsp;{{wg.grouper.owner.last_name}}&nbsp;({{wg.grouper.owner.email}})<br><br>
+                               <label style="font-weight:bold;">Roles: </label><br>
+                               <ul>
+                                 {% for role in wg.list %}
+                                    <li>{{role.role.name}}</li>
+                                 {% endfor %}
+                               </ul>
+                               <button class='button' style='float:right;' onClick='evaluateRequest({{wg.grouper.id}});'> Confirm  </button>
+                             </fieldset>
+                           </div>
+                         </div>
+                      {% endfor %}
+                    {% else %}
+                       <h1> No Pending Requests! </h1>
+                    {% endif %}
+                <!--end htab outer panels-->
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

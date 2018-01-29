@@ -1,0 +1,41 @@
+//CRC0050LMXB0504RL01: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CCR137LMXA04002RL02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CCR137LMXA04002RL01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CRC0285LMXA02002-003RL02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL015_NU00122533.xls
+//CRC0264LMXA03006 RL03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//NEC0001MTH0000RL03: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL008_NU00120361.xls
+//CRC0285LMXA02002-003RL01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL015_NU00122533.xls
+//CCR137LMXA04011RL02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CRC0379LMCB02003RL01: Problema su X/H. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL036_nu00136026.xlsx
+//CRC0264LMXA0300RL04: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CCR137LMXA04008RL01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CRC0080LMXB05028 RL01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0080LMXB05028 RL02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0264LMXA03003 RL01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0307LMXA03002 RL01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL038_NU00136024.xls
+//CRC0379LMCB02001RL01: Problema su X/H. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL036_nu00136026.xlsx
+//CRC0050LMXB0500RL01: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//KDC001NPH000000RL04: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL002_LR00005767.xls
+//KDC001NPH000000RL01: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL002_LR00005767.xls
+//KDC001NPH000000RL02: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL002_LR00005767.xls
+//KDC001NPH000000RL03: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL002_LR00005767.xls
+//CCR137LMXA04008RL02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CRC0379LMCB02004RL01: Problema su X/H. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL036_nu00136026.xlsx
+//NEC0001MTH0000RL04: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL008_NU00120361.xls
+//CCR137LMXA04011RL01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//CRC0080LMXB05028 RL03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0080LMXB05028 RL05: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0080LMXB05028 RL04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//CRC0080LMXB05028 RL06: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL023_NU00122523.xlsx
+//VGC0001PEH000000RL04: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL003_LR00005769.xls
+//NEC0001MTH0000RL02: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL008_NU00120361.xls
+//NEC0001MTH0000RL01: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL008_NU00120361.xls
+//CRC0379LMCB02002RL01: Problema su X/H. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL036_nu00136026.xlsx
+//CCR137LMXA04013RL01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL034_NU00120359.xls
+//LNF0001LFH000000RL03: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL004_LR00005768.xlsx
+//LNF0001LFH000000RL02: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL004_LR00005768.xlsx
+//LNF0001LFH000000RL01: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL004_LR00005768.xlsx
+//LNF0001LFH000000RL04: tessuto inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL004_LR00005768.xlsx
+//VGC0001PEH000000RL02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL003_LR00005769.xls
+//VGC0001PEH000000RL03: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL003_LR00005769.xls
+//VGC0001PEH000000RL01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/RNAlater/ArchivePlates/RL003_LR00005769.xls

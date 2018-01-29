@@ -1,0 +1,56 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'QuantMeasure_';
+	</script>
+{% endblock %}
+{% block title %}Report of Measurement Serie{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <script>
+            listKey = ['quant','quantuser', 'quanttimestamp'];
+            clearStorage(listKey);
+        </script>
+		<div align="center">
+			<h1>Report of the last Measurement Serie:</h1>
+			<table id="table_res"  border="1">
+				<thead>
+					<tr>
+						<th align = 'center'>Genealogy ID</th>
+				        <th align = 'center'>Barcode</th>
+				        <th align = 'center'>Group</th>
+						<th align = 'center'>X</th>
+						<th align = 'center'>Y</th>
+						<th align = 'center'>Z</th>
+						<th align = 'center'>Volume</th>
+						<th align = 'center'>Weight</th>
+						<th align = 'center'>Status</th>
+						<th align = 'center'>Scope Explant</th>
+						<th align = 'center'>Scope Notes</th>
+						<th align = 'center'>Treatment</th>
+						<th align = 'center'>Start date</th>
+	        			<th align = 'center'>Duration</th>
+						<th align = 'center'>Notes</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for l in list_report %}
+						{{  l|safe  }}
+					{% endfor %}
+				</body>
+			</table>
+		<br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

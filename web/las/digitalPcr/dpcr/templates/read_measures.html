@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Insert measures{% endblock %}
+
+
+{% block content %}
+
+
+<meta charset="utf-8">
+	
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/read_measures.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+
+{% if not filename %}
+<div style="float:left;width:100%">
+<fieldset>
+        <legend>Measures from File</legend>
+        <p style="font-family:Courier New,Helvetica,sans-serif;">The file should be ...</p>
+        <form id="upload_aliquot_file" action="." method="POST" enctype="multipart/form-data">{% csrf_token %}
+        	{{ form.as_p }}
+			<p style="text-align:right;float:right"><input id="upload" class="button"  type="submit" value="Upload File" /></p> 
+        </form>
+</fieldset>
+</div>
+{% else %}
+
+
+<div id="aliquots" style="float:left;width:100%">
+	<article id='riquadro'>
+	<h3>Current Request</span></h3>
+		
+		<article style="width:inherit;overflow:auto">
+			<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url dpcr.views.save_measures %}">
+				{% csrf_token %}
+			<input id='aliquots_list' type="hidden" name='aliquots_list' value="">
+			<fieldset style="margin-top:1%;margin-bottom:1%;width:70%;float:left">
+			<legend> Additional files for the experiments</legend>
+			<label for="archive_name">Name of the archive </label>
+			<input id='archive_name' name='archive_name' size="80" value={{archivename}}>
+			<p></p>
+			<input id='plotfile' type="file" name="file" class="file"/>
+			</fieldset>
+			<input id="submit" class="button" type="submit" value="Save Measures" onClick="return updateInput();" style="margin-top:2%;float:left"/>
+			</form>
+		</article>
+        <article style="width:inherit;overflow:auto">
+	
+		    <table border=1px id="measure_table">
+        <thead>
+			<TR>
+				<TH style="text-align:center;">Position</TH>
+				<TH style="text-align:center;">Aliquot Id</TH>
+                <TH style="text-align:center;">Genealogy Id</TH>
+                <TH style="text-align:center;">Gene Id</TH>
+                <TH style="text-align:center;">Gene</TH>
+                <TH style="text-align:center;">Mutation </TH>
+                <TH style="text-align:center;">AA</TH>
+                <TH style="text-align:center;">CDS </TH>
+                <TH style="text-align:center;">Value (Editable)</TH>
+                <TH style="text-align:center;">Type Id</TH>
+                <TH style="text-align:center;">Measure Type</TH>
+                <TH style="text-align:center;">WT</TH>
+            </TR>
+        </thead>
+        <tbody>
+	    {% for sample in measures %}
+			<TR sample_index={{sample.position}} class="row_data">
+				<TD>{{sample.position}}</TD>
+				<TD class="aliquot" aliquot='{{sample.aliquot}}'>{{sample.aliquot}}</TD>
+				<TD class="genealogy" genealogy='{{sample.genealogy}}'>{{sample.genealogy}}</TD>
+				<TD class="gene" gene='{{sample.gene}}'>{{sample.gene}}</TD>
+				<TD class="genename" gene='{{sample.genename}}'>{{sample.genename}}</TD>
+				{% if sample.mut != "" %}
+					<TD class="probe" probe='{{sample.mut}}'>{{sample.mut}}</TD>
+					<TD class="probe" probe='{{sample.mut_aa}}'>{{sample.mut_aa}}</TD>
+					<TD class="probe" probe='{{sample.mut_cds}}'>{{sample.mut_cds}}</TD>
+				{% else %}
+					<TD class="probe" probe='{{sample.mut}}'>WT</TD>
+					<TD class="probe" probe='{{sample.mut_aa}}'></TD>
+					<TD class="probe" probe='{{sample.mut_cds}}'></TD>
+				{% endif %}
+				<TD class="mvalue" mvalue='{{sample.mvalue}}'>{{sample.mvalue}}</TD>
+				<TD class="mtypeid" mtypeid='{{sample.mtypeid}}'>{{sample.mtypeid}}</TD>
+				<TD class="mtypeid" mtypeid='{{sample.mtypeid}}'>{{sample.mtype}}</TD>
+				<TD class="mtypeid" mtypeid='{{sample.mtypeid}}'>{{sample.wt}}</TD>
+			</TR>
+		{% endfor %}
+        <tbody>
+        </table>
+        </article>
+	</article>
+
+</div>
+
+
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Split aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/split_robot/set_procedure.js"></script>
+	<script type="text/javascript">		
+		dizmisure = $.parseJSON('{{dizmisure|safe}}');
+	</script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		#aliq td{padding:10px;vertical-align: middle;}
+		#aliq tr.interna:not(.failed){cursor:pointer;}
+		#tab_val td,#tab_riepilogo td{border: 1px solid black;}
+		th{padding:6px;vertical-align: middle;text-align:center;}		
+		.noborder {border:1px solid black;}
+		.bordorosso {border:2px solid red;}
+	</style>
+	
+	{% if not fine and not vuota %}	
+		<form id="form_conf" action={% url tissue.split_robot.PlanDilution %} method="post">{% csrf_token %}
+			<div class="bordicurvi" style="float:left;border:1px solid black;padding:0.5em;">
+				<div style="float:left;">
+					<label for="id_valid_barc" style="margin-left:0.2em;">Experiment name:</label>
+					<br>
+					<input id="id_exp_name" name="exp_name" type="text" size="40" maxlength="100" autocomplete="off" value={{nomeplan}} >
+				</div>
+				<div style="float:left;margin-left:1em;">
+					<label for="id_container" >Source container type:</label>
+					<br>
+					<select id="id_container" name="container">
+						<option selected="selected" value="">---------</option>
+						{% for cont in liscont %}
+							<option value="{{cont.id}}">{{cont.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<input id="submit_button" type="submit" style="float:right;" value="Submit data" class="button" />
+		</form>
+		<br style="clear:both;">
+		<br>
+		<input id="id_num_aliq_hidden" type="hidden" >
+		<table border='1px solid black' id="aliq" style="float:left;border:1px solid black;">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				<th>Conc.(ng/ul)</th>
+				<th>Volume(ul)</th>
+				<th>Remaining volume(ul)</th>
+				<th style="font-size:1.05em;" >Exhausted <input id="exh_all" style="float:right;margin:0px;margin-left:0.7em;" type="checkbox"></th>
+				<th>Stop procedure</th>
+			</thead>
+			<tbody>
+				{% for alsched,barc,pos in lista %}
+					<tr align="center" class="interna">
+						<td class="lis_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{alsched.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" class="gen_aliq_der" name="gen_{{forloop.counter0}}" value={{alsched.idAliquot.uniqueGenealogyID}} id_alsched={{alsched.id}} />
+						</td>
+						<td class="lis_barcode">{{barc}}
+							<input id="barc_{{forloop.counter0}}" type="hidden" class="barc_aliq_der" name="barc_{{forloop.counter0}}" value={{barc}} />
+						</td>
+						<td class="td_pos">{{pos}}</td>
+						<td class="td_conc"></td>
+						<td class="td_vol"></td>
+						<td class="td_leftovervol"></td>
+						<td class="td_exh"><input id="exh_{{forloop.counter0}}" type="checkbox" class="check_exh" /></td>
+						<td class="td_stop"><input id="stop_{{forloop.counter0}}" type="checkbox" /></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div id="div_ext" style="float:left;margin-left:5em;width:25%;">
+			<div style="float:left;border:1px solid black;padding:1em;">
+				<div style="float:left;">
+					<label>Aliquots to create:</label>
+					<br>
+					<input id="id_number_aliquots" maxlength="2" type="text" size="1" value="3" >
+					<input id="cambia_aliquote" class="button" style="margin-top:10px;" value="Set Aliquots to create" title="Click to set aliquots number" type="button">
+				</div>
+				<div style="float:left;display:none;" >
+					<label >Save left over:</label>
+					<br>
+					<input id="id_create_remain" type="checkbox" >
+				</div>
+			</div>
+			<br style="clear:both;">
+			<br>
+			<div>
+				<table id="tab_apply" width="100%" style="border:1px solid black;">
+					<tr align="center"><td><input id="apply" class="button" value="Apply values" title="Click to apply volume and concentration chosen to aliquots" type="button"></td></tr>
+				</table>
+				<table id="tab_val" width="100%" style="border:1px solid black;">			
+				</table>		
+			</div>
+		</div>
+		
+		<div id="dialog" class="dialog confirm" title="Aliquot info" style="display:none;">
+			<input id="vol_madre" type="hidden" >
+			<input id="conc_madre" type="hidden" >
+			<input id="conc_imposta" type="hidden" >
+	        <div style="float:left;">
+		        <table border="1px" id="tab_view">
+					<th>Genealogy ID</th>
+					<th>Barcode</th>
+					<th>Position</th>
+					<tr align="center">
+						<td class="view_gen"></td>
+						<td class="view_barc"></td>
+						<td class="view_pos"></td>
+					</tr>
+				</table>
+				<button id="ricalcola" style="margin-top:1em;" type="button" title="Click to recalculate values for aliquot fields" >Recalculate values</button>
+			</div>
+			<div style="float:left;border:1px solid black;padding:1em;background-color:#E8E8E8;margin-left:1em;">
+				<div style="float:left;">
+					<label>Aliquots to create:</label>
+					<br>
+					<input id="id_num_aliq_dialog" maxlength="2" type="text" size="1">
+					<button id="cambia_aliq_dialog" style="margin-top:10px;" title="Click to set aliquots number">Set Aliquots to create</button>
+				</div>
+				<div style="float:left;display:none;" >
+					<label>Save left over:</label>
+					<br>
+					<input id="id_create_remain_dialog" type="checkbox" checked="checked" >
+				</div>
+			</div>
+			<br style=clear:both;>
+			<br>
+			<table id="tab_riepilogo" border="1px" style="float:left;">
+			</table>
+			<table id="tab_leftover" border="1px" style="float:left;margin-left:8em;">
+			</table>
+			<br style=clear:both;>
+	    </div>
+	{% endif %}
+	{% if vuota %}
+		<h1 align="center">Split failed. No aliquots saved</h1>
+	{% endif %}
+	{% if fine %}
+		<style type="text/css">
+			td{padding:8px;border-width:1px;}
+			th{padding:8px;}
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+				
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		<span style="font-size:1.4em;"><b>All data have been saved. Please now start the dilution procedure in the robot.</b></span>
+		<br>
+		<br>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+			</thead>
+			<tbody>
+				{% for i in lista_der %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>	           
+		</table>
+	{% endif %}
+{% endblock %}
+

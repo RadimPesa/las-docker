@@ -1,0 +1,29 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration' %}</h1>{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a href="{% url 'loginmanager.views.logout' %}">Logout</a> [{{  user.username  }}]</span>
+</p>
+<nav>
+<p>
+You are already registered, {{user.username}}!
+</p>
+{%else%}
+<nav>
+{{ block.super }}
+<h3>{% trans 'Please fill the following fields to create your registration' %}</h3>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    {{ supplement_form.as_p }}
+    <p><input type="submit" value="{% trans 'Register' %}"></p>
+</form>
+{% endif %}
+</nav>
+{% endblock %}

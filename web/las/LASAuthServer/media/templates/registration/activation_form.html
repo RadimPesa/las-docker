@@ -1,0 +1,39 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Activate your account' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Activate your account' %}</h1>{% endblock %}
+
+{% block script %}
+
+	<script src="/lasauth_media/js/strength.js"></script>
+
+	<link rel="stylesheet" href="/lasauth_media/css/strength.css">
+    <script src="/lasauth_media/js/setPassword.js"></script>
+
+	<style type="text/css">
+		form input { display:block; position:relative;}
+	</style>
+
+
+
+{% endblock %}
+
+{% block content %}
+
+<nav>
+{{ block.super }}
+<p>{% trans 'Please fill the password to complete account activation' %}</p>
+<p>Please note that password:<br>
+- must contain 8 characters or more<br>
+- must contain at least 1 lowercase letter<br>
+- must contain at least 1 uppercase letter<br>
+- must contain at least 1 number</p>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p><input id="conf_all" type="submit" class="button" value="{% trans 'Activate' %}" style="margin-left:0px;" ></p>
+</form>
+</nav>
+{% endblock %}

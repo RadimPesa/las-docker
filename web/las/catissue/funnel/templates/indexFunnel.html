@@ -1,0 +1,58 @@
+{% extends "baseFU.html" %}
+{% block title %}Funnel{% endblock %}
+
+
+{% block content %}
+	{% if not errore %}
+		<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}style-menu.css" />
+
+		<script type="text/javascript">
+		
+			jQuery(document).ready(function(){
+				//questi comandi sono nello style-menu.css
+				//$("section#content").css("background-image","url(/archive/archive_media/img/sfondost2.png)");
+				//$("section#content").css("background-position","right bottom");
+				//$("section#content").css("background-repeat","no-repeat");
+				
+			    $('.mainlink li, span').each(function(){
+			        $(this).click(function() {
+			        	var target = $(this).attr('target');
+			        	var url = $(this).attr('url');
+			        	if (url){
+			        		window.location = url;
+			        	}
+			        	else{
+			        		$('.cn-slide').each(function(){
+			        			$(this).hide();	
+			        		});
+			        		$('#'+target).show();
+			        	}
+			    	});
+			    });
+			});
+			
+		</script>
+	
+		<div class="cn-container" style='float:left;width:30%;margin-top:1em;'>
+				<div class="cn-slide-main mainlink" id="slide-main">
+				    <nav>
+				        <li url='{% url funnel.collection.collectionFunnel %}'>Sample collection</li>
+				        
+				    </nav>
+		    	</div>
+		
+		</div>
+	
+		
+		<div class='cn-container' style='float:right;width:25%'>
+			<div class="imghome">
+				<img src="{{MEDIA_URL}}img/77.jpg" style="width:100%">
+			</div>
+		</div>
+	
+		<br style="clear:both;"><br><br><br>
+
+	{% else %}
+		<h1 align="center">Error: something went wrong</h1>
+	{% endif %}
+{% endblock %}

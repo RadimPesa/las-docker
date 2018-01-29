@@ -1,0 +1,128 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Slides labelling{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/label/details.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}	
+	<style type="text/css">
+		.tabvetrini button {width:35px; height:35px; font-size: 15px;
+				background-color:rgb(249,248,242); -moz-border-radius:5px; 
+				border-radius:5px;border-style:hidden;}
+		.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		#aliquots_table_filter {margin-bottom:4px;}
+		#aliquots_table_paginate a,#aliquots_table_info {padding-top:4px;}
+		#aliquots_table tr{text-align: center;}
+		#aliquots_table img {cursor:pointer;}
+	</style>
+	{% if not fine %}	
+		<script type="text/javascript">
+			dizgen = $.parseJSON('{{dizgen|safe}}');
+			//diz con chiave il tipo di marker e valore un dizionario con le feature relative a tempo e temperatura
+			dizmarkfeature = $.parseJSON('{{dizmarkfeature|safe}}');
+			//diz con chiave la tecnica e valore una lista di canali
+			dizcanali = $.parseJSON('{{dizcanali|safe}}');
+			//diz con chiave la tecnica e valore la lista di protocolli collegati
+			diztecnica = $.parseJSON('{{diztecnica|safe}}');
+			//lista con i gen pianificati. Tutto cio' che e' qui dentro va bene. Il resto presente nei vetrini va disabilitato
+			listagen = $.parseJSON('{{lgen|safe}}');
+		</script>
+		
+		<div style="float:left;max-width:30%;">
+			<div class="bordicurvi" style="float:left;border-style:solid;border-width:0.1em;border-color:black;margin-bottom: 1em;padding:0.5em;">
+				<label for="id_valid_barc">Genealogy ID or barcode (optional):</label>
+				<div>
+					<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="32" maxlength="45" >
+					<br>
+					<input id="validate_barc" type="submit" class="button" style="float:left;margin-top:0.2em;" value="Add slide" title="Click to insert new slides to label"/> 
+				</div>
+			</div>
+			
+			<br>
+			<div id="posiz" style="float:left;border:1px solid black;padding:1em;display:none;">
+				<div align="center" style="padding:0.5em;font-size:1.5em;"><strong>Slides</strong></div>
+				<br>			
+				{% for barc in listabarc %}
+					{% for key, value in dizfin.items %}
+						{% if key == barc %}
+							{{value|safe}}
+							<br style="clear:left;">
+							<br>
+						{% endif %}				
+					{% endfor %}
+				{% endfor %}
+				
+			</div>
+		</div>
+		<form id="form_fin" action={% url tissue.label.SaveLabelAliquots %} method="post">{% csrf_token %}
+		</form>
+		<div align="center" style="float:right;width:60%;margin-left:1em;">
+			<div align="right">
+				<input id="finish" type="button" style="display:inline;margin-right:1em;" name="finish" class="button" value="Confirm and stop" title="Click to confirm and finish procedure at this point"/>
+				<input id="next" type="button" style="display:inline;" name="next" class="button" value="Next step" title="Click to confirm and go to next step (file insertion)"/>
+			</div>
+			<p style="display:inline;margin-right:2em;">
+				<label for="id_tech">Technique:</label>
+				<select id="id_tech" >
+					<option selected="selected" value="">---------</option>
+					
+				</select>
+			</p>
+			<p style="display:inline;">
+				<label for="id_protoc">Protocol:</label>
+				<select id="id_protoc" name="Protocol">
+					<option selected="selected" value="">---------</option>
+					{% for prot in lisprot %}
+						<option value={{prot.id}} >{{prot.name}} </option>
+					{% endfor %}
+				</select>
+			</p>
+			<br style="clear:both;">
+			<br>
+			<br>
+			<table border="1px solid black" id="infomarker" style="width:100%;">
+			</table>
+		</div>
+		<br style="clear:both">
+		
+		<section class="canc">
+	        <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+	            <fieldset  class="fieldset" style="height:85%;">
+	                <legend class="legend"> Aliquots </legend>
+	                <div style="height:100%;">
+	                    <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+	                    </table>
+	                </div>
+	            </fieldset> 
+	        </div>
+	    </section>
+    {% else %}
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both;">
+		<h2>These aliquots have been created:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>			
+				<th>Mother Gen.</th>
+			</thead>
+			<tbody>
+				{% for i in lista_der %}
+		        	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		</table>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/qpaths.css">
+{% endblock %}
+{% block title %}Multidimensional Data Manager - Query paths{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/qpaths.js"></script>
+<script>
+    var tablebrowser_url = "{% url _caQuery.views.tablebrowser %}";
+</script>
+{% endblock %}
+
+{% block content %}
+
+<section id="riquadroapi">
+    <h3>Define query paths</h3>
+
+	<div id="source" style="margin: 20px; width: 900px">
+        <!--<fieldset style="height: 92px"><legend>Source</legend>-->
+        <table style="margin: 0px; border: 0px; padding: 0px; width: 100%">
+            <tr>
+                <td style="border-right: 1px dotted gray">
+                    <label class="smallhead">SOURCE</label>
+                </td>
+                <td style="width: 37%">
+                    <label class="head" style="width: 100px">Database:</label><select id="selds1">
+                    {% for x in allds %}
+                        <option value="{{x.id}}">{{x.name}}</option>
+                    {% endfor %}
+                    </select>
+                    <script>
+                        $(function() {$("select").prop("selectedIndex", -1)});
+                    </script>
+                    <br><br>
+                    <form action="./" method="get">
+                        <label class="head" style="width: 100px">Entity:</label><select name="qe1" id="selqe1">
+                        	{% if dst %}
+                    			<option value="{{x.id}}">{{x.name}}</option>
+                    		{% endif %}
+                    	</select>
+                    </form>
+                </td>
+                <td style="border-right: 1px dotted gray">
+                    <label class="smallhead">DESTINATION</label>
+                </td>
+                <td style="width: 37%">
+                    <label class="head" style="width: 100px">Database:</label><select id="selds2">
+                    {% for x in allds %}
+                        <option value="{{x.id}}">{{x.name}}</option>
+                    {% endfor %}
+                    </select>
+                    <br><br>
+                    <form action="./" method="get">
+                        <label class="head" style="width: 100px">Entity:</label><select name="qe2" id="selqe2">
+                            {% if dst %}
+                                <option value="{{x.id}}" selected="selected">{{x.name}}</option>
+                            {% endif %}
+                        </select>
+                    </form>
+                </td>
+
+            </tr>
+        </table>
+            <!--</fieldset>-->
+    </div>
+
+    <label class="head">Name:</label><input id="qpname" type="text" name="name" />
+    <br><br>
+    <label class="head">Description:</label><input id="qpdescr" type="text" name="descr" />
+    <br><br>
+    <label class="head">Make default</label><input id="qpdefault" type="checkbox" name="qpdefault" value="isdefault" />
+    <br><br>
+    <label class="head">Path definition:</label><input name="method" type="radio" id="method-auto" value="auto" checked><label for="method-auto">Automatic</label><input name="method" type="radio" id="method-man" value="man"><label for="method-man">Manual</label><button id="go" class="button" type="button" style="margin-left: 40px">Go</button>
+
+
+
+    <div id="auto" style="margin: 20px; width: 50%">
+        <fieldset><legend>Automatic path computation</legend>
+            <div class="pathdiv" id="autopathdiv" style="width: 72%; float: left"></div>
+            <div style="float: left; width: 10%; margin-top: 10px; margin-left: 20px">
+                <button class="button" id="saveauto">Save</button><br>
+            </div>
+            <div style="clear: both; margin-top: 50px">
+                <input type="checkbox" id="savereverseauto" checked />Save reverse path
+                <br>
+                <p id="reversedetailauto">
+                    <label class="head">Name:</label><input id="revqpname" type="text" name="revname" />
+                    <br><br>
+                    <label class="head">Description:</label><input id="revqpdescr" type="text" name="revdescr" />
+                    <br><br>
+                    <label class="head">Make default</label><input id="revqpdefault" type="checkbox" name="revqpdefault" value="isdefault" />
+                </p>
+            </div>
+        </fieldset>
+    </div>
+
+    <div id="man" style="margin: 20px; width: 50%">
+        <fieldset><legend>Manual path definition</legend>
+            <br>
+            <label class="head">Source table:</label><input id="srcdst" type="text" readonly />
+            <br><br><br>
+            <table style="margin: 0px; margin-left: 5px; border: 0px; padding: 0px; width: 100%">
+                <tr class="fullform">
+                    <td style="border-right: 1px dotted gray; width: 125px; vertical-align: top">
+                        <label id="lblsrc" class="smallhead"></label>
+                    </td>
+                    <td style="padding: 5px">
+                        <table id="joinsrc" style="width: 100%; table-layout: fixed">
+                            <thead>
+<!--                                    <th>From table</th>
+                                    <th>Attribute</th>
+                                    <th>To table</th>
+                                    <th>Attribute</th>
+                                    <th>C</th>-->
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="resetsrc" class="button" type="button">Reset</button>
+                        <button id="oksrc" class="button" type="button">Next</button>
+                    </td>
+                </tr>
+                <tr class="fullform">
+                   <td colspan="2" style="height: 20px">
+                    &nbsp;
+                    </td>
+                </tr>
+                <tr class="fullform">
+                    <td style="border-right: 1px dotted gray; width: 125px; vertical-align: top">
+                        <label class="smallhead">Bridge</label>
+                    </td>
+                    <td style="padding: 5px">
+                        <table id="joinsrc2dest" style="width: 100%; table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th>From table</th>
+                                    <th>Attribute</th>
+                                    <th>To table</th>
+                                    <th>Attribute</th>
+                                    <th>C</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="resetsrc2dest" class="button" type="button">Reset</button>
+                        <button id="oksrc2dest" class="button" type="button">Next</button>
+                    </td>
+                </tr>
+                <tr>
+                   <td colspan="2" style="height: 20px">
+                    &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-right: 1px dotted gray; width: 125px; vertical-align: top">
+                        <label id="lbldest" class="smallhead"></label>
+                    </td>
+                    <td style="padding: 5px">
+                        <table id="joindest" style="width: 100%; table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th>From table</th>
+                                    <th>Attribute</th>
+                                    <th>To table</th>
+                                    <th>Attribute</th>
+                                    <th>C</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="resetdest" class="button" type="button">Reset</button>
+                        <button id="okdest" class="button" type="button">Finish</button>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <label class="head">Destination table:</label><input id="destdst" type="text" readonly />
+            <br><br><br><br>
+            <label class="head">Status:</label><textarea id="manpathdiv" disabled readonly></textarea>
+
+            <div style="clear: both; margin-top: 50px">
+                <input type="checkbox" id="savereverseman" checked />Save reverse path
+                <br>
+                <p id="reversedetailman">
+                    <label class="head">Name:</label><input id="revqpnameman" type="text" name="revnameman" />
+                    <br><br>
+                    <label class="head">Description:</label><input id="revqpdescrman" type="text" name="revdescrman" />
+                    <br><br>
+                    <label class="head">Make default</label><input id="revqpdefaultman" type="checkbox" name="revqpdefaultman" value="isdefault" />
+                </p>
+            </div>
+
+            <br><br>
+            <button style="margin-left: 140px" class="button" id="saveman">Save</button>
+           
+        </fieldset>
+    </div>
+
+    
+    
+</section>
+
+{% endblock %}
+        

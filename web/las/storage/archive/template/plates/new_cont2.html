@@ -1,0 +1,140 @@
+{% extends "baseReport.html" %}
+{% block title %}New Container{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/container/nuovo_cont2.js"></script>
+
+	<style type="text/css">
+		select { display:block; position:relative;}
+		//label {font-size:1.4em;}
+		#tabposition td{vertical-align: middle;}
+		//#tabposition th{font-size: 1.3em;padding:6px;}
+		#cont_table td{vertical-align: middle;}
+		//#cont_table th{font-size: 1.2em;padding:4px;}
+		//#tabposition_wrapper input, #cont_table_wrapper input{font-size:1.55em;}
+		//#tabposition_wrapper label, #cont_table_wrapper label {font-size:1.1em;}
+		#tabposition_wrapper select, #cont_table_wrapper select { display:inline;}
+		#tabposition_paginate a, #cont_table_paginate a {padding-top:4px;}
+		#tabposition {margin-bottom:4px;margin-top: 4px;}
+		#tabposition_length, #cont_table_length {margin-top: 0.8em;}
+		#tabposition tbody tr {cursor:pointer;}
+		#tabposition_filter, #cont_table_filter {margin-bottom:4px;}
+		#cont_table img {cursor:pointer;}
+		#cont_table tr {text-align: center;}
+		#divposiz table td {border:1px solid black;vertical-align: middle;}
+		#divposiz table {border:1px solid black;}
+		#divposiz table button {width:30px; height:30px;vertical-align: middle;}
+	</style>
+{% endblock %}
+
+{% block content %}
+{% if not fine and not errore%}
+	<form id="form_fin" action={% url archive.views.InsertNewContainerInstance %} method="post" >{% csrf_token %}
+		<fieldset class="fieldset" style="float:left;width:30%;margin-right:3em;margin-left:15%;">
+			<legend class="legend">General information</legend>
+			{{ form.as_p }}
+			<p>
+				<input type="button" class="button" value="Select all" id="seltutto" />
+			</p>
+			<p>
+				<label>Geometry:</label>
+				<div style="float:left;">
+					<label for="id_row" style="vertical-align: middle;">Rows:</label>
+					<input id="id_row" name="row" size="3" length="4" />
+				</div>
+				<div style="float:left;margin-left:3em;">
+					<label for="id_col" style="vertical-align: middle;">Columns:</label>
+					<input id="id_col" name="col" size="3" length="4" />
+				</div>
+				<br style="clear:both;">
+			</p>
+			<div style="float:left;">
+				<label for="id_use">Disposable container:</label>
+				<input id="id_use" type="checkbox" name="use">
+			</div>
+			<br style="clear:both;">
+			<p style="float:left;">
+				<label for="id_barcode" style="float:left;">Barcode:</label>
+                                <br>
+				<input id="id_barcode" type="text" maxlength="50" name="barcode">
+			</p>
+			<br style="clear:left;">
+			<input type="submit" style="float:left;margin-bottom: 0.6em;" value="Insert" class="button" id="insert"/>
+		</fieldset>
+		<fieldset class="fieldset" style="float:left;width:30%;">
+			<legend class="legend">Position information</legend>
+			<p>
+				<label for="id_father">Father container (optional):</label>
+				<input id="id_father" type="text" maxlength="50" name="father" disabled="disabled">
+			</p>
+			<p>
+				<input type="button" class="button" value="Load" id="posiz"/>
+			</p>
+			<p>
+			<!-- <table id="tabposition" border='2px'>
+					<thead>
+						<th>Positions</th>
+						<th>X</th>
+						<th>Y</th>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>  -->
+				<div id="divposiz">
+					<table></table>
+				</div>
+			</p>
+
+		</fieldset>
+				
+		<input type="submit" disabled="disabled" style="float:right;margin-bottom: 0.6em;margin-right:0.3em;" value="Save&Finish" class="button" id="conferma"/>
+		<br style="clear:both;">
+	</form>
+	
+    <fieldset  class="fieldset" style="height:85%;margin-top:1em;">
+        <legend class="legend"> Container </legend>
+        <div style="height:100%;">
+            <table id="cont_table" border="2px" align="center">
+            </table>
+        </div>
+    </fieldset> 
+		
+{% else %}
+	<style type="text/css">
+		//td{font-size: 1.2em;padding:8px;border-width:1px;}
+		//th{font-size: 1.4em;padding:6px;}
+		//input{font-size:1.55em;}
+		#cont_fin_filter{margin-right: 20px;}
+		//label {font-size:1.1em;}
+		select { display:inline;}
+		#cont_fin_paginate a {padding-top:4px;}
+		#cont_fin {margin-bottom:4px;margin-top: 4px;}
+	</style>
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			generate_result_table("Container","cont_fin");
+		});
+	</script>
+		<div style='float:right'>
+		    <a href="{% url archive.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2 style="font-size:1.5em;">Containers saved:</h2>
+		<table border='2px' id="cont_fin">
+			<thead>
+				{{  intest|safe  }}
+			</thead>
+			<tbody>
+				{% for i in dati %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		           
+		</table>
+{% endif %}
+{% endblock %}

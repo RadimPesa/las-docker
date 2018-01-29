@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Error{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url rtpcr.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+<h1 id="cont_h1"  align="center" style="font-size: 1.7em;">Error!</h1>
+{% if message %}
+<p> {{message}} </p>
+{% else%}
+<p>You are not allowed to use this function!</p>
+{% endif %}
+
+{% endblock %}

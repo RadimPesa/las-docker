@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Explore Scans{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/uarray_media/js/compose_data.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf-8" src="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<link rel="stylesheet" type="text/css" href="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+
+
+<div style='width:30%;float:left'>
+<fieldset style="margin-bottom:3em">
+	<legend>Aliquot selection</legend>
+		<div style="margin-bottom:4px; float:left;">
+			<form id="upload_aliquot_file" action="." method="POST" enctype="multipart/form-data" style="width:100%">{% csrf_token %}
+				<table style='width:100%'>
+					<tr>
+						<td>
+							{{ form.as_p }}
+						</td>
+						<td></td>
+						<td>
+                			{% if not filename %}
+				                <input id="upload" class="button"  type="button" value="Upload File"/>
+				            {% endif %}
+                		</td>
+            		</tr>
+                </table>
+             </form>
+             	<table style='width:100%'>
+            		<tr>
+            			<td>
+            				<b>Sample Identifier:</b>
+            			</td>
+            			<td>
+							<input id="al_identifier" type="text" maxlength="45" value="" name="Sample Identifier" onkeyup="checkKeyP(event)"/>
+            			</td>
+            			<td>
+							<input id="add_aliquot" class="button"  type="submit" value="Add Aliquot"/>
+            			</td>
+            		</tr>
+            	</table>
+		</div>
+</fieldset>
+</div>
+
+<div style='float:right'>
+	<input id="export_data" class="button" disabled="disabled" type="submit" value="Export dataset" />
+</div>
+
+<div id="al_list_div" style="width:100%;float:left">
+	<fieldset style="overflow:auto">
+	<legend>Scan events</legend>
+		<table id='al_list'>
+			<thead>
+			</thead>
+		<tbody>
+			{% for s in samples %}
+				<tr>
+					<td>{{ s.link }}</td>
+					<td>{{ s.genid }}</td>
+					<td>{{ s.chip }}</td>
+					<td>{{ s.pos }}</td>
+					<td>{{ s.scan_prot }}</td>
+					<td>{{ s.scan_note }}</td>
+					<td>{{ s.scan_date }}</td>
+					<td>{{ s.hyb_date }}</td>
+					<td><span class="ui-icon ui-icon-close"></span></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+	
+
+{% endblock %}

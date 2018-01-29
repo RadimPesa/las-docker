@@ -1,0 +1,62 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'AlignSequences';
+</script>
+{% endblock %}
+{% block title %}{% endblock %}
+
+
+{% block content %}
+<div>
+<fieldset>
+       
+    <legend>Alignment results</legend>
+    <div style="margin-top: 25px; margin-bottom: 25px">
+        <span style="width: 160px; margin-right: 25px">Sequences submitted:&nbsp;&nbsp;<b>{{ num_total }}</b>&nbsp;&nbsp;&nbsp;(<b>{{ num_found }}</b> aligned, <b>{{ not_found|length }}</b> unaligned)</span>
+        <!--<span style="width: 160px; margin-right: 25px">Sequences aligned:&nbsp;<b>{{ num_found }}</b></span>
+        <span style="width: 160px">Unaligned sequences:&nbsp;<b>{{ not_found|length }}</b></span>-->
+    </div>
+    <table class='report' cellspacing="5">
+        <thead>
+            <tr>
+                <!--<th style="text-align:center;">ID</th>-->
+                <th class="centered">Name</th>
+                <th class="centered">Sequence</th>
+                <th class="centered">Chromosome</th>
+                <th class="centered">Strand</th>
+                <th class="centered">Alignment start</th>
+                <th class="centered">Alignment end</th>
+                <th class="centered">Gene</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for s in alignments %}
+            {% for al in s.2 %}
+            <tr>
+                <td class="centered">{{s.0}}</td>
+                <td class="centered">{{s.1}}</td>
+                <td class="centered">{{al.tx}}</td>
+                <td class="centered">{{al.strand}}</td>
+                <td class="centered">{{al.start}}</td>
+                <td class="centered">{{al.end}}</td>
+                <td class="centered">{{al.gene_name}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="centered">{{s.0}}</td>
+                <td class="centered">{{s.1}}</td>
+                <td class="centered"></td>
+                <td class="centered"></td>
+                <td class="centered"></td>
+                <td class="centered"></td>
+                <td class="centered"></td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+       </tbody>
+    </table>
+</fieldset>
+</div>
+{% endblock %} 

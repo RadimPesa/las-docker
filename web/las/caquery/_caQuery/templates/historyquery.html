@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/historyquery.js"></script>
+<script type="text/javascript">
+
+	var display_results_url = "{% url _caQuery.views.displayresults %}";
+	var view_query_url = "{% url _caQuery.views.querygen %}";
+	var historyQuery = $.parseJSON('{{history|safe}}');
+
+</script>
+
+<div style="float:left;width:100%">
+	<table id='historyTable'>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Created on</th>
+				<th>Author</th>
+				<th>Runs</th>
+				<th>Last Run</th>
+				<th>View</th>
+				<th>Run</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			
+		</tbody>
+
+	</table>
+
+</div>
+
+
+<div style="display:none">    
+    <table id="detailsTable">
+        <thead> 
+            <tr>
+                <th>RId</th>
+                <th>QId</th>
+                <th>Timestamp</th>
+                <th>Download Results</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<form id="submit_query_frm" action="{% url _caQuery.views.historyQuery %}" method="post">
+    <input type="hidden" id="sqf_qid" name="qid" />
+    {% csrf_token %}
+</form>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Plan experiments{% endblock %}
+
+{% block script %}
+
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>	
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.autocomplete.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/decrease/exp_micro.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css"> 
+	
+	<style type="text/css">
+		#inizio select, #inizio2 select,#inizio input, #inizio2 input { display:block; position:relative;}
+		textarea {display:block;resize: vertical;}
+		#riass {margin-bottom:4px;margin-top: 4px;}
+		#riass_paginate a {padding-top:4px;}
+		#riass td{border-color: black;}
+	</style>
+        <!--AGGIUNGO USERS ON FLY SENNO MACELLO-->
+    <script>
+        $(document).ready(function () {
+            WG='';
+            $('#id_utente').html('');
+            $("#id_utente").append("<option selected='selected' value=''>---------</option>");
+            {% for item in assignUsersList%}
+                $('#id_utente').append($('<option>', {
+                    value: '{{item.wg.name|safe}}',
+                    text: '{{item.wg.name|safe}}',
+                    wg: '{{item.wg.name|safe}}',
+                    id: '{{item.wg.name|safe}}',
+                    disabled:''
+                }));
+                {% for u in item.usersList%}
+                    $('#id_utente').append($('<option>', {
+                        value: '{{u.id}}',
+                        text: "\xa0{{u.last_name|safe}} {{u.first_name|safe}}",
+                        wg: '{{item.wg.name|safe}}',
+                        id: "{{item.wg.id}}_{{u.id}}"
+                     }));
+                    {% if uten %}
+                        $('#id_utente option[id="{{wg}}"]').attr("selected", "selected");
+                        WG=$('#id_utente option[id="{{wg}}"]').attr('wg');
+                    {% else %}
+                    	//se non ho scelto un utente a cui assegnare
+                        WG=workingGroups.split(",")[0];
+                    {% endif %}
+                {% endfor %}
+            {%endfor%}
+
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+{% if not errore and not erroreder and not errorepresente and not errorerivalutare and not fine %}
+	<form id="form_fin" action={% url tissue.experiment.DecreaseViewMicro %} enctype="multipart/form-data" method="post">{% csrf_token %}
+		<input type="hidden" id="formvalido" value={{valido}} />
+		<div>
+			<div id=inizio style="width:35%;float:left;">
+				<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="tab2">
+					<tr>
+						<td>
+							<section class="f">
+									{{ form.as_p }}
+							</section>
+							<br>
+							<input id="id_esperim" type="hidden"  name="esper" value={{espe}}>
+							<input id="id_ute" type="hidden"  name="utent" value={{uten}}>
+							<input id="id_dat" type="hidden"  name="data" value={{data}}>
+							<input id="id_note" type="hidden"  name="comm" value={{note}}>
+							<input id="idWG" type="hidden" name="idWG" value={{wg}}>
+							<input type="submit" class="button" name="fase1" value="Submit" id="conf"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+			<div id=inizio2  style="width:55%;float:left;margin-left:1em;margin-bottom:2em;display:none;">
+				<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+					<tr>
+						<td>
+							<div style="float:left;">
+								<input id="id_file" type="file" name="file" size="6" style="display:none;" />
+								<input id="filename" type="text" size="10" style="display:inline;" />
+								<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;" />
+								<input id="aggiungi_file" type="submit" class="button" value="Add file" name="aggiungi_file" />
+							</div>
+							
+							<div style="float:left;margin-left:2em;margin-top:2em;">
+								<a id="file" class="anchor" href="{{MEDIA_URL}}File_Format/Aliquot.txt">File Template</a>
+							</div>
+							
+							<br style="clear:both;">
+							<p >
+								<label for="id_aliquot">Genealogy ID or container barcode:</label>
+								<input id="id_aliquot" type="text" maxlength="50" size="29">
+							</p>
+
+							<br style="clear:both;">
+							<div style="float:left;">
+								
+								<p style="float:left;">
+									<input id="conferma1" type="button" class="button" value="Add Aliquot">
+								</p>	
+							</div>
+							
+							<p style="float:right;">
+								<input type="submit" name="prosegui" style="margin-right:0.3em;" class="button" value="Next step" id="prossimo"/>
+							</p>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<br style="clear:both;">
+		<div align="center" style="margin-top:2em;">
+			<table border='2px' align="center" id="riass">
+				<thead>
+					<th>N</th>
+					<th>GenealogyID</th>
+					<th>Barcode</th>
+					<th>Position</th>
+					<th>Concentration(ng/ul)</th>
+					<th>Volume (ul)</th>
+					<th>Technical replicates</th>
+					<th></th>
+				</thead>
+				<tbody align="center">
+					{% if lista %}
+						{% for dato in lista %}
+							<tr align="center">
+								<td>{{forloop.counter}}</td>
+								<td>{{dato.gen}}</td>
+								<td>{{dato.barcode}}</td>
+								<td>{{dato.position}}</td>
+								<td>{{dato.concattuale}}</td>
+								<td>{{dato.volattuale}}</td>
+								<td>
+									<input type="text" id="{{dato.gen}}" value="{{dato.replicati}}" size="2" maxlength=4 />
+								</td>
+								<td class="control_center"><img width="13px" height="13px" onclick="cancella(this.parentNode.parentNode)" src='{{MEDIA_URL}}img/admin/icon_deletelink.gif' style="cursor:pointer;"></img></td>
+							</tr>
+						{% endfor %}
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+	</form>
+	{% else %}
+		
+		{% if fine %}
+			<h1 id="h1_finale" align="center">Operation executed. All data have been saved</h1>
+		{% endif %}
+	{% endif %}
+{% endblock %}

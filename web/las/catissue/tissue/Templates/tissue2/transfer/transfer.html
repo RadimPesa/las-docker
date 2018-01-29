@@ -1,0 +1,136 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Transfer Aliquots{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/transfer/transfer.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.autocomplete.js"></script>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		.f select, .f input {
+		    display: block;
+		    position: relative;
+		}
+		#aliquote {margin-bottom:4px;margin-top: 4px;}
+		#aliquote_paginate a {padding-top:4px;}
+		#aliquote_length {margin-top: 14px;}
+		#aliquote img {cursor:pointer;}
+	</style>
+	
+{% endblock %}
+{% block content %}
+{% if not fine and not errore %}
+	<!-- <h1  align="center">Schedule transfer</h1>  -->
+	<div id=inizio style="float:left;width:45%;margin-right:20px;">
+		<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;width:60%;"  id="iniziale">
+			<tr>
+				<td>
+<!--                                            <span class="f">
+                                                        {{ form.as_p }}
+                                                </span> -->
+                                                {% include "tissue2/transferForm.html" %}
+                                                <br>
+						<input id="exec" type="hidden"  name="exec" value={{exec}}>
+						<input id="dat" type="hidden"  name="dat" value={{dat}}>
+						<input id="address_to" type="hidden"  name="address_to" value={{addr}}>
+						
+						<form id="form_file" action={% url tissue.transfer.InsertTransferAliquots %} enctype="multipart/form-data" method="post"> {% csrf_token %}
+							<input id="id_file" type="file" name="file" size="6" style="display:none;" />
+							<input id="filename" type="text" size="10" style="display:inline;" />
+							<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;" />
+						
+							<input id="addfile" type="submit" class="button" value="Add file" name="aggiungi_file" />
+						</form>
+						<br><br>
+						<form id="form_fin" action={% url tissue.transfer.InsertTransferAliquots %} method="post">{% csrf_token %}
+							<input style="float:left;" type="submit" disabled="disabled" value="Confirm and stop" id="conferma" class="button"/>
+							<input style="float:left;" type="submit" disabled="disabled" value="Next step" id="next" class="button"/>
+							
+						</form>
+
+						<input style="float:right;" type="button" value="Add Aliquot" id="nuova_aliquota" class="button"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="tabella_aliq" style="margin-left:10px;float:left;width:40%;" >
+		<table id="aliquote" border='2px solid black' >
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				<th></th>
+			</thead>
+			<tbody align="center">
+				{% if posizionare %}
+					{% for aliquota,barc,pos in posizionare %}
+						<tr>
+							<td >{{forloop.counter}}</td>
+							<td >{{aliquota}}</td>
+							<td >{{barc}}</td>
+							<td >{{pos}}</td>
+							<td class="control_center"><img width="13px" height="13px" onclick="cancella(this.parentNode.parentNode)" src='{{MEDIA_URL}}img/admin/icon_deletelink.gif' ></img></td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% endif %}
+	{% if fine%}
+		<h2 style="float:left;">Planned aliquots:</h2>
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		<table border='2px' id="tab_fin2" style="width:25%;">
+			<tr>
+				<td><b>Assign to:</b></td>
+				<td> {{esec}} </td>
+			</tr>
+			<tr>
+				<td><b>Shipment date:</b></td>
+				<td> {{data|date:"jS F Y"}} </td>
+			</tr>
+			<tr>
+				<td><b>Address to:</b></td>
+				<td> {{addr}} </td>
+			</tr>
+	
+		</table>
+		<br style="clear:left;">
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+			</thead>
+			<tbody align="center">
+				{% for aliquota,barc,pos in posizionare %}
+					<tr>
+						<td >{{forloop.counter}}</td>
+						<td >{{aliquota}}</td>
+						<td >{{barc}}</td>
+						<td >{{pos}}</td>
+					</tr>
+				{% endfor %}
+		    </tbody>
+		           
+		</table>
+		<br>
+	{% endif %}
+	{% if errore %}
+		<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+{% endblock %}

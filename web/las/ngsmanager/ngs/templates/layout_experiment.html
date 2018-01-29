@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Select working session{% endblock %}
+
+
+{% block content %}
+
+<meta charset="utf-8">
+	
+<style>
+	td.planinfo{
+		border: 0px;
+	}
+	th.planinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td{
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	border: 1px solid #003600;
+	padding: 2px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+<div>
+<table align="right">
+	<tr>		
+		<td id="bottoni"><a href="{% url ngs.views.home %}"><img src="/ngs_media/img/home2.png" width="25" height="25" border="0"><span class="reqimg">Home</span></a>
+</table>
+</div>
+
+<div style="max-width:600px;">
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px">
+<div id="plan_info">
+	<h3>Experiment Info</h3>
+	<table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="planinfo">Operator:</th> 
+	            <td class="planinfo">{{plan.idOperator}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Defined at:</th> 
+	            <td class="planinfo">{{plan.time_creation}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Instrument:</th> 
+	            <td class="planinfo">{{plan.idInstrument}}</td> 
+	        </tr>     
+	    </tbody> 	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="chip_position_layout">
+	
+	<legend><b>Aliquots</b></legend>
+	<table cellspacing="5">
+		 	<thead>
+				<tr> 
+                <th style="text-align:center;">Well</th>
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Gene</th>
+                <th style="text-align:center;">Mutation</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+    	{% for aliquot in samples %} 
+		 		
+		        <tr>
+		            <td>{{aliquot.position}}</td>
+		            <td>{{aliquot.idAliquot_has_Request.aliquot_id.genId}}</td>
+		            <td>{{aliquot.gene}}</td>
+		            <td>{{aliquot.probe}}</td>
+		        </tr>	 
+		{% endfor %}
+	       </tbody>
+	</table> 
+</fieldset>
+</div>
+
+
+
+
+{% endblock %}

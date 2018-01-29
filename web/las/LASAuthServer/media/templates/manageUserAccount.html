@@ -1,0 +1,318 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+    <script type="text/javascript" src="{{MEDIA_URL}}select2-3.5.1/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}select2-3.5.1/select2.css" />
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+            
+    }
+    .ui-tabs-anchor{
+        color:black !important;
+    }
+    .connectedSortable { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; background: #eee; width: 15%; border:groove;}
+    .connectedSortable li{ margin: 0% 5% 5% 5%; padding-left: 5%; font-size: 1.1em; width: 80%; text-align:center;  cursor: move;}
+    </style>
+    
+    <script> 
+    
+    $(document).ready(function() {
+        wgList=new Array();
+        $("#htabs-outer").tabs();
+        $("#htabs-inner").tabs();
+        $("#htabs-extern2").tabs();
+        $("#htabs-extern").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        $("#htabs-extern > ul > li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        $("#htabs-notifications").tabs();
+        $( ".accordionVideo" ).accordion({
+            collapsible: true,
+            heightStyle: "content",
+            active: false
+        });
+
+    
+        $('#htabs-extern').css({'display':'block'});
+
+        {% for wg in workingGroups%}
+            permsList=new Array();    
+            WG={};
+            WG.id={{wg.id}};
+            WG.laspermission=new Array();
+            {% for act in wg.activities %}
+                {% for perm in act.laspermissions%}       
+                    if ($.inArray({{perm.id}}, permsList)==-1){
+                        p={};
+                        p.name='{{perm.name}}';
+                        p.id={{perm.id}};
+                        p.tags=new Array();
+                        p.selectedTags=new Array();
+                        p.recipients=new Array();
+                        p.selectedRecipients=new Array();
+                        {% for r in perm.tags %}
+                            p.tags.push('{{r.name}}');
+                        {% endfor %}
+                        {% for r in perm.selectedTags %}
+                            p.selectedTags.push('{{r.name}}');
+                        {% endfor %}
+                        {% for u in perm.recipients %}
+                            p.recipients.push('{{u.email}}');
+                        {% endfor %}
+                        {% for u in perm.selectedRecipients %}
+                            p.selectedRecipients.push('{{u.email}}');
+                        {% endfor %}
+                        p.templateMail='{{perm.templateMail|linebreaks}}';
+                        WG.laspermission.push(p);
+                        permsList.push({{perm.id}});
+                    }
+                {%endfor%}
+            {% endfor %}
+            wgList.push(WG);
+        {%endfor%}
+
+
+        $( "#htabs-notifications" ).on('click', '.tagsCheck', function() {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            value=$(this).val();
+            if (this.checked){ //AGGIUNGO - TOLGO SELEZIONE A MAXI ARRAY
+                $(wgList).each(function(){
+                    if ($(this).prop('id')==wgID){
+                        $(this.laspermission).each(function(){
+                            if ($(this).prop('id')==permID){
+                                index=$.inArray(value,this.selectedTags);
+                                if (index==-1){
+                                    this.selectedTags.push(value);
+                                }
+                            }
+                        });
+                    }
+                });                
+            }
+            else{
+                $(wgList).each(function(){
+                    if ($(this).prop('id')==wgID){
+                        $(this.laspermission).each(function(){
+                            if ($(this).prop('id')==permID){
+                                index=$.inArray(value,this.selectedTags);
+                                if (index!=-1){
+                                    this.selectedTags.splice(index,1);
+                                }
+                            }
+                        });
+                    }
+                }); 
+            }
+        });
+
+
+    $( "#htabs-notifications" ).on('change', '.recipientsCheck', function() {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            value=$(this).val();
+            select=$(this);
+            $(wgList).each(function(){
+                if ($(this).prop('id')==wgID){
+                    $(this.laspermission).each(function(){
+                        if ($(this).prop('id')==permID){
+                            this.selectedRecipients=select.val();                                
+                        }
+                    });
+                }
+            });                
+        });
+ 
+
+        $('#htabs-notifications').on('keyup focusout' , '.templateMail', function() {
+            wgID=$(this).attr('wgid');
+            permID=$(this).attr('permid');
+            textArea=$(this);
+            $(wgList).each(function(){
+                if ($(this).prop('id')==wgID){
+                    $(this.laspermission).each(function(){
+                        if ($(this).prop('id')==permID){
+                            this.templateMail=textArea.val();
+                        }
+                    });
+                }
+            });                
+        });
+    });
+
+   function loadNotificationPage(wgID,permID){
+        $(wgList).each(function(){
+            if (this.id==wgID){
+                $(this.laspermission).each(function(){                    
+                    if (this.id==permID){
+                        $('#contentDiv_'+wgID).html();
+                        var html='<label for="textArea">Mail Template for functionality: '+this.name+' </label><br>'
+                        html+='<textarea name="textArea" class="templateMail" wgID='+wgID+' permID='+permID+' rows="4" cols="100" style=style="width:30%; float:left;>'+this.templateMail+'</textarea><br><br>';
+                        html
+                        html+='<fieldset style="width:35%; float:left;"><legend>Select Tag(s) :</legend>';
+                        if ($(this.tags).length>0){
+                            var selectedTags=this.selectedTags;
+                            $(this.tags).each(function(){ 
+                                if ($.inArray(this.valueOf(),selectedTags)!==-1){
+                                    html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" checked="checked" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+                                }
+                                else{
+                                    html+='<input type="checkbox" class="tagsCheck" wgID='+wgID+' permID='+permID+' name="tagsCheck" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+                                }
+
+                            });
+                        }
+                        html+='</fieldset>';
+                        html+='<fieldset style="width:40%; float:right;"><legend>Select other recipients :</legend>';
+                        if ($(this.recipients).length>0){
+                            var selectedRecipients=this.selectedRecipients;
+                            html+='<select multiple class="recipientsCheck" id="recipientsCheck" wgID='+wgID+' permID='+permID+'>';
+                            $(this.recipients).each(function(){ 
+
+                                if ($.inArray(this.valueOf(),selectedRecipients)!==-1){
+                                    //html+='<input type="checkbox" class="recipientsCheck" wgID='+wgID+' permID='+permID+' name="recipientsCheck" checked="checked" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+                                    html+='<option value="'+this.valueOf()+'"  selected="selected" >'+this.valueOf()+'</option>';
+                                }
+                                else{
+                                    //html+='<input type="checkbox" class="recipientsCheck" wgID='+wgID+' permID='+permID+' name="recipientsCheck" value="'+this.valueOf()+'">'+this.valueOf()+'<br>';
+                                    html+='<option value="'+this.valueOf()+'">'+this.valueOf()+'</option>';
+                                }
+                            });
+
+                        }
+                        html+='</fieldset>';
+                        $('#contentDiv_'+wgID).html(html);                                     
+                        $('#contentDiv_'+wgID).attr('wgID',wgID);
+                        $('#contentDiv_'+wgID).attr('permID',permID);
+                    }
+                });
+            }
+        });
+
+        $("#recipientsCheck").select2({
+            placeholder: "Select other recipients..",
+            width: 'resolve' 
+            
+        });
+    }
+
+
+    function updateNotifications(){
+        startLag();
+        $.ajax({
+            url:"{% url loginmanager.views.manageUserAccount %}",
+	        type: "POST",
+	        data: {wgList:JSON.stringify(wgList)},
+        }).done(function(data) {
+            endLag();        
+            if(data["message"]=='error')
+                alert("Error! Please retry later.");
+            else{
+                alert("Notifications successfully updated!");
+            }
+        });
+
+    }
+    
+    </script>
+    <script>$("section#content").addClass("home");</script>
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+    <nav>
+        <div id="htabs-extern" style="display: none;">            
+            <ul>
+   		        <li><a href="#htabs-outer">Manage Activities</a></li>
+		        <li><a href="#htabs-notifications">Manage Notifications</a></li>
+	        </ul>            
+            <div id="htabs-outer">
+                <h2>Manage your current activities</h2>
+	            <!--begin htab outer menu-->
+	            <ul>
+                    {% for wg in workingGroups %}
+		                <li><a href="#htab-outer-activities-{{wg.id}}">{{wg.name}}</a></li>
+                    {% endfor %}
+	            </ul>
+	            <!--end htab outer menu-->
+	            <!--begin htab outer panels-->
+                    
+                    {% for wg in workingGroups %}
+	                <div id = "htab-outer-activities-{{wg.id}}">
+		                <h2>Working group: {{wg.name}}</h2>
+		                <div id="htabs-inner-activities-{{wg.id}}">
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+                <!--end htab outer panels-->
+            </div>
+            <div id='htabs-notifications'>
+                <input type='button' style='float:right;' value="Update all" onClick='updateNotifications();' ></input>
+                <h2>Manage Notifications</h2>
+
+	            <ul>
+                    {% for wg in workingGroups %}
+		                <li><a href="#htab-outer-notifications-{{wg.id}}">{{wg.name}}</a></li>
+                    {% endfor %}
+	            </ul>
+                    {% for wg in workingGroups %}
+	                <div id = "htab-outer-notifications-{{wg.id}}">
+		                <h2>Working group: {{wg.name}}</h2>
+                        <div id="wrap" style="width: auto; position: relative;">
+                            <div id='activities' style="float:left; width:35%;">
+	                        <fieldset style='width:60%'>
+	                            <legend>Activities</legend>
+                                    <div id="htabs-inner-notifications-{{wg.id}}" class="accordionVideo">
+                                        {% for act in wg.macroActivities %}
+                                        <h3>{{act.name}}</h3>
+                                        <div class='accordionVideo'>
+                                            {% for a in wg.activities%}
+                                                {%ifequal a.father_activity.name act.name%}
+                                                    <h3>{{a.name}}</h3>
+                                                    <div>
+                                                    {% for perm in a.laspermissions%}   
+                                                        <p><a href="#" id="{{wg.id}}_{{a.id}}"onClick="loadNotificationPage('{{wg.id}}','{{perm.id}}')">{{perm.name}}</a>
+                                                    {% endfor %}
+                                                    </div>
+                                                {% endifequal %}
+                                            {% endfor %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                            </fieldset>
+                            </div>
+                        </div>
+                        <div id='contentDiv_{{wg.id}}' wgID='' permID='' style="float:left; width:50%"> 
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+{% endblock %}

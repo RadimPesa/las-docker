@@ -1,0 +1,188 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Patient{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/patient/patient_view.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		.f p {float:left;margin-right:5px;}
+		.f select, .f input {display:block; position:relative;text-align:justify;}
+		#aliq td,#patient td,#alconferm td{padding:6px;line-height: 16px;vertical-align: middle;}
+		#aliq th,#patient th,#alconferm th{padding:6px;}
+		#aliq, #patient,#alconferm{margin-bottom:4px;margin-top: 4px;}
+		#aliq_paginate a, #patient_paginate a,#alconferm_paginate a,#tabvediparam_paginate a{padding-top:4px;}
+		#aliq_length,#patient_length,#alconferm_length {margin-top: 15px;}
+		#aliq tbody tr,#patient tbody tr,#alconferm tbody tr {cursor:pointer;}
+		#tabesterna {-moz-border-radius:5px;border-radius:5px;-webkit-border-radius:5px;border-collapse: separate;cellspacing:0px}
+		#accordion .ui-state-default,#accordion .ui-widget-content {background:none;}
+		#accordion .ui-accordion-header { padding-top: 0.2em;padding-bottom:0.2em;//background-color: #d3afa2; }
+		.ui-state-active {background:none;}		
+		.ui-accordion .ui-accordion-header .ui-icon {position: absolute;left: auto;}
+	</style>
+	
+	<script type="text/javascript">
+		lisconsensi=$.parseJSON('{{liscons|safe}}');
+	</script>
+{% endblock %}
+
+
+{% block content %}
+	<div align="center">
+		<div id=inizio >
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td style="padding-right:6em;font-size:1.3em;">
+						<b>Collection filter:</b>
+					</td>
+					<td class="f">
+						<p>
+							<label for="id_utente">Operator:</label>
+							<select id="id_utente" name="utente">
+								<option selected="selected" value="">---------</option>
+								{% for user in userlist %}
+									<option value="{{user.id}}">{{user.last_name}} {{user.first_name}}</option>
+								{% endfor %}
+							</select>
+						</p>
+						{{ form.as_p }}
+						<p>
+							<label for="confrontodata" style="display:block;">
+								From:
+							</label>
+								<select id="confrontodata" onchange="cambiaData()" style="display:inline;">
+									<option value=">"> ≥ </option>
+									<option value="="> = </option>
+									<option value="<"> ≤ </option>
+								</select>
+								<input id="datefrom" type="text" value="" size="8" style="display:inline;">
+						</p>
+						<p>
+							<label for="confrontodata2" style="display:block;">
+								To:
+							</label>
+							<select id="confrontodata2" style="display:inline;">
+								<option value="<"> ≤ </option>
+							</select>
+							
+							<input id="dateto" type="text" value="" size="8" style="display:inline;">	
+							
+						</p>
+					</td>
+					<td>
+						<input type="button" value="Select" class="button" id="filtercoll" style="margin-top:1em;margin-left:2em;" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id=inizio2 style="margin-top:2em;width:60%;float:left;display:none;" >
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale2">
+				<tr>
+					<td style="padding-right:6em;font-size:1.3em;">
+						<b>Aliquot filter:</b>
+					</td>
+					<td class="f">
+						{{ form2.as_p }}
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id=inizio3 style="margin-top:2em;width:10%;float:left;margin-left:8em;display:none;" >
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale3">
+				<tr>
+					<td class="f">
+						<p>
+							<label for="id_mask">Mask type:</label>
+							<select id="id_mask" name="mask">
+								{% for maschera in listamasch %}
+									<option value={{maschera.idMask.id}}>{{maschera.idMask.name}}</option>
+								{% endfor %}
+							</select>
+						</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br style="clear:both;">		
+		<table id="tabesterna" style="margin-top:2em;display:none;border:1px solid black;border-collapse: separate;" width="100%" cellspacing=0 >
+			<tr style="border:none;">
+				<td width="15%" style="border: none;padding:1em;" rowspan="4">
+					<table id="patient" style="display:none;" border="1px solid">
+						<thead>
+							<th>N</th>
+							<th>Patient ID</th>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</td>
+				<td style="vertical-align: top;">
+					<table id="tabaliq" width="100%" style="display:none;">
+						<tr>
+							<td id="tdaliq" width="85%" style="vertical-align:top;padding:1em;padding-bottom:0em;border:none white;">
+								<table id="aliq" border="1px" style="display:none;">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td style="border:none;padding:0" align="center">
+								<input type="button" value="&darr;" class="button" id="down" style="display:none;font-size:1.8em;" />
+								<input type="button" value="&uarr;" class="button" id="up" style="display:none;margin-left:2em;font-size:1.8em;" />
+							</td>
+						</tr>
+						<tr>
+							<td id="tdalconferm" width="85%" style="vertical-align:top;padding:0em 1em 0em 1em;border:none;">
+								<table id="alconferm" border="1px" style="display:none;">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td id="tdexport" style="border:none;padding:0;padding-left:3em;display:none;" align="center">
+								<div style="margin-bottom:1em;padding-left:30em;float:left;">
+									<form id="form_pdf" action={% url tissue.patient.createPDFPatient %} method="post" style="float:left;">{% csrf_token %}
+										<input id="salvapdf" type="submit" value="Save to PDF" class="button" title="Click to view PDF"/>
+									</form>
+									<form id="form_csv" action={% url tissue.patient.createCSVPatient %} method="post" style="float:left;margin-left:2em;">{% csrf_token %}
+										<input id="salvacsv" type="submit" value="Save to CSV" class="button" title="Click to view CSV"/>
+									</form>
+									<form id="form_exp" action={% url tissue.patient.PatientExport %} method="post" style="float:left;margin-left:6em;">{% csrf_token %}
+										<p style="float:left;margin:0px;">
+											<label for="id_exp">Export for:</label>
+											<select id="id_exp" name="esporta" style="font-size:1.5em;">
+												<option value="0">Derivation</option>
+												<option value="1">Experiment</option>
+												<option value="2">Beaming results</option>
+												<option value="3">DigitalPCR results</option>
+											<!-- 	<option value="4">NGS results</option>   -->
+											</select>
+										</p>
+										<input id="export" type="submit" value="Export" style="float:left;margin-left:1em;" class="button" title="Click to send data to selected view"/>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<table id="tabclinical" style="display:none;width:100%;margin-top:1em;">
+						<tr>
+							<td id="tdaccordion">
+							</td>
+						</tr>
+					</table>
+				</td>					
+			</tr>
+		</table>
+	</div>
+{% endblock %}

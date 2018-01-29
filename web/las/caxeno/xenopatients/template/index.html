@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Xenopatients - Home Page{% endblock %}
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+		    $('.mainlink li, span').each(function(){
+		        $(this).click(function() {
+		        	var target = $(this).attr('target');
+		        	var url = $(this).attr('url');
+		        	if (url){
+		        		window.location = url;
+		        	}
+		        	else{
+		        		$('.cn-slide').each(function(){
+		        			$(this).hide();
+		        		});
+		        		$('#'+target).show();
+		        	}
+		    	});
+		    });
+		});
+	</script>
+
+	<div class="cn-container" style='float:left;width:30%'>
+		<div class="cn-slide-main mainlink" id="slide-main">
+		    <nav>
+		        <li target='slide-ani'>Animals</li>
+		        <li target='slide-mes'>Measurements</li>
+		        <li target="slide-sur">Surgery</li>
+		        <li target='slide-trt'>Treatments</li>
+		        <li target='slide-exp'>Experiments</li>
+		        <li target='slide-adm' url='{% url xenopatients.xenoAdmin.start %}'>Admin</li>
+		        <li target='slide-adm' url='{% url xenopatients.batch.start %}'>Batch</li>
+		    </nav>
+    	</div>
+	</div>
+
+	<div class="cn-container" style='float:left;width:30%'>
+	    <div class="cn-slide mainlink" id="slide-ani">
+	        <nav>
+	        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Animals</h2>
+
+	            <li url='{% url xenopatients.miceManage.miceLoading %}'>Register New</li>
+	            <li url='{% url xenopatients.miceManage.changeStatus %}'>Change Status</li>
+	            <li url='{% url xenopatients.groups.manageG %}'>Manage Experimental Groups</li>
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-mes">
+	        <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Measurements</h2>
+	        <nav>
+	        	<li url='{% url xenopatients.measure.qualMeasure %}'>Observation</li>
+	        	<li url='{% url xenopatients.measure.qualMeasureWeight %}'>Weight</li>
+	        	<li url='{% url xenopatients.measure.quantMeasure %}'>Tumor volume</li>
+				<li url='{% url xenopatients.measure.quantMeasure3d %}'>Tumor volume 3D</li>
+	        	<li url='{% url xenopatients.measure.quantMeasureWeight %}'>Tumor volume + Weight</li>
+				<li url='{% url xenopatients.measure.quantMeasureWeight3d %}'>Tumor volume 3D + Weight</li>
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-sur">
+	        <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Surgery</h2>
+	        <nav>
+	        	<li url='{% url xenopatients.implants.startImplant %}'>Implant Xenografts</li>
+	        	<li url='{% url xenopatients.explant.startExplant %}'>Explant Xenografts</li>
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-trt">
+	        <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Treatments</h2>
+	        <nav>
+	        	<li url='{% url xenopatients.treatments.confirmTreat %}'>Finalize Treatments</li>
+	        	<li url='{% url xenopatients.treatments.manageTreatments %}'>Browse / Create Treatments</li>
+
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-exp">
+	        <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Experiments</h2>
+	        <nav>
+	        	<li url='{% url xenopatients.check.check %}'>New Measurements</li>
+	        	<li url='{% url xenopatients.ongoing.ongoing %}'>Ongoing Experiments</li>
+	        	<li url='{% url xenopatients.ongoing.archive %}'>Archive Experiments</li>
+	        </nav>
+	    </div>
+
+
+	</div>
+
+
+
+	<div class='cn-container' style='float:right;width:25%'>
+		<div class="imghome">
+			<img src="{{MEDIA_URL}}img/mice.jpg" style="width:100%">
+		</div>
+
+	</div>
+
+
+        <!--<article id="immagini" style='float:right;padding-left:10px;width:30%;'>
+        	<p class="imghome a"><img src='{{MEDIA_URL}}img/mice.jpg' style="width:100%;"></img></p>
+    	</article>-->
+    <br style="clear:both;"><br>
+
+{% endblock %}

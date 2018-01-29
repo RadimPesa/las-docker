@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Define sequence pairs{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/seqpairs.js"></script>
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script>
+    var ts_url = "{% url annotations.views.create_targetseq %}?ref=newsp";
+    var annotations_url = "{{ annotations_url }}";
+    if (annotations_url == "") {
+        alert("Cannot connect to Annotations Manager API!");
+    }
+</script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style>
+select.select1 {min-width: 310px; width: 310px;}
+ul.inline {display: inline-block; margin-top: 0px; margin-left: 0px; padding-left: 0px;}
+ul.inline li { line-height: 24px; margin-bottom: 4px;}
+div.indent {margin-left: 24px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if just_saved %}
+    <span class="infobox" id="justsaved">{{ just_saved }}</span>
+    <script>
+    $(function() {
+        setTimeout(function() {
+            $("#justsaved").slideUp('fast');
+        }, 3000);
+    });
+    </script>
+{% endif %}
+
+<article id="riquadro">
+<h3>Sequence pair</h3>
+
+<div id="main_tabs" style="min-height: 500px; background: none repeat scroll 0 0 #E8E8E8">
+    <ul>
+        <li><a href="#fromprimers">From known primers</a></li>
+        <li><a href="#fromcoordinates">From specifications</a></li>
+    </ul>
+
+    <div id="fromprimers">
+
+        <div style="float: left; margin: 25px; width: 25%">
+            <p style="margin: 0px">Pick target sequences from the list</p>
+            <br>
+            <table>
+                <tr>
+                    <td><b>Target sequence A:</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 80%">
+                        <input type="text" class="pair" id="ts1" name="ts1" value="{{ ts1 }}" readonly>
+                        <input type="hidden" id="ts1-seqid" name="ts1-seqid" value="">
+                        <button style="margin-left: 1px; height: 24px" type="button" class="button clr" id="clr1">Clear</button>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 20px"><b>Target sequence B:</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 80%">
+                        <input type="text" class="pair" id="ts2" name="ts2" value="{{ ts2 }}" readonly>
+                        <input type="hidden" id="ts2-seqid" name="ts2-seqid" value="">
+                        <button style="margin-left: 1px; height: 24px" type="button" class="button clr" id="clr2">Clear</button>
+                    </td>
+                </tr>
+            </table>
+            <button class="button" type="button" style="margin-top: 25px; width: 160px" id="findpairs">Find sequence pairs</button>
+        </div>
+
+        <div style="float: left; margin: 25px; margin-left: 80px; width: 33%">
+            <div style="width: 100%; height: 270px" id="primers-div">
+                <table id="primers">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sequence</th>
+                            <th>Gene</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for x in primers %}
+                        <tr>
+                            <td id="name-{{ x.id }}">{{ x.name }}</td>
+                            <td title="{{ x.sequence }}">{{ x.sequence|truncatechars:18 }}</td>
+                            <td>{{ x.genes }}</td>
+                            <td style="text-align: center"><span class="boxed-letter" onclick="selectPrimer('1', '{{ x.id }}', '{{ x.name }}');">A</span><span class="boxed-letter" onclick="selectPrimer('2', '{{ x.id }}', '{{ x.name }}');">B</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div style="float: left; clear: left; margin-top: 25px; margin-left: 25px; width: 75%" id="otherCombo">
+            <h3 id="accord" style="border: 0px; font-weight: bold">Manually define pair</h3>
+            <div>
+                <div style="float: left; width: 45%">
+                    <p style="text-align: center">Alignments for target sequence A</p>
+                    <span id="loada1" class="load" style="display: none"></span>
+                    <div style="width: 100%" id="align1-div">
+                        <table id="align1" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="centered"></th>
+                                    <th class="centered">Type</th>
+                                    <th class="centered">Ref</th>
+                                    <th class="centered">Start</th>
+                                    <th class="centered">End</th>
+                                    <th class="centered">Str</th>
+                                    <th class="centered">Gene</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="float: right; width: 45%">
+                    <p style="text-align: center">Alignments for target sequence B</p>
+                    <span id="loada2" class="load" style="display: none"></span>
+                    <div style="width: 100%" id="align2-div">
+                        <table id="align2" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="centered"></th>
+                                    <th class="centered">Type</th>
+                                    <th class="centered">Ref</th>
+                                    <th class="centered">Start</th>
+                                    <th class="centered">End</th>
+                                    <th class="centered">Str</th>
+                                    <th class="centered">Gene</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="clear:left; padding-top: 20px">
+                    <button class="button" type="button" style="width: 100px; height: 24px" id="insert">Insert</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="float: left; clear: left; width: 75%; margin-top: 25px; margin-left: 25px">
+            <span id="loadsc" class="load" style="display: none"></span>
+            <div id="pairs" style="width: 100%">
+                <form name="seqpairs" id="seqpairsfrm" action="{% url annotations.views.create_seqpair %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="combos-list" id="combos-list" />
+                </form>
+                <table id="seqpairs">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="5" style="text-align: center">Plus/5p sequence</th>
+                            <th colspan="5" style="text-align: center">Minus/3p sequence</th>
+                            <th colspan="2" style="text-align: center">Sequence pair</th>
+                        </tr>
+                        <tr>
+                            <th class="colored"></th>
+                            <th class="colored">Type</th>
+                            <th class="colored">Seq. name</th>
+                            <th class="colored">Ref.</th>
+                            <th class="colored">Start</th>
+                            <th class="colored">End</th>
+                            <th class="colored">Gene name</th>
+                            <th class="colored">Seq. name</th>
+                            <th class="colored">Ref.</th>
+                            <th class="colored">Start</th>
+                            <th class="colored">End</th>
+                            <th class="colored">Gene name</th>
+                            <th class="colored">Length</th>
+                            <th class="colored">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <div style="clear:left; margin-left: 25px; margin-bottom: 25px; padding-top: 25px">
+            <button class="button" type="button" style="width: 100px; height: 24px" id="save">Save selected</button>
+        </div>
+    </div>
+
+    <div id="fromcoordinates">
+        <div style="position: relative; float: left; margin: 25px; width: 30%">
+                <form id="savefrm1" method="POST" action="{% url annotations.views.create_targetseq %}">
+                    {% csrf_token %}
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 20%">Name:</td>
+                            <td style="width: 80%"><input type="text" class="primer" id="tsname1" name="tsname1" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Assembly:</td>
+                            <td style="width: 80%">
+                                <select class="select3" id="tsasbl" name="tsasbl">
+                                {% for x in assembly %}
+                                    <option value="{{ x.0 }}" {% if x.2 %}selected="true"{% endif %}>{{ x.1 }}</option>
+                                {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Gene:</td>
+                            <td style="width: 80%">
+                                <select class="select1" id="gene2">
+                                    <option></option>
+                                </select>
+                                <input type="hidden" name="tsgene" id="tsgene" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Chromosome:</td>
+                            <td style="width: 80%">
+                                <select class="select3" name="tschrom" id="tschrom">
+                                {% for x in chrom %}
+                                    <option value="{{ x.1 }}" data-start="{{ x.2 }}" data-end="{{ x.3 }}">chr{{ x.1 }}</option>
+                                {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Start:</td>
+                            <td style="width: 80%"><input type="number" class="input3" id="tsstart" name="tsstart" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">End:</td>
+                            <td style="width: 80%"><input type="number" class="input3" id="tsend" name="tsend" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Length:</td>
+                            <td style="width: 80%"><input type="number" class="input3" id="tslength" name="tslength" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">Introns:</td>
+                            <td style="width: 80%">
+                                <ul class="inline" id="selintrons">
+                                    <li><input type="radio" class="input3" id="tsexclintr1" name="tsexclintr" value="include" checked="true" /><label for="tsexclintr1">Include</label></li>
+                                    <li><input type="radio" class="input3" id="tsexclintr2" name="tsexclintr" value="excludeauto" /><label for="tsexclintr2">Exclude and automatically select an appropriate transcript</label></li>
+                                    <li>
+                                        <input type="radio" class="input3" id="tsexclintr3" name="tsexclintr" value="excludeenst" /><label for="tsexclintr3">Exclude and use the following Ensembl transcript (ENST...):</label><br>
+                                        <div class="indent">
+                                            <select class="select1" id="selenst">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input type="radio" class="input3" id="tsexclintr4" name="tsexclintr" value="excluderefseq" /><label for="tsexclintr4">Exclude and use the following RefSeq transcript (NM_...):</label><br>
+                                        <div class="indent">
+                                            <select class="select1" id="selrefseq">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <input type="hidden" name="txid" id="txid" />
+                </form>
+                <div style="float: left; margin-top: 25px; margin-left: 50px; width: 15%">
+                    <button class="button" type="button" style="width: 120px" id="save1">Save</button>
+                </div>
+        </div>
+    </div>
+
+</div>
+
+</article>
+{% endblock %}

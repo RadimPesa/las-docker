@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Repository Management Module - Home{% endblock %}
+
+
+{% block content %}
+
+
+	
+
+<nav style="float:left">
+
+			<table>
+				<tr>
+					<td class="navbut a">
+						<table>
+						<tr>
+						<td><img id="topo" src="/datamanager_media/img/array.png" width="44" height="44"></td><td>Home</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+
+
+		</nav>
+	<article id="immagini">
+		<p class="imghome">
+			<img src="/datamanager_media/img/micro2.jpg" width="400px" height="270px">
+		</p>
+	</article>
+	
+
+	<br style="clear:both;"><br><br><br>
+
+<script>
+	$("span.home").remove();
+
+	$("section#content").addClass("home");
+
+	$("td.navbut.a").click(function(){
+		window.location="{% url datamanager.views.home %}";	
+	});
+</script>
+
+{% endblock %}

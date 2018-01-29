@@ -1,0 +1,100 @@
+{% extends "baseReportSym.html" %}
+
+{% block title %}Insert blood samples{% endblock %}
+{% block script %}
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/collect_sym.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		#aliquots_table tr{text-align: center;}
+		table.aliquots_tab td{border:solid 1px;}
+		#aliquots_table_filter {margin-bottom:4px;}
+		#aliquots_table img {cursor:pointer;}
+		#aliq_paginate a, #aliquots_table_paginate a {padding-top:4px;}
+		#aliq, #aliquots_table {margin-bottom:4px;margin-top: 4px;}
+		
+		.f p {float:left;margin-right:5px;}
+		.f select, .f input {display:block; position:relative;}
+	</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% if not errore and not fine2 %}
+	<fieldset id="pageform" style="width:60%;">
+		<legend >Insert new blood samples</legend>
+		<div>					
+			<section class="f" >
+				{{ form.as_p }}
+			</section>
+			<br>
+			
+			<br style="clear:both;">
+			
+			<input id="crea_camp" type="submit" value="Create sample" class="button"/>
+			<br>
+			<form id="upload_elem_file" style="width:100%" enctype="multipart/form-data" method="POST">
+				<p style="float:left;">
+					<label for="id_file_cont">File (optional):</label>
+					<br>
+					<input id="id_file_cont" type="file" name="file_batch" size="6" style="display:none;">
+					<input id="filename" type="text" size="10" style="display:inline;">
+					<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;">
+				</p>
+			</form>
+			<a style="float:left;margin-left:2em;margin-top:2.5em;" id="file" class="anchor" download="Samples.las" href="{{MEDIA_URL}}File_Format/Samples.las" >File format</a>
+			<br style="clear:both;">
+			<input style="float:left;" id="carica_file" type="submit" value="Upload file" class="button"/>
+			<form id="form_fin" action={% url symphogen.views.collectionSaveSym %} method="post">{% csrf_token %}
+				<input style="float:right;" id="confirm_all" type="submit" value="Save&finish" name="start" class="button"/>
+			</form>					
+			
+		</div>
+	</fieldset>	
+	
+	<div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+	    <fieldset  class="fieldset" style="height:85%;">
+	        <legend class="legend"> Samples </legend>
+	        <div style="height:100%;">
+	            <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+	            
+	            </table>
+	        </div>
+	    </fieldset> 
+	</div>
+
+{% else %}	
+	{% if fine2 %}		
+		<div style='float:right'>
+		    <a href="{% url symphogen.views.collectionSym %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+	    <h2>You collected these samples:</h2>
+	    <table border='2px' id="aliq">
+	      <thead>
+		      {{  intest|safe  }}
+		  </thead>
+	  	  <tbody>
+	  	      {% for i in aliq %}
+	           	{{  i|safe  }}
+	          {% endfor %}
+	      </tbody>
+	    </table>
+        
+	{% endif %}
+	{% if errore %}
+		<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Plates{% endblock %}
+
+{% block menu %}
+
+    <ul>
+    	<li><a  href={% url archive.views.index %}>Home</a></li>
+    	<li><a  href={% url archive.views.InsertContainerType %}>New container type</a></li>
+    	<li><a  href={% url archive.views.InsertNewContainerInstance %}>New container</a></li>
+        <li><a  href={% url archive.views.ChangePlate %}>Change plate status</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+	<br>
+	<br>
+	<br>
+	<nav id="menuImg">
+        <table id="menu_iniz" align="center" style="background-color: #7AE847;">
+            <tr>
+             	<td class="navbut">
+                	<a id="nuovo_tipo_cont" href="{% url archive.views.InsertContainerType %}"><img id="beuta" src="/archive/archive_media/img/provetta.jpg" width="44" height="44"><span id="navtitle">New container type</span></a>
+                </td>
+                <td class="navbut">
+                	<a id="nuovo_cont" href="{% url archive.views.InsertNewContainerInstance %}"><img id="beuta" src="/archive/archive_media/img/provetta.jpg" width="44" height="44"><span id="navtitle">New container</span></a>
+                </td>
+                <!-- <td class="navbut">
+                	<a id="nuovo_tipo" href="{% url archive.views.InsertPlate %}"><img id="beuta" src="/archive/archive_media/img/provetta.jpg" width="44" height="44"><span id="navtitle">Insert new plate</span></a>
+                </td>  -->
+                <td class="navbut">
+                	<a id="nuovo_kit" href="{% url archive.views.ChangePlate %}"><img id="beuta" src="/archive/archive_media/img/provetta.jpg" width="44" height="44"><span id="navtitle">Change plate status</span></a>
+                </td>
+			</tr>
+		</table>
+	</nav>
+	<br>
+	<br>
+	<br>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}New Real Time Request{% endblock %}
+
+
+{% block content %}
+<script type="text/javascript" src="/rtpcr_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/rtpcr_media/js/request.js"></script>
+<link rel="stylesheet" href="/rtpcr_media/css/jquery.dataTables.css" />
+
+
+<style>
+#aliquots{
+	float: left;
+	margin-right: 20px;
+}
+th{
+text-align:left;
+}
+
+input:disabled{
+	
+	background:#DDDDDD;
+	color:#838383;
+}
+</style>
+
+
+	<fieldset style="margin-bottom:3em; minwidth:450px;">
+		<legend>Request Information</legend>
+		<table>
+		<tr><td><label for="request_title"><b>Title:</b></label></td>
+			{% if request_session.title%}
+            	<td><input type="text" maxlength="45" name="request_title" value="{{request_session.title}}" idplan="{{idplan}}"></td></tr>
+            {% else %}
+				<td><input type="text" maxlength="45" name="request_title" idplan="{{idplan}}"></td></tr>
+            {% endif %}
+        <tr><td><label for="request_owner"><b>Requested by:</b></label></td>        
+        <td><input type="text" maxlength="45" disabled="disabled" name="request_owner" value="{{request_session.owner}}"></td></tr>
+        <tr><td><label for="request_description"><b>Description:</b></label></td>
+		<td><textarea rows="4" cols="50" value="" name="request_description">{{request_session.description|default_if_none:""}}</textarea></td></tr>
+		<tr><td><label for="operator_name"><b title="If empty, logged user will be used">Assign to operator:</b></label></td>
+		<td>
+		
+		<select title="If empty, logged user will be used" id="operator_name" style="width: 160px">
+{% for item in assignUsersList%}
+                    <option value="{{item.wg.name|safe}}" wg='{{item.wg.name|safe}}' disabled>{{item.wg.name|safe}}</option>
+                    {% for u in item.usersList%}
+                        {% if u.username == request_session.idOperator.username %}
+                            <option id= "{{u.id}}" value="{{u.id}}" wg='{{item.wg.name|safe}}' selected="selected">&nbsp;{{u.last_name|safe}} {{u.first_name|safe}}</option>
+                        {% else %}
+                            <option id= "{{u.id}}" value="{{u.id}}"  wg='{{item.wg.name|safe}}'>&nbsp;{{u.last_name|safe}} {{u.first_name|safe}}</option>
+                        {% endif %}
+                    {% endfor %}
+                {%endfor%}
+        <!--
+        {% for u in users %}
+            {% if u.username == request_session.idOperator.username %}
+                <option id="{{u.id}}" selected="selected">{{u.username}}</option>
+                {% else %}
+                <option id="{{u.id}}">{{u.username}}</option>
+            {% endif %}
+        {% endfor %}-->
+                </select>
+
+                </td></tr>
+                </table>
+		<input style="float:right" id="create_req_button" class="button" type="submit" disabled="disabled" value="Confirm Request" />
+	</fieldset>
+
+<div id="aliquots" style="width:100%">
+	<article id='riquadro'>
+	<h3>Current Request</span></h3>
+		
+        <article style="width:inherit;overflow:auto">
+	
+		    <table border=1px id="aliquot_table">
+        <thead>
+				<TR><TH style="text-align:center;">#</TH>
+                <TH style="text-align:center;">Gen ID</TH>
+                <TH style="text-align:center;">Aliquot<br>Generation Date</TH>
+                <TH style="text-align:center;">Volume</TH>
+                <TH style="text-align:center;">Concentration</TH>
+                <TH style="text-align:center;">Taken Volume</TH>
+        </thead>
+        <tbody>
+	    {% for aliquot in requested_aliquots %}
+		
+		<TR aliquot_index={{forloop.counter0}} class="row_data"><TD>{{forloop.counter}}
+			<TD class="genealogy" genealogy='{{aliquot.genId}}'>{{aliquot.aliquot_id.genId}}
+			<TD class="date" date='{{aliquot.aliquot_id.date}}'>{{aliquot.aliquot_id.date}}
+			<TD class="volume" volume='{{aliquot.aliquot_id.volume}}'>{{aliquot.aliquot_id.volume}}
+			<TD class="concentration" concentration='{{aliquot.aliquot_id.concentration}}'>{{aliquot.aliquot_id.concentration}}
+			<TD class="takenvolume" takenvolume='{{aliquot.volumetaken}}'>{{aliquot.volumetaken}}
+		{% endfor %}
+
+        <tbody>
+        </table>
+        </article>
+	</article>
+
+</div>
+
+
+
+
+<div id="dialog-form" title="Modify Aliquot" style="display:none;position:relative" class="dialog confirm">
+	<span id="aliquot_index_span" ></span><br>
+	<table style="border-spacing:10px;">
+	<tbody>
+	<tr><th>Owner: </th><td><input type="text" maxlength="45" value="" name="owner"></td></tr>
+	<tr><th>Genealogy id: </th><td><input type="text" maxlength="45" value="" name="genealogy"></td></tr>
+	<tr><th>Sample Identifier: </th><td><input type="text" maxlength="45" value="" name="sample_identifier"></td></tr>
+	<tr><th>Sample Features: </th><td><input type="text" maxlength="45" value="" name="sample_features"></td></tr>
+	<tr><th>Experimental Group: </th><td><input type="text" maxlength="45" value="" name="exp_group"></td></tr>
+	<tr><th>Volume: </th><td><input type="text" maxlength="45" value="" name="volume" onkeypress="validate(event)"></td></tr>
+	<tr><th>Concentration: </th><td><input type="text" maxlength="45" value="" name="concentration" onkeypress="validate(event)"></td></tr>
+	<tr><th>Technical Replicates: </th><td><input type="text" maxlength="45" value="" name="tech_replicates" onkeypress="validate(event)"></td></tr>
+	<tr><th>Date: </th><td><input type="text" maxlength="45" value="" name="date"></td></tr>
+	</tbody>
+	</table>
+</div>
+
+
+
+{% endblock %}
+

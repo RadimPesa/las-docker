@@ -1,0 +1,24 @@
+The file has to have this structure:
+Work group
+GenealogyID	ExtendToChildren
+GenealogyID	ExtendToChildren
+GenealogyID	ExtendToChildren
+...
+
+Ex:
+QCInspector_WG
+BRC0001TMH0000	True
+BRC0003BMXB34	False
+...
+
+If ExtendToChildren is False, all aliquots that start with that genealogyId will be blocked.
+If ExtendToChildren is True, all aliquots that start with that genealogyId and their children will be blocked.
+
+
+To delete all samples (aliquot, mice, cell lines) related, the keyword "Delete" is required in place of work group name.
+
+Ex:
+Delete
+BRC0001TMH0000	True
+BRC0003BMXB34	False
+...

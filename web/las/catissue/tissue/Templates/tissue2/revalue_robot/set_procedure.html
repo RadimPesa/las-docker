@@ -1,0 +1,130 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Revalue aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/derive_robot/load_measure.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DateTimeShortcuts.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	
+{% endblock %}
+
+{% block content %}
+	{% if lista %}
+		<style type="text/css">
+			#aliq td{padding:8px;vertical-align: middle;}
+			#tab_prot td{padding:2px;vertical-align: middle;}
+			th{padding:6px;vertical-align: middle;text-align:center;}
+			#tabella_barc td {border-width: 0px;}
+			#tab_riepilogo td {padding:3px;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+			.td_prot_name {cursor:pointer;}
+		</style>
+		
+		<input id="tipoproc" value="revalue" type="hidden" />
+
+		<div class="bordicurvi" style="float:left;border-style: solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="10" autocomplete="off" >
+				<input id="validate_barc" type="submit" class="button" style="float:left;" value="Verify barcode" title="Click to verify sample you are working with now"/> 
+			</div>
+		</div>
+
+		<form id="form_conf" action={% url tissue.revalue_robot.PlanQuantification %} method="post">{% csrf_token %}
+			<div style="float:right;">
+				<input id="conf_all" type="submit" value="Confirm" class="button" style="margin-bottom:0.5em;display:inline;" name="stop" title="Click to confirm and send data to the robot"/>		
+			</div>
+			<br style="clear:both;"/>
+			<table border='2px solid' style="float:left;max-width: 21%;" id="tab_prot">
+				<th colspan="2">Select one or more protocol to perform quality control</th>
+				{% for prot in lisprot %}
+					<tr>
+						<td width="10%" style="border-right:0px;"><input id="pr_qc_{{forloop.counter0}}" name="pr_qc_{{forloop.counter0}}" type="checkbox" value="{{prot.id}}" class="checkuser" ></td>
+						<td class="td_prot_name" style="border-left:0px;">{{prot.name}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+			
+			<div class="bordicurvi" style="float:left;border-style: solid;border-width:0.1em;border-color:black;margin-left:4em;padding:0.5em;">
+				<label for="id_valid_barc" style="margin-left:0.2em;">Experiment name:</label>
+				<br>
+				<input id="id_exp_name" style="margin-bottom:0.5em;" name="exp_name" type="text" size="40" maxlength="100" autocomplete="off" >
+				<div style="float:left;">
+					<label for="id_valid_barc" style="margin-left:0.2em;" >Measurement date:</label>
+					<br>
+					<input id="id_date_meas" autocomplete="off" class="vDate" type="text" size="8" name="date_meas" >
+				</div>
+				<div style="float:left;margin-left:1em;">
+					<label for="id_container" >Source container type:</label>
+					<br>
+					<select id="id_container" name="container">
+						<option selected="selected" value="">---------</option>
+						{% for cont in liscont %}
+							<option value="{{cont.id}}">{{cont.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<br style="clear:both">
+			<br>
+			<table border='2px solid' id="aliq">
+				<th >N </th>
+				<th >Genealogy ID</th>
+				<th >Barcode</th>
+				<th >Position</th>				
+				{% for aliquota,barc,pos,vol in lista %}
+					<tr align="center" class="interna">						
+						<td class="lis_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{aliquota.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" class="gen_aliq_der" name="gen_{{forloop.counter0}}" value={{aliquota.idAliquot.uniqueGenealogyID}} id_aldersched={{aliquota.id}} />
+						</td>
+						<td class="lis_barcode">{{barc}}
+							<input id="barc_{{forloop.counter0}}" type="hidden" name="barc_{{forloop.counter0}}" value={{barc}} />
+						</td>
+						<td>{{pos}}</td>						
+					</tr>
+				{% endfor %}
+				
+			</table>
+			<input type="hidden" id="prot_totali" name="tot_prot" value="{{lisprot|length}}" />
+			<br style="clear:both;">			
+		</form>
+		<div id="dia1" style="display:none" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+	{% endif %}
+		
+	{% if fine %}		
+		<style type="text/css">
+			td{padding:8px;border-width:1px;}
+			th{padding:8px;}
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+				
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		<span style="font-size:1.4em;"><b>All data have been saved. Please now start the quality control procedure in the robot.</b></span>
+		<br>
+		<br>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+			</thead>
+			<tbody>
+				{% for i in lista_der %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>	           
+		</table>		
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Saved split aliquots - PDF</title>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" />
+
+</head>
+<body>
+<section>
+     {% block content %}
+      <h1 align="center">Created aliquots</h1>
+      
+      <h4>Operator: {{  operatore  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: {{data_split|date:"jS F Y"}}</h4>
+      
+      <table border="1" >
+
+   		 	<th width="3%" align = 'center'><strong><br>N</strong></td>
+           	<th align = 'center'><strong><br>GenealogyID</strong></td>
+           	<th align = 'center'><strong><br>Barcode</strong></td>                
+            <th align = 'center'><strong><br>Plate</strong></td>
+            <th width="4%" align = 'center'><strong><br>Pos</strong></td>
+            <th width="7%" align = 'center'><strong><br>Conc. (ng/uL)</strong></td>
+            <th width="7%" align = 'center'><strong><br>Volume (uL)</strong></td>
+            <th width="7%" align = 'center'><strong><br>Mother Vol.(uL)</strong></td>
+            <th width="7%" align = 'center'><strong><br>H2O (uL)</strong></td>
+            <th align = 'center'><strong><br>Mother Gen.</strong></td>
+            <th align = 'center'><strong><br>Mother Barc.</strong></td>
+
+	     {% for m in list_report %}
+	        {{  m|safe  }}
+	     {% endfor %}
+      </table>
+     {% endblock %}
+</section>
+</body>
+</html>

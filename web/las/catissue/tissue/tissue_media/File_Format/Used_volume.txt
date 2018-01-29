@@ -1,0 +1,3 @@
+GenealogyID	Barcode	Taken Volume(ul)	Taken Quantity(ug)	Exhausted
+
+Ex:MEL0002TRH000000000D01000		10		true

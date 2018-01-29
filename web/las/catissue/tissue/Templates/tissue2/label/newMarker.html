@@ -1,0 +1,108 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Define marker{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+  	<script type="text/javascript" src="{{MEDIA_URL}}JS/label/new_marker.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+{% endblock %}
+
+{% block content %}	
+	<style type="text/css">
+		.f select,.f input { display:block;}
+		#table_mut_filter,#table_mut_selez_filter {margin-bottom:4px;}
+		#table_mut_paginate a,#table_mut_info,#table_mut_selez_paginate a,#table_mut_selez_info {padding-top:4px;}
+		#table_mut tr.gene_el,#table_mut_selez img {cursor:pointer;}
+	</style>
+	
+	{% if not fine %}
+		<script type="text/javascript">
+	        dizrel = $.parseJSON('{{dizrel|safe}}');
+	        lismarker = $.parseJSON('{{lismarker|safe}}');
+		</script>
+		
+		
+		<div id="inizio2" style="width:100%;float:left;padding:0em;">
+			<input id="nometecn" type="hidden" value={{nometecn}} />			
+			<table align="center" style="margin-top:0.5em;-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;" id="iniziale">
+				<tr>
+					<td>
+						<form id="form_file" action={% url tissue.label.NewMarker %} enctype="multipart/form-data" method="post"> {% csrf_token %}							
+							<section class="f" >
+								{% if nometecn == 'FISH' or nometecn == 'CISH' or nometecn == 'RNAScope' %}
+									<input id="nomeprobe" type="hidden" name="nome" value={{nomeprobe}} />
+									<!-- solo per i probe quando non sono io che chiamo la pagina dandogli l'id della tecnica nella url, ma e' il 
+									modulo di annotazioni che chiama questa pagina e non puo' sapere l'id della tecnica usata -->
+									<input id="idtecn" type="hidden" value={{idtecnica}} />
+								{% endif %}
+								<input id="nomemarker" type="hidden" name="nomemarker" value={{nomeprobe}} />
+								
+								<p>
+									<label for="id_name">Name:</label>
+									<input id="id_name" type="text" maxlength="20" name="nome" value={{nomeprobe}} >
+								</p>
+								
+								<!-- se la tecnica usa gli anticorpi metto il campo per inserire il gene riconosciuto dall'anticorpo -->
+								{% if nometecn == 'IF' or nometecn == 'IHC' %}
+									<p>
+										<label for="id_gene">Gene target:</label>
+										<input id="id_gene" type="text" maxlength="30" name="gene" />
+									</p>
+								{% endif %}
+								
+								{% if nometecn != 'Histology' %}
+									<!-- per salvare l'uuid del probe o dell'anticorpo scelto. Il valore viene passato dal server solo nel caso dei probe.
+									Per gli anticorpi il valore e' salvato qui lato client -->								
+									<input id="uuid" type="hidden" name="uuid" value={{uuid}} />
+								{% endif %}
+								<p>
+									<label for="id_producer">Producer:</label>
+									<input id="id_producer" type="text" maxlength="20" name="producer" />
+								</p>
+								<p>
+									<label for="id_catalogue">Catalogue Number:</label>
+									<input id="id_catalogue" type="text" maxlength="20" name="catalogue" />
+								</p>
+								<p>
+									<label for="id_dilution">Dilution factor:</label>
+									<br>
+									<input id="id_dilution1" type="number" name="dilution1" min="1" max="100" value="1" style="display:inline;width:5em;" />&nbsp;:&nbsp;
+									<input id="id_dilution2" type="number" name="dilution2" min="1" max="1000000" style="display:inline;width:5em;" />
+								</p>
+								<p>
+									<label for="id_time">Incubation time:</label>
+									<input id="id_time" type="text" maxlength="10" name="time" />
+								</p>
+								<p>
+									<label for="id_temperature">Incubation temperature:</label>
+									<input id="id_temperature" type="text" maxlength="10" name="temperature" />
+								</p>
+								<p>
+									<label for="id_file">Sheet file:</label>
+									<br>
+									<input id="id_file" type="file" name="file" size="6" style="display:none;" />
+									<input id="filename" type="text" size="10" style="display:inline;" />
+									<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;" />
+								</p>
+							</section>
+							<br>
+							<input type="submit" class="button" value="Save marker" id="conferma1"/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	{% else %}	
+		<h2 align="center">Marker correctly saved</h2>
+		<br>
+		<br>
+		<div align="center">
+			<input style="position:relative;display:inline;" id="close" type="submit" class="button" value="Close the window" title="Click to close the window"/>
+		</div>
+		<input id="nom_marker" type="hidden" value={{nomemarker}} />
+		<input id="tipo_marker" type="hidden" value={{tipomarker}} />
+	{% endif %}
+{% endblock %}

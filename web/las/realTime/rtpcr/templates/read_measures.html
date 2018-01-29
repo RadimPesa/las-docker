@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load jsonify %}
+
+{% block headers %}
+	<meta charset="utf-8">
+	<script src="/rtpcr_media/js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="/rtpcr_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="/rtpcr_media/js/read_measures.js"></script>
+	<script type="text/javascript" src="/rtpcr_media/js/jquery.jeditable.mini.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/node_modules/mathjs/dist/math.js"></script>
+	<link rel="stylesheet" href="/rtpcr_media/css/jquery.dataTables.css" />
+
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}lib/mathscribe/jqmath-0.4.0.css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}lib/mathscribe/jqmath-etc-0.4.2.min.js"></script>
+
+
+	<script type="text/javascript">
+
+	targets = {{targets|jsonify|safe}};
+	samples = {{samples|safe}};
+	formulas = {{formulas|safe}};
+	</script>
+	<style type="text/css">
+	.dialog{
+		display: none;
+	}
+	ul{
+		list-style-type: none;
+		padding: 0;
+	}
+
+	td.overMut{
+		background-color: lightyellow;
+	}
+
+	span.filteron {
+		height: 1em;
+		margin: 1em;
+		padding-left: 18px;
+		background-image: url("/rtpcr_media/img/ledorange.png");
+		background-repeat: no-repeat;
+		text-align: left;
+	}
+	fmath{
+		font-family: STIXGeneral, 'DejaVu Serif', 'DejaVu Sans', /* Cambria, 'Cambria Math', */ Times, 'Lucida Sans Unicode', OpenSymbol, 'Standard Symbols L', serif;
+		font-style: italic;
+		font-size: 1.1em;
+	}
+	table#aggregate tr td {
+		padding-bottom: 15px;
+	}
+	table#aggregate tr td:nth-child(1) {
+		font-weight: bold;
+		font-size: 1.3em;
+		vertical-align: top;
+	}
+	table#aggregate tr td:nth-child(2) {
+		padding-left: 15px;
+	}
+	table#aggregate tr td label {
+		display: inline-block;
+		width: 120px;
+		margin-right: 15px;
+		height: 25px;
+		align: right;
+	}
+	fmath {
+		font-size: 20px;
+	}
+	div#formulas label {
+		margin-right: 10px;
+	}
+	p#analysis_info label {
+		display: inline-block;
+		margin-right: 10px;
+		width: 90px;
+	}
+	</style>
+{% endblock %}
+
+{% block title %}Perform analysis{% endblock %}
+{% block content %}
+<div id="confAnalysis" style="float:left;width:100%">
+
+		<div id='formulaSelection' style='width:25%; float:left'>
+			<article id='riquadro'>
+				<h3>Select formula</h3>
+				<div id='formulas'>
+				</div>
+			</article>
+		</div>
+
+		<div id="mapVariables" style='width:25%; float:left; margin-left:2em'>
+			<article id='riquadro'>
+			<h3>Set variables</h3>
+			<table id='probes' class="dataTable" style='margin-top:1em'>
+				<thead>
+					<th>Probe</th>
+					<th>Variable</th>
+				</thead>
+				<tbody>
+					{% for t in targets%}
+						<tr tid="{{t.uuid}}" tname="{{t.name}}">
+						<td>{{t.name}}</td>
+						<td> <select class='vProbes'>
+							</select>
+						</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<div style='width:10%;float:right'>
+			<input id="processMeas" class="button" type="submit" value="Compute" onClick="return computeAnalysis();" style="float:right"/>
+		</div>
+
+		<div id="selectAggregation" style='width:25%; float:left; margin-left:2em'>
+			<article id='riquadro'>
+				<h3>Aggregate sample values</h3>
+				<table id="aggregate" style='margin:1em'>
+				</table>
+			</article>
+		</div>
+
+
+
+</div>
+
+<div id="analysis" style="float:left;width:100%;display:none">
+
+	<div id="ildiv" style="width: 100%; overflow: auto">
+		<div style="width:80%;float:left">
+			<table id='tabAnalysis'>
+
+			</table>
+
+		</div>
+
+		<div style="width:15%;overflow:auto;margin:1em;float:right;">
+
+			<input id="backToConfAnalysis" class="button" type="submit" value="<< Back" onClick="return backToConfAnalysis();" style="float:right"/>
+		</div>
+	</div>
+
+	<div>
+		<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url rtpcr.views.read_measures %}">
+			{% csrf_token %}
+			<input id='aliquots_list' type="hidden" name='aliquots_list' value="">
+			<input id='fid' type="hidden" name='fid' value="">
+			<input id='plan' type="hidden" name='plan' value="{{plan.id}}">
+			<input id='targets' type="hidden" name='targets' value="{{targets}}">
+			<input id='probe-var-map' type="hidden" name='probe-var-map' value="">
+			<input id='aggr-crit' type="hidden" name='aggr-crit' value="">
+			<p id="analysis_info" style="margin-top: 35px">
+				<label for="analysis_descr">Analysis description:</label><input type="text" id="analysis_descr" name="analysis_descr" value="{{ plan.title }} - Analysis {{ next_analysis }}" autofocus style="width: 30%; margin-bottom: 10px" /><br>
+				<label for="analysis_type">Analysis type:</label><select id="analysis_type" name="analysis_type">
+				  {% for a in a_types %}
+					<option value="{{ a.value }}">{{ a.name }}</option>
+				  {% endfor %}
+				</select>
+			</p>
+			<input id="submit" class="button" type="submit" value="Save Measures" onClick="return updateInput();" style="float:right"/>
+		</form>
+
+	</div>
+
+</div>
+
+{% endblock %}

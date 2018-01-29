@@ -1,0 +1,88 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Register new kit{% endblock %}
+
+{% block script %}
+
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/kit_final.js"></script>
+
+	<style type="text/css">
+		input { display:block; position:relative;}
+		td{padding:8px;vertical-align:middle;}
+		th{padding:8px;}
+		#tabella_barc td {border-width: 0px;}
+		#tab_riepilogo td {padding:4px;}
+		h2{font-size:1.3em;}
+	</style>
+	
+{% endblock %}
+
+{% block content %}
+
+{% if not fine %}
+	<form action={% url tissue.kit.SaveFinalSingleKit %} method="post">{% csrf_token %}
+			<div id=inizio style="width:30%;float:left;">
+				<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;float:left;"  id="iniziale">
+					<tr>
+						<td>Kit Type:</td>
+						<td>{{kit}}<input id="tipo_k" type="hidden" name="tipo_k" /></td>
+					</tr>
+					<tr>
+						<td>Expiration Date:</td>
+						<td>{{data}}<input id="data" type="hidden" name="data" value={{data}} /></td>
+					</tr>
+					<tr>
+						<td>Lot Number:</td>
+						<td>{{lotto}}<input id="lo" type="hidden" name="lotto" value={{lotto}} /></td>
+					</tr>
+				</table>
+			</div>
+			<div id="inizio3" style="float:left;margin-left:1em;">
+				<table id="tabella_barc" style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;float:left;">
+					<tr>
+						<td>Kit barcode:</td>
+						<td><input type="text" id="barc" size=15 maxlength="35"></td>
+					</tr>
+					<tr align="center">
+						<td colspan=2 id="cella_fine">
+							<input id="aggiungi" style="display:inline;" type="button" value="Add" class="button" />
+							<input type="submit" class="button" id="conferma" style="display:none;" type="button" value="Save&Finish" />
+						</td>	
+					</tr>
+				</table>
+			</div>
+			<div id="inizio2" align="center" style="float:left;margin-left:1em;padding-right:1em;padding-bottom:1em;display:none;">
+				<table id="tab_riepilogo">
+					<th colspan=3>
+						Inserted kits:
+					</th>
+				</table>
+			</div>
+			<input type="hidden" id="righe_totali" name="tot_righe" />
+	</form>
+{% else %}
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	
+	<h2>Kits saved:</h2>
+		<table border='2px' id="tabellafinale">
+			<thead>
+				<th>N</th>
+				<th>Kit Type</th>
+				<th>Barcode</th>
+				<th>Expiration Date</th>
+				<th>Lot Number</th>
+			</thead>
+			<tbody>			
+				{% for i in lista %}
+					{{  i|safe  }}
+			    {% endfor %}
+		    </tbody>
+		</table>
+
+{% endif %}
+{% endblock %}

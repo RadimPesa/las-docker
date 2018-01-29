@@ -1,0 +1,24 @@
+
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	//per modificare il form in modo che si possano inserire piu' file in contemporanea
+	$("#id_file").attr("multiple","");
+});
+</script>
+
+<div id=inizio style="width:40%;border:2px solid black;background-color:#D1BCEC;" class="ui-widget-content">
+	<table align="center"  style="background-color:#D1BCEC;-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+		<tr>
+			<td>
+				<form action={% url tissue.historic.UpdateCellLine %} enctype="multipart/form-data" method="post">{% csrf_token %}
+					<section class="f">
+							{{ form.as_p }}
+					</section>
+					<br>
+					<input type="submit" value="Submit" id="conferma1"/>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>

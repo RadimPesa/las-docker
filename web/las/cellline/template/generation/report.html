@@ -1,0 +1,62 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = '{{typeOperation}}Session_';
+	</script>
+{% endblock %}
+{% block title %}Report {{typeOperation}} {% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<script>
+			$(document).ready(function () {
+				generate_result_table("#table_res2");
+			});
+		</script>
+		<div align="center">
+			<fieldset>
+				<legend>Generated Cell Lines</legend>
+				<table id="table_res" border="1">
+					<thead>
+						<tr>
+							<th>Cell Line Genealogy ID</th>                
+							<th>Condition Configurations</th>
+		                    <th>Nickname</th>
+							<th># of Plates</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{  list_celllines_generated|safe  }}
+					</tbody>
+				</table>
+			</fieldset>
+			<br/><br/><br/><br/>
+			<fieldset>
+				<legend>Involved Aliquots</legend>
+				<table id="table_res2" border="1">
+					<thead>
+						<tr>
+							<th>Source Aliquot</th>                
+							<th>Container</th>
+		                    <th>Position</th>
+							<th># of Pieces</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{  list_aliquot_used|safe  }}
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

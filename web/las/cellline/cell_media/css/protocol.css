@@ -1,0 +1,78 @@
+#div_form_id {
+	text-align:center; 
+	width: 550px;
+	margin: 50px auto;
+	background: #535353;
+	padding: 25px;
+	overflow: hidden;
+		
+	/* rounded corners */
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+ 
+	/* add gradient */
+	background-color: #FFFEFC;
+	background: -webkit-gradient(linear, left top, left bottom, from(#BEBCBB), to(#FFFEFC));
+	background: -moz-linear-gradient(top, #BEBCBB, #FFFEFC);
+ 
+	/* add box shadows */
+	-moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+	box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+table div {
+	text-align:center; 
+	background: #535353;
+	padding: 10px;
+	line-height: 10px; /* Altezza di riga */
+}
+
+input[type='text'] { 
+	float: left; /* Float a sinistra */
+	margin: 10px 0; /* Margini */
+	font-size: 14px;
+}
+
+label { /* Stili per la label */
+	display: block; /* Impostiamo la label come elemento blocco */
+	line-height: 30px; /* Altezza di riga */
+	width: 200px; /* Larghezza */
+	color: #00008B; /* Colore del testo */
+	float: left; /* Float a sinistra */
+	margin: 10px 0; /* Margini */
+	font-size: 14px;
+}
+	 
+
+
+#submit {
+	padding: 0;
+	width: 100px;
+	float: center; /* Float in centro */
+	margin: 10px 0; /* Margini */
+	font-size: 14px;
+	background: #BEBCBB; /* Colore di sfondo */
+	border: 1px solid #323232; /* Bordo */
+	color: #00008B; /* Colore del testo */
+	height: 30px; /* Altezza */
+	line-height: 30px; /* Altezza di riga */
+	
+	/* rounded corners */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+ul, li {
+list-style-type: none;
+}
+
+#head_1, #head_2 {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+

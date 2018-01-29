@@ -1,0 +1,49 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'Ongoing_';
+	</script>
+{% endblock %}
+{% block title %}New Actions{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <script>
+            listKey = ['qual','qualuser', 'qualtimestamp'];
+            clearStorage(listKey);
+        </script>
+		<div align="center">
+			<h1>New Actions:</h1>
+			<table id="table_res"  border="1">
+				<thead>
+					<tr>
+						<th align = 'center'>Genealogy ID</th>  
+						<th align = 'center'>Group</th>  
+						<th align = 'center'>Explant Action</th>  
+						<th align = 'center'>Scope Expl.</th>
+						<th align = 'center'>Explant Notes</th>
+						<th align = 'center'>Treatment Action</th>
+						<th align = 'center'>Date Start Treatment</th>
+						<th align = 'center'>Comment</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for l in list_report %}
+						{{  l|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+		<br>
+
+		</div>
+
+		{%  if message  %}
+			<script>
+				document.getElementById("message").style.display = 'inline';
+			</script>
+		{% endif %}
+{% endif %}
+{% endblock %}

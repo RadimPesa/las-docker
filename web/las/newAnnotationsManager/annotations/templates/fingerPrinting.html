@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Fingerprinting{% endblock %}
+
+{% block style %}
+<style>
+ul.inline {display: inline-block; margin-top: 0px; margin-left: 0px; padding-left: 0px;}
+ul.report li span:nth-child(1) {display: inline-block; margin-left: 2px; margin-right: 2px; font-weight: bold;}
+ul.report li span:nth-child(2) {display: inline-block; margin-left: 2px; margin-right: 2px;}
+</style>
+{% endblock %}
+
+{% block content %}
+<article id="riquadro">
+<h3>Fingerprinting reports</h3>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/fingerPrinting.js"></script>
+<script type="text/javascript">
+{% if cannot_run %}
+window.alert("Cannot start a new fingerPrinting session while another one is already running")
+{% endif %}
+setInterval( function () {
+    window.location = window.location;
+}, 60000 );
+</script>
+<div style="margin-top: 15px">
+    <form id="run_fingerprinting_frm" action="./" method="post">
+        Run Fingerprinting now:
+        {% csrf_token %}
+        <input type="submit" value="Run" style="margin-left: 20px" />
+        <!--<input type="checkbox" name="notify" id="notify" style="margin-left: 10px" />Notify me via email when report is available -->
+        <input type="hidden" value="run" name="run" />
+	<input type="hidden" id="descr" value="" name="description" />
+    </form>
+</div>
+<form id="cancel_fingerprinting_frm" action="./" method="post">
+   {% csrf_token %}
+   <input type="hidden" value="cancel" name="cancel" />
+   <input type="hidden" name="id" />
+</form>
+
+<div style="float:left;width:100%; margin-top: 30px">
+	<table id='historyTable'>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Created on</th>
+				<th>Author</th>
+                                <th>Description</th>
+				<th>Status</th>
+				<th>Download report</th>
+                <th>Cancel/Delete</th>
+			</tr>
+		</thead>
+
+		<tbody>
+            {% for r in reports %}
+            <tr data-id="{{ r.id }}" data-qc_cutoff="{{ r.qc_cutoff}}" data-mismatch_cutoff="{{ r.mismatch_cutoff }}" data-samples="{{ r.samples|default_if_none:'' }}" data-excluded_samples="{{ r.excluded_samples|default_if_none:'' }}" data-mismatched_samples="{{ r.mismatched_samples|default_if_none:'' }}" data-mismatched_cases="{{ r.mismatched_cases|default_if_none:'' }}" data-false_mismatched_samples="{{ r.false_mismatched_samples|default_if_none:'' }}" data-unmatched_samples="{{ r.unmatched_samples|default_if_none:'' }}" data-mild_unmatched_cases="{{ r.mild_unmatched_cases|default_if_none:'' }}" data-serious_unmatched_cases="{{ r.serious_unmatched_cases|default_if_none:'' }}" data-validated_samples="{{ r.validated_samples|default_if_none:'' }}">
+                <td></td>
+                <td>{{ r.timestamp|date:"Y-m-d" }}&nbsp;{{ r.timestamp|time:"H:i:s" }}</td>
+                <td>{{ r.author|default_if_none:"(auto-generated)" }}</td>
+                <td>{{ r.description|default_if_none:"" }}</td>
+                {% if not r.ready and not r.error %}
+                <td>Processing</td>
+                <td>Please wait...</td>
+                {% elif r.ready and not r.error %}
+                <td>Ok</td>
+                <td><a href="{{ media_url }}{{ r.filename }}"><span class="ui-icon ui-icon-arrowstop-1-s"></span></a></td>
+                {% else %}
+                <td>Error</td>
+                <td>Not available</td>
+                {% endif %}
+                <td></td>
+            </tr>
+            {% endfor %}
+			
+		</tbody>
+
+	</table>
+
+</div>
+
+</article>
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}Filter results{% endblock %}
+{% block content %}
+
+
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/filter_results.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+
+<style type="text/css">
+#input_selectable .ui-selecting { background: #FECA40; }
+#input_selectable .ui-selected { background: #F39814; color: white; }
+#input_selectable { list-style-type: none; margin: 0; padding: 0; }
+#input_selectable li { margin: 3px; padding: 0.4em; }
+#output_selectable .ui-selecting { background: #FECA40; }
+#output_selectable .ui-selected { background: #F39814; color: white; }
+#output_selectable { list-style-type: none; margin: 0; padding: 0; }
+#output_selectable li { margin: 3px; padding: 0.4em; }
+
+</style>
+
+<input type='hidden' id='filter_id' value='{{filter_id}}'>
+
+        
+<div id='apply_filters' style='float:left;width:70%'>
+	<div id='filter_mask'>
+		<fieldset id='mask_input' style='float:left;width:40%;height:700px;overflow:auto'>
+			<legend>Input mask features</legend>
+			<ul id="input_selectable">
+			{% for k, v in mask.items %}
+		  		<li class="ui-widget-content" key='{{k}}' maskname='{{v.name}}' measure='{{v.measure}}'>{{v.name}}{%if v.measure != "-1"%} (*) {% endif %}
+		  		</li>
+		  	{% endfor %}
+			</ul>
+		</fieldset>
+		<div style='float:left;width:10%;text-align:center;vertical-align:middle;height:400px;overflow:auto'>
+			<p>
+			<input class="button" id="move_out" type="submit" value="-->" />
+			</p>
+			<p>
+			<input class="button" id="move_in" type="submit" value="<--" />
+			</p>
+			<p>
+			<input class="button" id="define_mask_filter" type="submit" value="Confirm selection" />
+			</p>
+			<p>
+				(*) Measures available for expression compuation
+			</p>
+		</div>
+
+		<fieldset id='mask_output' style='float:left;width:40%;height:700px;overflow:auto'>
+			<legend>Selected mask features</legend>
+			<ul id="output_selectable">
+			
+			</ul>
+		</fieldset>
+
+	</div>
+
+	<div id='target_filter' style='display:none'>
+		
+		<legend>Filter of gene/mutations</legend>
+		<p>Select genes/mutations analyzed for: 
+			<input type="radio" name="andormut" value="and"> all samples (<span id='nsamples' value={{nsamples}}>{{nsamples}}</span>)
+			<input type="radio" name="andormut" value="or" checked> at least one sample
+			<input class="button" id="select_all_mut" type="submit" value="Select All" style="width:200px"/>
+			<input class="button" id="define_mut_filter" type="submit" value="Confirm selection" style='float:right'/>
+		</p>
+
+		<table id='mutation_selection'>
+			<tbody>
+			{% for m in mutations %}
+				<tr>
+					<td> <input type="checkbox" name="select_mut" value="selected_mut"/></td>
+					<td>{{m.gene}}</td>
+					<td>{{m.genename}}</td>
+					<td>{{m.probe}}</td>
+					<td>{{m.mut_aa}}</td>
+					<td>{{m.mut_cds}}</td>
+					<td>{{m.count_pairs}}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div id='results_filter' style='display:none;height:700px;'>
+		
+		<legend>Filter results</legend>
+		<div style='float:left;width:100%;text-align:center;vertical-align:middle;overflow:auto'>
+		<p>
+			<input class="button" id="select_all_reg" type="submit" value="Select All Regions" style="width:200px"/>
+			<input class="button" id="select_all_meas" type="submit" value="Select All Measures" style="width:200px"/>
+			<input class="button" id="define_results_filter" type="submit" value="Confirm selection" style='float:right'/>
+		</p>
+		</div>
+		<div style='float:left;width:49%;text-align:center;vertical-align:middle;overflow:auto'>
+		<table id='region_selection'>
+			<tbody>
+			{% for r in regions %}
+				<tr>
+					<td> <input type="checkbox" name="select_reg" value="selected_reg"/></td>
+					<td>{{r.id}}</td>
+					<td>{{r.code}}</td>
+				</tr>
+			{% endfor %}
+
+			</tbody>
+		</table>
+
+		</div>
+		<div style='float:left;width:49%;text-align:center;vertical-align:middle;overflow:auto;padding-left:1%'>
+		<table id='measure_selection'>
+			<tbody>
+			{% for m in measuretype %}
+				<tr>
+					<td> <input type="checkbox" name="select_meas" value="selected_meas"/></td>
+					<td>{{m.id}}</td>
+					<td>{{m.name}}</td>
+					<td>{{m.unity_measure}}</td>
+				</tr>
+			{% endfor %}
+
+			</tbody>
+		</table>
+		</div>
+	</div>
+
+	<div id='results_computation' style='display:none;height:700px;'>
+		<legend>Formula computation</legend>
+		<div style='float:left;width:100%;text-align:center;vertical-align:middle;overflow:auto'>
+		<p>
+			<input class="button" id="select_all_formula" type="submit" value="Select All" style="width:200px"/>
+			<input class="button" id="define_formulas_filter" type="submit" value="Proceed" style='float:right'/>
+		</p>
+		</div>
+		<div style='float:left;width:100%;text-align:center;vertical-align:middle;overflow:auto'>
+		<table id='formula_selection'>
+			<tbody>
+
+			</tbody>
+		</table>
+		</div>
+	</div>
+
+</div>
+
+<div id='selected_filters' style='float:left;width:25%;padding-left:2%;'>
+	<fieldset id='filter' style='float:left;width:90%;height:700px;overflow:auto;'>
+	<legend>Applied filter</legend>
+	<div style='float:left;width:100%;padding-bottom:2%;'>
+	<input class="button" id="terminate" type="submit" value="Terminate" disabled='disabled' style='float:right'/>
+	</div>
+	<div id='div_selected_masks' style='float:left;width:100%;padding-bottom:2%;'>
+	<h3 style='margin-bottom:1%'>Selected mask fields</h3>
+		<table id='selected_masks'>
+		</table>
+	</div>
+	<div id='div_selected_mutations' style='float:left;width:100%;padding-bottom:2%;'>
+		<h3 style='margin-bottom:1%'>Selected mutations</h3>
+		<table id='selected_mutations'>
+		</table>
+	</div>
+	<div id='div_selected_regions' style='float:left;width:100%;padding-bottom:2%;'>
+		<h3 style='margin-bottom:1%'>Selected regions</h3>
+		<table id='selected_regions'>
+		</table>
+	</div>
+	<div id='div_selected_measures' style='float:left;width:100%;padding-bottom:2%;'>
+		<h3 style='margin-bottom:1%'>Selected measures</h3>
+		<table id='selected_measures'>
+		</table>
+	</div>
+	</fieldset>
+
+</div>
+
+
+
+{% endblock %}

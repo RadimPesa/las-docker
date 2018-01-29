@@ -1,0 +1,90 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+
+	<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+	</p>
+
+<nav>
+<h1>Untreated Users</h1>			
+<table class="table-user">
+	<thead>
+		<tr><th>username</th><th>e-mail</th><th>First name</th><th>Last name</th><th>status</th><th>Requested modules</th><th>Notes</th><th>Approve</th><th>Reject</th></tr>
+	</thead>
+	{% for u in untreated_list %}
+    	<tr>
+    		<td>{{u.user.username}}</td>
+    		<td>{{u.user.email}}</td>
+    		<td>{{u.user.first_name}}</td>
+    		<td>{{u.user.last_name}}</td>
+    		<td>{{u.status}}</td>
+    		<td>
+    			{% for x in modules_list %}
+    				{% ifequal x.user.username u.user.username %}		
+    					{% for mod in x.modules.all %}
+    						<input type="checkbox" name="modules_{{u.id}}"  value="{{ mod.id }}"/> 
+    						{{mod.name}}<br>
+    					{% endfor%}
+    				{%endifequal%}    				
+    			{%endfor%}
+    			
+    		</td>
+    		<td>
+    			{% for y in modules_list %}
+					{% ifequal y.user.username u.user.username %}
+						{{y.note}}
+					{%endifequal%}
+				{% endfor%}
+    		</td>
+			<td style="padding-left:30px;"><a href="" onClick="acceptRegistration('{{u.id}}','{% url loginmanager.views.manageRegistrations %}')" ><img src="/lasauth_media/img/button-ok.png"></a></td>
+			<td style="padding-left:30px;"><a href="" onClick="rejectRegistration('{{u.id}}','{% url loginmanager.views.manageRegistrations %}')"><img src="/lasauth_media/img/Remove-icon.png"></a></td>
+		</tr>
+    {% endfor %}
+</table>
+</br>
+<h1>Pending Users</h1>
+<table class="table-user">
+	<thead>
+		<tr><th>username</th><th>e-mail</th><th>First name</th><th>Last Name</th><th>status</th></tr>
+	</thead>
+
+    {% for u in pending_list %}
+    	<tr>
+    	    <td>{{u.user.username}}</td>
+    		<td>{{u.user.email}}</td>
+    		<td>{{u.user.first_name}}</td>
+    		<td>{{u.user.last_name}}</td>
+    		<td>{{u.status}}</td>
+		</tr>
+    {% endfor %}
+	
+</table>
+
+<h1>Rejected Users</h1>
+<table class="table-user">
+	<thead>
+		<tr><th>username</th><th>e-mail</th><th>First name</th><th>Last name</th><th>status</th><th>Delete from DB</th></tr>
+	</thead>
+
+    {% for u in rejected_list %}
+    	<tr>
+    		<td>{{u.user.username}}</td>
+    		<td>{{u.user.email}}</td>
+    		<td>{{u.user.first_name}}</td>
+    		<td>{{u.user.last_name}}</td>
+    		<td>{{u.status}}</td>
+    			<td style="padding-left:35px;"><a href="" onClick="deleteRecord('{{u.id}}','{% url loginmanager.views.manageRegistrations %}')"><img src="/lasauth_media/img/Remove-icon.png"></a></td>
+    		</form>
+		</tr>
+    {% endfor %}
+	
+</table>
+
+</nav>
+
+{% endblock %}

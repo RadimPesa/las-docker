@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="pragma" content="no-cache">
+	<title>cvi_busy_lib.js :: demo</title>
+	<style type="text/css" media="all">
+	@media screen, projection {
+		body {background-color: #0000a0; color: #444;}
+		h1, h2 {color: #0000a0; margin: .2em 0;}
+		img {
+		  margin-right: 8px; 
+		  width: 64px; 
+		  height: 64px; 
+		  border: 2px solid blue;   
+		}
+		.wrapper {
+		  margin: 3% 2%;
+		  padding: 0;
+		}
+		.main {
+		  width: 100%;
+		  margin: 8px 0;
+		  padding: 0;
+		  color: #444;
+		}
+		.content {
+		  width: 66%;        
+		  float: left;        
+		  margin: 0;
+		  padding: 1% 2%;
+		  background-color: #ccc;
+		  border: 8px solid white;
+		}
+		.sidebar {
+		  margin-left: 73%; 
+		  padding: 1%;
+		  font-size: 90%;
+		  background-color: #fcc;
+		  border: 8px solid white;
+		  -moz-border-radius-bottomright: 32px;
+		  -webkit-border-bottom-right-radius: 32px;		  
+		}
+		.clear {
+		  clear: both;   
+		  height: 1px;
+		  overflow: hidden;  
+		  margin: 0;          
+		}
+		.header {
+		  background-color: #ccf; 
+		  color: #444; 
+		  font-size: 90%;
+		  margin: 0; 
+		  padding: .2em 2%;
+		  border: 8px solid white;
+		  -moz-border-radius-topleft: 16px;
+		  -moz-border-radius-topright: 16px;
+		  -webkit-border-top-left-radius: 16px;
+		  -webkit-border-top-right-radius: 16px;
+		}
+		.footer {
+		  background-color: #cfc;  
+		  color: #444;
+		  margin: 0;    
+		  font-size: 90%;
+		  padding: 1% 2%;
+		  border: 8px solid white;
+		  -moz-border-radius-topright: 32px;
+		  -moz-border-radius-bottomleft: 16px;
+		  -moz-border-radius-bottomright: 16px;
+		  -webkit-border-top-right-radius: 32px;
+		  -webkit-border-bottom-left-radius: 16px;
+		  -webkit-border-bottom-right-radius: 16px;		  
+		}
+	} 
+	</style>
+<!--[if IE 6]>
+	<style type="text/css">
+		h1, .sidebar {position:relative}
+	</style>
+<![endif]-->
+	<script type="text/javascript" src="cvi_busy_lib.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	// basic XMLHttpRequest implementation
+	function ajaxpage(url, containerid, overlay, busy){
+		var page_request = false;
+		if(window.XMLHttpRequest) {
+			page_request = new XMLHttpRequest();
+		} else if(window.ActiveXObject) {
+			try {
+				page_request = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch(e) {
+				try {
+					page_request = new ActiveXObject("Microsoft.XMLHTTP");
+				} catch(e) {
+				}
+			}
+		} else {
+			return false;
+		}
+		var ctrl = getBusyOverlay(document.getElementById(containerid),overlay,busy);
+		function loadpage(page_request, containerid){
+			if(page_request.readyState == 4){
+				if(typeof(ctrl)==='object') {ctrl.remove(); }
+				if(page_request.status==200 || window.location.href.indexOf("http")==-1){
+					document.getElementById(containerid).innerHTML=page_request.responseText;
+				}
+			}
+		}
+		// to prevent from caching
+		var ref = (new Date).getTime(); 
+		page_request.onreadystatechange = function(){loadpage(page_request, containerid);}
+		page_request.open('GET', url+'?'+ref, true);
+		page_request.send(null);
+	}
+	window.onload = function () {
+		window.setInterval("ajaxpage('dummy/top.txt','top',{color:'blue',opacity:0.25})", 3000);
+		window.setInterval("ajaxpage('dummy/left.txt','left',{color:'black', opacity:0.5, text:'loading', style:'text-decoration:blink;font-weight:bold;font-size:12px;color:white'},{color:'#fff', size:128, type:'o'})", 7500);
+		window.setInterval("ajaxpage('dummy/right.txt','right',{color:'white', opacity:0.5},{color:'#00f', size:32, type:'c', iradius:10, weight:6})", 5500);
+		window.setInterval("ajaxpage('dummy/bottom.txt','bottom',{color:'green',opacity:0.25})", 2500);
+	}
+	</script>
+</head>
+<body>
+<div class="wrapper">
+	<div id="top" class="header">
+		<h2>Top</h2>
+		<p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay atinlay. Marquee selectus non provisio incongruous feline nolo contendre.</p>
+	</div>
+	<div class="main">
+		<div id="left" class="content">
+			<h1>Left</h1>
+			<p><img src="images/ajax.jpg" align="left" alt="0" />Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+			<p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay atinlay. Marquee selectus non provisio incongruous feline nolo contendre.</p>
+			<p>Gratuitous octopus niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium. Sic tempus fugit esperanto hiccup estrogen. Glorious baklava ex librus hup hey ad infinitum. Non sequitur condominium facile et geranium incognito.</p>
+		</div> 
+		<div id="right" class="sidebar">
+			<h2>Right</h2>
+			<p>Gratuitous octopus niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium.</p>
+			<p>Sic tempus fugit esperanto hiccup estrogen. Glorious baklava ex librus hup hey ad infinitum. Non sequitur condominium facile et geranium incognito.</p>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="bottom" class="footer">
+		<h2>Bottom</h2>
+		<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+	</div>
+	<div id="button" class="button"></div>
+</div>
+</body>
+</html>

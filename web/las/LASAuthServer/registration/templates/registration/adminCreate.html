@@ -1,0 +1,125 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration admin' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration' %}</h1>{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+
+$("input[name='is_pi']").val(false);
+
+message = "{{message}}";
+status = '{{status}}'
+jQuery(document).ready(function(){
+    if (message != '')
+        infoBox();
+
+});
+
+function checkPI(){
+    selected = $("input[name='is_pi']").prop('checked');
+    $("input[name='is_pi']").val(selected);
+    if (selected){
+        $("#pi_list").hide();
+    }
+    else{
+        $("#pi_list").show();
+    }
+}
+
+
+function infoBox(){
+    $("#infobox").text(message);
+    $("#infobox").fadeIn( "slow" );
+    $("#infobox").css('margin', '10px 0px');
+    $("#infobox").css('padding' ,'5px');
+
+    if (status == 'error'){
+        $("#infobox").addClass('errorbox');
+    }
+    else{
+        $("#infobox").addClass('confirmbox');
+    }
+
+    setTimeout(function(){
+        $("#infobox").fadeTo(1000,0, function(){
+            $("#infobox").html("");
+            $("#infobox").removeAttr('style');
+            $("#infobox").hide();
+            if (status == 'error'){
+                $("#infobox").removeClass('errorbox');
+            }
+            else {
+                $("#infobox").removeClass('confirmbox');
+            }
+
+        })
+    }, 2000);
+}
+
+</script>
+
+<style type="text/css">
+div.confirmbox{
+    background-color: #F2FFDB;
+    color: #228b22;
+    font-weight: bold;
+    border: 1px solid #9C6;
+    margin: 10px 0px;
+    padding: 5px;
+}
+
+div.errorbox{
+    background-color: #FF6666;
+    color: #1A0000;
+    font-weight: bold;
+    border: 1px solid #FF1919;
+    margin: 10px 0px;
+    padding: 5px;
+}
+
+</style>
+<div id="infobox" class="hidden" style="display:none"></div>
+
+<p>Please fill the form to register a new user account with Funnel permissions.</p>
+<i>A random password will be generated and will be sent to you via e-mail.</i>
+<hr />
+<form action="./" method="post">{% csrf_token %}
+    <table>
+        <tr>
+            <td>First name</td>
+            <td><input type="text" name='first_name'></td>
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td><input type="text" name='last_name'></td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name='username'></td>
+        </tr>
+        <tr>
+            <td>e-mail</td>
+            <td><input type="text" name='email'></td>
+        </tr>
+        <tr>
+            <td>Is PI?</td>
+            <td><input type="checkbox" name="is_pi" onclick="checkPI()"/> </td>
+        </tr>
+        <tr id='pi_list'>
+            <td>PI</td>
+            <td><select name="pi">
+                {% for pi in pis%}
+                    <option value="{{pi.id}}">{{pi.last_name}} {{pi.first_name}} </option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+    </table>
+    <p> <input type="reset" value="Clear"> <input type="submit" value="Register">  </p>
+</form>
+{% endblock %}

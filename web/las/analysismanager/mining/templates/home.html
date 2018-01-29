@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Analysis Management Module - Home{% endblock %}
+
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    $('.mainlink li, span').each(function(){
+        $(this).click(function() {
+        	var target = $(this).attr('target');
+        	var url = $(this).attr('url');
+        	if (url){
+        		window.location = url;
+        	}
+        	else{
+        		$('.cn-slide').each(function(){
+        			$(this).hide();	
+        		});
+        		$('#'+target).show();
+        	}
+    	});
+    });
+});
+</script>
+	
+<div class="cn-container" style='float:left;width:30%'>
+		<div class="cn-slide-main mainlink" id="slide-main">
+		    <nav>
+		    	<li url="{% url mining.views.randomize %}">Randomize groups</li>
+		        <!--li url="{% url mining.views.writeformulas %}">Write Formulas</li-->
+		    </nav>
+    	</div>
+
+</div>
+
+<div class="cn-container" style='float:left;width:30%'>     
+    <!-- Slide 1 and sub-slides 
+	    <div class="cn-slide mainlink" id="slide-exp">
+	        <h2><span class="cn-back"><img src="/biopsy_media/images/arrow.png"></span>Scan</h2>
+	        <nav>
+	        	<li url="">Experiment layout definition</li>
+	        	<li url="">Measurement collection</li>
+	        </nav>
+	    </div-->
+</div>
+	
+<div class='cn-container' style='float:right;width:25%'>
+	<div class="imghome">
+		<img src="{{MEDIA_URL}}img/analysis.jpg" style="width:100%">
+	</div>
+	
+</div>
+
+	<br style="clear:both;"><br><br><br>
+
+{% endblock %}

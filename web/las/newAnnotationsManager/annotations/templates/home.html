@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Annotations Management Module - Home{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    $('.mainlink li, span').each(function(){
+        $(this).click(function() {
+        	var target = $(this).attr('target');
+        	var url = $(this).attr('url');
+        	if (url){
+        		window.location = url;
+        	}
+        	else{
+        		$('.cn-slide').each(function(){
+        			$(this).hide();	
+        		});
+        		$('#'+target).show();
+        	}
+    	});
+    });
+});
+
+
+
+</script>
+
+
+
+<div class="cn-container" style='float:left;width:30%'>
+		<div class="cn-slide-main mainlink" id="slide-main">
+		    <nav>
+                <li target='slide-managekb'>Manage Knowledge Base</li>                            
+                <li target='slide-queries'>Queries &amp; Reports</li>
+            </nav>
+    	</div>
+
+</div>
+
+
+<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+    <div class="cn-slide mainlink" id="slide-managekb">
+        <nav>
+            <h2><span class="cn-back"><img src="{{MEDIA_URL}}images/arrow.png"></span>Manage Knowledge Base</h2>
+
+            <li url="{% url annotations.views.create_targetseq %}">Create target sequence</li>
+            <li url="{% url annotations.views.create_seqpair %}">Create sequence pair</li>
+            <li url="{% url annotations.views.defineAmpliconTechnologies %}">Assign technologies</li>
+            <li url="{% url annotations.views.exploreKB %}">Explore Knowledge Base</li>
+
+        </nav>
+    </div>
+</div>
+
+<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+    <div class="cn-slide mainlink" id="slide-queries">
+        <nav>
+            <h2><span class="cn-back"><img src="{{MEDIA_URL}}images/arrow.png"></span>Queries &amp; Reports</h2>
+
+            <li url="{% url annotations.views.queryAnnotations %}">Query annotations</li>
+            <li url="{% url annotations.views.sequenomReport %}">Sequenom report</li>
+            <li url="{% url annotations.views.fingerPrinting %}">Fingerprinting</li>
+
+        </nav>
+    </div>
+</div>
+
+<div class='cn-container' style='float:right;width:25%'>
+	<div class="imghome">
+		<img src="{{MEDIA_URL}}img/front.png" style="width:100%">
+	</div>
+	
+</div>
+
+	<br style="clear:both;"><br><br><br>
+
+{% endblock %}

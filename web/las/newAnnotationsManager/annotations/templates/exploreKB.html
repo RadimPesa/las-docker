@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Explore Knowledge Base{% endblock %}
+
+{% block script %}
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script>
+    var annotations_url = "{{ annotations_url }}";
+    var geneInfo_url = "{% url api.newapi.geneInfo %}";
+    var genesInRegion_url = "{% url api.newapi.genesInRegion %}";
+    var transcriptInfo_url = "{% url api.newapi.transcriptInfo %}";
+    var transcriptsForGene_url = "{% url api.newapi.transcriptsForGene %}";
+    var searchReferences_url = "{% url api.newapi.searchReferences %}";
+    var deleteReferences_url = "{% url api.newapi.deleteReferences %}";
+    var checkAnnotUpdateStatus_url = "{% url api.newapi.checkAnnotUpdateStatus %}";
+    var updateAnnotations_url = "{% url api.newapi.updateAnnotations %}";
+    if (annotations_url == "") {
+        alert("Cannot connect to Annotations Manager API!");
+    }
+    var insertNew_url = {
+        sequence_alteration: "{% url annotations.views.newMutation %}?referer=exploreKB",
+        short_genetic_variation: "{% url annotations.views.newSGV %}?referer=exploreKB",
+        copy_number_variation: "{% url annotations.views.newCNV %}?referer=exploreKB"
+    };
+</script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exploreKB.js"></script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style>
+label.caption {display: inline-block; margin-right: 10px; vertical-align: middle;}
+ul.inline {display: inline-block; margin-top: 0px; margin-left: 0px; padding-left: 0px;}
+ul.inline li { line-height: 24px; margin-bottom: 4px;}
+div.indent {margin-left: 24px; }
+.normal-width {width: 80px;}
+.wide {width: 160px;}
+.vwide {width: 200px;}
+
+input.input3 {min-width: 120px; width: 120px; border: 1px solid rgb(170, 170, 170); border-radius: 4px; height: 24px; vertical-align: middle; text-align: right;}
+input.input3::-webkit-input-placeholder { /* Chrome/Opera/Safari */ text-align: left; padding-left: 8px;}
+input.input3::-moz-placeholder { /* Firefox 19+ */ text-align: left; padding-left: 8px;}
+input.input3:-ms-input-placeholder { /* IE 10+ */ text-align: left; padding-left: 8px;}
+input.input3:-moz-placeholder { /* Firefox 18- */ text-align: left; padding-left: 8px;}
+
+input.input4 {border: 1px solid rgb(170, 170, 170); border-radius: 4px; vertical-align: middle;}
+span.btn-cancel {display: inline-block;}
+span.btn-cancel.red {background-color: red;}
+
+#pending {margin: 15px; height: 25px; padding: 10px}
+#pending span.icn {margin-right: 10px;}
+#pending span.msg {margin-right: 20px;}
+
+#pending.ok {border: 1px solid #66cc00; background-color: #ccff99;}
+#pending.ok span.icn {vertical-align: top; display: inline-block; height: 20px; width: 20px; background: url('{{ MEDIA_URL }}/img/tick.png'); background-size: 100%; background-repeat: no-repeat;}
+
+#pending.warn {border: 1px solid #e6b800; background-color: #ffff99;}
+#pending.warn span.icn {vertical-align: top; display: inline-block; height: 20px; width: 20px; background: url('{{ MEDIA_URL }}/img/warn.png'); background-size: 100%; background-repeat: no-repeat;}
+
+#pending.error {border: 1px solid #ff8080; background-color: #ffcccc;}
+#pending.error span.icn {vertical-align: top; display: inline-block; height: 20px; width: 20px; background: url('{{ MEDIA_URL }}/img/cancel.png'); background-size: 100%; background-repeat: no-repeat;}
+
+#pending.wait {border: 1px solid #b3b3b3; background-color: #f2f2f2;}
+#pending.wait span.icn {vertical-align: top; display: inline-block; height: 20px; width: 20px; background: url('{{ MEDIA_URL }}/img/wait.gif'); background-size: 100%; background-repeat: no-repeat;}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<article id="riquadro">
+<h3>Knowledge Base management</h3>
+<br>
+<fieldset>
+    <br>
+    An update must be run when new references have been added to create the corresponding annotations.<br>
+    A full rescan of the experimental data repository is only needed to create annotations initially (or whenever references have been changed without using this interface).<br><br>
+    <legend>Annotation synchronization</legend>
+    <div id="pending" class="warn">
+        <span class="icn"></span>
+        <span class="msg"></span>
+        <button id="updateAnnotations" disabled="true">Update annotations</button>
+        &nbsp;
+        <button id="rescanAnnotations" disabled="true">Full scan</button>
+    </div>
+    <br>
+    
+    <br>
+</fieldset>
+<br>
+<fieldset>
+    <legend>Browse knowledge base</legend>
+    <div id="prefilter">
+        <br>
+        <label for="chrom" class="caption normal-width">Region:</label>
+        <select id="chrom" class="normal-width">
+        {% for x in chrom %}
+            <option value="{{ x.1 }}" data-start="{{ x.2 }}" data-end="{{ x.3 }}">chr{{ x.1 }}</option>
+        {% endfor %}
+        </select>&nbsp;<span style="font-weight: bold; font-size: 1.1em">:</span>
+        <input class="input3" type="number" id="coord-from" class="from" placeholder="Start" />
+        <span  style="font-weight: bold; font-size: 1.1em">-</span>
+        <input class="input3" type="number" id="coord-to" class="to" placeholder="End" />
+        <button type="button" id="applyregion">Apply</button>
+        <button type="button" id="clearregion">Clear</button>
+        <br><br>
+        <label for="gene2" class="caption normal-width">Gene:</label>
+        <select id="gene2">
+            <option></option>
+        </select>
+        <button type="button" id="applygene">Apply</button>
+        <button type="button" id="cleargene">Clear</button>
+        <br><br>
+        <label for="transcript" class="caption normal-width">Transcript:</label>
+        <select class="normal-width" id="transcript">
+            <option></option>
+        </select>
+        <br><br>
+        <label class="caption normal-width" style="vertical-align: top">Search for:</label>
+        <span style="display: inline-block; height: 50px; width: 400px">
+            <input type="checkbox" id="search-seqalt" class="input4 select-type" annot-type="sequence_alteration" /><label for="search-seqalt" class="caption vwide">Sequence alterations</label><br>
+            <input type="checkbox" id="search-sgv"  class="input4 select-type" annot-type="short_genetic_variation" /><label for="search-sgv" class="caption vwide">Short genetic variations</label><br>
+            <input type="checkbox" id="search-gcn"  class="input4 select-type" annot-type="copy_number_variation" /><label for="search-gcn" class="caption vwide">Gene copy number variations</label><br>
+        </span>
+        <br><button type="button" id="search">Go</button>
+    </div>
+</fieldset>
+<br><br>
+
+<div id="main_tabs" style="min-height: 500px; background: none repeat scroll 0 0 #E8E8E8">
+    <ul>
+        <li><a href="#seqalt">Sequence alterations</a></li>
+        <li><a href="#sgv">Short genetic variations</a></li>
+        <li><a href="#gcn">Gene copy number variations</a></li>
+    </ul>
+
+    <div id="seqalt" data-type="sequence_alteration">
+        <table id="seqalts">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Transcript ac</th>
+                    <th class="colored">HGVSg</th>
+                    <th class="colored">HGVSc</th>
+                    <th class="colored">HGVSp</th>
+                    <th class="colored">External ID</th>
+                    <th class="colored">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br><br>
+        <button type="button" id="del-seqalt" class="delete">Delete selected</button>
+        <button type="button" id="new-seqalt" class="insert">Insert new</button>
+    </div>
+
+    <div id="sgv" data-type="short_genetic_variation">
+        <table id="sgvs">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Name</th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Chrom</th>
+                    <th class="colored">Start</th>
+                    <th class="colored">End</th>
+                    <th class="colored">Alt</th>
+                    <th class="colored">Type</th>
+                    <th class="colored">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br><br>
+        <button type="button" id="del-sgv" class="delete">Delete selected</button>
+        <button type="button" id="new-sgv" class="insert">Insert new</button>
+    </div>
+
+    <div id="gcn" data-type="copy_number_variation">
+        <table id="gcns">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Chrom</th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Type</th>
+                    <th class="colored">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br><br>
+        <button type="button" id="del-gcn" class="delete">Delete selected</button>
+        <button type="button" id="new-gcn" class="insert">Insert new</button>
+    </div>
+</div>
+
+</article>
+
+<article class="dialog" title="Review deletion problems" id="afterdeletedialog">
+    <div style="display: none" class="table-container">
+        <table id="del-seqalts" data-type="sequence_alteration">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Transcript ac</th>
+                    <th class="colored">HGVSg</th>
+                    <th class="colored">HGVSc</th>
+                    <th class="colored">HGVSp</th>
+                    <th class="colored">External ID</th>
+                    <th class="colored">Error</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display: none" class="table-container">
+        <table id="del-sgvs" data-type="short_genetic_variation">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Name</th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Chrom</th>
+                    <th class="colored">Start</th>
+                    <th class="colored">End</th>
+                    <th class="colored">Alt</th>
+                    <th class="colored">Type</th>
+                    <th class="colored">Error</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display: none" class="table-container">
+        <table id="del-gcns" data-type="copy_number_variation">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="colored">Chrom</th>
+                    <th class="colored">Gene symbol</th>
+                    <th class="colored">Type</th>
+                    <th class="colored">Error</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</article>
+{% endblock %}

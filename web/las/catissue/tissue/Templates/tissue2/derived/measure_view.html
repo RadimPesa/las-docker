@@ -1,0 +1,50 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Aliquot Measures{% endblock %}
+{% block script %}
+	<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+	
+	<style type="text/css">
+		td{margin: 17px 10px 10px; vertical-align: middle;padding:6px;}
+		th{padding:8px;}
+		h2{font-size:1.3em;}			
+	</style>
+	
+	<script type="text/javascript" >
+		$(document).ready(function () {
+			$("a:contains('LAS Home')").remove();
+			$("#home").removeAttr("href");
+		});
+	</script>
+	
+{% endblock %}
+{% block content %}
+	{% if not errore %}
+		<h2>You executed these measures:</h2>
+		<br>
+		<table border='2px'  style="-moz-border-radius:0px;border-radius:0px;-webkit-border-radius:0px;float:left;border-style: solid;"  id="inizio">
+				<th>N</th>
+				<th>Measure Type</th>
+				<th>Measure Unit</th>
+				<th>Instrument Name</th>
+				<th>Instrument Code</th>
+				<th>Value</th>
+				{% if lista %}
+					{% for misura in lista %}
+						<tr align="center">
+							<td>{{forloop.counter}}</td>
+							<td>{{misura.tipo}}</td>
+							<td>{{misura.unit}}</td>
+							<td>{{misura.tipostrum}}</td>
+							<td>{{misura.codstrum}}</td>
+							<td>{{misura.val}}</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</table>
+	{% else %}
+	<div align="center">
+		<h2>There is no measure saved for this aliquot in the system. Please insert it.</h2>
+	</div>
+	{% endif %}
+{% endblock %}

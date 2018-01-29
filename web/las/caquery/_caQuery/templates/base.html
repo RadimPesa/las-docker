@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=UTF-8"> 
+	{% block defaultstyle %} 
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/style.css">
+    <!--link rel="stylesheet" href="{{MEDIA_URL}}js/DataTables-1.9.0/media/css/jquery.dataTables.css"-->
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{MEDIA_URL}}font-awesome-4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/smoothness/jquery-ui-1.10.3.custom.css">
+    {% endblock %}
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/css/TableTools.css" />
+    {% block style %} {% endblock %}
+
+    <!-- jquery -->	
+	<script src="{{MEDIA_URL}}js/jquery.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery-ui.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.cookie.js"></script>
+	<!--<script src="{{MEDIA_URL}}js/jquery.dataTables.min.js"></script>-->
+	<!--script src="{{MEDIA_URL}}js/DataTables-1.9.0/media/js/jquery.dataTables.min.js"></script-->
+    <script src="{{MEDIA_URL}}js/jquery1.10.2.dataTables.min.js"></script-->
+
+    
+	
+	<script src="{{MEDIA_URL}}js/urls.js"></script>
+	
+	<!-- loading/busy -->
+	<script type="text/javascript" src="{{MEDIA_URL}}busy/cvi_busy_lib.js"></script>
+	
+	{% block script %} {% endblock %}
+	{% block script_ %} {% endblock %}
+		
+	<title>{% block title %}{% endblock %}</title>
+	
+	<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+	<!-- [if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	
+	<link rel="shortcut icon" href="{{MEDIA_URL}}favicon.ico">
+	
+	<script> 
+	/* Al caricamento della pagina mi assicuro che non ci siano dialog boxes visibili */
+	$(function() {
+				$(".dialog").dialog({
+					autoOpen: false,
+					modal: true,
+				});
+	});
+	
+	
+	$(document).ready(function() {
+                //ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+            workingGroups="";
+            {% if request.workingGroups %}
+                workingGroups="{{request.workingGroups}}";
+                workingGroupsList = workingGroups.split(",");
+                $.ajaxSetup({
+                    beforeSend: function (request){
+                        request.setRequestHeader("workingGroups", workingGroups);
+                    }
+                });
+            {% endif %}
+
+    $('body').ajaxComplete(function(e, xhr, settings) {
+        if (xhr.status == 278) {
+            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+        }
+    });
+	
+	//customizzazione delle alert
+	function alert2(message, title, buttonText, callback) {
+
+    buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+    title = (title == undefined) ? "The page says:" : title;
+    cback = (callback == undefined) ? function() {$(this).dialog("close");div.remove();} : function() {$(this).dialog("close");div.remove(); callback()} 
+
+    var div = $('<div>');
+    div.html(message);
+	div.css("padding","25px");
+    div.attr('title', title);
+    div.dialog({
+        autoOpen: true,
+        modal: true,
+        draggable: false,
+        resizable: false,
+        width:'auto',
+        buttons: [{
+            text: buttonText,
+            click: cback
+        }]
+    });
+	}
+	window.alert = alert2;
+	
+	function confirm2(message, title, btnYesText, btnNoText, callback) {
+
+		btnYesText = (btnYesText == undefined ? "Yes" : btnYesText);
+		btnNoText = (btnNoText == undefined ? "No" : btnNoText);
+		title = (title == undefined ? "Confirm" : title);
+		var div = $('<div>');
+		cbackNo = function() {div.dialog("close"); div.remove();};
+		cbackYes = (callback == undefined ? cbackNo : function() {cbackNo(); callback();});
+	   	div.html(message);
+		div.css("padding","25px");
+    	div.attr('title', title);
+    	div.dialog({
+        	autoOpen: true,
+        	modal: true,
+        	draggable: false,
+        	resizable: false,
+        	buttons: [
+        		{
+            		text: btnYesText,
+            		click: cbackYes
+        		},
+        		{
+        			text: btnNoText,
+        			click: cbackNo
+        		}]
+    	});
+	}
+	window.confirm = confirm2;
+
+	
+	});
+	
+</script>	
+	
+	
+	
+</head>
+
+
+<body {%block bodyoption %}{% endblock %}>
+	<header>
+			
+		    <h1 style="float:left;"> <a id="home" href="{% url _caQuery.views.home %}"><img width="143px" height="46px" src="{{MEDIA_URL}}logo.PNG"></a> Query </h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   {% if user.is_authenticated %}
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} | <a href="{% url _caQuery.views.logout %}">LAS Home</a> [{{  user.username  }}]</span><!--  <span class="home" title="home"></span> -->
+			</p>
+			{% endif %}
+		<br style="clear:both;">
+			
+	</header>
+
+	{% block report %} {% endblock %}
+	<section id="content">	
+		{% block home %}{% endblock %}
+		{% block content %}{% endblock %}
+	</section>
+	
+    <div class="modal"><!-- Place at bottom of page --></div>	
+
+
+	</body>
+</html>
+

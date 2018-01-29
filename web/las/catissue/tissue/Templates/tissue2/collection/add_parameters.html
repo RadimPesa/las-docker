@@ -1,0 +1,150 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Add clinical parameters{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/add_parameters.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/genidbuttonmanagement.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/boxlist.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}boxlist.css" />
+	
+	<script type="text/javascript"> 
+        templates = $.parseJSON('{{mdamTemplates|safe}}');
+        mdam_url = "{{mdam_url}}";
+        genid = $.parseJSON('{{genid|safe}}');
+</script>
+
+<style type="text/css">
+	input {display:inline;}
+	#coll_fin_paginate a {padding-top:4px;}
+	#coll_fin_filter {margin-bottom:4px;}
+	#coll_fin tbody tr {cursor:pointer;}
+	#coll_fin_info {margin-top:4px;}
+	input.genidpar {width: 50px;}
+	span.button {background-color: #a32900;}
+	#genid th{padding-right:0.5em;}
+</style>
+{% endblock %}
+
+{% block content %}
+	{% if not fine%}
+		<div style="float:left;width:30%">
+	        <fieldset>
+		        <legend>Filters</legend>
+		        <div style="width:100%;">
+		        	<input id="submit" class="button" type="submit" value="Search collection" style='float:right'/>
+		        </div>
+		        <div style='width:100%;margin-top:3em' id='templatediv'>
+		        	<table border="1px" id='templatetable' style='width:100%' ></table>
+		        </div>       
+	        </fieldset>
+		</div>
+	
+		<div id='contresults' style="float:right;width:68%;display:none"> <!--;display:none-->
+			<form id="form_conf" action={% url tissue.collection.SaveParameters %} method="post">{% csrf_token %}
+				<input id="conf_all" type="submit" value="Save&Finish" class="button" style="margin:0em 0.3em 0.5em 0em;float:right;" title="Click to confirm"/>
+			</form>
+			<br style="clear:right;">
+	        <fieldset>
+	        	<legend>Collections</legend>
+	        	<h4 align="center" style="margin-bottom:0.6em;margin-top:1em;font-size:1.2em;">Choose a collection</h4>
+	        	<div id='results' style="width:100%;float:left">
+	        		<table id="coll_fin">
+	        			<thead>	        				
+	        			</thead>
+	        			<tbody align="center">
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </fieldset>
+		</div>
+		<div id="dialogpaz" align="center" class="dialog confirm" title="Modify collection" style="display:none;position: relative;">
+        	<table>
+		        <tbody>
+				    <tr>
+				    	<td>Patient code: </td><td><input type="text" maxlength="45" value="" name="paz"></td>
+				    </tr>				    
+				    <tr>
+				    	<td>Informed consent: </td><td><input type="text" maxlength="45" value="" name="cons"></td>
+				    </tr>
+			    </tbody>
+	        </table>
+        </div>	
+        
+       	<div id="dialog" style="display:none" title="Filter">
+			<p>
+				Genealogy ID type:
+				<select id="selgenidtype">
+					<option>Aliquot</option>
+					<option>Derived aliquot</option>
+				</select>
+			</p>
+			<table id="genid">                
+               <thead>
+                   <th style="width: 40px" class="add"></th>
+               </thead>
+               <tbody>
+                <tr>
+	                <td style="width: 40px" class="add">
+	                    <button id="add_gid" class="button add_btn" style="margin-right:5px;">Add</button>
+	                </td>	                
+                </tr>
+               </tbody>
+           </table>
+           <br>
+                               
+           <div>
+	       	   <table>
+	               <tr>
+	                   <td>
+	                       <span style="font-size:10px;margin-right:10px;">Load Genealogy IDs from file:</span>
+	                   </td>
+	                   <td>
+	                       <form id="genidfrm"><input type="file" id="genidfile" /></form>
+	                   </td>
+	               </tr>
+	
+	               <tr>
+	                   <td>
+	                       <span style="font-size:10px;margin-right:10px;">Insert full Genealogy IDs:<br>(newline or blank separated)</span>
+	                       </td>
+	                   <td>
+	                       <textarea id="fullgenid" type="text" style="width:500px;height:80px; resize:none" maxlength="20000"></textarea></td>
+	                   <td>
+	                       <button id="add_gid2" class="button add_btn" style="margin-right:5px;">Add</button>
+	                   </td>
+	               </tr>
+	           </table>
+           </div>
+           <br>                           
+           <div id="genidlist" style="max-height: 200px;overflow: auto;"></div>				
+		</div>
+	{% else %}	
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both;">
+		<h2>Collections updated:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Tumor</th>
+				<th>Case</th>
+				<th>Source</th>			
+				<th>Informed consent</th>
+				<th>Patient code</th>
+				<th>Protocol</th>
+			</thead>
+			<tbody>
+				{% for i in lisfin %}
+		        	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		</table>
+	{% endif %}
+{% endblock %}

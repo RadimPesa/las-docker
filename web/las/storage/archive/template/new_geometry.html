@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Save new geometry{% endblock %}
+
+{% block script %}
+	
+	<style type="text/css">
+		select,#inizio input { display:block; position:relative;}
+		label {font-size:12px;}  
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#id_x,#id_y").attr("size","10");
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	{% if not fine %}
+		<div align="center">
+			<div id=inizio style="width:30%;border:1px solid black;" >
+				<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+					<tr>
+						<td>
+							<form action={% url archive.views.CreateGeometry %} method="post">{% csrf_token %}
+								<section class="f">
+										{{ form.as_p }}
+								</section>
+								<br>
+								<input type="submit" class="button" value="Submit" id="conferma1" />
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	{% else %}
+		<h1 align="center">Operation executed. New geometry saved</h1>
+	{% endif %}
+{% endblock %}
+	

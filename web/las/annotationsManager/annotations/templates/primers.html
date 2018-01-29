@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Define target sequences{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/cvi_busy_lib.js"></script>
+<script src="{{MEDIA_URL}}js/opentip-jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/primers.js"></script>
+<script>
+    var ref = "{{ref}}";
+</script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}css/opentip.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+
+{% if just_saved %}
+    <span class="infobox" id="justsaved">{{ just_saved }}</span>
+    <script>
+    $(function() {
+        setTimeout(function() {
+            $("#justsaved").slideUp('fast');
+        }, 3000);
+    });
+    </script>
+{% endif %}
+
+<article id="riquadro">
+<h3>Target sequence</h3>
+
+<fieldset style="margin: 15px; margin-top: 25px;">
+    <legend>Load single sequence</legend>
+
+    <div style="position: relative; float: left; margin: 25px; width: 30%">
+        <form id="alignfrm" method="GET" action="{% url annotations.views.create_targetseq %}">
+            <input type="hidden" name="ref" value="{{ref}}">
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 20%">Name:</td>
+                    <td style="width: 80%"><input type="text" class="primer" id="tsname" name="tsname" value="" /></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Sequence:</td>
+                    <td style="width: 80%"><textarea class="primer" rows=3 id="sequence" name="sequence" /></textarea></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button class="button" type="button" style="width: 120px" id="align">Find alignment</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <form  id="savefrm" method="POST" action="{% url annotations.views.create_targetseq %}">
+        <div style="position: relative; float: left; margin-top: 25px; margin-left: 50px; height: auto; width: 35%">
+            
+                {% csrf_token %}
+                <input type="hidden" name="ref" value="{{ref}}">
+            
+                <p>
+                    Alignments for sequence:
+                </p>
+                
+                <table id="alignments" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="centered"></th>
+                            <th class="centered">Chr</th>
+                            <th class="centered">Start</th>
+                            <th class="centered">End</th>
+                            <th class="centered">Str</th>
+                            <th class="centered">Gene</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+        </div>
+        <div style="float: left; margin-top: 25px; margin-left: 50px; width: 15%">
+            <button class="button" type="button" style="width: 120px" id="save">Save</button>
+        </div>
+    </form>
+
+</fieldset>
+<fieldset style="margin: 15px; margin-top: 25px">
+    <legend>Load multiple sequences</legend>
+
+    <div style="float: left; clear: left; margin-top: 25px; margin-left: 25px; margin-bottom: 25px; width: 30%">
+
+        <span style="display: inline-block; vertical-align: top; line-height: 26px">
+            Load sequence file for batch alignment&nbsp;&nbsp;<span class="info" id="fileinfo"></span> 
+        </span>
+
+        <form id="batchfrm" enctype="multipart/form-data" method="POST" action="{% url annotations.views.create_targetseq %}">
+            {% csrf_token %}
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 20%">Source file:</td>
+                    <td style="width: 80%">
+                        <input type="file" id="filename" name="seqfile" value="" />
+                        <input type="text" class="primer" style="width: 45%; cursor: pointer" id="filename1" value="" readonly />
+                        <button class="button" type="button" style="width: 20%" id="browse">Browse...</button>
+                        <button class="button" type="button" style="width: 20%" id="batchalign">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</fieldset>
+
+
+</article>
+{% endblock %}

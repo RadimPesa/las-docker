@@ -1,0 +1,71 @@
+input{font-size:1.2em;}
+.t ul {list-style-type: none; float:left; padding:0px;} 
+.t li {padding-right:10px; float:left;}
+.t li>label{font-size: 2em;}
+.t li > label[for="id_tissue_0"] {color:red;}
+.t label[for="id_tissue_1"] {color:olive;}
+.t label[for="id_tissue_2"] {color:yellow;}
+.t label[for="id_tissue_3"] {color:blue;}
+.t label[for="id_tissue_4"] {color:green;}
+.t label[for="id_tissue_5"] {color:orange;}
+.t label[for="id_tissue_6"] {color:purple;}
+.t label[for="id_tissue_7"] {color:#1EFB38;}
+.t label[for="id_tissue_8"] {color:gray;}
+.t label[for="id_tissue_9"] {color:aqua;}
+.t label[for="id_tissue_10"] {color:teal;}
+.t label[for="id_tissue_11"] {color:#8BACD8;}
+.t label[for="id_tissue_12"] {color:#E54E4E;}
+.t label[for="id_tissue_13"] {color:#F0ADAD;}
+.t label[for="id_tissue_14"] {color:#977171;}
+.t label[for="id_tissue_15"] {color:#F30707;}
+.t label[for="id_tissue_16"] {color:#CB0E7F;}
+.t label[for="id_tissue_17"] {color:#5C57EC;}
+.t label[for="id_tissue_18"] {color:#7971EA;}
+.t label[for="id_tissue_19"] {color:#E97D3B;}
+.t label[for="id_tissue_20"] {color:#4DF2A8;}
+.t label[for="id_tissue_21"] {color:#66EE3D;}
+.t label[for="id_tissue_22"] {color:#D9A8EB;}
+.t label[for="id_tissue_23"] {color:#33E7EE;}
+.t label[for="id_tissue_24"] {color:#E2A457;}
+.t label[for="id_tissue_25"] {color:#7CB199;}
+
+fieldset
+{
+	padding-bottom:					20px;
+	padding-top:					10px;
+	padding-left:					12px;
+	margin-bottom:					40px;
+	margin-right:					10px;
+	border-radius: 					5px;
+	-moz-border-radius: 			        5px;
+	-webkit-border-radius: 			        5px;
+}
+
+
+
+table.aliquots_table,
+table.aliquots_added{
+        margin-bottom:                                  1px;
+        text-align:                                     center;
+        font-size:                                      14px !important;
+        width:                                          100%;
+}
+table.aliquots_table th,
+table.aliquots_added th{
+        margin:                                         10px;
+        padding:                                        0.2em 1.5em 1em 1.5em;
+        text-align:                                     center;
+        font-size:                                      12px !important;
+}
+table.aliquots_table td{
+        margin-top:                                     0px;
+        margin-bottom:                                  1px;
+        padding-bottom:                                 0.2em;
+        padding-top:                                    0.2em;
+        padding-left:                                   2em;
+        padding-right:                                  2em;
+        border-bottom:                                  dashed #DCB2B2;
+        border-width:                                   1px;
+        text-align:                                     center;
+        font-size:                                      11px !important;
+}

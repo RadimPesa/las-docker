@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/manageModules.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+	<link rel="stylesheet" href="/lasauth_media/manage/css/tables.css">	
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/selectUsersMail.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="/lasauth_media/js/jquery.dataTables.js"></script>
+	<style type="text/css" title="currentStyle">
+			@import "/lasauth_media/css/demo_table.css";
+	</style>
+	<script>
+		lasauthmedia="/lasauth_media/";
+		{% for mod in modules%}
+			addModule({{mod.id}},'{{mod.name}}');
+			{% for u in mod.lasuser_set.all %}
+				{% if u.email %}
+					addUserToModule({{mod.id}},'{{u.username}}','{{u.email}}')
+				{%endif%}
+			{%endfor%}
+		{%endfor%}
+
+	</script>
+</head>
+<body onload="setLoginFocus()">
+	<header>
+		<hgroup>
+			<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+			<h2> Central Authentication Service for LAS modules </h2> 
+		</hgroup>
+	</header>
+	<section id="content">
+		<script>$("section#content").addClass("home");</script>
+		<script> 
+			
+		</script>
+		<p id="user_name">
+			<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+		</p>
+		<div id="wrap" style="width: auto;position: relative;">
+			<div style="padding-left:50px; float: left; width:30%;">    
+		    	<h1 class="title">Select Modules</h1>
+				<table class="table-user" id="modulesTable">
+					<thead>
+						<tr><th>Modules</th></tr>
+					</thead>
+					<tr><td><input type="checkbox" name="all" id="all" value="all"/>ALL</td></tr>
+			    	{% for m in modules %}
+			    		<tr><td><input type="checkbox" name="modules" class="modules" value="{{ m.id }}"/>{{m.name}}</td></tr>
+					{%endfor%}
+				</table>
+			</div>
+			<div style="float: left; padding-top:20%; padding-left:15%; width: auto; position: relative;">
+				<a href="javascript:moveUsers();" id="move_users" style="font-color:black; font-size:1.2em;">ADD &raquo;</a> 
+				</br></br> 
+				<a href="javascript:reset();" id="reset_users" style="font-color:black; font-size:1.2em;">&laquo;RESET </a>
+				
+			</div>
+			<div style="float: right; width: 30%">  
+				<h1 class="title">Select Users</h1>
+				<table class="table-user" id="usersTable">
+					<thead>
+						<tr><th>Users</th><th>To</th><th>CC</th><th>BCC</th><th>Don't send</th></tr>
+					</thead>
+				</table>
+				</br>
+				<input type="submit" id ="submit" style="display: none;" onClick="send('{% url loginmanager.views.sendMail %}')" value="NEXT">
+			</div>
+		</div>
+	</section>
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>	
+</body>
+
+</html>

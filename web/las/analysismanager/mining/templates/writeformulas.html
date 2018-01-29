@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Analysis Management Module - Home{% endblock %}
+
+
+{% block content %}
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/formulaeditor/org/mathdox/formulaeditor/main.js"></script>
+<script src="{{MEDIA_URL}}js/writeformulas.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+
+
+
+
+
+<div style="width:100%">
+	<div style="width:90%;float:left">
+
+		<textarea class='mathdoxformula'></textarea>
+		<input id="get_formula" type="button" value='Get formula'/>
+
+	</div>
+
+
+	<div style="width:10%;float:right">
+	<a href="{% url mining.views.home %}">
+    <button id='homebut' class='button'><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+    </a>
+	</div>
+
+
+</div>
+
+
+{% endblock %}

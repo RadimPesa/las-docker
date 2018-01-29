@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Move aliquots to storage{% endblock %}
+
+{% block script %}
+
+<!--  <script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui-1.8.15.custom.min.js"></script>-->
+
+<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/redips-drag-min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/store.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/merge.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery-ui.css" type="text/css" />
+
+<style type="text/css">
+	select{ display:block; position:relative;font-size: 2em;}
+	label {font-size:1.4em;}  
+	#drag button {width:35px; height:35px; font-size: 20px; 
+			background-color:rgb(249,248,242); -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;}
+	td {border-width:0px;border-right:4px; padding:3px;}
+	th {font-size: 1.5em;}
+	input{ position:relative;font-size: 1.5em;}
+	table th{line-height: 25px;}
+	ul{list-style-type: none;}
+	#listapias1 th,#listapias2 th {font-size:1.3em; padding:6px;}
+	#listapias1 td,#listapias2 td {font-size:1.3em; padding:6px;}
+	#listapias1 td:hover,#listapias2 td:hover {border-color:black;#235032;border-style:solid;border-width:1px;background-color:silver;#99E5A6;cursor:pointer;}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% if not fine %}
+	{% if not fase2 %}
+		<h1 align="center" style="font-size: 1.7em;">Archive newly generated aliquots</h1>
+		<br><br>
+		<div align="center">
+			<div id=inizio style="width:45%;" class="ui-widget-content">
+				<table align="center" id="iniziale">
+				<tr>
+					<td>
+						<form action={% url archive.views.storeAliquots %} method="post">{% csrf_token %}
+								{{ form.as_p }}
+								<br>
+							<input type="submit" class="button" value="Submit" />
+						</form>
+					</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+	{% else %}
+		<input type="hidden" id="tipo" value={{tipo}} />
+		{% if v %}
+			<h1 id="cont_h1"  align="center" style="font-size: 1.7em;">Archive content</h1>
+		{% else %}
+			<h1 id="cont_h1"  align="center" style="font-size: 1.7em;">Archive container</h1>
+		{% endif %}	
+		<div id="drag" style="float:left;width:100%;">
+			<div id="vit" style="float:left;">
+				<table border='2px' style="float:left;" id="operativa">
+					<th>
+						WORKING PLATE
+					</th>
+					<tr>
+					<td id="plate_operative" class="intest">
+						<!-- se si stanno salvando aliquote in rna later o snap frozen -->
+						{% if rs %}
+							{{ a.table_rna|safe }}
+						{% endif %}
+						<!-- se si stanno salvando aliquote in vitale -->
+						{% if v %}					
+							{{ a.table_vital|safe }}						
+						{% endif %}
+					</td>
+					</tr>
+					<tr>
+					<td class="intest" style="text-align: left;">
+						<div style=padding:5px;padding-top:0px;float:left;>
+							<label for="barcode_operative">Plate Barcode:</label>
+							<input id="barcode_operative" type="text" maxlength="45" name="barcode_op" >
+				
+						</div>
+						<div style=padding-top:1px;float:left;>
+						<br>
+							<input type="submit" value="LoadPlate" class="button" id="load_operative_plate" style="display:inline;"/>
+						</div>
+					</td>
+					</tr>
+				</table>
+				
+				{% if v %}
+					<br style="clear:left;"/>
+					<br>
+					<table border='2px' style="float:left;margin-left:10em;margin-top:6px;display:none;" id="listapias1">
+						<th style="font-size:1.3em; padding:6px;border-color: black;">
+							Plate list
+						</th>
+					</table>
+				{% endif %}
+			</div>
+			<div id="p_stored" style="float:right;">
+				<table border='2px' style="float:right;" id="freezer">
+					<th class="mark">
+					{% if v %}
+						TRANSITORY PLATE
+					{% else %}
+						ARCHIVE PLATE
+					{% endif %}
+					</th>
+					<tr>
+					<td id='plate_stored' class="intest">
+						{{ a.table_sf|safe }}
+					</td>
+					</tr>
+					<tr>
+					<td class="intest" style="text-align: left;">
+					<div style=padding:5px;padding-top:0px;float:left;>
+						<label for="barcode_freezer">Plate Barcode:</label>
+						<input id="barcode_freezer" type="text" maxlength="45" name="barcode_fr" >
+					</div>
+					<div style=padding-top:1px;float:left; id="barc">
+						<br>
+						<input type="submit" value="LoadPlate" class="button" id="load_freezer_plate" style="display:inline;"/>
+					</div>
+					<div align="right" style=padding:1px;float:right;>
+						<br>
+						 <form action={% url archive.views.saveStoreAliquots %} method="post" id="form_conferma">{% csrf_token %}
+						 	<input type="hidden" name="c" value="00" id="cancellavitale"/>
+							<input type="hidden" id="tipospostamento" value={{tipo}} name="tipospost" />
+							<input type="submit" value="Confirm" class="button" name="salva" id="p_confirm" />
+						</form> 
+					</div>
+					</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="dialog-confirm" style="display:none" title="Empty plate">
+			<p>Viable plate still contains some aliquots. Do you want to empty it?</p>
+		</div>
+		<div id="dialog-last" style="display:none" title="Warning">
+			<p>You are going to empty the plate, are you sure you want to proceed?</p>
+		</div>
+		{% if rs %}
+			<br style="clear:both;"/>
+			<br>
+			<div  style=padding-top:6px;float:left;>
+				<input type="submit" class="button" value="Execute Batch" id="esegui_batch" />
+			</div>
+			<table border='2px' style="float:left;margin-left:10em;margin-top:6px;display:none;" id="listapias1">
+				<th>
+					Plate list
+				</th>
+			</table>
+			
+		{% endif %}
+		<table border='2px' style="float:right;margin-right:17em;margin-top:6px;display:none;" id="listapias2">
+			<th>
+				Plate list
+			</th>
+		</table>
+		<br style="clear:left;"/>
+		<section class="canc">
+		<br>
+		</section>
+	{% endif %}
+{% else %}
+	<h1 id="cont_h1"  align="center" style="font-size: 1.7em;">Store executed. All data have been saved</h1>
+{% endif %}
+{% endblock %}

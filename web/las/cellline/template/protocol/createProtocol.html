@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Protocol Creation{% endblock %}
+{% block script %} 
+	<script type="text/javascript" src="/cell_media/js/createCC.js"></script>
+	<!--link rel="stylesheet" href="/cell_media/css/protocol.css" /-->
+{% endblock %}
+
+{% block content %}
+    {% if start %}
+        <fieldset >
+	    <legend>New Protocol for Culturing Conditions</legend>
+	    <form id="div_form_id" method="post" action="{% url cellLine.protocol.generation_page_prot_change_cc %}" enctype="multipart/form-data" >{% csrf_token %}
+            <table>
+                {{ form }}
+            </table>
+            <div style='text-align:center'>
+            <input type="submit" id="submit" name="submit" value="Confirm"  style='text-align:center'/>
+            </div>
+	    </form>
+        </fieldset>
+    {% endif %}
+    {% if selectComponent %}
+    <section>
+        <article id='riquadro'>
+        <h3>Choose Culturing Conditions</h3>
+        </article>
+        <div id="drag_no" style="float:left;width:65%;margin-top:2em;">
+            <div style="float:left;width:40%;">
+                <fieldset>
+                    <legend>Type of Culturing Conditions</legend>
+                <!--table style="float:left;text-align:center;">
+	                <tr>
+	                <td class="mark"-->
+                    <div style='text-align:center'>
+    	                <table id="cult_cond_cat" style='margin-left: auto;margin-right: auto'>
+    	                <tbody>
+                        {% for t in type_el %}
+                        <tr><td class="mark" onclick ='loadInfo("{{t.name}}");'></br><div class="drag_no" align="center">{{t.name}}</div></td></tr>
+                        {% endfor %}
+    	                </tbody>
+    	                </table>
+                    </div>									
+	                <!--/td>
+	                </tr>
+                </table-->
+                </fieldset>
+            </div>
+            <div id="central_div" style="visibility:hidden;float:left;width:30%;padding-left:2em;">
+                <fieldset>
+                    <legend>Features</legend>
+                <table id="center_table" class='dataTable' style="float:center;width:80%"  border="1px">
+	                <tbody>
+	                </tbody>
+                </table>
+                </fieldset>
+            </div>
+        </div>
+            
+            
+            
+        <div id="selectedList" style="display:none;text-align:center;margin-top: 2em;" id="drag">
+            <fieldset>
+            <legend>List of Culturing Conditions</legend>
+            <table id="selectedTable" class='dataTable' style="text-align:center;" >
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <input type="button" value="Save Protocol" style="float:center;text-align:center;margin-top: 1em;" onclick="saveProtocol();"/>
+            </fieldset>
+        </div>
+        
+        
+        <div id="dialog" class="dialog confirm" title="Feature List" style="display:none;position: relative;" align='center'>
+            <p>Insert values for the needed features.</p>
+            <table id="fList">
+            </table>
+        </div>
+        
+        </section>
+        
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Derive Aliquots - Step 1{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/derive_execute.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+
+{% endblock %}
+
+{% block content %}
+	<!-- se c'e' stato qualche problema. Ad es barcode provetta inesistente -->
+	{% if errore %}
+	<h3>Error: barcode doesn't exist</h3>
+	{% endif %}
+	{% if errore2 %}
+	<h3>Error: you have to select derivation with same derivative</h3>
+	{% endif %}
+	{% if errore3 %}
+	<h3>Problems while interacting with storage</h3>
+	{% endif %}
+	<style type="text/css">
+		#aliq_originali td,#aliq_definitive td{font-size: 1.1em;padding:6px;}
+		#aliq_originali th,#aliq_definitive th{font-size: 1.1em;padding:7px;padding-right: 16px;}
+		#aliq_originali,#aliq_definitive {margin-bottom:4px;margin-top: 4px;}
+		#aliq_originali_paginate a,#aliq_definitive_paginate a {padding-top:4px;}
+		#aliq_originali_length,#aliq_definitive_length {margin-top: 8px;}
+	</style>
+	
+	<form id="form_conf" action={% url tissue.derived.ExecEffectiveDerivedAliquots %} method="post">{% csrf_token %}
+		<input id="conf_all" type="submit" style="float:right;margin:1em;" value="Next step" class="button" title="Click to confirm and pass to the next view"/>
+		<input id="id_robot" type="hidden" name="robot" value="{{robot}}">
+	</form>
+	
+	<br style="clear:both;">
+	<fieldset>
+		<h2 align="center" style="font-size:1.3em;">Retrieve aliquots</h2>
+		<section class="superiore">
+			<table border='2px' style="border-color: black;float:left;" id="aliq_originali">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Protocol</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Pos.</th>
+					<th>Plate</th>
+					<th>Tube Pos.</th>
+					<th>Barcode</th>
+					<th>Notes</th>
+					<th>Available</th>
+				</thead>
+				<tbody>
+				{% if lista %}
+					{% for aliquota in lista %}
+						<tr align="center">
+							<td>{{forloop.counter}}</td>
+							<td>{{aliquota.idAliquot.uniqueGenealogyID}}</td>
+							<td>{{aliquota.idDerivationProtocol.name}}<input id="abbrev_{{forloop.counter0}}" type="hidden" value={{aliquota.idDerivedAliquotType.abbreviation}} /></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>						
+							<td></td>
+							<td>{{aliquota.notes}}</td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+				</tbody>
+			</table>
+		</section>
+	</fieldset>
+	<br style="clear:both;">
+	<div id=inizio style="float:left;border:0px;padding-left:0px;" >	
+		<label for="id_barcode" style="font-size:1.4em;">Barcode:</label>
+		<input id="id_barcode" type="text" name="tube" maxlength="50" autocomplete="off">
+	</div>
+						
+	<input id="conf" type="submit" style="margin-left:1.5em;margin-top:1.2em;float:left;" value="Validate Barcode" class="button" title="Click to add aliquot to the aliquots to derive now" />
+	<h2 id="contatore" style="float:left;margin-left:10em;font-size:1.3em;">
+	</h2>
+	
+	<br style="clear:both;">
+	<br>
+
+	<div id="inferio" class="inferiore" style="display:none;">
+		<fieldset>
+			<h2 align="center" style="font-size:1.3em;">Validated aliquots</h2>
+			<table border='2px' style="border-color: black;float:left;" id="aliq_definitive">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Protocol</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Pos.</th>
+					<th>Plate</th>
+					<th>Tube Pos.</th>
+					<th>Barcode</th>
+					<th>Notes</th>
+				</thead>
+				<tbody align="center">				
+				</tbody>
+			</table>
+		</fieldset>
+	</div>
+
+{% endblock %}

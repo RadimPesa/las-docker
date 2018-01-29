@@ -1,0 +1,11 @@
+--- /home/administrator/.virtualenvs/venvdj1.4/local/lib/python2.7/site-packages/hgvs/utils/altseqbuilder.py	2016-03-14 16:31:38.480000000 +0100
++++ ./altseqbuilder.py	2016-03-14 16:38:34.668000000 +0100
+@@ -197,7 +197,7 @@
+         is_substitution = False
+         if ref is not None and alt is not None:     # delins or SNP
+             seq[start:end] = list(alt)
+-            if len(ref) == 1 and len(alt) == 1:
++            if len(ref) == 1 and len(alt) == 1 and not ref.isdigit():
+                 is_substitution = True
+         elif ref is not None:                       # deletion
+             del seq[start:end]

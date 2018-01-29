@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load getattr %}
+{% load replace %}
+{% load jsonify %}
+{% block title %}Review analysis{% endblock %}
+{% block content %}
+
+<meta charset="utf-8">
+    
+<script src="/rtpcr_media/js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="/rtpcr_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/rtpcr_media/js/review_analysis.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/node_modules/mathjs/dist/math.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}lib/mathscribe/jqmath-etc-0.4.2.min.js"></script>
+
+<link rel="stylesheet" href="/rtpcr_media/css/jquery.dataTables.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}lib/mathscribe/jqmath-0.4.0.css" />
+
+<script>
+var varmap = {};
+var cnt = 0;
+{% for x in aggregation_criteria.keys %}
+varmap["{{ x }}"] = "var" + cnt++;
+{% endfor %}
+</script>
+
+<style>
+
+label.fields {display: inline-block; width: 80px; margin-right: 10px; margin-bottom: 16px;}
+
+fmath{
+        font-family: STIXGeneral, 'DejaVu Serif', 'DejaVu Sans', /* Cambria, 'Cambria Math', */ Times, 'Lucida Sans Unicode', OpenSymbol, 'Standard Symbols L', serif;
+        font-style: italic;
+        font-size: 1.4em;
+    }
+label.indent { margin-left: 50px; }
+
+.var0 {
+    background-color: #5bc0eb;
+}
+.var1 {
+    background-color: #fde74c;
+}
+.var2 {
+    background-color: #9bc53d;
+}
+.var3 {
+    background-color: #e55934;
+}
+.var4 {
+    background-color: #fa7921;
+}
+
+</style>
+
+<h3>Analysis review</span></h3>
+
+<article style="width:inherit; overflow:auto">
+
+    <div id="main_tabs" style="min-height: 500px; width: 900px">
+
+        <ul>
+            <li><a href="#description">Description</a></li>
+            <li><a href="#inputs">Dataset and results</a></li>
+        </ul>
+
+        <div id="description">
+            <div style="background-color: #ffffff; border: 1px solid #99C199">
+                <br>
+                <label class="fields indent">Title:</label>
+                <b>{{ analysis.id_experiment.title }}</b>
+                <br>
+                <label class="fields indent">Description:</label>
+                <b>{{ analysis.id_experiment.description|default:"" }}</b>
+                <br>
+                <label class="fields indent">Timestamp:</label>
+                <b>{{ analysis.time_executed|date:"Y-m-d H:i:s" }}</b>
+                <br>
+            </div>
+            <br>
+            <fieldset>
+                <legend><b>Formula</b></legend>
+                <br>
+                <label class="fields">Description:</label>
+                <b>{{ formula.description }}</b>
+                <br>
+                <label class="fields">Expression:</label>
+                <b>${{ formula.name }} = {{ formula.expression }}$</b>
+                <br>
+                <label class="fields">Test variable:</label>
+                <b>{{ formula.variables|getattr:"output"|join:", " }}</b>
+                <br>
+                <label class="fields">Output type:</label>
+                <b>{{ formula.valueType }}</b>
+                <br>
+                <label class="fields">Analysis type:</label>
+                <b>{{ analysis.analysisType_id.name }}</b>
+                <br>
+            </fieldset>
+            
+            <br><br>
+            
+            <fieldset>
+                <legend><b>Probe-variable associations</b></legend>
+                <br>
+                <table border=1px id="probes_table">
+                    <thead>
+                        <Tr>
+                        <th style="text-align:center;">Probe name</th>
+                        <th style="text-align:center;">Gene symbol</th>
+                        <th style="text-align:center;">Variable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for uuid,t in targets.iteritems %}
+                        <tr probe_uuid={{ uuid }}>
+                            <td>{{ t.name }}</td>
+                            <td>{{ t.gene_symbol|join:", "}}</td>
+                            <td>{{ t.var }}</td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <br>&nbsp;
+            </fieldset>
+
+            <br><br>
+            
+            <fieldset>
+                <legend><b>Probe aggregation</b></legend>
+                <br>
+                <table border=1px id="aggreg_table">
+                    <thead>
+                        <Tr>
+                        <th style="text-align:center;">Variable</th>
+                        <th style="text-align:center;">Mode</th>
+                        <th style="text-align:center;">Intra-probe function</th>
+                        <th style="text-align:center;">Inter-probe function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for v,info in aggregation_criteria.items %}
+                        <tr variable_name="{{ v }}">
+                            <td>{{ v }}</td>
+                            <td>{% if info.use %}{{ remap_aggregation_labels|getattr:info.mode }}{% else %}None{% endif %}</td>
+                            <td>{% if info.use %}{{ info.functIntra|replace:"(x)," }}{% endif %}</td>
+                            <td>{% if info.use and info.mode == "all" %}{{ info.functInter|replace:"(x)," }}{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <br>&nbsp;
+            </fieldset>
+
+        </div>
+        
+        <div id="inputs">
+            <fieldset>
+                <legend><b>Results</b></legend>
+
+                <table border=1px id="outputs_table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;">Sample ID</th>
+                            <th style="text-align:center;">Test probe</th>
+                            <th style="text-align:center;">Ref. probes</th>
+                            <th style="text-align:center;">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for o in outputs %}
+                        <tr output_id="{{ o.id }}" input_genid="{{ o.getSampleGenid }}" variables="{{ o.variables|jsonify }}">
+                            <td>{{ o.getSampleGenid }}</td>
+                            <td>{{ targets|getattr:o.test_probe|getattr:"name" }}</td>
+                            <td>{% for rp in o.ref_probes %}{{ targets|getattr:rp|getattr:"name" }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                            <td>{{ o.value }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+            <br><br>
+            <fieldset>
+                <legend><b>Dataset</b></legend>
+
+
+                <table border=1px id="inputs_table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;">Sample ID</th>
+                            {% for p_uuid in sorted_targets %}
+                            <th style="text-align:center;"><span variable_name='{{ targets|getattr:p_uuid|getattr:"var" }}' style="display: block; color: #000000">{{ targets|getattr:p_uuid|getattr:"var" }}</span>{{ targets|getattr:p_uuid|getattr:"name" }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for genid,values in inputs.items %}
+                        <tr input_id="{{ genid }}">
+                            <td>{{ genid }}</td>
+                            {% for p_uuid in sorted_targets %}
+                            <td>
+                                {% for s in values|getattr:p_uuid %}
+                                <div id="sample_{{ s.id }}">{{ s.value }}</div>
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+            
+        </div>
+
+    </div>
+
+</article>
+
+
+{% endblock %}

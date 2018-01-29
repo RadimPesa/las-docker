@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/updatePredefList_report.css">
+{% endblock %}
+{% block title %}Multidimensional Data Manager - Table browser{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/updatePredefList_report.js"></script> 
+{% endblock %}
+
+{% block content %}
+
+<section id="riquadroapi">
+    <h3>Predefined lists update report</h3>
+    <table id="details" style="margin-left: 25px; width: 50%">
+        <thead>
+            <th width="20%">Attribute name</th>
+            <th width="20%">Entity (filter)</th>
+            <th width="20%">Entity (output)</th>
+            <th width="40%">Predefined list status</th>
+        </thead>
+        <tbody>
+            {% for a in attrs %}
+            <tr>
+                <td><h4><span style="color: #003366; font-weight: bold">{{ a.attribute.name }}</span></h4></td>
+                <td>{% for x in a.flt_for_entity %}<b>{{ x }}</b><br>{% endfor %}</td>
+                <td>{% for x in a.out_for_entity %}<b>{{ x }}</b><br>{% endfor %}</td>
+                <td>{% if a.newValues|length > 0 %}<b>New values:</b><br>
+                    <table class="values">
+                        <tbody>
+                            {% for v in a.newValues %}
+                            <tr>
+                                <td class="first">{{ v.value }}</td>
+                                <td class="second"><input class="val" id="val{{ v.id }}" value="{{ v.valueForDisplay }}" readonly /></td>
+                                <td class="third"><span class="edit" data-vid="{{ v.id }}"></span></td>
+                                <td class="fourth"><span class="exclude" data-vid="{{ v.id }}"></span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>{% else %}<b>Up to date</b>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <button class="btn" id="finish" style="width: 120px">Finish</button><br>
+    <form id="finishform" method="post" action="{% url _caQuery.views.updateAllPredefinedLists %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="finish" />
+        <input type="hidden" name="exclude" value="" />
+    </form>
+</section>
+
+
+{% endblock %}

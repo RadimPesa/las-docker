@@ -1,0 +1,134 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Derive aliquots - Step 1{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/choose.js"></script>
+
+	<style type="text/css">
+		#inizio select,#inizio input { display:block; position:relative;}
+		#inizio {padding-right:1em;}
+		ul{list-style-type: none;}
+		//td{padding:6px;line-height: 16px;vertical-align: middle;}
+		//th{padding:6px;}
+		#aliq{margin-bottom:4px;margin-top: 4px;}
+		#aliq_paginate a{padding-top:4px;}
+		#aliq_length {margin-top: 15px;}
+		//#aliq_length select {font-size: 1.5em;}
+	</style>
+	
+{% endblock %}
+
+{% block content %}
+
+{% if not fine %}
+	<form action={% url tissue.derived.ExecDerivedAliquots %} method="post">{% csrf_token %}
+		<input id="id_robot" type="hidden" name="robot" value="{{robot}}">
+		<input id="num_aliq" type="hidden" name="num_aliq">
+		<input id="cancella" type="hidden" name="elimina">
+		<div id=inizio style="float:left;">		
+			<table id="tab_valori" >
+				<tr>
+					<td>
+						<label for="id_protocol">Protocol:</label>
+						<select id="id_protocol" name="prot">
+						<option >---------</option>
+						{% if lista %}
+							{% for protocollo in lista %}
+								<option value={{protocollo.id}} >{{protocollo.name}}</option>
+								{{forloop.counter}}
+							{% endfor %}
+						{% endif %}
+						</select>
+					</td>
+					<td>
+						<label for="id_kit">Kit Type:</label>
+						<input id="id_kit" type="text" size="30" readonly="readonly" name="kit">
+					</td>
+				</tr>		
+			</table>	
+		</div>
+		<div id="temp">
+		</div>
+		<div id="select" style="display:none;">
+		</div>
+		<br style="clear:both;">
+		<br>
+		<br>
+		<table id="aliq" border='2px'>
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Freezer</th>
+				<th>Rack</th>
+				<th>Plate Pos.</th>
+				<th>Plate</th>
+				<th>Tube Pos.</th>
+				<th>Barcode</th>
+				<th>Assigner</th>
+				<th>Assignment Date</th>
+				<th>Derivative</th>
+				<th>Notes</th>
+				<th>Select</th>
+				<th>Abort</th>
+			</thead>
+			<tbody>
+			{% if listaliq %}
+				{% for aliquota,barc,pos in listaliq %}
+					<tr align="center" id="tr_{{forloop.counter0}}">
+						<td>{{forloop.counter}}</td>
+						<td><input id="gen_{{forloop.counter0}}" readonly="readonly" type="hidden" name="gen_{{forloop.counter0}}" value={{aliquota.idAliquot.uniqueGenealogyID}} size=33 style="font-size:1.15em;" />{{aliquota.idAliquot.uniqueGenealogyID}}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{{barc}}</td>
+						<td>
+						<input id="abbrev_{{forloop.counter0}}" type="hidden" value={{aliquota.idAliquot.idAliquotType.abbreviation}} />
+						{{aliquota.idDerivationSchedule.operator}}</td>
+						<td>{{aliquota.idDerivationSchedule.scheduleDate|date:"Y-m-d"}}</td>
+						<td>{{aliquota.idDerivedAliquotType.longName}}</td>
+						<td>{{aliquota.notes}}</td>
+						<td><input  id="select_{{forloop.counter0}}" type="checkbox" name="sele_{{forloop.counter0}}" size=5 /></td>
+						<td><input  id="cancel_{{forloop.counter0}}" type="checkbox" name="canc_{{forloop.counter0}}" size=5 /></td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+			</tbody>
+		</table>
+		<br>
+		<br>
+		<input style="float:left;" type="submit" value="Confirm" id="conferma" class="button"/>
+		<!-- <input id="deseltutte" type="button" class="button" value="Deselect all" style="display: inline;float:right;">  -->
+		<input id="seltutte" type="button" class="button" value="Select all" style="display: inline;float:right;">
+	</form>
+{% else %}
+	<style type="text/css">
+		td{border-width:1px;}
+	</style>
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	<h2>These schedules have been deleted:</h2>
+	<table border='2px' id="finale">
+		<thead>
+			<th >N</th>
+			<th>Genealogy ID</th>
+			<th>Barcode</th>
+			<th>Position</th>
+			<th>Assigner</th>
+			<th>Assignment Date</th>
+			<th>Derivative</th>
+		</thead>
+		<tbody align="center">
+			{% for i in lista_der %}
+	           	{{  i|safe  }}
+            {% endfor %}
+        </tbody>	           
+	</table>
+{% endif %}
+{% endblock %}

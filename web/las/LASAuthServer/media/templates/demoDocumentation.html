@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+
+
+<style type="text/css">
+a.doclist{
+	color: #333333 !important;
+}
+
+a.doclist:hover
+{
+	color: #606060 !important;
+}
+</style>
+
+<div id='document_list' style="float:left; width:100%;">
+        <fieldset style='width:60%'>
+            <legend>Document List</legend>
+                <h3>Biobank & Repository</h3>
+                    <ul>
+                        <li><a class='doclist' href='{{MEDIA_URL}}docs/biobank_storageDataDemo.pdf'>Available data in demo</a></li>
+                        <li><a class='doclist' href='{{MEDIA_URL}}docs/NU00120338.csv'>Example of plate structure</a></li>
+                    </ul>
+                <h3>Xenografts</h3>
+            		<ul>
+            		   <li><a class='doclist' href='{{MEDIA_URL}}docs/xenoDataDemo.pdf'>Available data in demo</a></li>
+            		</ul>
+        		<h3>MicroArray</h3>
+                    <ul>
+                       <li><a class='doclist' href='{{MEDIA_URL}}docs/dataDemouarray.pdf'>Available data in MicroArray</a></li>
+                    </ul>
+        </fieldset>
+    </div>
+
+
+{% endblock %}
+

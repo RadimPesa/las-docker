@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="charset=ISO-8859-1"> 
+    <title>Redirecting to authentication server...</title>
+    <script>
+    function f() {
+        document.loginForm.submit();
+        setTimeout('showHidden()', 2000);
+    }
+    
+    function showHidden() {
+        document.getElementById('msg').style.visibility = "visible";
+        document.getElementById('btn').style.visibility = "visible";
+    }
+    </script>
+</head>
+<body style="background-color: #E8E8E8; font-family: 'Lucida Grande', 'DejaVu Sans', 'Bitstream Vera Sans', 'Verdana', 'Arial', 'sans-serif'; color: #333" onload="f()">
+    <h1 style="font-size: 25px">Loading, please wait...</h1>
+    <form name="loginForm" action="{{ dest }}" method="POST">
+        <input type="hidden" name="return_to" value="{{ return_to }}" />
+        <input type="hidden" name="session_key" value="{{ session_key }}" />
+        <input type="hidden" name="appid" value="{{ appid }}" />
+        <input type="hidden" name="hmac" value="{{ hmac }}" />
+        <p id="msg" style="visibility: hidden">If your browser is not automatically redirected to the login page, please click the button below.</p>
+        <input id="btn" style="visibility: hidden" type="submit" value="Go to login page" />
+    </form>
+</html>

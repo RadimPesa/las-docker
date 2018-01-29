@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	{% if not ricevuto %}
+	    <h3 >Samples transferring</h3>
+	    <fieldset style="width:40%;">
+	    	<table style="border-collapse:collapse;">
+		    	<tr>
+		    		<td>
+		    			<b>Sent to:</b> 
+		    		</td>
+		    		<td>
+		    			{{addr}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Shipment date:</b> 
+		    		</td>
+		    		<td>
+		    			{{data|date:"jS F Y"}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Courier:</b> 
+		    		</td>
+		    		<td>
+		    			{{corr}}
+		    		</td>
+		    	</tr>
+		    	{% if track != "" %}
+			    	<tr>
+			    		<td>
+			    			<b>Tracking N°:</b> 
+			    		</td>
+			    		<td>
+			    			{{track}}
+			    		</td>
+			    	</tr>
+		    	{% endif %}	
+		    </table>
+	    </fieldset>
+	    <h3>These aliquots have been sent:</h3>
+	    <table border='2px' style="border-collapse:collapse;">
+		  	{{  intest|safe  }}
+	  	
+	  		{% for i in aliq %}
+	           	{{  i|safe  }}
+	        {% endfor %}
+   		 </table>
+	{% else %}
+		<h3 >Samples transferring</h3>
+	    <fieldset style="width:40%;">
+	    	<table style="border-collapse:collapse;">
+	    		<tr>
+		    		<td>
+		    			<b>Received by:</b> 
+		    		</td>
+		    		<td>
+		    			{{trasf.addressTo}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Receiving date:</b> 
+		    		</td>
+		    		<td>
+		    			{{trasf.deliveryDate|date:"jS F Y"}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Courier:</b> 
+		    		</td>
+		    		<td>
+		    			{{trasf.idCourier}}
+		    		</td>
+		    	</tr>
+		    	{% if trasf.trackingNumber != "" %}
+			    	<tr>
+			    		<td>
+			    			<b>Tracking N°:</b> 
+			    		</td>
+			    		<td>
+			    			{{trasf.trackingNumber}}
+			    		</td>
+			    	</tr>
+		    	{% endif %}	
+		    </table>
+		</fieldset>
+		{% if aliq1|length > 0 %}
+			<h3>These aliquots have been received:</h3>
+			<table border='2px' style="border-collapse:collapse;">
+			    {{  intest1|safe  }}
+		  	
+		  		{% for i in aliq1 %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </table>
+	    {% endif %}
+	    
+	    {% if aliq2|length > 0 %}
+	    	<h3>These aliquots have not been received:</h3>
+			<table border='2px' style="border-collapse:collapse;">
+			    {{  intest2|safe  }}
+		  	
+		  		{% for i in aliq2 %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </table>
+		    <h3>Please execute a new transfer procedure to send right samples</h3>
+	    {% endif %}
+	{% endif %}
+    
+</section>
+</body>
+</html>

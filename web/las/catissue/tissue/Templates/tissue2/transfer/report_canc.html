@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	<h3 style="color: black;">This transfer has been deleted</h3>
+    <table border='2px black' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+	<tr>
+		<td><b>Assigned to:</b></td>
+		<td> {{esec}} </td>
+	</tr>
+	<tr>
+		<td><b>Shipment date:</b></td>
+		<td> {{data|date:"jS F Y"}} </td>
+	</tr>
+	<tr>
+		<td><b>Address to:</b></td>
+		<td> {{addr}} </td>
+	</tr>
+
+	</table>
+	<h3>Aliquots:</h3>
+	<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+		<th style="padding:4px;">N</th>
+		<th style="padding:4px;">Genealogy ID</th>
+		<th style="padding:4px;">Barcode</th>
+		<th style="padding:4px;">Position</th>
+		<th style="padding:4px;">Assignment date</th>
+		{% for alexp in listafin %}
+			<tr>
+				<td style="padding:5px;">{{forloop.counter}}</td>
+				<td style="padding:5px;">{{alexp.gen}}</td>
+				<td style="padding:5px;">{{alexp.barc}}</td>
+				<td style="padding:5px;">{{alexp.pos}}</td>
+				<td style="padding:5px;">{{alexp.dat|date:"jS F Y"}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</section>
+</body>
+</html>

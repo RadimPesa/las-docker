@@ -1,0 +1,13 @@
+/*#vital td {width: 3em; height:3em;font-size: 130%;} */
+#vital td {font-size: 130%;} 
+
+#vital button[status='0'] {background-color:#A8B7C6;}
+#vital button[status='1'] {background-color:lightgray; }
+#vital button[status='2'] {background-color:LightSteelBlue;}
+#vital button[status='3'] {background-color:LemonChiffon;}
+
+
+.defCursor     {cursor:default;}
+
+
+.groups {cursor:pointer;border:4px outset lightgrey;background-color:silver;color:black;}

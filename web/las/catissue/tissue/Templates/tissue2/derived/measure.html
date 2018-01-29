@@ -1,0 +1,83 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Aliquot Measures{% endblock %}
+{% block script %}
+	<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/derive_measure.js"></script>
+	
+	<style type="text/css">
+		select, input { display:block; position:relative;}				  
+		ul{list-style-type: none;}
+		h2{font-size:1.3em;}
+	</style>
+
+{% endblock %}
+{% block content %}
+	{% if not errore%}
+		<div id=inizio style="width:50%;margin:0 auto;">
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url tissue.derived.DerivedAliquotsMeasureSave %} method="post">{% csrf_token %}
+							<section class="f">
+							<input type="hidden" id="genealogy" value={{gen}} name="geneal" />
+							<input type="hidden" id="aldersched" value={{idalder}} name="idaldersched" />
+							{% if rev == "True" %}
+								<input type="hidden" id="riv" value="true" name="riv" />
+							{% endif %}
+							{% if all %}
+								<input type="hidden" id="tutti" value="true" name="tutti" />
+							{% endif %}
+								<p>
+									<label for="id_prot">Choose the protocol to follow to measure the aliquot:</label>
+									<select id="id_prot" name="Prot_Type">
+									{% if lista %}
+										{% for protocollo in lista %}
+											<option value={{protocollo.id}} >{{protocollo.name}}</option>
+											{{forloop.counter}}
+										{% endfor %}
+									{% endif %}
+									</select>
+								</p>
+								
+							</section>
+							<input type="submit" value="Confirm" class="button" id="conferma1"/>
+						</form>
+						<!-- permetto l'inserimento del file con le misure solo nelle derivazioni
+						perche' nelle rivalutazioni dovrei far scegliere all'utente anche la concentrazione
+						definitiva da salvare per il campione e con l'inserimento da file non si puo' -->
+						{% if all and rev == "False" %}
+						<br>
+						<br>
+						<form id="form_gen" action={% url tissue.derived.DerivedAliquotsInsertMeasureFile %} enctype="multipart/form-data" method="post">{% csrf_token %}
+							<p>
+								<div style="float:left;">
+									<label for="id_file">Aliquots file (optional):</label>
+									<input id="id_file" type="file" name="file">								
+									<input id="aggiungi_file" style="margin-top:0.7em;" class="button" type="submit" name="aggiungi_file" value="Add file">
+								</div>
+								
+								<div style="float:left;margin-left:1em;margin-top:2em;">
+								<a id="file" class="anchor" style="cursor:pointer;">File Template</a>
+								</div>
+							</p>
+							<br style="clear:both;">
+							<br>
+							<input type="hidden" id="tipo_prot" name="tip_prot" />
+							<input type="hidden" id="templ" name="template" />
+							<!-- <input type="submit" value="Confirm" class="button" id="conf2"/>  -->
+						</form>				
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+		</div>
+	{% else %}
+		<h2 align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+
+{% endblock %}

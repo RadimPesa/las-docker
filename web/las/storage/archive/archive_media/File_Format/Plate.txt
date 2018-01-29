@@ -1,0 +1,15 @@
+File structure
+
+container: barcode
+position,barcode
+position,barcode
+position,barcode
+position,barcode
+...
+
+Ex:
+container: NUEL547688
+A01,3456
+A02,7686
+A03,5776
+...

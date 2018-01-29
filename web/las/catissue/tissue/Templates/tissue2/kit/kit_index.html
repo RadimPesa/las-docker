@@ -1,0 +1,33 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Kits{% endblock %}
+
+{% block menu %}
+
+    <ul>
+    	<li><a  href={% url tissue.views.index %}>Home</a></li>
+        <li><a  href={% url tissue.kit.SaveKitType %}>Insert new kit type</a></li>
+        <li><a  href={% url tissue.kit.SaveSingleKit %}>Insert new kit</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+	<nav id="menuImg">
+        <table id="menu_iniz" align="center" style="background-color: #ffdc97;">
+            <tr>
+                <td class="navbut">
+                	<a id="nuovo_tipo" href="{% url tissue.views.SaveKitType %}"><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif" width="44" height="44"><span id="navtitle">Insert new kit type</span></a>
+                </td>
+                <td class="navbut">
+                	<a id="nuovo_kit" href="{% url tissue.views.SaveSingleKit %}"><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif" width="44" height="44"><span id="navtitle">Insert new kit</span></a>
+                </td>
+			</tr>
+		</table>
+	</nav>
+<br>
+<br>
+<br>
+{% endblock %}

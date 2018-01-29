@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<body>
+		<section style="color: black;">
+			<h3 style="color: black;">Please note that the following containers have to be returned to archive:</h3>
+			<h4>Click <a href= "{{ perc }}" >here</a> to execute the procedure:</h4>
+		    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+				
+				<th style="padding:4px;">N </th>
+				<th style="padding:4px;">GenealogyID</th>
+				<th style="padding:4px;">Barcode</th>
+				<th style="padding:4px;">Father Container</th>
+				<th style="padding:4px;">Position</th>
+				<th style="padding:4px;">Procedure</th>
+				<th style="padding:4px;">Procedure date</th>
+				{% for c in listafin %}
+					<tr>
+						<td style="padding:5px;">{{forloop.counter}}</td>
+						<td style="padding:5px;">{{c.gen}}</td>
+						<td style="padding:5px;">{{c.cont.barcode}}</td>
+						<td style="padding:5px;">{{c.cont.idFatherContainer}}</td>
+						<td style="padding:5px;">{{c.cont.position}}</td>
+						<td style="padding:5px;">{{c.proc}}</td>
+						<td style="padding:5px;">{{c.data}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</body>
+</html>

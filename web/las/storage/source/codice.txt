@@ -1,0 +1,145 @@
+class PlateInsertForm(forms.Form):
+    aim=forms.ModelChoiceField(queryset=PlateAim.objects.all())
+    file_plate=forms.FileField(label='Plate file',required=False)
+    barcode=forms.CharField(label='Plate Barcode',max_length=50,required=False)
+    Aliquot_Type=forms.ModelChoiceField(queryset=AliquotType.objects.all())
+    x=forms.IntegerField(max_value=30,label='Rows number')
+    y=forms.IntegerField(max_value=30,label='Column number')
+    rack=forms.CharField(label='Storage Rack',required=False,max_length=15)
+    position=forms.CharField(label='Storage Position',required=False,max_length=15)
+    storage=forms.ModelChoiceField(queryset=StorageType.objects.all(),required=False)
+
+
+
+
+#per inserire nuove piastre dato il file di configurazione letto dallo scanner
+@transaction.commit_on_success
+@login_required
+def InsertPlate(request):
+    specifiche={}
+    if request.method=='POST':
+        print request.POST
+        print request.FILES
+        form=PlateInsertForm(request.POST,request.FILES)
+        #try:
+        if form.is_valid():
+            print 'valido'
+            aim=PlateAim.objects.get(id=request.POST.get('aim'))
+            barcode=request.POST.get('barcode').strip()
+            aliquota_tipo=AliquotType.objects.get(id=request.POST.get('Aliquot_Type'))
+            print 'aim.name',aim.name
+            if aim.name=='stored' or aim.name=='extern':
+                rack=request.POST.get('rack').strip()
+                print 'rack',rack
+                position=request.POST.get('position').strip()
+                storage=StorageType.objects.get(id=request.POST.get('storage'))
+            else:
+                rack=None
+                position=None
+                storage=None
+            xDim=request.POST.get('x').strip()
+            yDim=request.POST.get('y').strip()
+            #controllo se il barcode non esiste gia', altrimenti sollevo un'eccezione
+            print barcode
+            pias=Plates.objects.filter(barcodeID=barcode)
+            print 'pias', pias
+            if pias.count()!=0 and barcode!='':
+                raise ErrorPlate(barcode)
+            #la nuova piastra e' stored o extern 
+            if 'file_plate' in request.FILES:
+                f=request.FILES['file_plate']
+                #f.chunks divide il file in  macropezzi da vari kb l'uno
+                for a in f.chunks():
+                    #per cancellare eventuali \n alla fine del file
+                    a=a.strip()
+                    #c e' un vettore e in ogni posto c'e' una riga del file
+                    c=a.split('\n')
+                    riga1=c[0].strip()
+                    r=riga1.split(' ')
+                    barcode=r[1]
+                    print barcode
+                    #if barcode!=barcode_piastra:
+                    #    raise ErrorPlateSpecification(barcode)
+                    for i in range(1,len(c)):
+                        #c[i] e' la singola riga del file
+                        #il .strip toglie gli eventuali spazi e il \r finale nella riga
+                        c[i]=c[i].strip()
+                        #c[i] e' formato da posizione,barcode
+                        v=c[i].split(',')
+                        pos=v[0].strip()
+                        barc=v[1].strip()
+                        if pos[2]!='0':
+                            pos=pos.replace('0','')
+                        specifiche[pos]=barc
+                    print 'specifiche',specifiche.keys()
+                #salvo la nuova piastra
+                p=Plates(idAim=aim,
+                         barcodeID=barcode,
+                         idType=aliquota_tipo,
+                         idStorageType=storage,
+                         rack=rack,
+                         position=position,
+                         xDimension=xDim,
+                         yDimension=yDim)
+                print p
+                p.save()
+                #prendo la piastra che ho appena salvato
+                piastra_nuova=Plates.objects.get(barcodeID=barcode)
+                #salvo le specifiche della nuova piastra
+                for key,value in specifiche.items():
+                    sp=PlateSpecification(idPlate=piastra_nuova,
+                                          position=key,
+                                          barcode=value)
+                    sp.save()
+                    print 'rrr',sp
+            #la nuova piastra e' operativa o transient
+            else:
+                p=Plates(idAim=aim,
+                         barcodeID=barcode,
+                         idType=aliquota_tipo,
+                         idStorageType=storage,
+                         rack=rack,
+                         position=position,
+                         xDimension=xDim,
+                         yDimension=yDim)
+                print p
+                p.save()
+                
+                piast=Plates.objects.get(barcodeID=barcode)
+                #per mappare da numeri a lettere maiuscole
+                #partenza = "123456789"
+                #destinazione = "ABCDEFGHI"
+                #trasftab = maketrans(partenza, destinazione)
+                numeroposti=int(xDim)*int(yDim)
+                print numeroposti
+                for i in range(0,int(xDim)):
+                    for j in range(1,(int(yDim)+1)):
+                        #chr converte da ascii a carattere, ord da carattere ad ascii
+                        pos=chr(i+ord('A'))+str(j)
+                        pl=PlateSpecification(idPlate=piast,
+                                              position=pos)
+                        pl.save()
+
+            fine=True
+            variables = RequestContext(request,{'fine':fine})
+            return render_to_response('tissue2/plates/plate_insert.html',variables)
+        else:
+            variables = RequestContext(request, {'form':form})
+            return render_to_response('tissue2/plates/plate_insert.html',variables)
+        '''except ErrorPlate as e:
+            print 'My exception occurred, value:', e.value
+            variables = RequestContext(request, {'errore':e.value})
+            return render_to_response('tissue2/plates/plate_insert.html',variables)
+        except ErrorPlateSpecification as e:
+            print 'My exception occurred, value:', e.value
+            variables = RequestContext(request, {'errore_specifiche':e.value})
+            return render_to_response('tissue2/plates/plate_insert.html',variables)
+        except:
+            transaction.rollback()
+            errore=True
+            variables = RequestContext(request, {'errore':errore})
+            return render_to_response('tissue2/index.html',variables)'''
+    else:
+        form = PlateInsertForm()
+    variables = RequestContext(request, {'form':form})
+    return render_to_response('tissue2/plates/plate_insert.html',variables)

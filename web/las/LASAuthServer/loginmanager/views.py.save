@@ -1,0 +1,1557 @@
+from django.shortcuts import render_to_response
+from forms import *
+from models import *
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
+import urllib
+import urllib2
+import hashlib
+import hmac
+import json
+from django.contrib.auth.models import User,Permission
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.decorators import user_passes_test
+from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from apisecurity.decorators import required_parameters
+from registration.backends import get_backend
+from registration.models import RegistrationProfile
+from apisecurity.apikey import *
+from django.core.mail import EmailMessage
+from django.views.decorators.csrf import csrf_exempt
+from xhtml2pdf import pisa
+from django.template.loader import render_to_string
+import cStringIO as StringIO
+import cgi
+import os
+import xlwt
+from django.http import HttpResponseBadRequest
+
+
+RETURN_TO_FIELD_NAME = 'return_to'
+SESSION_KEY_FIELD_NAME = 'session_key'
+APP_FIELD_NAME = 'appid'
+RETURN_STATUS_FIELD_NAME = 'status'
+USER_FIELD_NAME = 'uid'
+HMAC_FIELD_NAME = 'hmac'
+ANSWER_YES = 'yes'
+ANSWER_NO = 'no'
+
+users_online = Session.objects.filter(expire_date__gte = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")).count()    
+def LASLogin(request):
+    if request.method == 'POST':
+        if 'username' in request.POST and 'password' in request.POST:
+            #from login form
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                username = request.POST['username']
+                password = request.POST['password']
+                user = auth.authenticate(username=username, password=password)
+                if user is not None and user.is_active:
+                    auth.login(request, user)
+                    import sys
+                    if 'remote_request' in request.session:
+                        #we're on this page as a result of a redirect
+                        #redirect back to application requesting authentication
+                        ans = buildAuthResponse(request.session[APP_FIELD_NAME], request.session[SESSION_KEY_FIELD_NAME], user)
+                        h = buildHMAC(request.session[APP_FIELD_NAME], ans, user.username, request.session[SESSION_KEY_FIELD_NAME])
+                        return render_to_response('continuelogin.html', {'dest': request.session[RETURN_TO_FIELD_NAME], 'status': ans, 'session_key': request.session[SESSION_KEY_FIELD_NAME], 'uid': user.username, 'hmac': h})
+                    else:
+                        #no redirect
+                        #return list of modules available to user
+                        return HttpResponseRedirect(reverse('loginmanager.views.index'))
+                else:
+                    return render_to_response('login2.html', {'err_message': "Bad username or password!"})
+            else:
+                return render_to_response('login2.html', {'err_message': "Invalid input!"})
+        elif RETURN_TO_FIELD_NAME in request.POST and SESSION_KEY_FIELD_NAME in request.POST and APP_FIELD_NAME in request.POST and HMAC_FIELD_NAME in request.POST:
+            #we've been redirected here
+            if not request.user.is_authenticated():
+                #user is not yet authenticated on LASAuthServer
+                if verifyHMAC(request.POST[HMAC_FIELD_NAME], request.POST[APP_FIELD_NAME], request.POST[RETURN_TO_FIELD_NAME], request.POST[SESSION_KEY_FIELD_NAME]):
+                    #hmac is valid
+                    #save POST parameters in session
+                    request.session['remote_request'] = True
+                    request.session[RETURN_TO_FIELD_NAME] = request.POST[RETURN_TO_FIELD_NAME]
+                    request.session[SESSION_KEY_FIELD_NAME] = request.POST[SESSION_KEY_FIELD_NAME]
+                    request.session[APP_FIELD_NAME] = request.POST[APP_FIELD_NAME]
+                #return login form
+                return render_to_response('login2.html')
+            else:
+                #user is already authenticated on LASAuthServer
+                if verifyHMAC(request.POST[HMAC_FIELD_NAME], request.POST[APP_FIELD_NAME], request.POST[RETURN_TO_FIELD_NAME], request.POST[SESSION_KEY_FIELD_NAME]):
+                    #hmac is valid
+                    ans = buildAuthResponse(request.POST[APP_FIELD_NAME], request.POST[SESSION_KEY_FIELD_NAME], request.user)
+                    h = buildHMAC(request.POST[APP_FIELD_NAME], ans, request.user.username, request.POST[SESSION_KEY_FIELD_NAME])
+                    return render_to_response('continuelogin.html', {'dest': request.POST[RETURN_TO_FIELD_NAME], 'status': ans, 'session_key': request.POST[SESSION_KEY_FIELD_NAME], 'uid': request.user.username, 'hmac': h, 'permessi' :True})
+                else:
+                    #hmac is not valid, just return list of modules available for user
+                    #TODO: warn about possible request forgery?
+                    return HttpResponseRedirect(reverse('loginmanager.views.index'))
+        else:
+            #method is POST and not from redirect and not from login form
+            if not request.user.is_authenticated():
+                #user is not yet authenticated on LASAuthServer
+                #return login form
+                return render_to_response('login2.html')
+            else:
+                #user is already authenticated on LASAuthServer
+                #return list of modules available for user
+                return HttpResponseRedirect(reverse('loginmanager.views.index'))
+    else:
+        #method is GET
+        if not request.user.is_authenticated():
+            #user is not yet authenticated on LASAuthServer
+            #return login form
+            return render_to_response('login2.html')
+        else:
+            #user is already authenticated on LASAuthServer
+            #return list of modules available for user
+            return HttpResponseRedirect(reverse('loginmanager.views.index'))
+
+'''
+def buildAuthResponse(return_to, app_name, session_key, user):
+    url = return_to
+    url += '?'
+    luser = LASUser.objects.get(pk=user.pk)
+    try:
+        app = luser.modules.get(shortname=app_name)
+        ans = ANSWER_YES
+        um, c = LASUser_logged_in_module.objects.get_or_create(lasuser=luser,lasmodule=app)
+        um.session_key = session_key
+        um.save()
+    except:
+        ans = ANSWER_NO
+    h = buildHMAC(app_name, ans, user.username, session_key)
+    url += urllib.urlencode({RETURN_STATUS_FIELD_NAME: ans, SESSION_KEY_FIELD_NAME: session_key, USER_FIELD_NAME: user.username, HMAC_FIELD_NAME: h})
+    return HttpResponseRedirect(url)
+'''
+
+def buildAuthResponse(app_name, session_key, user):
+    try:
+        luser = LASUser.objects.get(pk=user.pk)
+        app = luser.modules.get(shortname=app_name)
+        ans = ANSWER_YES
+        um, c = LASUser_logged_in_module.objects.get_or_create(lasuser=luser,lasmodule=app)
+        um.session_key = session_key
+        um.save()
+    except:
+        ans = ANSWER_NO
+    return ans
+
+def buildHMAC(app_name, ans, username, session_key):
+    try:
+        k = str(LASModule.objects.get(shortname=app_name).remote_key)
+    except:
+        return ''
+    return hmac.new(k, k + app_name + ans + username + session_key, hashlib.sha256).hexdigest()
+    
+
+def verifyHMAC(rcvdHmac, appName, returnUrl, sessionKey):
+    try:
+        k = str(LASModule.objects.get(shortname=appName).remote_key)
+    except:
+        return False
+    h = hmac.new(k, k + appName + returnUrl + sessionKey, hashlib.sha256).hexdigest()
+    if rcvdHmac == h:
+        print "HMAC verification succeeded"
+        return True
+    else:
+        print "HMAC verification failed"
+        return False
+
+'''
+def initLogin(request):
+    request.session['return_to'] = request.GET['return_to']
+    return HttpResponseRedirect(reverse("loginmanager.views.LASLogin"))
+'''
+'''
+@login_required
+def remoteLogin(request):
+    user = request.user
+    fullname = user.first_name + ' ' + user.last_name
+    luser = LASUser.objects.get(pk=user.id)
+    mod_list = luser.modules.all()
+    if request.method == 'POST':
+        for m in mod_list:
+            url = m.url
+            print "trying to login at " + url
+            print "username="+request.session['username']+",password="+request.session['password']
+            #values = {'username':request.session['username'],'password':request.session['password']}
+            values = {'username':'admin','password':'BBMM2012'}
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+            the_page = response.read()
+            print the_page
+    else:
+        return render_to_response('remoteLogin.html', {'name': fullname, 'module_list': mod_list})#, RequestContext(request))
+'''
+
+'''
+            try:
+                u = LASUser.objects.get(username = username)
+                if password == u.password:
+                    msg = "OK<br>You will be logged in to the following modules:<br>"
+                    for m in u.modules.all():
+                        msg += str(m) + "<br>"
+                    return render_to_response('login.html', {'err_message': msg})
+                else:
+                    return render_to_response('login.html', {'err_message': "Wrong password"})
+            except:
+                return render_to_response('login.html', {'err_message': "No such user."})
+'''
+
+@login_required
+def index(request):
+    try:
+        user = request.user
+        luser = LASUser.objects.get(pk=user.id)
+    except:
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+    name = user.username  
+    mod_list = []
+    for m in luser.modules.all():
+        mod = {}
+        mod['name'] = m.name
+        mod['url'] = m.home_url
+        mod['icon_url'] = m.icon_url
+        mod_list.append(mod)
+
+    if user.username=='lasmanager':
+        return render_to_response('index.html',{'name':name, 'mod_list': mod_list,'manager':True}, RequestContext(request))
+    else:
+        return render_to_response('index.html',{'name':name, 'mod_list': mod_list}, RequestContext(request))
+
+
+
+
+@login_required
+def manageAccount(request):
+    csrfContext = RequestContext(request)
+    return render_to_response('manageAccount.html', csrfContext)
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def manageAdmin(request):
+    return render_to_response('manageAdmin.html', RequestContext(request))
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def manageUsersList(request):
+    try:
+        user = request.user
+    except:
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+    user_list = []
+    for x in LASUser.objects.all():
+        u = {}
+        u['id']=x.id
+        u['username'] = x.username
+        u['email'] = x.email
+        u['first_name']=x.first_name
+        u['last_name']=x.last_name
+        user_list.append(u)
+    return render_to_response('manageUsersList.html',{'user_list': user_list}, RequestContext(request))
+   
+
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def editUserPermissions(request,userID):    
+    try:    
+        luser = LASUser.objects.get(pk=userID)
+        user= User.objects.get(username=luser.username)
+        content_type= ContentType.objects.get(app_label="loginmanager", model="laspermission")
+        perms= Permission.objects.filter(content_type=content_type)
+        permsok=set()
+        permsnok=set()
+        moduliSuper=set()
+        moduli=set()
+        moduli=luser.modules.all()
+        for m in moduli:
+            try:
+                if LASUser_modules.objects.get(lasuser=luser,lasmodule=m).is_superuser==1:
+                    moduliSuper.add(m)
+            except Exception,e:
+                print e
+        for x in perms:
+            try:
+                lperms=LASPermission.objects.get(pk=x.pk)   
+            except:
+                lperms=None
+            if lperms is not None:
+                try:
+                    mod=lperms.lasmodule
+                    if user.has_perm("loginmanager."+x.codename):
+                        permsok.add(lperms)
+                    else:
+                        if lperms.lasmodule in moduliSuper:
+                            user.user_permissions.add(x)
+                            permsok.add(lperms)
+                        else:
+                            permsnok.add(lperms) 
+                except Exception, e:
+                    print e          
+        return render_to_response('manageUserPermissions.html',{'permsok':permsok, 'permsnok': permsnok, 'moduli':moduli, 'u':user, 'moduliSuper':moduliSuper}, RequestContext(request))
+    except:
+        try:
+            user = request.user
+            luser = LASUser.objects.get(pk=user.id)
+        except:
+            return HttpResponseRedirect(reverse("loginmanager.views.logout"))  
+        user_list = []
+        for x in LASUser.objects.all():
+            u = {}
+            u['id']=x.id
+            u['username'] = x.username
+            u['email'] = x.email
+            u['first_name']=x.first_name
+            u['last_name']=x.last_name
+            user_list.append(u)
+        return render_to_response('manageUsersList.html',{'user_list': user_list}, RequestContext(request))
+#def editUserPermissions(request,userID):    
+#    try:    
+#        luser = LASUser.objects.get(pk=userID)
+#        user= User.objects.get(username=luser.username)
+#        content_type= ContentType.objects.get(app_label="loginmanager", model="laspermission")
+#        perms= Permission.objects.filter(content_type=content_type)
+#        permsok=set()
+#        permsnok=set()
+#        moduli=set()
+#        moduli=luser.modules.all()
+#        for x in perms:
+#            try:
+#                lperms=LASPermission.objects.get(pk=x.pk)   
+#            except:
+#                lperms=None 
+#            if lperms is not None:
+#                if user.has_perm("loginmanager."+x.codename):
+#                    permsok.add(lperms)
+#                else:
+#                    permsnok.add(lperms) 
+           # except:
+            #    print x.codename         
+#        return render_to_response('manageUserPermissions.html',{'permsok':permsok, 'permsnok': permsnok, 'moduli':moduli, 'u':user}, RequestContext(request))
+#    except:
+#        try:
+#            user = request.user
+#            luser = LASUser.objects.get(pk=user.id)
+#        except:
+#            return HttpResponseRedirect(reverse("loginmanager.views.logout"))  
+#        user_list = []
+#        for x in LASUser.objects.all():
+#            u = {}
+#            u['id']=x.id
+#            u['username'] = x.username
+#            u['email'] = x.email
+#            u['first_name']=x.first_name
+#            u['last_name']=x.last_name
+#            user_list.append(u)
+#        return render_to_response('manageUsersList.html',{'user_list': user_list}, RequestContext(request))
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def editUserModules(request,userID):
+    try:
+        user = LASUser.objects.get(pk=userID)     
+        modulesok=set()
+        modulesnok=set()
+        moduli=LASModule.objects.filter(is_active=1)
+        modulesok=user.modules.all()
+        for m in moduli:
+            if m not in modulesok:
+                modulesnok.add(m)
+
+        return render_to_response('editUserModules.html',{'modulesok':modulesok, 'modulesnok': modulesnok, 'u':user}, RequestContext(request))
+    except:
+        try:
+            user = request.user
+            luser = LASUser.objects.get(pk=user.id)
+        except:
+            return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+        
+        user_list = []
+        for x in LASUser.objects.all():
+            u = {}
+            u['id']=x.id
+            u['username'] = x.username
+            u['email'] = x.email
+            u['first_name']=x.first_name
+            u['last_name']=x.last_name
+            user_list.append(u)
+        return render_to_response('manageUsersList.html',{'user_list': user_list}, RequestContext(request))
+
+
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def editUser(request,userID):
+    try:
+        luser = LASUser.objects.get(pk=userID)
+        user = User.objects.get(pk=userID)
+        return render_to_response('manageUser.html',{'u':user}, RequestContext(request))
+    except Exception,e:
+        print "eccezione: "+str(e)
+        user_list = []
+    for x in LASUser.objects.all():
+        u = {}
+        u['id']=x.id
+        u['username'] = x.username
+        u['email'] = x.email
+        u['first_name']=x.first_name
+        u['last_name']=x.last_name
+        user_list.append(u)
+    return render_to_response('manageUsersList.html',{'user_list': user_list}, RequestContext(request))
+
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def saveUserPermissions(request):
+    try:
+        if request.method == 'POST':
+            username= request.POST['username']
+            permessiOk = request.POST['permessiOk']
+            permessiNok = request.POST['permessiNok']
+            user = User.objects.get(username=username)
+            luser=LASUser.objects.get(username=username)
+            moduli=luser.modules.all() #CAMBIARE CON SOLI MODULI CHE UTENTE HA!
+            
+            #INIZIALIZZO DIZIONARIO CHE CONTERRA' ELENCO PERMESSI PER MODULO
+            dict1=dict()
+            dictFlag=dict()
+            dictError=dict();
+            for m in moduli:
+                dict1[m.shortname]=''
+                dictFlag[m.shortname]=False;
+                dictError[m.shortname]=False;
+            #SPLIT DELLA STRINGA DEI PERMESSI GLOBALE    
+            if permessiOk != "":
+                p=permessiOk.split(",")
+                #ASSEGNO OGNI SINGOLO PERMESSO ALL'UTENTE DEL LASAUTHSERVER
+                #E LO MEMORIZZO NELL'ELEMENTO DEL DIZIONARIO RELATIVO AL SUO MODULO
+                for x in p:
+                    if x!="":
+                        perm=Permission.objects.get(codename=x)
+                        lperms=LASPermission.objects.get(pk=perm.pk)
+                        if (user.has_perm("loginmanager."+perm.codename)==False):
+                            dictFlag[lperms.lasmodule.shortname]=True
+                            dict1[lperms.lasmodule.shortname]+=x+","
+		        if user.is_superuser==True:
+                            userMod= LASUser_modules.objects.get(lasuser=luser,lasmodule=lperms.lasmodule)
+                            if userMod.is_superuser==False:    
+                                dictFlag[lperms.lasmodule.shortname]=True
+                                dict1[lperms.lasmodule.shortname]+=x+","
+            if permessiNok != "":
+                p1=permessiNok.split(",")
+                #ASSEGNO OGNI SINGOLO PERMESSO ALL'UTENTE DEL LASAUTHSERVER
+                #E LO MEMORIZZO NELL'ELEMENTO DEL DIZIONARIO RELATIVO AL SUO MODULO
+                for x in p1:
+                    if x!="":
+                        perm=Permission.objects.get(codename=x)
+                        lperms=LASPermission.objects.get(pk=perm.pk)
+                        if (user.has_perm("loginmanager."+perm.codename)==True):
+                            dictFlag[lperms.lasmodule.shortname]=True
+                       
+    	            
+            errore=False
+            errorString=""
+            for m in moduli:
+                if (dictFlag[m.shortname]==True):
+                    address=LASModule.objects.get(shortname=m.shortname).home_url
+                    url = address+"permission/editPermission/"       
+                    print "provo modulo: "+m.shortname
+                    print url
+        
+                    try:
+                        t = getApiKey()
+                    except Exception,e:
+                        print e
+                    values = {'lista' : dict1[m.shortname], 'username': username, 'api_key':t}
+                    data = urllib.urlencode(values)
+                    try:
+                        resp=urllib2.urlopen(url, data)
+                        res1 =  resp.read()
+        
+            
+                    except urllib2.HTTPError, e:
+                        print e
+                        if str(e.code)== '403':
+                            errore=True;
+                            dictError[m.shortname]=True
+                            errorString+=m.shortname+": APIauth Error\n"
+        
+                        else:
+                            dictError[m.shortname]=True
+                            errore=True
+                            errorString+=m.shortname+": Network Error\n"
+                    except Exception,e:
+                            print e
+                            dictError[m.shortname]=True
+                            errore=True
+                            errorString+=m.shortname+": General Error\n"
+    
+            #AGGIORNO SUL SERVER SOLO I PERMESSI DEGLI UTENIT PER CUI L'API NON e' FALLITA
+            for m in moduli:
+                if ((dictError[m.shortname]==False)and(dictFlag[m.shortname]==True)):
+                    if permessiOk != "":    
+                        for x in p:
+                            if x!="":
+                                perm=Permission.objects.get(codename=x)
+                                if (user.has_perm("loginmanager."+perm.codename)==False):
+                                    user.user_permissions.add(perm)
+                    if permessiNok != "":
+                        for x in p1:
+                            if x!="":
+                                perm=Permission.objects.get(codename=x)
+                                if (user.has_perm("loginmanager."+perm.codename)==True):
+                                    user.user_permissions.remove(perm)
+            
+            
+            if errore==False:
+                return_dict = {"message": "ok"}
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+            else:
+                return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n\nPermissions in following modules could be not synchronized\nErrors: \n"+errorString }
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+        else:
+            return HttpResponseRedirect(reverse("loginmanager.views.manageAdmin"))
+    
+    except Exception,e:
+        print e
+        return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n"}
+        json_response = json.dumps(return_dict)
+        return HttpResponse(json_response,mimetype='application/json')
+
+##def saveUserPermissions(request):
+#    try:
+#        if request.method == 'POST':
+#            username= request.POST['username']
+#            permessiOk = request.POST['permessiOk']
+#            permessiNok = request.POST['permessiNok']
+#            user = User.objects.get(username=username)
+#            luser=LASUser.objects.get(username=username)
+#            moduli=luser.modules.all() #CAMBIARE CON SOLI MODULI CHE UTENTE HA!
+            
+            #INIZIALIZZO DIZIONARIO CHE CONTERRA' ELENCO PERMESSI PER MODULO
+#            dict1=dict()
+#            dictFlag=dict()
+#            dictError=dict();
+#            for m in moduli:
+#                dict1[m.shortname]=''
+#                dictFlag[m.shortname]=False;
+#                dictError[m.shortname]=False;
+            #SPLIT DELLA STRINGA DEI PERMESSI GLOBALE    
+#            if permessiOk != "":
+#                p=permessiOk.split(",")
+                #ASSEGNO OGNI SINGOLO PERMESSO ALL'UTENTE DEL LASAUTHSERVER
+                #E LO MEMORIZZO NELL'ELEMENTO DEL DIZIONARIO RELATIVO AL SUO MODULO
+#                for x in p:
+#                    if x!="":
+#                        perm=Permission.objects.get(codename=x)
+#                        lperms=LASPermission.objects.get(pk=perm.pk)
+#                        if (user.has_perm("loginmanager."+perm.codename)==False):
+#                            dictFlag[lperms.lasmodule.shortname]=True
+#			    dict1[lperms.lasmodule.shortname]+=x+","
+#
+#            if permessiNok != "":
+#                p1=permessiNok.split(",")
+                #ASSEGNO OGNI SINGOLO PERMESSO ALL'UTENTE DEL LASAUTHSERVER
+                #E LO MEMORIZZO NELL'ELEMENTO DEL DIZIONARIO RELATIVO AL SUO MODULO
+#                for x in p1:
+#                    if x!="":
+#                        perm=Permission.objects.get(codename=x)
+#                        lperms=LASPermission.objects.get(pk=perm.pk)
+#                        if (user.has_perm("loginmanager."+perm.codename)==True):
+#                            dictFlag[lperms.lasmodule.shortname]=True
+                       
+            
+#            errore=False
+#            errorString=""
+#            for m in moduli:
+#                if (dictFlag[m.shortname]==True):
+#                    address=LASModule.objects.get(shortname=m.shortname).home_url
+#                    url = address+"permission/editPermission/"       
+#                    print "provo modulo: "+m.shortname
+#                    print url
+        
+#                    try:
+#                        t = getApiKey()
+#                    except Exception,e:
+#                        print e
+#                    values = {'lista' : dict1[m.shortname], 'username': username, 'api_key':t}
+#                    data = urllib.urlencode(values)
+#                    try:
+#                        resp=urllib2.urlopen(url, data)
+#                        res1 =  resp.read()
+        
+            
+#                    except urllib2.HTTPError, e:
+#                        print e
+#                        if str(e.code)== '403':
+#                            errore=True;
+#                            dictError[m.shortname]=True
+#                            errorString+=m.shortname+": APIauth Error\n"
+        
+#                        else:
+#                            dictError[m.shortname]=True
+#                            errore=True
+#                            errorString+=m.shortname+": Network Error\n"
+#                    except Exception,e:
+#                            print e
+#                            dictError[m.shortname]=True
+#                            errore=True
+#                            errorString+=m.shortname+": General Error\n"
+    
+            #AGGIORNO SUL SERVER SOLO I PERMESSI DEGLI UTENIT PER CUI L'API NON e' FALLITA
+#            for m in moduli:
+#                if ((dictError[m.shortname]==False)and(dictFlag[m.shortname]==True)):
+#                    if permessiOk != "":    
+#			for x in p:
+#                            if x!="":
+#                                perm=Permission.objects.get(codename=x)
+#                                if (user.has_perm("loginmanager."+perm.codename)==False):
+#                                    user.user_permissions.add(perm)
+#                    if permessiNok != "":
+#                        for x in p1:
+#                            if x!="":
+#                                perm=Permission.objects.get(codename=x)
+#                                if (user.has_perm("loginmanager."+perm.codename)==True):
+#                                    user.user_permissions.remove(perm)
+            
+            
+#            if errore==False:
+#                return_dict = {"message": "ok"}
+#                json_response = json.dumps(return_dict)
+#                return HttpResponse(json_response,mimetype='application/json')
+#            else:
+#                return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n\nPermissions in following modules could be not synchronized\nErrors: \n"+errorString }
+#                json_response = json.dumps(return_dict)
+#                return HttpResponse(json_response,mimetype='application/json')
+#        else:
+#            return HttpResponseRedirect(reverse("loginmanager.views.manageAdmin"))
+    
+#    except Exception,e:
+#        print e
+#        return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n"}
+#        json_response = json.dumps(return_dict)
+#        return HttpResponse(json_response,mimetype='application/json')
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def saveUserModules(request):
+    try:    
+        if request.method == 'POST':
+            username= request.POST['username']
+            modulesOk = request.POST['modulesOk']
+            modulesNok = request.POST['modulesNok']
+            user = User.objects.get(username=username)
+            luser = LASUser.objects.get(pk=user.id)
+            modulesAtt=luser.modules.all();
+            print modulesAtt
+            errore=False
+            errorString=""
+            
+            if modulesOk != "":
+                mok=modulesOk.split(",")
+                for m in mok:
+                    print m
+                    mod=LASModule.objects.get(shortname=m)
+                    if mod not in modulesAtt:
+                        rel= LASUser_modules(lasuser=luser,lasmodule=mod,is_superuser=0)
+                        rel.save()
+                        address=LASModule.objects.get(shortname=mod.shortname).home_url
+                        url = address+"permission/editModules/"                    
+                        print url
+                        try:
+                            t = getApiKey()
+                        except Exception,e:
+                            print e
+                            userMod= LASUser_modules.objects.get(lasuser=luser,lasmodule=mod).delete();
+                        values = {'username': luser.username, 'enable':'yes','password':luser.password,'first_name':luser.first_name,'last_name':luser.last_name,'email':luser.email, 'api_key':t} 
+                        #values = {'username': username, 'enable':'yes','password':user.password, 'email': user.email,'api_key':t}
+                        data = urllib.urlencode(values)
+                        try:
+                            resp=urllib2.urlopen(url, data)
+                            res1 =  resp.read()
+    
+                        except urllib2.HTTPError, e:
+                            print e
+                            if str(e.code)== '403':
+                                errore=True;
+                                errorString+=mod.shortname+": APIauth Error\n"
+                                print errorString
+    
+                            else:
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                            userMod= LASUser_modules.objects.get(lasuser=luser,lasmodule=mod).delete()
+                        except Exception,e:
+                            print e
+                            errore=True
+                            errorString+=mod.shortname+": General Error\n"
+                            print errorString
+                            userMod= LASUser_modules.objects.get(lasuser=luser,lasmodule=mod).delete()
+                                
+            
+            if modulesNok != "":
+                mnok=modulesNok.split(",")
+                for m in mnok:
+                    print m
+                    mod=LASModule.objects.get(shortname=m)
+                    if mod in modulesAtt:
+                        print m
+                        userMod= LASUser_modules.objects.get(lasuser=luser,lasmodule=mod).delete()
+                        address=LASModule.objects.get(shortname=mod.shortname).home_url
+                        url = address+"permission/editModules/"                    
+                        try:
+                            t = getApiKey()
+                        except Exception,e:
+                            print e
+                            rel= LASUser_modules(lasuser=luser,lasmodule=mod,is_superuser=0)
+                            rel.save()
+                            
+                        values = {'username': username, 'enable':'no', 'api_key':t}
+                        data = urllib.urlencode(values)
+                        try:
+                            resp=urllib2.urlopen(url, data)
+                            res1 =  resp.read()
+    
+                        except urllib2.HTTPError, e:
+                            print e
+                            if str(e.code)== '403':
+                                errore=True;
+                                errorString+=mod.shortname+": APIauth Error\n"
+                                print errorString
+                            else:
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                            rel= LASUser_modules(lasuser=luser,lasmodule=mod,is_superuser=0)
+                            rel.save()
+                        except Exception,e:
+                            print e
+                            errore=True
+                            errorString+=mod.shortname+": General Error\n"
+                            print errorString
+                            rel= LASUser_modules(lasuser=luser,lasmodule=mod,is_superuser=0)
+                            rel.save()
+                                
+            if errore==False:
+                return_dict = {"message": "ok"}
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+            else:
+                return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n\nErrors:\n"+errorString }
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+        
+        else:
+            return HttpResponseRedirect(reverse("loginmanager.views.manageAdmin"))
+    except Exception,e:
+        print e
+        return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n"}
+        json_response = json.dumps(return_dict)
+        return HttpResponse(json_response,mimetype='application/json')
+
+#def saveUserModules(request):
+#    try:    
+#        if request.method == 'POST':
+#            username= request.POST['username']
+#            modulesOk = request.POST['modulesOk']
+#            modulesNok = request.POST['modulesNok']
+#            user = User.objects.get(username=username)
+#            luser = LASUser.objects.get(pk=user.id)
+#            modulesAtt=luser.modules.all();
+#            print modulesAtt
+#            errore=False
+#            errorString=""
+            
+#            if modulesOk != "":
+#                mok=modulesOk.split(",")
+#                for m in mok:
+# INIZIO COMMENTI '''
+'''
+                    print m
+                    mod=LASModule.objects.get(shortname=m)
+                    if mod not in modulesAtt:
+                        luser.modules.add(mod)
+                        address=LASModule.objects.get(shortname=mod.shortname).home_url
+                        url = address+"permission/editModules/"                    
+                        try:
+                            t = getApiKey()
+                        except Exception,e:
+                            print e
+                            luser.modules.remove(mod)
+                            luser.save()
+                        values = {'username': luser.username, 'enable':'yes','password':luser.password,'first_name':luser.first_name,'last_name':luser.last_name,'email':luser.email, 'api_key':t}    
+                        #values = {'username': username, 'enable':'yes','password':user.password,'email':user.email, 'api_key':t}
+                        data = urllib.urlencode(values)
+                        try:
+                            resp=urllib2.urlopen(url, data)
+                            res1 =  resp.read()
+    
+                        except urllib2.HTTPError, e:
+                            print e
+                            if str(e.code)== '403':
+                                errore=True;
+                                errorString+=mod.shortname+": APIauth Error\n"
+                                print errorString
+    
+                            else:
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                            luser.modules.remove(mod)
+                        except Exception,e:
+                            print e
+                            errore=True
+                            errorString+=mod.shortname+": General Error\n"
+                            print errorString
+                            luser.modules.remove(mod)
+                            luser.save()
+                                
+            
+            if modulesNok != "":
+                mnok=modulesNok.split(",")
+                for m in mnok:
+                    print m
+                    mod=LASModule.objects.get(shortname=m)
+                    if mod in modulesAtt:
+                        print m
+                        luser.modules.remove(mod)
+                        address=LASModule.objects.get(shortname=mod.shortname).home_url
+                        url = address+"permission/editModules/"                    
+                        try:
+                            t = getApiKey()
+                        except Exception,e:
+                            print e
+                            luser.modules.add(mod)
+                            
+                        values = {'username': username, 'enable':'no', 'api_key':t}
+                        data = urllib.urlencode(values)
+                        try:
+                            resp=urllib2.urlopen(url, data)
+                            res1 =  resp.read()
+    
+                        except urllib2.HTTPError, e:
+                            print e
+                            if str(e.code)== '403':
+                                errore=True;
+                                errorString+=mod.shortname+": APIauth Error\n"
+                                print errorString
+                            else:
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                            luser.modules.add(mod)
+                        except Exception,e:
+                            print e
+                            errore=True
+                            errorString+=mod.shortname+": General Error\n"
+                            print errorString
+                            luser.modules.add(mod)
+                                
+            if errore==False:
+                return_dict = {"message": "ok"}
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+            else:
+                return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n\nErrors:\n"+errorString }
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+        
+        else:
+            return HttpResponseRedirect(reverse("loginmanager.views.manageAdmin"))
+    except Exception,e:
+        print e
+        return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n"}
+        json_response = json.dumps(return_dict)
+        return HttpResponse(json_response,mimetype='application/json')
+'''         
+#FINE COMMENTI
+
+@required_parameters(parameters=('api_key'))
+def syncPermissions(request):
+    try:
+        #print request.POST
+        lista=set();
+        lista=request.POST.get('lista')
+        listanomi=request.POST.get('listanomi')
+        lista_perm=lista.split(',')
+        lista_perm_name=listanomi.split(',')
+        shortname=request.POST.get('shortname')
+        modulo=LASModule.objects.get(shortname=shortname)
+        perm_attuali=LASPermission.objects.filter(lasmodule_id=modulo.id)
+        lista_perm_attuali=set()
+        for x in perm_attuali:
+            lista_perm_attuali.add(x.codename)
+        for i,p in enumerate(lista_perm):
+            if p!="":
+                if p not in lista_perm_attuali:
+                    print "Da inserire "+p
+                    content_type = ContentType.objects.get(app_label="loginmanager", model="laspermission")
+                    lasperm = LASPermission(name=lista_perm_name[i],codename=p,content_type=content_type,lasmodule=modulo)
+                    lasperm.save();
+                    print "inserito"
+        return HttpResponse("ok")
+    except Exception, e:
+        print e
+        return HttpResponse("err")
+
+    
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def manageRegistrations(request):
+    if request.method=='POST':
+        if request.POST.get('action')=='accept':
+            try:
+                backend = get_backend()
+                p=request.POST.get('profile')
+                modules = request.POST.get('modules')
+                modules=modules.split(',')
+                
+                try:
+                    profile= RegistrationProfile.objects.get(pk=p)
+                except:
+                    profile=None
+                    return HttpResponse("err")
+                
+                if profile is not None and profile.status=='untreated':
+                    backend.accept(profile, request=request)
+                    u=User.objects.get(pk=profile.user_id)
+                    luser=LASUser(id=u.id,first_name=u.first_name,last_name=u.last_name, username=u.username,email=u.email,is_active=u.is_active,password=u.password)
+                    luser.save()
+                
+                    errore=False
+                    errorString=""
+                    print modules
+                    for m in modules:
+                        if m!="":
+                            print m
+                            mod=LASModule.objects.get(id=m)
+                            #mod=LASModule.objects.get(id=m)
+                            rel= LASUser_modules(lasuser=luser,lasmodule=mod,is_superuser=0)
+                            rel.save()
+                            #luser.modules.add(mod)
+                            address=mod.home_url
+                            url = address+"permission/editModules/"
+                            print url                    
+                            try:
+                                t = getApiKey()
+                            except Exception,e:
+                                print e
+                                luser.modules.remove(mod)
+                            
+                            print "invio : "+luser.username 
+			    values = {'username': luser.username, 'enable':'yes','password':luser.password,'first_name':luser.first_name,'last_name':luser.last_name,'email':luser.email, 'api_key':t}
+                            #values = {'username': luser.username, 'enable':'yes','password':luser.password, 'api_key':t}
+                            data = urllib.urlencode(values)
+                            try:
+                                resp=urllib2.urlopen(url, data)
+                                res1 =  resp.read()
+        
+                            except urllib2.HTTPError, e:
+                                print e
+                                if str(e.code)== '403':
+                                    errore=True;
+                                    errorString+=mod.shortname+": APIauth Error\n"
+                                    print errorString
+                                else:
+                                    errore=True
+                                    errorString+=mod.shortname+": General Error\n"
+                                    print errorString
+                                luser.modules.remove(mod)
+                            
+                            except Exception,e:
+                                print e
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                                luser.modules.remove(mod)
+                    
+                    temp =TemporaryModules.objects.get(user=u)
+                    temp.delete()
+                    if errore==False:
+                        return_dict = {"message": "ok"}
+                        json_response = json.dumps(return_dict)
+                        return HttpResponse(json_response,mimetype='application/json')
+                    else:
+                        return_dict = {"message": "error","error_string":"User created, but one or more errors occured in modules update, please retry later. \n\nErrors:\n"+errorString }
+                        json_response = json.dumps(return_dict)
+                        return HttpResponse(json_response,mimetype='application/json')
+                        
+            except Exception, e:
+                print e
+                return HttpResponse("err")
+
+        elif request.POST.get('action')=='reject':
+            try:
+                backend = get_backend()
+                p=request.POST.get('profile')
+                try:
+                    profile= RegistrationProfile.objects.get(pk=p)
+                except:
+                    profile=None
+                if profile is not None and profile.status=='untreated':
+                    backend.reject(profile, request=request)
+                u=User.objects.get(pk=profile.user_id)
+                temp =TemporaryModules.objects.get(user=u)
+                temp.delete()
+                return_dict = {"message": "ok"}
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+            except Exception, e:
+                print e
+                return HttpResponse("err")   
+
+        elif request.POST.get('action')=='delete':
+            try:
+                backend = get_backend()
+                p=request.POST.get('profile')
+                try:
+                    profile= RegistrationProfile.objects.get(pk=p)
+                except:
+                    profile=None
+                if profile is not None and profile.status=='rejected':
+                    profile.delete()
+                    u=User.objects.get(pk=profile.user_id)
+                    u.delete()
+                    return_dict = {"message": "ok"}
+                    json_response = json.dumps(return_dict)
+                    return HttpResponse(json_response,mimetype='application/json')
+            except Exception, e:
+                print e
+                return HttpResponse("err")   
+
+    try:
+        backend = get_backend()
+        profile_list= RegistrationProfile.objects.all();
+        untreated_list = []
+        pending_list = []
+        rejected_list = []
+        for p in profile_list:
+            if p.status=='untreated':
+                untreated_list.append(p)
+            elif p.status =='accepted':
+                pending_list.append(p)
+            elif p.status =='rejected':
+                rejected_list.append(p) 
+            
+        modules_list= TemporaryModules.objects.all()
+    
+        
+    except Exception, e:
+        print e
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+
+    return render_to_response('manageRegistrations.html',{'untreated_list': untreated_list,'pending_list': pending_list ,'rejected_list': rejected_list, 'modules_list':modules_list}, RequestContext(request))
+        
+
+
+@login_required
+def requestModules(request):
+    try:
+        if request.method == 'POST':
+            modulesOk = request.POST['modulesOk']
+            luser = LASUser.objects.get(pk=request.user.id)
+            
+            mok=modulesOk.split(",")
+            moduleRequest= ModuleRequest(user=luser,status="pending")
+            moduleRequest.save()
+            for m in mok:
+                if m!="":
+                    moduleRequest.modules.add(LASModule.objects.get(shortname=m))
+        
+            return_dict = {"message": "ok","req_id":moduleRequest.id}
+            json_response = json.dumps(return_dict)
+            return HttpResponse(json_response,mimetype='application/json')
+                        
+        else:
+            user = LASUser.objects.get(pk=request.user.id)   
+            modulesok=set()
+            modulesnok=set()
+            modulesreq=set()
+            #moduli=LASModule.objects.all()
+            moduli=LASModule.objects.filter(is_active=1)
+            modulesok=user.modules.all()
+            if ModuleRequest.objects.filter(user=user).count() >0 :
+                moduleRequest= ModuleRequest.objects.filter(user=user,status="pending")
+                for req in moduleRequest:
+                    for m in req.modules.all():
+                        modulesreq.add(m)
+                #QUALCOSA CHE GLI DICA CHE GIA HA RICHIESTA PENDENTE
+                #luser = LASUser.objects.get(pk=request.user.id)
+                #modulesOk=luser.modules.all()
+                #moduleRequest= ModuleRequest.objects.get(user=luser)
+                #return render_to_response('requestModules.html',{'pendingRequest': "true",'moduleRequest':moduleRequest, 'modulesOk':modulesOk}, RequestContext(request))
+            #else:  
+      
+            for m in moduli:
+                if m not in modulesok and m not in modulesreq:
+                    modulesnok.add(m)
+            return render_to_response('requestModules.html',{'modulesnok': modulesnok,}, RequestContext(request))
+    except Exception, e:
+        print e
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def manageModulesRequest(request):
+    try:
+        if request.method=='POST':
+            try:
+                username=request.POST.get('username')
+                modules = request.POST.get('modules')
+                modules=modules.split(',')
+                
+                #try:
+                #    req= ModuleRequest.objects.get(pk=requestId)
+                #except:
+                #    profile=None
+                #    return HttpResponse("err")
+                
+                luser=LASUser.objects.get(username=username)
+                errore=False
+                errorString=""
+
+                for m in modules:
+                    if m!="":
+                        print m
+                        mod=LASModule.objects.get(id=m)
+                        luser.modules.add(mod)
+                        luser.save()
+                        address=mod.home_url
+                        url = address+"permission/editModules/"
+                        print url                    
+                        try:
+                            t = getApiKey()
+                        except Exception,e:
+                            print e
+                            luser.modules.remove(mod)
+                            luser.save()
+                        values = {'username': luser.username, 'enable':'yes','password':luser.password,'first_name':luser.first_name,'last_name':luser.last_name,'email':luser.email, 'api_key':t}
+			#values = {'username': luser.username, 'enable':'yes','password':luser.password, 'api_key':t}
+                        data = urllib.urlencode(values)
+                        try:
+                            resp=urllib2.urlopen(url, data)
+                            res1 =  resp.read()
+    
+                        except urllib2.HTTPError, e:
+                            print e
+                            if str(e.code)== '403':
+                                errore=True;
+                                errorString+=mod.shortname+": APIauth Error\n"
+                                print errorString
+                            else:
+                                errore=True
+                                errorString+=mod.shortname+": General Error\n"
+                                print errorString
+                            luser.modules.remove(mod)
+                            luser.save()
+                        
+                        except Exception,e:
+                            print e
+                            errore=True
+                            errorString+=mod.shortname+": General Error\n"
+                            print errorString
+                            luser.modules.remove(mod)
+                            luser.save()
+                
+                for req in ModuleRequest.objects.filter(user=luser):
+                    req.status="processed"
+                    req.save()
+                if errore==False:
+                    return_dict = {"message": "ok"}
+                    json_response = json.dumps(return_dict)
+                    return HttpResponse(json_response,mimetype='application/json')
+                else:
+                    return_dict = {"message": "error","error_string":"One or more errors occured in modules update, please retry later. \n\nErrors:\n"+errorString }
+                    json_response = json.dumps(return_dict)
+                    return HttpResponse(json_response,mimetype='application/json')
+                    
+            except Exception, e:
+                print e
+                return HttpResponse("err")
+        
+        request_list=ModuleRequest.objects.filter(status="pending")
+        return render_to_response('manageModulesRequest.html', {'request_list': request_list},RequestContext(request))
+    except:
+        return HttpResponse("err")
+    
+    
+    
+@login_required
+def requestPermissions(request):
+    try:      
+        if request.method == 'POST':
+            permessiOk = request.POST['permessiOk']
+            user=request.user
+            luser=LASUser.objects.get(username=user.username)
+            moduli=luser.modules.all() 
+                
+        
+            p=permessiOk.split(",") 
+            permissionRequest= PermissionRequest(user=luser,status="pending")
+            permissionRequest.save()
+            for x in p:
+                if x!="":
+                    perm=Permission.objects.get(codename=x)
+                    lperms=LASPermission.objects.get(pk=perm.pk)
+                    permissionRequest.permissions.add(lperms)
+            return_dict = {"message": "ok" ,"req_id":permissionRequest.id}
+            json_response = json.dumps(return_dict)
+            return HttpResponse(json_response,mimetype='application/json') 
+                        
+        else:
+            luser = LASUser.objects.get(pk=request.user.id)
+            user=request.user   
+            permsok=set()
+            permsnok=set()
+            moduli=set()
+            permissionsreq=set()
+            if PermissionRequest.objects.filter(user=luser).count() >0 :
+                luser = LASUser.objects.get(pk=request.user.id)
+                permissionRequest=PermissionRequest.objects.filter(user=luser,status="pending")
+                for req in permissionRequest:
+                    for m in req.permissions.all():
+                        permissionsreq.add(m)
+                #QUALCOSA CHE GLI DICA CHE GIA HA RICHIESTA PENDENTE
+
+
+                
+            content_type= ContentType.objects.get(app_label="loginmanager", model="laspermission")
+            perms= Permission.objects.filter(content_type=content_type)
+           
+            moduli=luser.modules.all()
+            for x in perms:
+                try:
+                    lperms=LASPermission.objects.get(pk=x.pk)   
+                except:
+                    lperms=None 
+                if lperms is not None:
+                    if user.has_perm("loginmanager."+x.codename) or lperms in permissionsreq:
+                        permsok.add(lperms)
+                    else:
+                        permsnok.add(lperms) 
+               # except:
+                #    print x.codename         
+            return render_to_response('requestPermissions.html',{'permsnok': permsnok, 'moduli':moduli, 'u':user}, RequestContext(request))
+    except Exception,e:
+        print e
+        return HttpResponseRedirect(reverse("loginmanager.views.logout"))  
+        
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def managePermissionsRequest(request):
+    try:
+        if request.method=='POST':
+            try:
+                username=request.POST.get('username')
+                user=User.objects.get(username=username)
+                permissions = request.POST.get('permissions')
+                dict1=dict()
+                dictFlag=dict()
+                dictError=dict();
+                luser=LASUser.objects.get(username=username)
+                requestes=PermissionRequest.objects.filter(user=luser)
+                if permissions!="":
+                    print permissions
+                    moduli=set()
+                    moduli=luser.modules.all()
+                    permissions=permissions.split(',')
+                    for req in requestes:
+                        for perm in req.permissions.all():
+                            dict1[perm.lasmodule.shortname]=''
+                            dictError[perm.lasmodule.shortname]=False;
+                        
+                        for p in permissions:
+                            if p!="":
+                                lasp= LASPermission.objects.get(id=p)
+                                dict1[lasp.lasmodule.shortname]+=lasp.codename+","
+                            print dict1
+                #ASSEGNO OGNI SINGOLO PERMESSO ALL'UTENTE DEL LASAUTHSERVER
+                #E LO MEMORIZZO NELL'ELEMENTO DEL DIZIONARIO RELATIVO AL SUO MODULO
+                    errore=False;
+                    errorString="";
+                    for m in moduli:
+                        if (dict1[m.shortname]!=''):
+                            print dict1[m.shortname]
+                    for m in moduli:    
+                        if (dict1[m.shortname]!=''):
+                            address=LASModule.objects.get(shortname=m.shortname).home_url
+                            url = address+"permission/editPermission/"       
+                            print "provo modulo: "+m.shortname
+                            print url
+                            try:
+                                t = getApiKey()
+                            except Exception,e:
+                                print e
+                            values = {'lista' : dict1[m.shortname], 'username': luser.username, 'api_key':t}
+                            data = urllib.urlencode(values)
+                            try:
+                                resp=urllib2.urlopen(url, data)
+                                res1 =  resp.read()
+    
+                            except urllib2.HTTPError, e:
+                                print e
+                                if str(e.code)== '403':
+                                    errore=True;
+                                    dictError[m.shortname]=True
+                                    errorString+=m.shortname+": APIauth Error\n"
+                
+                                else:
+                                    dictError[m.shortname]=True
+                                    errore=True
+                                    errorString+=m.shortname+": Network Error\n"
+                            except Exception,e:
+                                    print e
+                                    dictError[m.shortname]=True
+                                    errore=True
+                                    errorString+=m.shortname+": General Error\n"
+        
+                    #AGGIORNO SUL SERVER SOLO I PERMESSI DEGLI UTENIT PER CUI L'API NON e' FALLITA
+                    for m in moduli:
+                        if ((dictError[m.shortname]==False)and(dict1[m.shortname]!='')):
+                            for x in permissions:
+                                if x!="":
+                                    lasp=LASPermission.objects.get(id=x)
+                                    perm=Permission.objects.get(codename=lasp.codename)
+                                    if (user.has_perm("loginmanager."+perm.codename)==False):
+                                        user.user_permissions.add(perm)
+                    
+                    for req in PermissionRequest.objects.filter(user=luser):
+                        req.status="processed"
+                        req.save()
+                    if errore==True:
+                        return_dict = {"message": "error","error_string":"One or more errors occured, please retry later. \n\nPermissions in following modules could be not synchronized\nErrors: \n"+errorString }
+                        json_response = json.dumps(return_dict)
+                        return HttpResponse(json_response,mimetype='application/json')
+                    
+                
+                for req in PermissionRequest.objects.filter(user=luser):
+                    req.status="processed"
+                    req.save()
+                
+                return_dict = {"message": "ok"}
+                json_response = json.dumps(return_dict)
+                return HttpResponse(json_response,mimetype='application/json')
+                
+            except Exception, e:
+                print e
+                return HttpResponse("err")
+            
+        request_list=PermissionRequest.objects.filter(status="pending")
+        print request_list
+        return render_to_response('managePermissionsRequest.html', {'request_list': request_list},RequestContext(request))
+    except Exception,e:
+        print e
+        return HttpResponse("err")
+    
+@login_required
+def moduleRequestReport(request):
+    reqId=request.POST.get('req_id')
+    req= ModuleRequest.objects.get(id=reqId)
+    return render_to_response('moduleRequestReport.html', {'req': req},RequestContext(request))
+    
+@login_required
+def permissionRequestReport(request):
+    reqId=request.POST.get('req_id')
+    req= PermissionRequest.objects.get(id=reqId)
+    return render_to_response('permissionRequestReport.html', {'req': req},RequestContext(request))
+   
+@login_required
+def currentPermissions(request):
+    user=request.user
+    luser=LASUser.objects.get(username=user.username)
+    currentMod=luser.modules.all()
+    currentPerm=set()
+    
+    for x in LASPermission.objects.all():
+        perm=Permission.objects.get(codename=x.codename)
+        if (user.has_perm("loginmanager."+perm.codename)==True):
+            print "aggiunto"
+            currentPerm.add(x)
+    
+    reqModules= ModuleRequest.objects.filter(user=user,status="pending")
+    reqPermissions= PermissionRequest.objects.filter(user=user,status="pending")
+    
+    return render_to_response('currentPermissions.html', {'currentMod':currentMod,'currentPerm':currentPerm,'reqModules':reqModules,'reqPermissions':reqPermissions},RequestContext(request))
+    
+
+
+    return render_to_response('manageRegistrations.html',{'untreated_list': untreated_list,'pending_list': pending_list ,'rejected_list': rejected_list}, RequestContext(request))
+
+
+
+@login_required
+@user_passes_test(lambda u: u.username=='lasmanager')
+def sendMail(request):
+    try:
+        if request.method=='POST':
+            if request.POST.get('step'):
+                return render_to_response('sendMail.html',RequestContext(request))
+            else:
+                try:
+                    message=request.POST.get('message')
+                    subject=request.POST.get('subject')
+                    toRecipients=request.POST.get('toRecipients')
+                    ccRecipients=request.POST.get('ccRecipients')
+                    bccRecipients=request.POST.get('bccRecipients')
+                    percorso=request.POST.get('path')
+                        
+                    toList=list()
+                    ccList=list()
+                    bccList=list()
+                    if toRecipients=="":
+                        toRecipients= []
+                        
+                    else:
+                        toRecipients=toRecipients.split(',')
+                        toRecipients.pop()
+                        for u in LASUser.objects.filter(username__in=toRecipients):
+                            if u.email!="":
+                                toList.append(u.email)
+                    if ccRecipients=="":
+                        ccRecipients= []
+                    else:
+                        ccRecipients=ccRecipients.split(',')
+                        ccRecipients.pop()
+                        for u in LASUser.objects.filter(username__in=ccRecipients):
+                            if u.email!="":
+                                ccList.append(u.email)
+                    if bccRecipients=="":
+                        bccRecipients=[]
+                    else:
+                        bccRecipients=bccRecipients.split(',')
+                        bccRecipients.pop()
+                        for u in LASUser.objects.filter(username__in=bccRecipients):
+                            if u.email!="":
+                                bccList.append(u.email)
+                    
+                    #bccList.append("domenico.schioppa@gmail.com")
+                    subject=subject.encode('utf-8')
+                    message=message.encode('utf-8')
+                    print "tolist",toList
+                    print "cc",ccList
+                    print "bcc",bccList
+                    print "message",message
+                    print "subject",subject
+                    
+                    email = EmailMessage(subject,message,"",toList,bccList,"","","",ccList)
+                    for upfile in request.FILES.getlist('file'):
+                        filename = upfile.name
+                        email.attach(upfile.name, upfile.read(), upfile.content_type)
+                    
+                    email.send(fail_silently=False)
+                    return render_to_response('sendMail.html',{"message":"ok"},RequestContext(request))
+                except Exception,e:
+                    print e
+                    return render_to_response('sendMail.html',{"message":"error"},RequestContext(request))
+                #return render_to_response('sendMail.html',{'modules':modules},RequestContext(request))
+        
+        else:    
+            modules=LASModule.objects.filter(is_active=1)
+            return render_to_response('selectUsersMail.html',{'modules':modules},RequestContext(request))
+    except Exception,e:
+        print e
+        return_dict = {"message": "error"}
+        json_response = json.dumps(return_dict)
+        return HttpResponse(json_response,mimetype='application/json')
+
+ 
+
+        
+@csrf_exempt
+def generate_report(request):
+    try:
+        print request.POST['tabledata']
+        dataTable = json.loads(request.POST['tabledata'])
+        formatFile = dataTable['fileformat']
+        filename = dataTable['filename']
+        print formatFile, filename
+        result = StringIO.StringIO()
+        if formatFile == 'pdf':
+            filename += '.pdf'
+            html  = render_to_string('reportPdf.html', { 'pagesize' : 'landscape', 'header':dataTable['header'], 'body':dataTable['body'], 'title':dataTable['title']}, context_instance=RequestContext(request))
+            pdf = pisa.CreatePDF(StringIO.StringIO(html.encode("UTF-8")), dest=result, link_callback=fetch_resources )
+            if pdf.err:
+                raise Exception("error in rendering pdf")
+        elif formatFile == 'las':
+            filename += '.las'
+            result.write('\t'.join([h['title'] for h in dataTable['header']]))
+            result.write('\n')
+            for row in dataTable['body']:
+                result.write('\t'.join([str(cell['data']) for cell in row]))
+                result.write('\n')
+        elif formatFile == 'data':
+            filename += '.data'
+            for row in dataTable['body']:
+                result.write('\t'.join([str(cell['data']) for cell in row]))
+                result.write('\n')
+        elif formatFile == 'excel':
+            filename += '.xls'
+            wbk = xlwt.Workbook()
+            sheet = wbk.add_sheet('Data')
+            fontBold = xlwt.Font()
+            fontBold.bold = True
+            patternH = xlwt.Pattern() # Create the Pattern 
+	    patternH.pattern = xlwt.Pattern.SOLID_PATTERN # May be: NO_PATTERN, SOLID_PATTERN, or 0x00 through 0x12 
+            patternH.pattern_fore_colour = 22 # May be: 8 through 63. 0 = Black, 1 = White, 2 = Red, 3 = Green, 4 = Blue, 5 = Yellow, 6 = Magenta, 7 = Cyan, 16 = Maroon, 17 = Dark Green, 18 = Dark Blue, 19 = Dark Yellow , almost brown), 20 = Dark Magenta, 21 = Teal, 22 = Light Gray, 23 = Dark Gray, the list goes on... 
+            patternC = xlwt.Pattern()
+            patternC.pattern = xlwt.Pattern.SOLID_PATTERN
+            patternC.pattern_fore_colour = 5
+            styleHeader = xlwt.XFStyle()
+            styleHeader.pattern = patternH
+            styleHeader.font = fontBold
+            styleCell = xlwt.XFStyle()
+            styleCell.pattern = patternC
+            row = 0
+            col = 0
+            for h in dataTable['header']:
+                sheet.write(row, col, str(h['title']), styleHeader)
+                col +=1
+            row += 1
+            for r in dataTable['body']:
+                col = 0
+                for cell in r:
+                    dCell = cell['data']
+                    try:
+                        float(dCell)
+                        dCell = float(dCell)
+                    except ValueError:
+                        pass
+                    if 'highsel' in cell['class'].strip():
+		        sheet.write(row, col, dCell, styleCell)
+                    else:
+                        sheet.write(row, col, dCell)
+                    col+=1
+                row +=1
+            print 'fff'
+            wbk.save(result) # write to stdout
+        response = HttpResponse(result.getvalue(), mimetype='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename=' + filename
+        return response
+    except Exception, e:
+        print "exception",e
+        return HttpResponseBadRequest("Page not available")
+
+
+
+def fetch_resources(uri, rel):
+    path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
+    return path
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Saved derived aliquots - PDF</title>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" />
+
+</head>
+<body>
+<section>
+        {% block content %}
+                <h1 align="center">Created derived aliquots</h1>
+                
+                <h4>Operator: {{  operatore  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: {{data_der|date:"jS F Y"}}</h4>
+                
+                <table border="1">
+                
+                    {{  intest|safe  }}
+                       
+	                {% for m in list_report %}
+	                        {{  m|safe  }}
+	                {% endfor %}
+                </table>
+        {% endblock %}
+</section>
+</body>
+</html>

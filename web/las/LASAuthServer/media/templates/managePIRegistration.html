@@ -1,0 +1,203 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+            
+    }
+    .ui-tabs-anchor{
+        color:black !important;
+    }
+    .connectedSortable { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; margin-right: 10px; background: #eee; width: 143px;}
+    .connectedSortable li{ margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+    </style>
+    
+    <script> 
+    var wgActBase=new Array();
+    $(document).ready(function() { 
+        $("#htabs-outer").tabs();
+        {% for wg in workingGroups %}
+            $(function() {
+                $( "#my-select{{wg.id}}" ).multiSelect({
+                    selectableHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Available activities</div>",
+                    selectionHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Selected activities</div>",
+                });
+            });
+            $("#my-select{{wg.id}}").attr("disabled", true);
+            $('#selectBox-{{wg.id}}').on('change', function() {
+                if(this.value =='no'){
+                    $("#fieldset{{wg.id}}").find(".ms-elem-selectable").addClass('disabled');
+                    $("#fieldset{{wg.id}}").find(".ms-elem-selection").addClass('disabled');
+                }
+                else{
+                    $("#fieldset{{wg.id}}").find(".ms-elem-selectable").removeClass('disabled');
+                    $("#fieldset{{wg.id}}").find(".ms-elem-selection").removeClass('disabled');
+                }
+            });
+            $('#select-all{{wg.id}}').click(function(){
+                $('#my-select{{wg.id}}').multiSelect('select_all');
+                return false;
+            });
+
+            $('#deselect-all{{wg.id}}').click(function(){
+                $('#my-select{{wg.id}}').multiSelect('deselect_all');
+                return false;
+            });
+            wgActBase[{{wg.id}}]=new Array();     
+   
+        {% endfor %}
+    });
+
+    function register(){
+        var joinedWG=new Array();
+        {% for wg in workingGroups %}
+            var checkedValsBase=new Array();
+            if($("#selectBox-{{wg.id}}" ).val()=='yes'){
+                $("#my-select{{wg.id}} option:selected").each(function () {
+                    var $this = $(this);
+                    if ($this.length) {
+                        checkedValsBase.push($this.val());
+                    }
+                });
+                wgActBase[{{wg.id}}]=checkedValsBase;
+                joinedWG.push({{wg.id}});
+            }
+            else{
+                wgActBase[{{wg.id}}]=new Array();
+            }
+        {% endfor %}
+        for (id in joinedWG){
+            var base=new Array();
+            if ((wgActBase[joinedWG[id]].length==0)){
+                alert('Error! You have to choose at least one activity for each joined WG!')            ;
+                return false;
+            }            
+        }
+        if(joinedWG.length==0){
+            var c=confirm('No Working groups selected for the user: do you want to reject the registration?');
+            if (c==true){
+                startLag();
+                $.ajax({
+                url:"{% url evaluateUserRegistration %}",
+	            type: "POST",
+	            data: {
+                       action:'reject',   
+                       recordID:{{recordID}} },
+                }).done(function(data) {        
+                    endLag();
+                    if(data["message"]=='error')
+                        alert("Error during registration!");
+                    else
+                        alert("User rejected!");
+
+                    window.location.href = "{% url loginmanager.views.manageWorkingGroups %}"
+                });
+            }
+            return false;        
+        }
+        startLag();
+        $.ajax({
+            url:"{% url evaluateUserRegistration %}",
+	        type: "POST",
+	        data: {
+                   action:'accept', 
+                   wgActBase:wgActBase,
+                   joinedWG:joinedWG,  
+                   recordID:{{recordID}} },
+            }).done(function(data) {        
+                endLag();
+                if(data["message"]=='error')
+                    alert("Error during registration!");
+                else
+                    alert("User registered!");
+                
+                window.location.href = "{% url loginmanager.views.manageWorkingGroups %}"
+            });
+    }
+    </script>
+    <script>$("section#content").addClass("home");</script>
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+    <nav>
+        <div id="htabs-outer">
+            <h1>&nbsp;Report</h1>
+            <label style="font-weight:bold;" >&nbsp;Username:</label> {{pendingRegistration.lasUserTemporaryRegistration.user.username}}<br>
+            <label style="font-weight:bold;" >&nbsp;First name:</label> {{pendingRegistration.lasUserTemporaryRegistration.user.first_name}}<br>
+            <label style="font-weight:bold;" >&nbsp;Last name:</label> {{pendingRegistration.lasUserTemporaryRegistration.user.last_name}}<br>
+            <label style="font-weight:bold;" >&nbsp;e-mail:</label> {{pendingRegistration.lasUserTemporaryRegistration.user.email}}<br>
+            <br><br>
+              
+            <!--begin htab outer menu-->
+            <ul>
+                {% for wg in workingGroups %}
+                    <li><a href="#htab-outer-{{wg.id}}">{{wg.name}}</a></li>
+                {% endfor %}
+            </ul>
+            <!--end htab outer menu-->
+            <!--begin htab outer panels-->
+            {% for wg in workingGroups %}
+                <div id = "htab-outer-{{wg.id}}">
+                    <div id="wgPreset-{{wg.id}}" style="width: 25%;float: left;">
+                        Do you want to add the user to the Working Group {{wg.name}}?<br><br>
+                        <select id="selectBox-{{wg.id}}">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>        
+                        </select>
+                    </div>
+                    <br><br>
+                    <div style="padding-left:40%">
+                        <fieldset id='fieldset{{wg.id}}' style="width:40%; "> 
+                        <br>
+                        <a href='#' id='select-all{{wg.id}}'>SELECT ALL /</a>
+                        <a href='#' id='deselect-all{{wg.id}}'>DESELECT ALL</a><br><br>   
+
+                        <legend style='font-size: 1.2em;'>Activities</legend>   
+                        <select multiple="multiple" id="my-select{{wg.id}}" name="my-select{{wg.id}}[]">
+                            {% for key, value in actDict.items %}
+                                <optgroup label="{{key}}">
+                                    {% for v in value %}
+                                      <option value="{{v.id}}" id=multi{{v.id}} {% ifequal v.found 1 %}selected{% endifequal%}>{{v.name}} </option>
+                                    {%endfor%}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                        </fieldset>
+                    </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div id="confirmDiv" style="float:right;">
+         <button id="confirm_button" class="button" onClick="register();">Confirm</button>
+        </div>
+    </nav>
+
+{% endblock %}

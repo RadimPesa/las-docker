@@ -1,0 +1,28 @@
+<span class="f">
+    <p><label for="id_executor">Assign to:</label> 
+        <select name="executor" id="id_executor">
+	    <option value="">---------</option>
+            {% for item in assignUsersList%}
+                <option value="{{item.wg.name|safe}}" wg='{{item.wg.name|safe}}' disabled="disabled" >{{item.wg.name|safe}}</option>
+	        {% for u in item.usersList%}
+                    <option value="{{u.id}}" id="{{item.wg.id}}_{{u.id}}" wg='{{item.wg.name|safe}}'>&nbsp;{{u.last_name|safe}} {{u.first_name|safe}}</option>
+                {% endfor %}
+	    {%endfor%}
+        </select>
+    </p>
+    <p><label for="id_date">Planned shipment date (optional):</label> <input type="text" name="date" id="id_date" /></p>
+    <p><label for="id_dest">Address to:</label> 
+        <select name="dest" id="id_dest">
+          <option value="" selected="selected">---------</option>
+            {% for item in addressUsersList%}
+                <option value="{{item.wg.id}}" disabled="disabled" >{{item.wg.name}}</option>
+                {% for u in item.usersList%}
+                    <option value="{{u.id}}" id="{{item.wg.id}}_{{u.id}}">&nbsp;{{u.last_name}} {{u.first_name}}</option>
+                {% endfor %}
+            {%endfor%}
+        </select></p>
+    <p><label for="id_aliquot">Genealogy ID or container barcode:</label> <input id="id_aliquot" type="text" name="aliquot" maxlength="45" /></p>
+</span>
+
+
+

@@ -1,0 +1,112 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}
+	View experiment data
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/decrease/view_data.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/genidbuttonmanagement.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/boxlist.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}boxlist.css" />	
+	
+	<style type="text/css">
+		input {display:inline;}
+		#exp_fin th,#exp_fin td{padding:6px;}
+		#exp_fin_paginate a {padding-top:4px;}
+		#exp_fin {margin-bottom:4px;margin-top: 4px;}
+		.linkfile, .label_sel {cursor:pointer;}
+		input.genidpar {width: 50px;}
+		span.button {background-color: #a32900;}
+		#genid th{padding-right:0.5em;}
+	</style>
+{% endblock %}
+
+{% block content %}
+	
+	<script type="text/javascript"> 
+		templates = $.parseJSON('{{mdamTemplates|safe}}');
+		mdam_url = "{{mdam_url}}";
+		genid = $.parseJSON('{{genid|safe}}');
+	</script>
+	
+	<input type="hidden" id="exp_type" value={{type}} />
+	<input type="hidden" id="exp_name" value={{experiment}} />
+    <fieldset>
+	    <legend>Filters</legend>
+	    <div style="width:100%;">
+	    	<input id="submit" class="button" type="submit" value="Search experiments" style='float:right;'/>
+	    </div>
+	    <div style='width:100%;margin-top:3em' id='templatediv'>
+	    	<table border="1px" id='templatetable' style='width:100%' ></table>
+	    </div>       
+    </fieldset>
+	<br>
+	<div id='contresults' style="display:none;">
+        <fieldset>
+	        <legend>Samples</legend>
+	        <input id="download_file" class="button" type="submit" style='float:right;' value="Download files">
+	        <br style="clear:both;">
+	        <br>
+       		<table id="exp_fin" border="1px">
+       			<thead>	        				
+       			</thead>
+       			<tbody>
+       			</tbody>
+       		</table>        
+        </fieldset>
+	</div>			
+	
+	<div id="dialog" style="display:none" title="Filter">
+		<p>
+			Genealogy ID type:
+			<select id="selgenidtype">
+				<option>Aliquot</option>
+				<option>Derived aliquot</option>
+			</select>
+		</p>
+		<table id="genid">                
+            <thead>
+                <th style="width: 40px" class="add"></th>
+            </thead>
+            <tbody>
+             <tr>
+              <td style="width: 40px" class="add">
+                  <button id="add_gid" class="button add_btn" style="margin-right:5px;">Add</button>
+              </td>	                
+             </tr>
+            </tbody>
+        </table>
+        <br>
+                            
+        <div>
+        	<table>
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Load Genealogy IDs from file:</span>
+                    </td>
+                    <td>
+                        <form id="genidfrm"><input type="file" id="genidfile" /></form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Insert full Genealogy IDs:<br>(newline or blank separated)</span>
+                        </td>
+                    <td>
+                        <textarea id="fullgenid" type="text" style="width:500px;height:80px; resize:none" maxlength="20000"></textarea></td>
+                    <td>
+                        <button id="add_gid2" class="button add_btn" style="margin-right:5px;">Add</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+                        
+        <div id="genidlist" style="max-height: 200px;overflow: auto;"></div>
+				
+	</div>	
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Multidimensional Data Manager - Home{% endblock %}
+
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    $('.mainlink li, span').each(function(){
+        $(this).click(function() {
+        	var target = $(this).attr('target');
+        	var url = $(this).attr('url');
+        	if (url){
+        		window.location = url;
+        	}
+        	else{
+        		$('.cn-slide').each(function(){
+        			$(this).hide();	
+        		});
+        		$('#'+target).show();
+        	}
+    	});
+    });
+});
+</script>
+
+<div class="cn-container" style='float:left;width:30%'>
+	<div class="cn-slide-main mainlink" id="slide-main">
+	    <nav>
+	        <li target='slide-query'>Query</li>                            
+	        <li target='slide-conf'>Configuration</li>
+	    </nav>
+	</div>
+</div>
+
+<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+    <div class="cn-slide mainlink" id="slide-query">
+        <nav>
+        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}images/arrow.png"></span>Query</h2>
+	            <li url="{% url _caQuery.views.querygen %}">Query Generator</li>
+                <li url="{% url _caQuery.views.plotXenoTree %}">Xeno genealogy tree</li>
+	            <li url="{% url _caQuery.views.historyQuery %}">History</li>
+
+	            <li url="{% url _caQuery.views.editTemplate %}">Edit Templates</li>
+	            <li url="{% url _caQuery.views.editTranslator %}">Edit Translators</li>
+	            
+	    </nav>
+	</div>
+</div>
+
+
+<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+    <div class="cn-slide mainlink" id="slide-conf">
+        <nav>
+        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}images/arrow.png"></span>Configuration</h2>
+
+	            <li url='{% url _caQuery.views.datasources %}'>Data sources</li>
+	            <li url='{% url _caQuery.views.manageqe %}'>Entities</li>
+	            <li url='{% url _caQuery.views.qpaths %}'>Query Paths</li>
+	            <li url='{% url _caQuery.views.updateAllPredefinedLists %}'>Update predefined lists</li>
+	        </nav>
+	    </div>
+</div>
+
+
+
+	
+<div class='cn-container' style='float:right;width:25%'>
+	<div class="imghome">
+		<img src="{{MEDIA_URL}}micetree.png" style="width:100%">
+	</div>
+	
+</div>
+
+	<br style="clear:both;"><br><br><br>
+
+{% endblock %}

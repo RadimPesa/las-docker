@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Scan protocol definition{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+
+input, select{
+	width: 150px;
+}
+
+th{
+	text-align:center;
+	padding-right:30px;
+	padding-left:30px;
+}
+
+#protocol_info { 
+    float:left; 
+    width: 40%; 
+    margin-right: 3em;
+}
+
+#parameters { 
+    float: left;
+    width: 50%;
+}
+
+</style>
+
+<script src="/uarray_media/js/scan_protocol.js"></script>
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/uarray_media/js/jquery.jeditable.mini.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+
+<fieldset style="margin-bottom:20px;">
+	<legend>Scan Protocols Definition</legend>
+
+	<div id="protocol_info">
+		<article id="riquadro"  style="overflow:auto;height:500px">
+			<h3> Insert Protocol Information </h3>
+
+			<table id="form">
+				<tr>
+					<th>Name:</th><td><input type="text" name="name" id="id_name"></td>
+				</tr>
+				<tr>
+					<th>Software:</th><td>
+						<select type="text" name="sotware" id="id_software">
+							{% for s in softwares %}
+							<option value="{{s.id}}">{{s}}</option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th style="padding-bottom:20px">Instrument:</th>
+					<td style="padding-bottom:20px">
+						<select type="text" name="instrument" id="id_instrument">
+							{% for instrument in instruments %}
+								<option value="{{instrument.id}}">{{instrument.name}}</option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<th style="padding-bottom:20px">Q/C required:</th>
+					<td>Yes<input type="radio" name="qc" value=true text="Yes"></td>
+					<td>No<input type="radio" name="qc" value=false text="No" checked></td>
+				</tr>
+				
+			</table>
+
+
+			<input class="button" type="submit" value="Set Info" id="setinfo" style="float:right">
+
+			<br/>
+			<p style='margin:3em'>
+				<span id='message' style='display:none;'>
+
+				</span>
+			</p>
+		
+		</article>
+		
+
+
+		</div>
+
+		<div id="parameters" style="position:relative">
+			<article id="riquadro"  style="overflow:auto;height:500px">
+				<h3> Parameters setting </h3>
+				<input class="button" type="submit" value="Save Protocol" id="saveprot" style="display:none;float:right">
+				<br/>
+
+				<table id="parameters_values" style="display:none;">
+				<tbody>
+
+				</tbody>
+
+				</table>
+
+				
+
+
+			</article>
+		</div>
+
+		
+</fieldset>
+
+
+{% endblock %}

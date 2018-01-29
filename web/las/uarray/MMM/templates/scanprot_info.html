@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Scan Protocol Info{% endblock %}
+
+
+{% block content %}
+
+<style>
+	td.reqinfo{
+		border: 0px;
+	}
+	th.reqinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+<div>
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px;max-width:50%;">
+<div id="request_info">
+	<h3>Protocol Info</h3>
+	<table id="protocol_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="reqinfo">Name:</th> 
+	            <td class="reqinfo">{{protocol.name}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="reqinfo">Software:</th> 
+	            <td class="reqinfo">{{protocol.idSoftware.name}}</td> 
+	        </tr>
+	        <tr>
+	        	<th class="reqinfo">Instrument:</th> 
+	            <td class="reqinfo">{{instrument.name}}</td> 
+	        </tr>
+	         <tr>
+	        	<th class="reqinfo">Q/C required:</th> 
+	            <td class="reqinfo">{{protocol.tobevalidated|yesno:"Yes,No,Undefined"}}</td> 
+	        </tr>
+	    </tbody> 
+
+	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="instrument_params">
+	<legend>Instrument setting</legend>
+	<table cellspacing="5">
+		 	<thead>
+				<tr> 
+					<th>Parameter name</th>   
+		            <th>Value</th>
+		            <th>unity Measure</th> 
+		        </tr>
+	        </thead>
+	        <tbody>
+    		{% for p in params%} 	
+		        <tr>
+		            <td>{{p.idParameter.name}}</td> 
+		            <td>{{p.value}}</td>
+		            <td>{{p.idParameter.unity_measure}}</td>
+		        </tr>
+	 
+			{% endfor %}
+	       </tbody>
+	</table> 
+</fieldset>
+</div>
+{% endblock %}

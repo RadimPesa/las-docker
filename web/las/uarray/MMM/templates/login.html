@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<script src="/static/js/jquery-1.6.2.min.js"></script>
+	<script src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script src="/static/js/jquery.tablesorter.min.js"></script>
+	<script src="/static/js/jquery.tablesorter.pager.js"></script>
+	<script src="/static/js/jquery.tablesorter.js"></script>
+	<script src="/static/js/jquery.jsort.0.4.js"></script>
+	<script src="/static/js/jquery.metadata.js"></script>
+	
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/ui-lightness/jquery-ui-1.8.16.custom.css">
+	
+	
+	
+	<title>Login</title>
+	
+	<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+	<!-- [if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+    <script type="text/javascript" src="/tissue/tissue_media/JS/loginfocus.js"></script>	
+
+</head>
+
+<body onload="setLoginFocus()">
+
+	<header>
+	<hgroup>
+		<h1> <a href="{% url MMM.views.home %}"><img src="/static/img/logo-verde.png" width="143" height="46" border="0"></a> MicroArray Management Module </h1>
+		<h2> Microarray Management Experimental Module - <a href=http://devircc.polito.it/wordpress/?p=558#respond>--( Feedback )--</a><br> </h2> 
+	</hgroup>
+	</header>
+
+	<section id="content">	
+                <h1> Login </h1>
+
+                <p id="error">{{  message  }}</p>
+
+                <form name='loginForm' action='.' method='post'> {% csrf_token %}
+                        <p>
+                                <label for="username">Username:</label>
+                                <input type="text" name="username" value="" id="username">
+                        </p>
+                        <p>
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" value="" id="password">
+                        </p>
+                        <input type="submit" value="Login" />
+                        <input type="hidden" name="next" value="{{ next }}" />
+                <form action='.' method='post'>
+       
+	</section>
+
+               
+</body>
+</html>
+

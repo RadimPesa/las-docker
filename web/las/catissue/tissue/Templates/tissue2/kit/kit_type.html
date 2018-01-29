@@ -1,0 +1,86 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Save new kit type{% endblock %}
+
+{% block script %}
+	<style type="text/css">
+		.f select,.f input { display:block; position:relative;}
+		h2{font-size:1.3em;}
+	</style>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		$("#id_name").focus();
+		$(".f input").attr("size","15");
+		$("#id_instruction").attr("size","25");
+		$("#id_capacity").attr("size","3");
+		$("#conferma1").click(function(event){
+			var regex=/^[0-9]+$/;
+			numero=$("#id_capacity").attr("value");
+			if(!regex.test(numero)){
+				alert("You can only insert number in capacity. Please correct.");
+				event.preventDefault();
+			}
+		});
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+{% if not fine %}
+	<div align="center">
+		<div id=inizio  style="width:40%;">
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url tissue.kit.SaveKitType %} enctype="multipart/form-data" method="post">{% csrf_token %}
+							<section class="f">
+									{{ form.as_p }}
+							</section>
+							<br>
+							<input type="submit" class="button" value="Submit" id="conferma1"/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% else %}
+	<style type="text/css">
+		td{padding:8px;}
+		th{padding:8px;}
+	</style>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		var tabfin=$("#kit_fin");
+		//se sono nella pagina del report finale
+		if (tabfin.length!=0){
+			//per il report finale
+			generate_result_table("Kit_type","kit_fin");
+		}
+	});
+	</script>
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	
+	<h2>This kit type has been saved:</h2>
+	<table border='2px' id="kit_fin">
+		<thead>
+			<th>Kit Name</th>
+			<th>Producer</th>
+			<th>Capacity</th>
+			<th>Catalogue Number</th>
+		</thead>
+		<tbody>
+			<tr align="center">
+				<td>{{nome}}</td>
+				<td>{{produttore}}</td>
+				<td>{{capacit}}</td>
+				<td>{{catal}}</td>
+			</tr>
+		</tbody>
+	</table>
+{% endif %}
+{% endblock %}

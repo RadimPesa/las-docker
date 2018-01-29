@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/beuta.ico">
+<title>{% block title %}{% endblock %}</title>
+    <!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+    <!-- [if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}spinning.css" type="text/css" />
+<!-- <link rel="stylesheet" type="text/css" href="/static/admin/css/widgets.css"/>  -->
+
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jsi18n.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/calendar.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/csrfToken.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+<!-- <script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui-1.10.3.js"></script>  -->  
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		//ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+	    workingGroups="";
+	    {% if request.workingGroups %}
+	        workingGroups="{{request.workingGroups}}";
+	        $.ajaxSetup({
+	            beforeSend: function (request){
+	                request.setRequestHeader("workingGroups", workingGroups);
+	            }
+	        });
+	    {% endif %}
+	
+		
+	    $('body').ajaxComplete(function(e, xhr, settings) {
+	        if (xhr.status == 278) {
+	            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+	        }
+	    });
+	
+		$("span.home").click(function(){
+			window.location="{% url funnel.views.collectionFunnel %}";
+		});
+	});        
+</script>
+
+{% block script %}{% endblock %}
+{% block report %}{% endblock %}
+</head>
+<body {%block bodyoption %}{% endblock %}>
+{% if user.username %}	
+	<header style="height:72px;">
+			
+		    <h1 style="float:left;margin-top:24px;padding-top:0px;"> <a style="font-size:18px;" id="home" href="{% url funnel.views.collectionFunnel %}">Funnel Management Module<!-- <img width="143px" height="46px" src="{{MEDIA_URL}}img/mercuric_large_logo.png">  --></a> </h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} |<a href="{{LAS_AUTH_SERVER_URL}}"> LAS Home </a>[{{  user.username  }}]</span>
+		</p>
+		<br style="clear:both;">
+		
+			
+	</header>
+	<!-- <nav id="menu">
+		{% block menu %}
+		{% endblock %}
+	</nav>
+	
+	-->
+	
+	<section id="content">
+		
+		<input type="hidden" id="actual_username" value={{user.username}} cod={{user.id}} />		 
+	{% block content %}
+	{% endblock %}
+	</section>
+	
+{% else %}
+	<p> You need to <a href={% url django.contrib.auth.views.login %}>login</a></p>
+{% endif %}
+	
+<div class="modal"><!-- Place at bottom of page --></div>
+</body>
+</html>

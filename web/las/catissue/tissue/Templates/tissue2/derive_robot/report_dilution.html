@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body>
+		<section style="color: black;">			    
+			<h3>Please note that the following {{action}} procedures have been completed by robot.</h3>
+			<h4>Click <a href= "{{ perc }}" >here</a> to acquire data in LAS</h4>
+			
+			<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+				<th style="padding:4px;">N </th>
+				<th style="padding:4px;">Genealogy ID</th>
+				<th style="padding:4px;">Barcode</th>
+				<th style="padding:4px;">Position</th>
+				<th style="padding:4px;">Procedure name</th>
+				{% for aliquota,barc,pos,name in lista %}
+					<tr>
+						<td style="padding:5px;">{{forloop.counter}}</td>
+						<td style="padding:5px;">{{aliquota}} </td>
+						<td style="padding:5px;">{{barc}}</td>
+						<td style="padding:5px;">{{pos}}</td>
+						<td style="padding:5px;">{{name}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</body>
+</html>

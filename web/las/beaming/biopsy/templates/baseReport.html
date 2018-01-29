@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block report %} 
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColReorder/media/js/ColReorder.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/js/HVis.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColVis/media/js/ColVis.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColReorder/media/css/ColReorder.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColVis/media/css/ColVis.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/css/HVis.css" />
+
+<style type="text/css">
+	table.dataTable {
+ 	z-index:105;
+	}
+
+    table.dataTable td.highsel {
+        background-color: #FECA40;
+}
+</style>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery(".report").each(function(){
+        generate_result_table(this);
+    });
+});
+
+function generate_result_table(table){
+    var d = new Date();
+    var user = jQuery('#user_name').attr('user');
+    var filename = actionname + "_" + user + '_' + $.datepicker.formatDate('yy-mm-dd', d) + "--" + pad(d.getHours()) + "-" + pad(d.getMinutes()) + "-" + pad(d.getSeconds());
+    jQuery(table).dataTable( {
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "iDisplayLength": 10,
+        "sDom":'TRCH<\"clear\">lfrtip',
+        "oTableTools": {
+                "aButtons": [  
+                {
+                                "sExtends": "las",
+                                "sButtonText": "Las",
+                                "sTitle": filename,
+                                "mColumns": "visible"
+                }, 
+                {
+                                "sExtends": "pdf",
+                                "sButtonText": "Pdf",
+                                "sPdfMessage": "Laboratory Assistant Suite - Beaming Manager - " + user + " - " + $.datepicker.formatDate('yy/mm/dd', d) + " @ " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()),
+                                "sTitle": filename,
+                                "mColumns": "visible",
+                                "sPdfSize": "tabloid"
+                },
+                {
+                                "sExtends": "data",
+                                "sButtonText": "Data",
+                                "sTitle": filename,
+                                "mColumns": "visible"
+                },
+                {
+                                "sExtends": "xls",
+                                "sButtonText": "Xls",
+                                "sTitle": filename,
+                                "mColumns": "visible"
+                }, 
+                "print"
+                ],
+                "sUrl": lasauth_url + "generate_report/",
+        }
+    });
+}
+
+</script>
+
+{% endblock %}
+
+{%block home%}
+<div style='float:right'>
+    <a href="{% url biopsy.views.home %}">
+    <button id='homebut' class='button'><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+    </a>
+</div>
+{% endblock %}

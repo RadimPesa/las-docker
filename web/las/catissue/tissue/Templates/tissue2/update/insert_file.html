@@ -1,0 +1,144 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Upload results{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/decrease/insert_file.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<style type="text/css">
+		#samples_paginate a {padding-top: 4px;}
+		#samples {margin: 4px 0 4px 0; }
+		.ui-icon-search {cursor:pointer;}
+	</style>
+{% endblock %}
+
+{% block content %}
+	{% if not fine %}
+		<div id='aliquot_toval' >
+		<fieldset>
+			<article id='riquadro' style="width:inherit;padding:1em;padding-bottom:2em;">
+				<table border=1px id="samples" >
+		        	<thead>
+						<tr align="center">
+							<th >Id Experiment</th>
+							<th >N</th>
+							<th >Select</th>
+			                <th >Genealogy ID</th>
+			                <th>Freezer</th>
+							<th>Rack</th>
+							<th>Plate Pos.</th>
+							<th>Plate</th>
+							<th>Tube Pos.</th>
+							<th>Barcode</th>
+							<th>Experiment</th>
+			                <th></th>
+			                <th>File name</th>
+			                <th>No files</th>
+		                </tr>
+		        	</thead>
+		        	<tbody>
+		            {% for al in aliquots%}
+		                <tr align="center">
+		                    <td>{{al.id}}</td>
+		                    <td>{{forloop.counter}}</td>
+		                    <td><input type="checkbox" name="select" value="select" class="sel_aliq" /></td>
+		                    <td>{{al.idAliquot.uniqueGenealogyID}}</td>
+		                    <td></td>
+		                    <td></td>
+		                    <td></td>
+		                    <td></td>
+		                    <td></td>
+		                    <td></td>
+		                    <td>{{al.idExperiment}}</td>
+		                    <td></td>
+		                    <td></td>
+		                    <td><input type="checkbox" class="nofiles" /></td>
+		                </tr>
+		            {% endfor %}
+		        	</tbody>
+		        </table>
+	
+	     </article>
+	     </fieldset>
+	 	</div>
+		<br>
+		<div style="float:left;width:100%">
+			<fieldset>
+		        <!-- <legend>Files</legend>  -->
+		        <div style="float:left;">
+			        <form id="upload_sample_file" enctype="multipart/form-data" method="post" action="{% url tissue.experiment.InsertFiles %}" >
+			        	{% csrf_token %}
+			        	Files: 
+			        	<div id='filelist'>
+			        		<input id='currentfile' type="file" name="file" class="file" multiple/ style="display:none;">
+			        		<input id="filename" type="text" size="10" style="display:inline;" autocomplete="off" />
+			        		<input id="tastofile" type="button" class="button classetastofile" value="Browse..." style="display:inline;" />
+			        	 </div>
+			        	<input id='aliquots_list' type="hidden" name='aliquots_list' value=""/>			        	
+			        </form>
+			    </div>
+			    {% if lisfiletype|length != 0 %}
+				    <div style="float:left;margin-left:6em;">
+			        	<label for="id_tag">Choose file type:</label>
+			        	<br>
+						<select id="id_tag">
+							<option value="">---------</option>
+							{% for elem in lisfiletype %}		        
+								<option value="{{elem.idFileType.id}}">{{elem.idFileType.name}}</option>
+							{% endfor %}
+						</select>
+			        </div>
+			    {% endif %} 
+		        <br style="clear:both;">
+		        <br>
+	        	<div style='float:left;width:30%'>
+	        		<input id="associate" class="button" type="submit" value="Upload files" onClick="associateFiles();" style="float:left"/>
+	        	</div>
+	        	<div style='float:right;width:15%'>
+					<input id="submit" class="button" type="submit" value="Save&Finish" onClick="submitResults();" style="float:left"/>
+				</div>
+		        
+			</fieldset>
+		</div>
+			
+	    <article class="dialog" id="viewfile_dialog" style="display:none;">
+	    	<input id='rowFile' type='hidden'/>
+	        <div class="filediv_dialog">
+	        	<p>Select files to delete for the sample</p>
+	        </div>
+	    </article>
+	{% endif %}
+	{% if fine %}
+		<style type="text/css">
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		<script type="text/javascript">
+			lunghezza = 0;
+		</script>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>Aliquots:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>			
+				<th>File</th>
+			</thead>
+			<tbody>
+				{% for i in lista_fin %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		           
+		</table>
+	{% endif %}
+{% endblock %}

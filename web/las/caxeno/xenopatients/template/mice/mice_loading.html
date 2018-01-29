@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Mice Loading{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xeno_script.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/miceLoading.js"></script>
+	<style>
+        td.control{cursor:pointer;}        
+    </style>
+{% endblock %}
+{% block bodyoption %}onload="setFocus()"{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}	
+		{%  if second_step  %}
+			<div id="gen_data" align="center" style="width:25%;float: left;margin-right:30px;">
+				<fieldset  class="fieldset" >
+					<legend class="legend"> Common Data </legend>
+					<table>
+						{% for key, value in dict_value.items %}
+							<tr>
+								<td><label for = "{{  key  }}">{{  key  }}</label></td>
+								<td><input readonly="readonly" id = "{{  key  }}" name="{{  key  }}" value="{{  value  }}"><br></td>
+							</tr>
+						{% endfor %}
+						<tr>
+							<td ><label for = "operator">Operator</label></td>
+							<td><input readonly="readonly" id="operator" name="operator" value="{{  name  }}"></td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+			<div id="insert" align="center" style="float:left;width:25%;">
+				<fieldset  class="fieldset">
+					<legend class="legend"> Mouse Info </legend>
+					<label for = "id_barcode">Barcode of mouse:</label>
+					<input id="id_barcode" type="text" name="barcode" maxlength="15" onkeyup="checkKey(event)">
+					<div align="center">
+						<div align="left">
+							{{ form.as_p }}
+						</div>
+					</div>
+					<div style="clear:both"/>
+			  	   		<input type="button" value="Add" onclick="addRow()" />
+			  	   		<input type="button" id='finish' name="finish" value="Finish" onclick="save()" style="display:none;"/>
+					</div>
+				</fieldset>
+			</div>
+			<div id="listDiv" align="center" style="width:25%;float:right;display:none">
+				<fieldset  class="fieldset">
+					<legend class="legend"> Inserted Mice </legend>
+					<table id="loadingTable" >
+					</table>
+				</fieldset>
+			</div>
+		{% else %}
+			<fieldset  class="fieldset" style="width:25%;">
+				<legend class="legend"> Common Data </legend>
+				<form action="{% url xenopatients.miceManage.miceLoading %}" method="post">{% csrf_token %}
+					<table >
+						{{  form.as_table  }}
+					</table>
+					</br>
+					<input type="submit" name="start" value="Ok" align="left"/>
+				</form>
+			</fieldset>
+		{% endif %}   
+	{% endif %}
+{%  if message  %}
+	<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+	<script>
+		document.getElementById("message").style.display = 'inline';
+	</script>
+{% endif %}
+{% endblock %}

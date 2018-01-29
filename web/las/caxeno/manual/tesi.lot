@@ -1,0 +1,37 @@
+\select@language {english}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{Tabella Mice}}{38}
+\contentsline {table}{\numberline {5.2}{Tabella MouseStrain}}{38}
+\contentsline {table}{\numberline {5.3}{Tabella Source}}{38}
+\contentsline {table}{\numberline {5.4}{Tabella Status}}{39}
+\contentsline {table}{\numberline {5.5}{Tabella ChangeStatus}}{39}
+\contentsline {table}{\numberline {5.6}{Tabella StatusInfo}}{39}
+\contentsline {table}{\numberline {5.7}{Tabella Status\_info\_has\_status}}{39}
+\contentsline {table}{\numberline {5.8}{Tabella Aliquots}}{40}
+\contentsline {table}{\numberline {5.9}{Tabella TissueType}}{40}
+\contentsline {table}{\numberline {5.10}{Tabella Series}}{41}
+\contentsline {table}{\numberline {5.11}{Tabella Type\_of\_serie}}{41}
+\contentsline {table}{\numberline {5.12}{Tabella ImplantDetails}}{41}
+\contentsline {table}{\numberline {5.13}{Tabella Site}}{41}
+\contentsline {table}{\numberline {5.14}{Tabella ExplantsDetails}}{42}
+\contentsline {table}{\numberline {5.15}{Tabella Programmed\_explant}}{42}
+\contentsline {table}{\numberline {5.16}{Tabella ScopeDetails}}{42}
+\contentsline {table}{\numberline {5.17}{Tabella auth\_user}}{43}
+\contentsline {table}{\numberline {5.18}{Tabella XenoUsers}}{43}
+\contentsline {table}{\numberline {5.19}{Tabella cancer\_research\_group}}{44}
+\contentsline {table}{\numberline {5.20}{Tabella Institution}}{44}
+\contentsline {table}{\numberline {5.21}{Tabella MeasurementSeries}}{44}
+\contentsline {table}{\numberline {5.22}{Tabella QuantitativeMeasure}}{45}
+\contentsline {table}{\numberline {5.23}{Tabella Qualitative\_values}}{45}
+\contentsline {table}{\numberline {5.24}{Tabella QuantitativeMeasure}}{45}
+\contentsline {table}{\numberline {5.25}{Tabella TypeOfMeasure}}{46}
+\contentsline {table}{\numberline {5.26}{Tabella Treatments}}{46}
+\contentsline {table}{\numberline {5.27}{Tabella Detail\_treatments}}{47}
+\contentsline {table}{\numberline {5.28}{Tabella Mice\_has\_treatments}}{47}
+\contentsline {table}{\numberline {5.29}{Tabella Drugs}}{48}
+\contentsline {table}{\numberline {5.30}{Tabella Via\_mode}}{48}
+\contentsline {table}{\numberline {5.31}{Tabella Urls}}{48}

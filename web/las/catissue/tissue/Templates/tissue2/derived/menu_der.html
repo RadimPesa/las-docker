@@ -1,0 +1,72 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Derive Aliquots{% endblock %}
+
+<!--{% block menu %}
+
+    <ul>
+    	<li><a  href={% url tissue.views.index %}>Home</a></li>
+        <li><a  href={% url tissue.views.ExecDerivedAliquots %}>1.Select aliquots</a></li>
+        <li><a  href={% url tissue.views.LoadKitDerivedAliquots %}>2.Select kit</a></li>
+        <li><a  href={% url tissue.views.LoadDetailsDerivedAliquots2 %}>3.Measure aliquots</a></li>
+        <li><a  href={% url tissue.views.LoadLastPartDerivedAliquots %}>4.Create new aliquots</a></li>
+    </ul>
+
+{% endblock %}
+-->
+
+{% block content %}
+	<script>
+	$("section#content").css("background-image","url({{MEDIA_URL}}img/sfondobanca.png)");
+	$("section#content").css("background-position","right bottom");
+	$("section#content").css("background-repeat","no-repeat");	
+	
+	$(document).ready(function() {
+		$("td.navbut.u").click(function(){
+			window.location="{% url tissue.derived.ExecDerivedAliquots %}";	
+		});
+		$("td.navbut.w").click(function(){
+			window.location="{% url tissue.derived.LoadKitDerivedAliquots %}";	
+		});	
+		$("td.navbut.x").click(function(){
+			window.location="{% url tissue.derived.LoadDetailsDerivedAliquots2 %}";	
+		});
+		$("td.navbut.y").click(function(){
+			window.location="{% url tissue.derived.LoadLastPartDerivedAliquots %}";	
+		});	
+	});
+	</script>
+	<style type="text/css">
+		table{border-collapse: separate;background-color: transparent;}
+	</style>
+	<nav style="padding:9em 6em;">
+        <table>
+            <tr>
+                <td class="navbut u">
+				<table>
+                	<tr><td><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif"></td><td id="navtitle">1. Select aliquots</td></tr>
+                </table>
+				</td>
+                <td class="navbut w">
+                	<table>
+					<tr><td><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif"></td><td id="navtitle">2. Select kit</td></tr>
+					</table>
+				</td>
+			<tr>
+			</tr>
+				
+                <td class="navbut x">
+					<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif"></td><td id="navtitle">3. Measure aliquots</td></tr>
+					</table>
+				</td>
+				
+                <td class="navbut y">
+                	<table>
+					<tr><td><img id="beuta" src="{{MEDIA_URL}}img/beuta.gif"></td><td id="navtitle">4. Create new aliquots</td></tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</nav>
+	
+{% endblock %}

@@ -1,0 +1,105 @@
+version: '3'
+
+services:
+  web:
+    container_name: las
+    restart: always
+    env_file:
+      - .env
+    build: ./web/
+    ports:
+      - 443:443
+      - 80:80
+    links:
+      - lasmysql:lasmysql
+      - lasmongodb:lasmongodb
+      - lasneo4j:lasneo4j
+    volumes:
+      - ./web/las:/srv/www
+      - ./blat:/blat
+    depends_on:
+      - lasmysql
+      - lasmongodb
+      - lasneo4j
+      - blat-genome
+      - blat-transcriptome
+  
+  lasmysql:
+    container_name: lasmysql
+    image: mysql
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - dbdata:/var/lib/mysql
+    expose:
+      - "3306"
+
+  lasphpmyadmin:
+    container_name: lasphpmyadmin
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - 8082:80
+    volumes:
+      - /sessions
+    depends_on:
+      - lasmysql
+
+  lasmongodb:
+    restart: always
+    image: mongo:latest
+    container_name: lasmongodb
+    env_file:
+      - .env
+    volumes:
+      - mongodata:/data/db
+    expose:
+        - "27017"
+    command: mongod --logpath=/dev/null # --quiet
+    
+  lasneo4j:
+    image: neo4j:2.3.11-enterprise
+    restart: always
+    container_name: lasneo4j
+    env_file:
+      - .env
+    expose:
+      - "7474"
+    ports:
+      - "7475:7474"
+    volumes:
+      - neodata:/data/
+      - ./neo4j-data:/neo4j-data
+  
+  blat-genome:
+    container_name: blat-genome
+    restart: always
+    env_file:
+      - .env
+    build: ./blat-genome/
+    expose:
+      - "11515"
+    volumes:
+      - ./blat/bin:/blat/bin
+      - ./blat/seq/GRCh37.p13.chrom.2bit:/blat/seq/GRCh37.p13.chrom.2bit
+
+  blat-transcriptome:
+    container_name: blat-transcriptome
+    restart: always
+    env_file:
+      - .env
+    build: ./blat-transcriptome/
+    expose:
+      - "11516"
+    volumes:
+      - ./blat/bin:/blat/bin
+      - ./blat/seq/gencode.v19.pc_transcripts.simple.2bit:/blat/seq/gencode.v19.pc_transcripts.simple.2bit
+
+volumes:
+  dbdata:
+  mongodata:
+  neodata:

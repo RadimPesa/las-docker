@@ -1,0 +1,123 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Insert files{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/label/file_insert.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/boxlist.js"></script>	
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}boxlist.css" />
+{% endblock %}
+
+{% block content %}
+	{% if not fine %}
+		<style type="text/css">
+			td{padding:6px;}
+			th{padding:6px;}
+			#aliq input{display:inline;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+			h2{font-size:1.3em;}
+			#aliq th {color:white;background-color: #a32900;}
+		</style>
+		
+		<script type="text/javascript">
+			lunghezza = $.parseJSON('{{lista|length}}');
+			dizdati = $.parseJSON('{{dizdati|safe}}');
+		</script>
+
+		<form id="form_fin" action={% url tissue.label.SaveFile %} enctype="multipart/form-data" method="post">{% csrf_token %}
+			<div style="float:left;width:100%;">
+				<div class="bordicurvi" style="float:left;border-style:solid;border-width:0.1em;border-color:black;padding:0.5em;">
+					<label for="id_valid_barc">Genealogy ID or barcode (optional):</label>
+					<div>
+						<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="32" maxlength="45" >
+						<br>
+						<input id="add_slide" type="submit" class="button" style="float:left;margin-top:0.2em;" value="Add slide" title="Click to insert already labelled slides"/> 
+					</div>
+				</div>
+	
+				<div style="float:right;">
+					<input id="conf_all" type="submit" class="button" value="Confirm all" title="Click to confirm"/>
+				</div>
+			</div>
+			
+			<input id="lung_tabella" type="hidden" name="lung_tabella" />
+			<br style="clear:both;"/>
+			<h2 id="istruzioni"></h2>
+			<table border='2px solid' style="float:left;" id="aliq">
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Mother genealogy ID</th>
+				<th>Barcode</th>
+				<th >Position</th>
+				<th >Notes</th>
+				<th >File</th>
+				<th >New file name (editable)</th>
+				<th>No file</th>
+				
+				{% for aliquota,barc,pos,labsched in lista %}
+					<tr align="center" class="interna">
+						<td class="lis_indici">{{forloop.counter}}</td>						
+						<td class="lis_gen">{{aliquota.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" name="gen_{{forloop.counter0}}" value={{aliquota.uniqueGenealogyID}} />
+						</td>
+						<td>{{labsched.idAliquot.uniqueGenealogyID}}</td>
+						<td class="lis_barcode">{{barc}}</td>
+						<td>{{pos}}</td>
+						<td>{{labsched.notes}}</td>
+						<td>
+							<input id="idfile_{{forloop.counter0}}" class="file_none" type="file" name="{{aliquota.uniqueGenealogyID}}_0" style="display:none;" />
+							<input id="filename_{{forloop.counter0}}" type="text" size="10" style="display:inline;" />
+							<input id="tastofile_{{forloop.counter0}}" type="button" class="button classetastofile" value="Browse..." style="display:inline;" />
+						</td>
+						<td>						
+							<input id="newname_{{forloop.counter0}}" class="newnameclass" type="text" size="45" style="display:inline;" />
+							<button id="add_btn_{{forloop.counter0}}" class="button add_btn" style="display:none;">Add</button>
+						</td>
+						<td>
+							<input style="margin:10px;" id="nofile_{{forloop.counter0}}" class="checknofile" type="checkbox" name="nofile_{{forloop.counter0}}" size=5 />
+						</td>
+					</tr>
+				{% endfor %}
+			</table>			
+		</form>
+		<div id="dia1" style="display:none" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+	{% endif %}
+	{% if fine %}
+		<style type="text/css">
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		<script type="text/javascript">
+			lunghezza = 0;
+		</script>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>Aliquots:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>			
+				<th>File</th>
+			</thead>
+			<tbody>
+				{% for i in lista_fin %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		           
+		</table>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    $('.mainlink li, span').each(function(){
+        $(this).click(function() {
+        	var target = $(this).attr('target');
+        	var url = $(this).attr('url');
+        	if (url){
+        		window.location = url;
+        	}
+        	else{
+        		$('.cn-slide').each(function(){
+        			$(this).hide();	
+        		});
+        		$('#'+target).show();
+        	}
+    	});
+    });
+});
+
+
+
+</script>
+    <div class="cn-container" style='float:left;width:30%'>
+        <div class="cn-slide-main mainlink" id="slide-main">
+		    <nav>
+	        {% for m in menu %}
+	        	{% if m.lenmod > 0 %}
+			    <li target='{{m.shortname}}'>{{m.title}}</li>     
+			    {% endif %}
+			{% endfor %} 		
+	             
+			<li target='usermanager'>Profile & Tutorial</li>
+	        </nav>
+        </div>
+    </div>
+    
+    {% for m in menu %}
+	    {% if m.lenmod > 0 %}
+			<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+		        <!-- Slide 1 and sub-slides -->
+			    <div class="cn-slide mainlink" id="{{m.shortname}}">
+			        <nav>
+			            <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>{{m.title}}</h2>
+			            {% for l in m.mods%}
+			            	<li url='{{l.url}}'>{{l.name}}</li>
+			            {% endfor %} 
+			        </nav>
+			    </div>    
+			</div>
+		{% endif %}
+	{% endfor %} 
+	
+	<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>     
+        <!-- Slide 1 and sub-slides -->
+	    <div class="cn-slide mainlink" id="usermanager">
+	        <nav>
+	            <h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Profile & Tutorial</h2>
+                    {% if admin %}
+                    <li url='{% url loginmanager.views.manageWorkingGroupsAdmin %}'>Working Groups Administration</li>
+                    {% endif%}
+     
+	            {% if PI %}
+	            <li url='{% url loginmanager.views.manageWorkingGroups %}'>Working Groups</li>
+	            {% endif%}
+		    {% if manager %}	            
+	            <li url='{% url loginmanager.views.manageAdmin %}'>Admininistrator</li>
+	            {% endif%}
+	            {% if DEMO %}
+	            <li url='{% url loginmanager.views.demoDocumentation %}'>Documentation</li>
+	            {% endif %}
+	            <li url='{% url loginmanager.views.manageAccount %}'>Profile</li>
+	            <li url='{% url loginmanager.views.video %}'>Videos</li>
+	        </nav>
+	    </div>    
+	</div>
+	
+        
+   <div class='cn-container' style='float:right;width:25%'>
+			<div class="imghome">
+				<img src="{{MEDIA_URL}}img/dna3.jpg" style="width:100%">
+			</div>
+	</div>
+	
+		<br style="clear:both;"><br><br><br>
+			
+
+
+{% endblock %}
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=UTF-8"> 
+	<script src="{{MEDIA_URL}}js/jquery-1.8.3.min.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.tablesorter.min.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.tablesorter.pager.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.tablesorter.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.jsort.0.4.js"></script>
+	<script src="{{MEDIA_URL}}js/jquery.metadata.js"></script>
+	<script src="{{MEDIA_URL}}js/inputvalidation.js"></script>
+	 <script src="{{MEDIA_URL}}js/urls.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css">
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/ui-lightness/jquery-ui-1.9.2.custom.css">
+	
+			<title>{% block title %}{% endblock %}</title>
+			
+		<link rel="shortcut icon" href="/biopsy_media/img/favicon.ico">	
+		<script>
+			//customizzazione delle alert
+			function pad(n) { return ("0" + n).slice(-2); }
+
+			function alert2(message, title, buttonText) {
+
+		    buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+		    title = (title == undefined) ? "The page says:" : title;
+
+		    var div = $('<div>');
+		    div.html(message);
+			div.css("padding","25px");
+		    div.attr('title', title);
+		    div.dialog({
+		        autoOpen: true,
+		        modal: true,
+				height: 200,
+		        draggable: true,
+		        resizable: true,
+		        buttons: [{
+		            text: buttonText,
+		            click: function () {
+		                $(this).dialog("close");
+		                div.remove();
+		            }
+		        }]
+		    });
+			}
+			window.alert = alert2;
+			
+			$(document).ready(function() {
+				$("span.home").click(function(){
+			        window.location="{% url biopsy.views.home %}";
+			    });
+			});
+
+		    jQuery(document).ready(function() {
+                jQuery('body').ajaxComplete(function(e, xhr, settings) {
+                        if (xhr.status == 278) {
+                            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                        }
+                });
+			    //ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+			    workingGroups="";
+			    {% if request.workingGroups %}
+			        workingGroups="{{request.workingGroups}}";
+			        $.ajaxSetup({
+			            beforeSend: function (request){
+			                request.setRequestHeader("workingGroups", workingGroups);
+			            }
+			        });
+				{% endif %}
+
+            });
+        media_url = "{{MEDIA_URL}}";
+    	lasauth_url = "{{LAS_URL}}";
+		</script>
+
+{% block script %} {% endblock %}
+</head>
+<body {%block bodyoption %}{% endblock %}>
+	<header>
+			
+		    <h1 style="float:left;"> <a id="home" href="{% url biopsy.views.home %}"><img width="143px" height="46px" src="/biopsy_media/img/logo-trasp.png"></a> Liquid Biopsy </h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   {% if user.is_authenticated %}
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} | <a href="{% url biopsy.views.logout_view %}">LAS Home</a> [{{  user.username  }}]</span><!--  <span class="home" title="home"></span> -->
+			</p>
+			{% endif %}
+		<br style="clear:both;">
+			
+	</header>
+
+	{% block report %} {% endblock %}
+	<section id="content">	
+		{% block home %}{% endblock %}
+		{% block content %}{% endblock %}
+	</section>
+	
+    <div class="modal"><!-- Place at bottom of page --></div>	
+
+
+	</body>
+</html>

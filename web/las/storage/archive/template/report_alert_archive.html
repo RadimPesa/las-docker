@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<body>
+		<section style="color: black;">
+			<h3 style="color: black;">Please note that the following aliquots have to be archived in storage:</h3>
+			<h4>Click <a href= "{{ perc }}" >here</a> to execute the procedure:</h4>
+
+		    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+				
+				<th style="padding:4px;">N </th>
+				<th style="padding:4px;">GenealogyID</th>
+				<th style="padding:4px;">Barcode</th>
+				<th style="padding:4px;">Father container</th>
+				<th style="padding:4px;">Creation date</th>
+				{% for gen,cont,data in listafin %}
+					<tr>
+						<td style="padding:5px;">{{forloop.counter}}</td>
+						<td style="padding:5px;">{{gen}}</td>
+						<td style="padding:5px;">{{cont.barcode}}</td>
+						<td style="padding:5px;">{{cont.idFatherContainer}}</td>
+						<td style="padding:5px;">{{data}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</body>
+</html>

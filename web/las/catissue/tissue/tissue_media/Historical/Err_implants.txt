@@ -1,0 +1,459 @@
+IMPLdtl00023: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00024: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00025: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00026: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00027: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00028: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00029: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00030: problemi sulle date. Data espianto: 18/01/2011 Data impianto: 13/01/2011
+IMPLdtl00127: errore nel genid del topo di origine
+IMPLdtl00128: errore nel genid del topo di origine
+IMPLdtl00129: errore nel genid del topo di origine
+IMPLdtl00130: errore nel genid del topo di origine
+IMPLdtl00131: errore nel genid del topo di origine
+IMPLdtl00132: errore nel genid del topo di origine
+IMPLdtl00167: genid del topo impiantato duplicato
+IMPLdtl00168: genid del topo impiantato duplicato
+IMPLdtl00169: genid del topo impiantato duplicato
+IMPLdtl00170: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00171: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00172: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00173: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00174: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00175: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00176: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00177: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00178: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00179: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00180: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00181: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00259: genid del topo impiantato duplicato
+IMPLdtl00260: genid del topo impiantato duplicato
+IMPLdtl00261: genid del topo impiantato duplicato
+IMPLdtl00262: genid del topo impiantato duplicato
+IMPLdtl00263: genid del topo impiantato duplicato
+IMPLdtl00264: genid del topo impiantato duplicato
+IMPLdtl00399: genid del topo impiantato duplicato
+IMPLdtl00404: errore nella creazione del genid del topo impiantato
+IMPLdtl00405: errore nella creazione del genid del topo impiantato
+IMPLdtl00420: errore nella creazione del genid del topo impiantato
+IMPLdtl00421: errore nella creazione del genid del topo impiantato
+IMPLdtl00424: errore nella creazione del genid del topo impiantato
+IMPLdtl00478: errore nella creazione del genid del topo impiantato
+IMPLdtl00479: errore nella creazione del genid del topo impiantato
+IMPLdtl00483: errore nella creazione del genid del topo impiantato
+IMPLdtl00555: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00556: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00557: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00558: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00559: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00560: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00561: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00562: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00563: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00564: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00565: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00566: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00567: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00568: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00569: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00570: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00571: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00572: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00573: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00574: problemi sulle date. Data espianto: 12/05/2011 Data impianto: 07/06/2011
+IMPLdtl00601: errore nella creazione del genid del topo impiantato
+IMPLdtl00601: genid del topo impiantato duplicato
+IMPLdtl00602: errore nella creazione del genid del topo impiantato
+IMPLdtl00602: genid del topo impiantato duplicato
+IMPLdtl00603: errore nella creazione del genid del topo impiantato
+IMPLdtl00603: genid del topo impiantato duplicato
+IMPLdtl00604: errore nella creazione del genid del topo impiantato
+IMPLdtl00604: genid del topo impiantato duplicato
+IMPLdtl00605: errore nella creazione del genid del topo impiantato
+IMPLdtl00605: genid del topo impiantato duplicato
+IMPLdtl00606: errore nella creazione del genid del topo impiantato
+IMPLdtl00606: genid del topo impiantato duplicato
+IMPLdtl00607: errore nella creazione del genid del topo impiantato
+IMPLdtl00607: genid del topo impiantato duplicato
+IMPLdtl00608: errore nella creazione del genid del topo impiantato
+IMPLdtl00608: genid del topo impiantato duplicato
+IMPLdtl00609: errore nella creazione del genid del topo impiantato
+IMPLdtl00609: genid del topo impiantato duplicato
+IMPLdtl00610: errore nella creazione del genid del topo impiantato
+IMPLdtl00610: genid del topo impiantato duplicato
+IMPLdtl00611: errore nella creazione del genid del topo impiantato
+IMPLdtl00611: genid del topo impiantato duplicato
+IMPLdtl00612: errore nella creazione del genid del topo impiantato
+IMPLdtl00612: genid del topo impiantato duplicato
+IMPLdtl00613: errore nella creazione del genid del topo impiantato
+IMPLdtl00613: genid del topo impiantato duplicato
+IMPLdtl00614: errore nella creazione del genid del topo impiantato
+IMPLdtl00614: genid del topo impiantato duplicato
+IMPLdtl00615: errore nella creazione del genid del topo impiantato
+IMPLdtl00615: genid del topo impiantato duplicato
+IMPLdtl00616: errore nella creazione del genid del topo impiantato
+IMPLdtl00616: genid del topo impiantato duplicato
+IMPLdtl00617: errore nella creazione del genid del topo impiantato
+IMPLdtl00617: genid del topo impiantato duplicato
+IMPLdtl00618: errore nella creazione del genid del topo impiantato
+IMPLdtl00618: genid del topo impiantato duplicato
+IMPLdtl00619: errore nella creazione del genid del topo impiantato
+IMPLdtl00619: genid del topo impiantato duplicato
+IMPLdtl00620: errore nella creazione del genid del topo impiantato
+IMPLdtl00620: genid del topo impiantato duplicato
+IMPLdtl00621: errore nella creazione del genid del topo impiantato
+IMPLdtl00621: genid del topo impiantato duplicato
+IMPLdtl00622: errore nella creazione del genid del topo impiantato
+IMPLdtl00622: genid del topo impiantato duplicato
+IMPLdtl00623: errore nella creazione del genid del topo impiantato
+IMPLdtl00623: genid del topo impiantato duplicato
+IMPLdtl00624: errore nella creazione del genid del topo impiantato
+IMPLdtl00624: genid del topo impiantato duplicato
+IMPLdtl00625: errore nella creazione del genid del topo impiantato
+IMPLdtl00625: genid del topo impiantato duplicato
+IMPLdtl00626: errore nella creazione del genid del topo impiantato
+IMPLdtl00626: genid del topo impiantato duplicato
+IMPLdtl00627: errore nella creazione del genid del topo impiantato
+IMPLdtl00627: genid del topo impiantato duplicato
+IMPLdtl00628: errore nella creazione del genid del topo impiantato
+IMPLdtl00628: genid del topo impiantato duplicato
+IMPLdtl00629: errore nella creazione del genid del topo impiantato
+IMPLdtl00629: genid del topo impiantato duplicato
+IMPLdtl00630: errore nella creazione del genid del topo impiantato
+IMPLdtl00630: genid del topo impiantato duplicato
+IMPLdtl00705: genid del topo impiantato duplicato
+IMPLdtl00705: problemi sulle date. Data espianto: 06/04/2011 Data impianto: 20/06/2011
+IMPLdtl00706: genid del topo impiantato duplicato
+IMPLdtl00706: problemi sulle date. Data espianto: 06/04/2011 Data impianto: 20/06/2011
+IMPLdtl00707: genid del topo impiantato duplicato
+IMPLdtl00707: problemi sulle date. Data espianto: 06/04/2011 Data impianto: 20/06/2011
+IMPLdtl00708: genid del topo impiantato duplicato
+IMPLdtl00708: problemi sulle date. Data espianto: 06/04/2011 Data impianto: 20/06/2011
+IMPLdtl00744: errore nella creazione del genid del topo impiantato
+IMPLdtl00745: errore nella creazione del genid del topo impiantato
+IMPLdtl00841: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00841: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00842: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00842: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00843: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00843: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00844: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00844: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00845: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00845: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00846: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00846: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00847: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00847: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00848: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00848: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00849: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00849: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00850: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00850: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00851: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00851: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00852: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/07/2011
+IMPLdtl00852: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 13/07/2011
+IMPLdtl00906: errore nella creazione del genid del topo impiantato
+IMPLdtl00906: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00907: errore nella creazione del genid del topo impiantato
+IMPLdtl00907: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00908: errore nella creazione del genid del topo impiantato
+IMPLdtl00908: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00909: errore nella creazione del genid del topo impiantato
+IMPLdtl00909: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00910: errore nella creazione del genid del topo impiantato
+IMPLdtl00910: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00911: errore nella creazione del genid del topo impiantato
+IMPLdtl00911: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00912: errore nella creazione del genid del topo impiantato
+IMPLdtl00912: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00913: errore nella creazione del genid del topo impiantato
+IMPLdtl00913: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00914: errore nella creazione del genid del topo impiantato
+IMPLdtl00914: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00915: errore nella creazione del genid del topo impiantato
+IMPLdtl00915: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00916: errore nella creazione del genid del topo impiantato
+IMPLdtl00916: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00917: errore nella creazione del genid del topo impiantato
+IMPLdtl00917: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 26/07/2011
+IMPLdtl00952: errore nella creazione del genid del topo impiantato
+IMPLdtl00953: errore nella creazione del genid del topo impiantato
+IMPLdtl00954: errore nella creazione del genid del topo impiantato
+IMPLdtl00955: errore nella creazione del genid del topo impiantato
+IMPLdtl00977: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00978: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00979: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00980: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl01019: problemi sulle date. Data espianto: 01/09/2011 Data impianto: 11/08/2011
+IMPLdtl01020: problemi sulle date. Data espianto: 01/09/2011 Data impianto: 11/08/2011
+IMPLdtl01021: problemi sulle date. Data espianto: 01/09/2011 Data impianto: 11/08/2011
+IMPLdtl01022: problemi sulle date. Data espianto: 01/09/2011 Data impianto: 11/08/2011
+IMPLdtl01023: problemi sulle date. Data espianto: 01/09/2011 Data impianto: 11/08/2011
+IMPLdtl01027: genid del topo impiantato duplicato
+IMPLdtl01042: problemi sulle date. Data espianto: 31/05/2011 Data impianto: 18/08/2011
+IMPLdtl01043: problemi sulle date. Data espianto: 31/05/2011 Data impianto: 18/08/2011
+IMPLdtl01044: problemi sulle date. Data espianto: 31/05/2011 Data impianto: 18/08/2011
+IMPLdtl01045: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 18/08/2011
+IMPLdtl01046: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 18/08/2011
+IMPLdtl01047: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 18/08/2011
+IMPLdtl01053: errore nella creazione del genid del topo impiantato
+IMPLdtl01059: errore nella creazione del genid del topo impiantato
+IMPLdtl01063: errore nella creazione del genid del topo impiantato
+IMPLdtl01190: errore nella creazione del genid del topo impiantato
+IMPLdtl01190: problemi sulle date. Data espianto: 26/10/2011 Data impianto: 31/08/2011
+IMPLdtl01191: errore nella creazione del genid del topo impiantato
+IMPLdtl01191: problemi sulle date. Data espianto: 26/10/2011 Data impianto: 31/08/2011
+IMPLdtl01192: errore nella creazione del genid del topo impiantato
+IMPLdtl01192: problemi sulle date. Data espianto: 26/10/2011 Data impianto: 31/08/2011
+IMPLdtl01193: errore nella creazione del genid del topo impiantato
+IMPLdtl01193: problemi sulle date. Data espianto: 26/10/2011 Data impianto: 31/08/2011
+IMPLdtl01206: genid del topo impiantato duplicato
+IMPLdtl01206: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01207: genid del topo impiantato duplicato
+IMPLdtl01207: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01208: genid del topo impiantato duplicato
+IMPLdtl01208: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01209: genid del topo impiantato duplicato
+IMPLdtl01209: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01210: genid del topo impiantato duplicato
+IMPLdtl01210: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01211: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01212: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01213: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01214: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01215: problemi sulle date. Data espianto: 11/08/2011 Data impianto: 01/09/2011
+IMPLdtl01297: errore nella creazione del genid del topo impiantato
+IMPLdtl01297: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01298: errore nella creazione del genid del topo impiantato
+IMPLdtl01298: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01299: errore nella creazione del genid del topo impiantato
+IMPLdtl01299: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01300: errore nella creazione del genid del topo impiantato
+IMPLdtl01300: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01301: errore nella creazione del genid del topo impiantato
+IMPLdtl01301: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01302: errore nella creazione del genid del topo impiantato
+IMPLdtl01302: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01303: errore nella creazione del genid del topo impiantato
+IMPLdtl01303: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01304: errore nella creazione del genid del topo impiantato
+IMPLdtl01304: problemi sulle date. Data espianto: 24/05/2011 Data impianto: 09/09/2011
+IMPLdtl01305: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01305: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01306: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01306: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01307: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01307: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01308: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01308: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01309: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01309: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01310: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01310: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01311: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01311: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01312: problemi sulle date. Data espianto: 07/06/2011 Data impianto: 09/09/2011
+IMPLdtl01312: problemi sulle date. Data espianto: 15/06/2011 Data impianto: 09/09/2011
+IMPLdtl01369: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01370: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01371: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01372: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01373: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01374: problemi sulle date. Data espianto: 14/07/2011 Data impianto: 13/09/2011
+IMPLdtl01490: errore nella creazione del genid del topo impiantato
+IMPLdtl01930: errore nella creazione del genid del topo impiantato
+IMPLdtl01931: errore nella creazione del genid del topo impiantato
+IMPLdtl01932: errore nella creazione del genid del topo impiantato
+IMPLdtl01933: errore nella creazione del genid del topo impiantato
+IMPLdtl01934: errore nella creazione del genid del topo impiantato
+IMPLdtl01935: errore nella creazione del genid del topo impiantato
+IMPLdtl01936: errore nella creazione del genid del topo impiantato
+IMPLdtl01937: errore nella creazione del genid del topo impiantato
+IMPLdtl01938: errore nella creazione del genid del topo impiantato
+IMPLdtl01939: errore nella creazione del genid del topo impiantato
+IMPLdtl01940: errore nella creazione del genid del topo impiantato
+IMPLdtl01941: errore nella creazione del genid del topo impiantato
+IMPLdtl01960: errore nella creazione del genid del topo impiantato
+IMPLdtl01960: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01961: errore nella creazione del genid del topo impiantato
+IMPLdtl01961: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01962: errore nella creazione del genid del topo impiantato
+IMPLdtl01962: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01963: errore nella creazione del genid del topo impiantato
+IMPLdtl01963: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01964: errore nella creazione del genid del topo impiantato
+IMPLdtl01964: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01965: errore nella creazione del genid del topo impiantato
+IMPLdtl01965: problemi sulle date. Data espianto: 30/08/2011 Data impianto: 11/11/2011
+IMPLdtl01974: problemi sulle date. Data espianto: 30/11/2011 Data impianto: 15/11/2011
+IMPLdtl01975: problemi sulle date. Data espianto: 30/11/2011 Data impianto: 15/11/2011
+IMPLdtl01976: problemi sulle date. Data espianto: 30/11/2011 Data impianto: 15/11/2011
+IMPLdtl01977: problemi sulle date. Data espianto: 30/11/2011 Data impianto: 15/11/2011
+IMPLdtl02069: genid del topo impiantato duplicato
+IMPLdtl02070: genid del topo impiantato duplicato
+IMPLdtl02071: genid del topo impiantato duplicato
+IMPLdtl02072: genid del topo impiantato duplicato
+IMPLdtl02203: errore nella creazione del genid del topo impiantato
+IMPLdtl02269: errore nella creazione del genid del topo impiantato
+IMPLdtl02269: genid del topo impiantato duplicato
+IMPLdtl02270: errore nella creazione del genid del topo impiantato
+IMPLdtl02271: errore nella creazione del genid del topo impiantato
+IMPLdtl02272: errore nella creazione del genid del topo impiantato
+IMPLdtl02273: errore nella creazione del genid del topo impiantato
+IMPLdtl02273: genid del topo impiantato duplicato
+IMPLdtl02274: errore nella creazione del genid del topo impiantato
+IMPLdtl02275: errore nella creazione del genid del topo impiantato
+IMPLdtl02276: errore nella creazione del genid del topo impiantato
+IMPLdtl02277: errore nella creazione del genid del topo impiantato
+IMPLdtl02277: genid del topo impiantato duplicato
+IMPLdtl02278: errore nella creazione del genid del topo impiantato
+IMPLdtl02279: errore nella creazione del genid del topo impiantato
+IMPLdtl02280: errore nella creazione del genid del topo impiantato
+IMPLdtl02281: errore nella creazione del genid del topo impiantato
+IMPLdtl02281: genid del topo impiantato duplicato
+IMPLdtl02282: errore nella creazione del genid del topo impiantato
+IMPLdtl02283: errore nella creazione del genid del topo impiantato
+IMPLdtl02284: errore nella creazione del genid del topo impiantato
+IMPLdtl02285: errore nella creazione del genid del topo impiantato
+IMPLdtl02285: genid del topo impiantato duplicato
+IMPLdtl02286: errore nella creazione del genid del topo impiantato
+IMPLdtl02287: errore nella creazione del genid del topo impiantato
+IMPLdtl02288: errore nella creazione del genid del topo impiantato
+IMPLdtl02374: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02375: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02376: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02377: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02378: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02379: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02380: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02381: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02382: problemi sulle date. Data espianto: 01/02/2011 Data impianto: 28/12/2011
+IMPLdtl02630: errore nella creazione del genid del topo impiantato
+IMPLdtl02630: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02631: errore nella creazione del genid del topo impiantato
+IMPLdtl02631: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02632: errore nella creazione del genid del topo impiantato
+IMPLdtl02632: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02633: errore nella creazione del genid del topo impiantato
+IMPLdtl02633: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02634: errore nella creazione del genid del topo impiantato
+IMPLdtl02634: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02635: errore nella creazione del genid del topo impiantato
+IMPLdtl02635: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02636: errore nella creazione del genid del topo impiantato
+IMPLdtl02636: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02637: errore nella creazione del genid del topo impiantato
+IMPLdtl02637: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02638: errore nella creazione del genid del topo impiantato
+IMPLdtl02638: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02639: errore nella creazione del genid del topo impiantato
+IMPLdtl02639: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02640: errore nella creazione del genid del topo impiantato
+IMPLdtl02640: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02641: errore nella creazione del genid del topo impiantato
+IMPLdtl02641: problemi sulle date. Data espianto: 30/12/2011 Data impianto: 12/01/2012
+IMPLdtl02862: genid del topo impiantato duplicato
+IMPLdtl02863: genid del topo impiantato duplicato
+IMPLdtl02864: genid del topo impiantato duplicato
+IMPLdtl02865: genid del topo impiantato duplicato
+IMPLdtl02894: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02895: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02896: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02897: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02898: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02899: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02900: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02901: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02902: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02903: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02904: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02905: problemi sulle date. Data espianto: 28/01/2011 Data impianto: 16/02/2012
+IMPLdtl02918: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 16/02/2012
+IMPLdtl02919: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 16/02/2012
+IMPLdtl02920: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 16/02/2012
+IMPLdtl02921: problemi sulle date. Data espianto: 11/04/2011 Data impianto: 16/02/2012
+IMPLdtl02922: problemi sulle date. Data espianto: 19/10/2011 Data impianto: 16/02/2012
+IMPLdtl02923: problemi sulle date. Data espianto: 19/10/2011 Data impianto: 16/02/2012
+IMPLdtl02924: problemi sulle date. Data espianto: 19/10/2011 Data impianto: 16/02/2012
+IMPLdtl02925: problemi sulle date. Data espianto: 19/10/2011 Data impianto: 16/02/2012
+IMPLdtl03169: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03170: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03171: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03172: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03173: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03174: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03175: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03176: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03177: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03178: problemi sulle date. Data espianto: 10/01/2011 Data impianto: 22/03/2012
+IMPLdtl03187: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03188: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03189: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03190: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03191: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03192: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03193: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03194: problemi sulle date. Data espianto: 05/04/2011 Data impianto: 23/03/2012
+IMPLdtl03362: errore nella creazione del genid del topo impiantato
+IMPLdtl03363: errore nella creazione del genid del topo impiantato
+IMPLdtl03364: errore nella creazione del genid del topo impiantato
+IMPLdtl03365: errore nella creazione del genid del topo impiantato
+IMPLdtl03397: genid del topo impiantato duplicato
+IMPLdtl03398: genid del topo impiantato duplicato
+IMPLdtl03399: genid del topo impiantato duplicato
+IMPLdtl03595: errore nella creazione del genid del topo impiantato
+IMPLdtl03595: problemi sulle date. Data espianto: 24/02/2012 Data impianto: 08/05/2012
+IMPLdtl03596: errore nella creazione del genid del topo impiantato
+IMPLdtl03596: problemi sulle date. Data espianto: 24/02/2012 Data impianto: 08/05/2012
+IMPLdtl03597: errore nella creazione del genid del topo impiantato
+IMPLdtl03598: errore nella creazione del genid del topo impiantato
+IMPLdtl03599: errore nella creazione del genid del topo impiantato
+IMPLdtl03600: errore nella creazione del genid del topo impiantato
+IMPLdtl03601: errore nella creazione del genid del topo impiantato
+IMPLdtl03601: problemi sulle date. Data espianto: 24/02/2012 Data impianto: 08/05/2012
+IMPLdtl03602: errore nella creazione del genid del topo impiantato
+IMPLdtl03602: problemi sulle date. Data espianto: 24/02/2012 Data impianto: 08/05/2012
+IMPLdtl03603: errore nella creazione del genid del topo impiantato
+IMPLdtl03604: errore nella creazione del genid del topo impiantato
+IMPLdtl03605: errore nella creazione del genid del topo impiantato
+IMPLdtl03606: errore nella creazione del genid del topo impiantato
+IMPLdtl03675: errore nella creazione del genid del topo impiantato
+IMPLdtl03675: problemi sulle date. Data espianto: 25/10/2011 Data impianto: 05/06/2012
+IMPLdtl03676: errore nella creazione del genid del topo impiantato
+IMPLdtl03676: problemi sulle date. Data espianto: 25/10/2011 Data impianto: 05/06/2012
+IMPLdtl03677: errore nella creazione del genid del topo impiantato
+IMPLdtl03677: problemi sulle date. Data espianto: 25/10/2011 Data impianto: 05/06/2012
+IMPLdtl03678: errore nella creazione del genid del topo impiantato
+IMPLdtl03678: problemi sulle date. Data espianto: 25/10/2011 Data impianto: 05/06/2012
+IMPLdtl03683: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03684: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03685: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03686: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03687: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03688: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03689: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03690: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03691: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03692: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03693: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03694: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03695: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03696: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03697: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03698: problemi sulle date. Data espianto: 08/06/2012 Data impianto: 07/06/2012
+IMPLdtl03821: errore nella creazione del genid del topo impiantato
+IMPLdtl03822: errore nella creazione del genid del topo impiantato
+IMPLdtl03823: errore nella creazione del genid del topo impiantato
+IMPLdtl03824: errore nella creazione del genid del topo impiantato
+IMPLdtl03825: errore nella creazione del genid del topo impiantato
+IMPLdtl03826: errore nella creazione del genid del topo impiantato
+IMPLdtl03827: errore nella creazione del genid del topo impiantato
+IMPLdtl03828: errore nella creazione del genid del topo impiantato
+IMPLdtl03829: genid del topo impiantato duplicato
+IMPLdtl03830: genid del topo impiantato duplicato
+IMPLdtl03831: genid del topo impiantato duplicato
+IMPLdtl03832: genid del topo impiantato duplicato

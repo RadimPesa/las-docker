@@ -1,0 +1,42 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Schedules deleted{% endblock %}
+
+
+{% block content %}
+	<script type="text/javascript">
+		$(document).ready(function () {
+			generate_result_table("Deleted","finale");
+		});
+	</script>
+	
+	<style type="text/css">
+		//td{font-size: 1.4em;padding:10px;border-width:1px;}
+		//th{font-size: 1.6em;padding:8px;}
+		#finale {margin-bottom:4px;margin-top: 4px;}
+		#finale_paginate a {padding-top:4px;}
+		#finale_length {margin-top: 8px;}
+	</style>
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	<h2>These schedules have been deleted:</h2>
+	<table border='2px' id="finale">
+		<thead>
+			<th>N </th>
+			<th>Genealogy ID</th>
+			<th>Barcode</th>
+			<th>Position</th>
+			<th>Assigner</th>
+			<th>Assignment Date</th>
+		</thead>
+		<tbody align="center">
+			{% for i in lista_sch %}
+	           	{{  i|safe  }}
+	        {% endfor %}
+	    </tbody>
+	           
+	</table>
+{% endblock %}

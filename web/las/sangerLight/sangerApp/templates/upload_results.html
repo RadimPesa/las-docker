@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Insert measures{% endblock %}
+{% block content %}
+	<meta charset="utf-8">
+	<script src="/sanger_media/js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/upload_results.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/jquery.jeditable.mini.js"></script>
+	<link rel="stylesheet" href="/sanger_media/css/jquery.dataTables.css" />
+	
+
+	<div id="aliquots" style="float:left;width:100%">
+		<article id='riquadro'>
+		<h3>Current Experiment</span></h3>
+			<article style="width:inherit;overflow:auto">
+				<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url sangerApp.views.upload_results %}">
+					{% csrf_token %}
+					<input id='flagNext' type="hidden" name='flagNext' value="">
+					<fieldset style="margin-top:1%;margin-bottom:1%;width:70%;float:left">
+						<legend> Raw data</legend>
+						<label for='archive_name'>Raw data package name </label><input id='archive_name' name='archive_name' value="">
+						<p></p>
+						<input id='plotfile' type="file" name="file" class="file" multiple/>
+					</fieldset>
+					<input id="submit" class="button" type="submit" value="Save&Stop" onClick="return setNextFlag(false);" style="margin-top:2%;float:left"/>
+					<input id="submit" class="button" type="submit" value="Save&Continue" onClick="return setNextFlag(true);" style="margin-top:2%;float:left"/>
+				</form>
+
+			</article>
+	</div>
+
+{% endblock %}

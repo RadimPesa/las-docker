@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Inserted kit - PDF</title>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" />
+
+</head>
+<body>
+<section>
+        {% block content %}
+                <h1 align="center">Kits inserted</h1>
+                <table border="1">
+                        <tr>
+                        		<td align = 'center'><strong><br>N</strong></td>
+                                <td align = 'center'><strong><br>Kit Type</strong></td>                
+                                <td align = 'center'><strong><br>Barcode</strong></td>
+                                <td align = 'center'><strong><br>Expiration Date</strong></td>
+                                <td align = 'center'><strong><br>Lot Number</strong></td>
+                                
+                        </tr>
+                {% for m in list_report %}
+                        {{  m|safe  }}
+                {% endfor %}
+                </table>
+        {% endblock %}
+</section>
+</body>
+</html>

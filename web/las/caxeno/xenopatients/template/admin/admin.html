@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Xeno Admin{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xenoAdmin.js"></script> 
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/js/ColReorder.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/css/ColReorder.css" />
+	<script>
+	    tables = {{ tables|safe }};
+	</script>
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}	
+        <div id ='list'>
+			<fieldset  class="fieldset" style="width:25%;">
+				<legend class="legend"> Available tables </legend>
+				<table id='tableList'>
+				    <thead>
+				    </thead>
+					<tbody>
+					    {% for t in tables %}
+					        <tr>
+					            <td align='center' onclick='openTable("{{t}}");'>{{t}}</td>
+				            </tr>
+			            {% endfor %}
+					</tobdy>
+				</table>
+    		</fieldset>
+	    </div>
+	    
+	    <div id = "records" style = 'display:none;'>
+	        <div style='float:left;cursor:pointer;font-size:1.5em' onclick="location.href='{% url xenopatients.xenoAdmin.start %}'">
+	            <p>Go back <i class="fa fa-chevron-left"></i></p>
+	        </div>
+	        <br style='clear:both;'/>
+	        <div id = 'form'>
+	        </div>
+	        <hr />
+			<table id='allRecords'>
+			    <thead>
+			    </thead>
+				<tbody>
+				</tobdy>
+			</table>
+	    </div>
+	{% endif %}
+{%  if message  %}
+	<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+	<script>
+		document.getElementById("message").style.display = 'inline';
+	</script>
+{% endif %}
+{% endblock %}

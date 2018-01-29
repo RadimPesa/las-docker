@@ -1,0 +1,83 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<title>Report of Check Measurement - PDF</title>
+<meta charset="charset=ISO-8859-1"> 
+<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css" />
+
+</head>
+<body>
+<section>
+	<div align="center">
+	    {% if accList %}
+		    <h1>Accepted Actions:</h1>
+		    <table border="1" class="checkR">
+			    <tr>
+				    <td style="width:20%;">Genealogy ID</td>
+				    <td>Date</td>
+				    <td>Value</td>
+				    <td>Notes</td>
+				    <td>Check Notes</td>
+				    <td>Status</td>
+				    <td>Explant</td>
+				    <td>Scope Explant</td>
+				    <td>Treatment</td>
+				    <td>Start treatment</td>
+				    <td>Duration</td>
+			    </tr>
+    			{% for m in accList %}
+    				{{  m|safe  }}
+    			{% endfor %}
+		    </table>
+	        <br>
+        {% endif %}
+
+        {% if modList %}
+		    <h1>Modified Actions:</h1>
+		    <table border="1" class="checkR">
+			    <tr>
+				    <td style="width:20%;">Genealogy ID</td>
+				    <td>Date</td>
+				    <td>Value</td>
+				    <td>Notes</td>
+				    <td>Check Notes</td>
+				    <td>Status</td>
+				    <td>Explant</td>
+				    <td>Scope Explant</td>
+				    <td>Treatment</td>
+				    <td>Start treatment</td>
+				    <td>Duration</td>
+			    </tr>
+    			{% for m in modList %}
+    				{{  m|safe  }}
+    			{% endfor %}
+		    </table>
+	        <br>
+        {% endif %}
+        
+        {% if rejList %}
+		    <h1>Rejected Actions:</h1>
+		    <table border="1" class="checkR">
+			    <tr>
+				    <td style="width:20%;">Genealogy ID</td>
+				    <td>Date</td>
+				    <td>Value</td>
+				    <td>Notes</td>
+				    <td>Check Notes</td>
+				    <td>Status</td>
+				    <td>Explant</td>
+				    <td>Scope Explant</td>
+				    <td>Treatment</td>
+				    <td>Start treatment</td>
+				    <td>Duration</td>
+			    </tr>
+    			{% for m in rejList %}
+    				{{  m|safe  }}
+    			{% endfor %}
+		    </table>
+	        <br>
+        {% endif %}
+	</div>
+</section>
+</body>
+</html>

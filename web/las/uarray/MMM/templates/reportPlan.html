@@ -1,0 +1,105 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'HybridizationPlan';
+</script>
+{% endblock %}
+
+{% block title %}Report Hybridization Plan{% endblock %}
+
+
+{% block content %}
+
+<style>
+	td.planinfo{
+		border: 0px;
+	}
+	th.planinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+<div>
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px;max-width:50%;">
+<div id="plan_info">
+	<h3>Plan Info</h3>
+	<table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="planinfo">Operator:</th> 
+	            <td class="planinfo">{{plan.idOperator}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Planned at:</th> 
+	            <td class="planinfo">{{plan.timeplan}}</td> 
+	        </tr>
+	        <tr>
+	        	<th class="planinfo">Hybridization protocol:</th> 
+	            <td class="planinfo">{{hybrid_prot.protocol}}</td> 
+	        </tr>
+			<tr>
+	        	<th class="planinfo">Instrument:</th> 
+	            <td class="planinfo">{{hybrid_prot.instrument}}</td> 
+	        </tr>
+     
+	    </tbody> 
+
+	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="chip_position_layout">
+	<legend>Chips</legend>
+	{% for barcode, chipinfo in chips.items %} 
+	<br><br>
+	<legend><b>Chip: {{barcode}}</b></legend>
+	<table class='report' cellspacing="5">
+		 	<thead>
+				<tr> 
+					<th>Sample Identifier</th>   
+		            <th>Sample Feature</th> 
+		            <th>Experimental Group</th>
+		            <th>Volume (ul)</th>
+		            <th>Concentration (ng/ul)</th>
+					<th>Date</th>
+					<th>Owner</th>
+					<th>Technical Replicates</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+    	{% for aliquot in chipinfo.pos %} 
+		 		
+		        <tr>
+		            <td>{{aliquot.sample_identifier}}</td>
+		            <td>{{aliquot.sample_features|default_if_none:""}}</td>
+					<td>{{aliquot.exp_group|default_if_none:""}}</td>
+		            <td>{{aliquot.volume}}</td>
+		            <td>{{aliquot.concentration}}</td>
+					<td>{{aliquot.date}}</td> 
+					<td>{{aliquot.owner}}</td>
+					<td>{{aliquot.tech_replicates}}</td>      
+		        </tr>
+	 
+		{% endfor %}
+	       </tbody>
+	</table> 
+	{% endfor %}
+</fieldset>
+</div>
+{% endblock %}

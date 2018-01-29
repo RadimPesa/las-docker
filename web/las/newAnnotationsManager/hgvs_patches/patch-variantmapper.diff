@@ -1,0 +1,13 @@
+--- /home/administrator/.virtualenvs/venvdj1.4/local/lib/python2.7/site-packages/hgvs/variantmapper.py	2016-03-14 16:31:38.480000000 +0100
++++ ./variantmapper.py	2016-03-14 16:38:34.700000000 +0100
+@@ -233,7 +233,9 @@
+                 # padding list so biopython won't complain during the conversion
+                 tx_seq_to_translate = tx_seq[cds_start - 1:cds_stop]
+                 if len(tx_seq_to_translate) % 3 != 0:
+-                    ''.join(list(tx_seq_to_translate).extend(['N']*((3-len(tx_seq_to_translate) % 3) % 3)))
++                    l = list(tx_seq_to_translate)
++                    l.extend(['N']*((3-len(tx_seq_to_translate) % 3) % 3))
++                    ''.join(l)
+ 
+                 tx_seq_cds = Seq(tx_seq_to_translate)
+                 protein_seq = str(tx_seq_cds.translate())

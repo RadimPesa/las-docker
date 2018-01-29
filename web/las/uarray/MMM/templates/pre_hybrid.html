@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+{% block title %}Select Samples to be Hybridized{% endblock %}
+
+
+{% block content %}
+
+<meta charset="utf-8">
+	
+<script src="/uarray_media/js/jquery.sortElements.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+	
+<style>
+
+input:disabled{
+	
+	background:#DDDDDD;
+	color:#838383;
+	border-color:#838383;  
+}
+	
+.ui-accordion {
+    width: 100%;
+}
+.ui-accordion .ui-accordion-header {
+    cursor: pointer;
+    margin-top: 1px;
+    position: relative;
+    background: lightgrey !important;
+    padding: 1px;
+}
+.ui-accordion .ui-accordion-li-fix {
+    display: inline;
+}
+.ui-accordion .ui-accordion-header-active {
+    border-bottom: 0 none !important;
+}
+.ui-accordion .ui-accordion-header a {
+	color: #333333 !important;
+    display: block;
+    font-size: 0.9em;
+    padding: 0.6em 0.2em 0.2em;
+}
+.ui-accordion-icons .ui-accordion-header a {
+    padding-left: 2.2em;
+}
+.ui-accordion .ui-accordion-header .ui-icon {
+    left: 0.5em;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+}
+.ui-accordion .ui-accordion-content {
+    border-top: 0 none;
+    display: none;
+    margin-bottom: 2px;
+    margin-top: -2px;
+    overflow: auto;
+    padding: 1em 2.2em;
+    position: relative;
+    top: 1px;
+}
+.ui-accordion .ui-accordion-content-active {
+    display: block;
+}
+	
+	
+.ui-widget-header {
+background: url("/uarray_media/img/ui-bg_highlight-soft_100_eeeeee_1x100.png") repeat-x scroll 50% 50% #CCCCCC;
+border: 1px solid #AAAAAA;
+color: #222222;
+font-weight: bold;
+
+}
+.ui-selecting { background: #A2B3A2 !important;; }
+.ui-selected { background: #A2B3A2 !important; }
+.chip_div { 
+        overflow: auto;
+        border: 1px solid #D3D3D3;
+        }
+.chip_list { float:left;}
+
+
+.ui-widget-content {
+border: 1px solid #AAAAAA;
+color: #222222;
+font-size: 0.8em;
+}	
+
+.ui-button-text, .ui-dialog-title{
+font-size: 1.5em;
+}
+
+ui-state-default, .ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+background: url("/uarray_media/img/ui-bg_glass_100_f6f6f6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+border: 1px solid #D3D3D3;
+color: #555555;
+font-weight: normal;
+}
+
+
+
+
+
+h1 { padding: .2em; margin: 0; }
+
+.chip_title { 
+width:auto;
+padding: 0.2em;
+ }
+ 
+#catalog_part { overflow: auto; height:85%; margin-left: 1%; margin-right: 1%;}
+#cart { width: 200px; float: left; }
+/* style the list to maximize the droppable hitarea */
+#cart ol { margin: 0; padding: 1em 0 1em 3em; }
+
+#sortable1, #sortable2, #sortable3, #list_num 
+{ list-style-type: none;
+ margin: 2px; 
+ padding: 0; float: left; background: #eee; padding: 5px; 
+ width: 202px;}
+
+.chip_item {
+	border: 1px solid;
+	float: left;
+	margin: 3px;
+	border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.chip_num_list {
+	float: left;
+	margin: 4px 10px;
+}
+
+.order_div{
+padding-bottom: 1%;
+padding-left: 1%;
+padding-right: 1%;
+padding-top: 1%;
+}
+
+#sortable1, #sortable2, #sortable3, #list_num li {
+background: none repeat scroll 0 0 lightgrey;
+border: 1px solid #FCEFA1;
+font-size: 0.8em;
+height: 35px;
+margin: -1px;
+line-height: 9px;
+}	
+
+#chip_container {
+width: 62px;
+float: left;
+}
+
+#list_num {
+	width: 20px;
+	text-align: center;
+}
+#list_num li {width: 40px;}
+#dialog-form { font-size: 11.5px !important;}
+.sample_group_ul{ padding: 2px;}
+.sample_group_ul li{list-style: none;}
+.sample {  border: 1px solid;
+		   padding: 1px;
+		   overflow: hidden;}
+		   
+select{
+	width: 150px;
+}
+
+.ui-dialog-content{
+font-size: 1.5em;
+}
+
+#aliqinfo{
+padding: 15px;
+}
+
+</style>
+
+<script type="text/javascript" src="/uarray_media/js/pre_hybrid.js"></script>
+
+<fieldset style="padding-bottom:0; margin-bottom:15px;">
+	
+	<div id="hyb_form" style="margin-bottom:4px; float:left;">
+	<table>
+		<tr>
+			<th style="text-align:right;padding-right:20px">Instrument:
+			<td style="text-align:left;">{{ hyb_form.Hyb_instrument }}
+		
+			<th style="text-align:right;padding-right:20px;padding-left:20px">Hybridization Protocol:
+			<td style="text-align:left;">{{ hyb_form.Hyb_protocol }}
+		</tr>
+	</table>
+
+	<p style="float:right"><input id="protocol_button" class="button" type="submit" value="Set Protocol" /></p>
+	
+	</div>
+	<fieldset id='messagediv' style="float:right;width:25%;margin-top:1%;margin-right:3%;margin-bottom:1%;display:none">
+	</fieldset>
+</fieldset>
+	
+	
+<div id="prehybrid" style="display:none">	
+    <div id="samples" style="width:25%;float:left">
+	    <fieldset style="height:700px">
+	        <legend>Pending requests</legend>
+	        <div class="order_div">
+		        <table class='dataTable' id='orderfilter' style='width:100%;text-align:center'>
+		        	<thead>
+		        		<tr role=row>
+				        	<th role='columnheader' rowspan='1' colspan='1'>Id <img id='sort_id' order='None' src="/uarray_media/images/sort_both.png"> </th>
+				        	<th role='columnheader' rowspan='1' colspan='1'>Date <img id='sort_date' order='asc' src="/uarray_media/images/sort_both.png"> </th>
+				        	<th role='columnheader' rowspan='1' colspan='1'>Owner <img id='sort_owner' order='None' src="/uarray_media/images/sort_both.png"></th>
+				        	<th role='columnheader' rowspan='1' colspan='1'>#Samples <img id='sort_nsamples' order='None' src="/uarray_media/images/sort_both.png"></th>
+		        		</tr>
+
+		        	</thead>
+		        </table>
+	        </div>
+	        <div id="catalog_part">
+		        
+			        {% regroup alreq by request_id as alreq_list %}
+			        {% for samples in alreq_list %}
+                    <div class="catalog" role="tablist">
+				        {% for sample in samples.list %}
+					        {% if forloop.last %} 
+				
+					        
+						        <div class="catalog_header" id_group={{samples.grouper}} id_user="{{samples.grouper.idOperator}}" nos="{{forloop.counter}}" cnos="{{forloop.counter}}" date="{{samples.grouper.timestamp|date:'Y-m-d H:i:s'}}">
+			
+							        <h3 role="tab" aria-expanded="true" aria-selected="true" tabindex="0" style="padding-left:10%">
+							
+							        <a href="#" tabindex="-1">#{{samples.grouper}} {{samples.grouper.title}}<br> by: <span id='name_span'>{% with samples.list|first as first_object %}{{first_object.aliquot_id.owner}}{% endwith %}</span><br> date: <span id='date_of_samples'>{{samples.grouper.timestamp|date:"Y-m-d H:i:s"}}</span>   <span style="float:right">[<span id='number_of_samples'>{{forloop.counter}}</span>/<span id='tot_samples'>{{forloop.counter}}</span>]</span></a>
+							    	</h3>
+							        <div id_group="{{  samples.grouper }}"  style="display: block; padding-top: 11px; padding-bottom: 11px;" role="tabpanel">
+								        <ul class="sample_group_ul" id="id{{samples.grouper}}">					
+					        {% endif %}
+				        {% endfor %}
+				        {% for sample in samples.list %}
+								        
+								        {% if sample.tech_replicates %}
+									        <li id="{{sample.id}}" style="background:#FCEFA1" id_sample="{{sample.aliquot_id}}" id_group="{{samples.grouper}}" volume="{{sample.aliquot_id.volume}}" concentration="{{sample.aliquot_id.concentration}}" tech_replicates="{{sample.tech_replicates}}" exp_group="{{sample.exp_group}}" date="{{sample.aliquot_id.date}}" owner="{{sample.aliquot_id.owner}}" exhausted="{{sample.aliquot_id.exhausted}}" sample_features="{{sample.sample_features}}" class="sample">{{sample.aliquot_id}} <br>SmpFeat: {{sample.sample_features|default_if_none:"---"}}<br><span style="float:none">Exp:{{sample.exp_group|default_if_none:"---"}}</span><span style="float:right"> Date: {{sample.aliquot_id.date}}</span></li>
+								        {% else %}
+									        <li id="{{sample.id}}" style="background:white" id_sample="{{sample.aliquot_id}}" id_group="{{samples.grouper}}" volume="{{sample.aliquot_id.volume}}" concentration="{{sample.aliquot_id.concentration}}" tech_replicates="{{sample.tech_replicates}}" exp_group="{{sample.exp_group}}" date="{{sample.aliquot_id.date}}" owner="{{sample.aliquot_id.owner}}" exhausted="{{sample.aliquot_id.exhausted}}" sample_features="{{sample.sample_features}}" class="sample">{{sample.aliquot_id}} <br>SmpFeat: {{sample.sample_features|default_if_none:"---"}}<br><span style="float:none">Exp:{{sample.exp_group|default_if_none:"---"}}</span><span style="float:right"> Date: {{sample.aliquot_id.date}}</span></li>	
+								        {% endif %}
+					        {% endfor %}
+								        </ul>
+							        </div>
+						        </div>
+					        </div>
+			        {% endfor %}
+		        </div>
+	    </fieldset>
+    </div>
+
+    <div id="chip_planning" style="display:none;width:70%;float:right">
+    <fieldset style="height:700px">
+        <legend>Hybridization Planning</legend>
+
+        <div style="text-align:right; margin-top:20px; margin-right:20px; margin-bottom:10px"> 
+	        <input class="button" id="Clear" type="submit" value="Clear" style="margin-right:100px;"/>
+	        <input id="Add_chip" class="button" type="submit" value="Add Chip">
+	        <input class="button" id="Save_Cont" type="submit" value="Proceed with next step" />
+	        <input class="button" id="Save_Stop" type="submit" value="Save & Stop" />
+        </div>
+
+
+	    <div id="chip_layout" class="sub_chip_div">
+		    <div class="chip_num_list">
+				    <h3 class="chip_title" style="padding: 0.2em 1em; text-align: left;">Pos</h3>
+				    <ul id="list_num">
+					    <li>1</li>
+					    <li>2</li>
+					    <li>3</li>
+					    <li>4</li>
+					    <li>5</li>
+					    <li>6</li>
+					    <li>7</li>
+					    <li>8</li>
+					    <li>9</li>
+					    <li>10</li>
+					    <li>11</li>
+					    <li>12</li>
+				    </ul>
+		    </div>
+	    </div>
+
+
+        <br clear="both" />
+
+    </fieldset>
+	</div>
+
+</div>	
+
+
+
+<div id="dialog-form" title="Insert new chip" style="display:none;position:relative">
+	<p class="validateTips">New chip positions number</p>
+	<form>
+		<select id="id_new_chip_positions" name="new_chip_positions">
+			<option>6</option>
+			<option>8</option>
+			<option>12</option>
+		</select>
+	</form>
+</div>
+
+
+<div id="aliqinfo" style="display:none;position:relative" title="Aliquot Info">
+	<table style="border-spacing:10px;">
+	<tbody>
+	<tr><th>Sample Identifier: </th><td name="sample_identifier"></td></tr>
+	<tr><th>Owner: </th><td name="owner"></td></tr>
+
+	<tr><th>Sample Features: </th><td name="sample_features"></td></tr>
+	<tr><th>Experimental Group: </th><td name="exp_group"></td></tr>
+
+	<tr><th>Volume (ul): </th><td name="volume"></td></tr>
+	<tr><th>Concentration (ng/ul): </th><td name="concentration"></td></tr>
+
+	<tr><th>Date: </th><td name="date"></td></tr>   
+	<tr><th>Technical Replicates: </th><td name="tech_replicates"></td></tr>
+
+	</tbody>
+	</table>
+</div>
+
+
+{% endblock %}

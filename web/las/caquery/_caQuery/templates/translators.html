@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Templates{% endblock %}
+
+
+{% block content %}
+
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/translators.js"></script>
+<script type="text/javascript">
+
+	var view_query_url = "{% url _caQuery.views.querygen %}";
+	var templatesList = $.parseJSON('{{qt|safe}}');
+
+</script>
+
+<div style="float:left;width:100%">
+	<table id='templateTable'>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Output</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			
+		</tbody>
+
+	</table>
+
+</div>
+
+
+<div style="display:none">    
+    <table id="detailsTable">
+        <thead> 
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+				<th>Description</th>
+				<th>Output</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div id="dialogDel" title="Basic dialog" style='display:none'>
+  <p id='messDel'></p>
+</div>
+
+{% endblock %}

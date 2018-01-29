@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Manage Treatments{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/finalizeT.js"></script> 
+{% endblock %}
+{% block content %}
+    <div id='groupsArms'>
+        <div style='float:left;'>
+            <fieldset class="fieldset" >
+                <legend class="legend"> Groups ready for treatments </legend>
+                <table id="groupList">
+                    <thead>
+                        <tr>
+                            <th>ID(H)</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for g in groups %}
+                            <tr>
+                                <td>{{ g.id }}</td>
+                                <td>{{ g.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+
+        <div id='armDiv' style='float:left;margin-left:25px;display:none;'>
+            <fieldset class="fieldset" >
+                <legend class="legend"> Treatments </legend>
+                <table id="armList">
+                    <thead>
+                        <tr>
+                            <th>LongName(H)</th>
+                            <th>Protocol</th>
+                            <th>Arm</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div id="passMice" style='display:none;'>
+        <p id='lenM' style='display:none;'>{{ lenM }}</p>
+        <div style='float:left;width:25%;'>
+            <fieldset class="fieldset" >
+                <legend class="legend"> Mice ready for treatments </legend>
+                <table id="miceList">
+                    <thead>
+                        <tr>
+                            <th>Id Genealogy</th>
+                            <th>Barcode</th>
+                            <th>Done</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                {% for m in miceList %}
+       	            <tr id="{{ m.barcode }}" style='height:20px;'><td>{{ m.genID }}</td></tr>
+                {% endfor %}
+                </table>
+            </fieldset>
+        </div>
+
+        <div id='listTreat' style="max-width:25%;float:left;margin-left:2%;" >
+            <fieldset class="fieldset" >
+                <legend align="center"> Actions </legend>
+                <div>
+                    <table >
+                        <tr>
+                            <td>
+                                <label for='date'>Start time:</label>
+                                <input type="text" name="date" id="date" size='7' title="Click to edit">
+                                <input type="text" name="time" id="time" size='5' style="cursor:pointer;"><br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="barcode">Mouse barcode:</label>
+                                <input type="text" id='barcode' size='10' onkeyup="checkKey(event)"/>
+                            </td>
+                        </tr>
+                        <tr><td><input type="button" onclick='readMouse()' name="Add" value="Add"/></td></tr>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+
+        <div style='float:left; margin-left:2%;max-width:15%;'>
+            <fieldset class="fieldset" >
+                <legend class="legend"> Mouse Infos </legend>
+                <table>
+                    <tr>
+                        <td style="font-weight: bold;">Group:</td>
+                        <td id="nameG"> - </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Treatment:</td>
+                        <td id='nameT'> - </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Last Weight:</td>
+                        <td id='lastw'> - </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <br/>
+        
+        <table style='float:right;max-width:35%;'>
+            <tr>
+                <td align="right">
+                    <div >
+                        <input type="button" id='save' onclick='save()' name="Finish" value="Save" />
+                        <input type="button" onclick='abort()' name="Abort treatment" value="Abort treatment" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id='outcomeDiv' >
+                        <br>
+                        <p id="outcome" class="outcome"></p>
+                    <div>
+                </td>
+            </tr>
+        </table>
+		<br style='clear:both;'>
+		<br>
+		<p id='hiddenDate' style='display:none;'>{{ date }}</p>
+		<p id='hiddenTime' style='display:none;'>{{ time }}</p>
+		<p id='hiddenGroup' style='display:none;'></p>
+		<p id='hiddenPha' style='display:none;'></p>
+
+
+    </div>
+{% endblock %}

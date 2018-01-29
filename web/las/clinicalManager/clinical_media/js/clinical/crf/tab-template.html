@@ -1,0 +1,437 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/clinical"> Home</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li ng-class="{ active: panels.isSelected(1) }">
+                    <a href ng-click="panels.selectTab(1)" >
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </a>
+                </li>
+                <li ng-class="{ active: panels.isSelected(2), disabled: !panels.patient }">
+                    <a href ng-click="!panels.patient || panels.selectTab(2)">
+                        <span class="glyphicon glyphicon-list-alt"></span> Personal data
+                    </a>
+                </li>
+                <!--li ng-class="{ active: panels.isSelected(3), disabled: !panels.patient }">
+                    <a href ng-click="!panels.patient || panels.selectTab(3)" >
+                        <span class="glyphicon glyphicon-plus"></span> Pathologies
+                    </a>
+                </li-->
+                <li ng-class="{ active: panels.isSelected(4), disabled: !panels.patient }">
+                    <a href ng-click="!panels.patient || panels.selectTab(4)">
+                        <span class="glyphicon glyphicon-forward"></span> Coming soon...
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container" ng-show="panels.isSelected(1)" ng-controller="PatientSelectionController as psc">
+    <div class="jumbotron">
+        <h1>Clinical Research Form</h1>
+        <p>Select a patient using one of the search methods listed below.</p>
+        <p><a class="btn btn-lg btn-success" href="/clinical" role="button">&laquo; Back to Clinical Home</a></p>
+    </div>
+
+    <hr />
+    <accordion close-others="true">
+        <!-- is-open attribute on the accordion-group which points to a bindable expression -->
+        <accordion-group is-open = "searchType1">
+            <accordion-heading>
+                Personal data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': searchType1, 'glyphicon-chevron-right': !searchType1}"></i>
+            </accordion-heading>
+
+            <form role="form">
+                <input type="search" ng-model="psc.selected" placeholder="Search by FirsName, LastName, Fiscal Code" typeahead="patients as (patients.firstName + ' ' + patients.lastName + ' ' + patients.fiscalCode) for patients in psc.getPatients($viewValue)" class="form-control" />
+            </form>
+        </accordion-group>
+
+        <accordion-group is-open = "searchType2">
+            <accordion-heading>
+                Identifier in clinical trial  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': searchType2, 'glyphicon-chevron-right': !searchType2}"></i>
+            </accordion-heading>
+            Coming soon...
+        </accordion-group>
+    </accordion>
+
+    <blockquote>
+        <h4>Patient preview:</h4>
+        <ul>
+            <li><i>ID:</i><b> {{psc.selected.identifier}}</b></li>
+            <li><i>Name:</i><b> {{psc.selected.firstName + ' ' + psc.selected.lastName}}</b></li>
+            <li><i>Fiscal Code:</i><b> {{psc.selected.fiscalCode}}</b></li>
+            <li><i>Birth:</i><b> {{psc.selected.birthDate}}</b></li>
+            <li><i>Gender:</i><b> {{psc.selected.sex}}</b></li>
+            <li><i>Vital status:</i><b> {{psc.selected.vitalStatus}}</b></li>
+        </ul>
+    </blockquote>
+
+    <button class="btn btn-success" ng-click="psc.selectByPersonalData(psc.selected); panels.selectTab(2)" ng-disabled="!psc.selected.identifier">
+        <span class="glyphicon glyphicon-user"></span>  Go to Patient profile
+    </button>
+
+
+</div>
+
+
+
+<div class="container" ng-show="panels.isSelected(2)">
+
+
+    <div ng-controller = "PatientDetailsController as pdc">
+        <h1><i ng-show="panels.patient.sex == 'M'">Mr.</i><i ng-show="panels.patient.sex == 'F'">Ms.</i> {{ [panels.patient.firstName, panels.patient.lastName] | getNameOrAnonymous}}</h1>
+        <hr />
+        <!-- looping through span to manage inline spaces -->
+        <span ng-repeat="project in pdc.projects | orderBy:'project'">
+            <button type="button"
+            class="btn btn-info"
+            popover-trigger="mouseenter"
+            popover-placement="bottom"
+            popover-title="Trial details for {{ [panels.patient.firstName, panels.patient.lastName] | getNameOrAnonymous}}"
+            popover-template="pdc.popOverTemplate">{{project.project}} <span class="badge">{{project.ic.length}}</span></button>
+            <div ng-show="!$last" style="display: inline-block;"></div>
+        </span>
+    </div>
+    <hr />
+    <div class="row">
+        <!-- form column -->
+        <div class="col-md-9 " ng-controller = "PersonalDetailFormController as pdfc">
+            <div class="alert alert-success" ng-show="pdfc.modified == true">
+                <span class="glyphicon glyphicon-ok"></span> <strong>Succes</strong>
+            </div>
+            <div class="alert alert-danger" ng-show="pdfc.modified == false">
+                <span class="glyphicon glyphicon-remove"></span> <strong>Generic Error</strong>
+            </div>
+            <div class="alert alert-danger" ng-show="pdfc.fiscalCodeAlreadyExists == true">
+                <span class="glyphicon glyphicon-remove"></span> <strong>Error</strong> <p>The fiscal code <strong>{{panels.patient.fiscalCode}}</strong> already exists</p>
+            </div>
+            <h3>Personal Data</h3>
+            <form class="form-horizontal" role="form" name="ModForm" novalidate>
+                <fieldset ng-disabled="!pdfc.update">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><i>LAS identifier:</i></label>
+                        <div class="col-lg-8">
+                            <input ng-disabled="true" class="form-control" type="text" ng-model="panels.patient.identifier">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">First Name *:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.firstName" required capitalize>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Last Name *:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.lastName" required capitalize>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Fiscal Code *:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" name="fiscalCode" type="text" ng-model="panels.patient.fiscalCode" minlength="16" maxlength="16" size = "16" ng-change="pdfc.checkFiscalCode(panels.patient.fiscalCode);" required capitalize>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Birth Date *:</label>
+                        <div class="col-lg-8">
+                            <div class="input-group">
+                                <input type="text"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="select the date using the calendar button"
+                                class="form-control"
+                                datepicker-popup="MMMM dd, yyyy"
+                                ng-model="panels.patient.birthDate"
+                                is-open="pdfc.opened"
+                                ng-required="true"
+                                show-weeks = 'false'
+                                close-text="Close" .
+                                ng-readonly="true"
+                                required/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="pdfc.open($event)" data-toggle="tooltip"
+                                    data-placement="top" title="click me to select a date"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Birth Nation:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.birthNation" capitalize>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Birth Place:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.birthPlace" capitalize>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Residence Nation:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.residenceNation" capitalize>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Residence Place:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" ng-model="panels.patient.residencePlace" capitalize>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Race:</label>.
+                        <div class="col-lg-6">
+                            <select class="form-control" ng-model="panels.patient.race">
+                                <option value="WH">White</option>
+                                <option value="IN">American Indian or Alaska Native</option>
+                                <option value="AS">Asian</option>
+                                <option value="BK">Black or African American</option>
+                                <option value="HW">Native Hawaiian Or Other Pacific Islander</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Gender *:</label>
+                        <div class="col-lg-2">
+                            <select type="text" class="form-control" ng-model="panels.patient.sex" required>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Vital Status:</label>
+                        <div class="col-lg-2">
+                            <input ng-disabled="true" class="form-control" type="text" ng-model="panels.patient.vitalStatus">
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <button class="btn btn-primary" ng-click = "pdfc.update = true; pdfc.modified = undefined" ng-hide="pdfc.update">Click To Update</button>
+                        <button class="btn btn-warning" ng-click = "pdfc.update = true" ng-show="pdfc.update" data-toggle="modal" ng-disabled="!ModForm.$valid" data-target="#myModal">Update</button>
+                        <span></span>
+                        <button class="btn btn-default" ng-show="pdfc.update" ng-click = "panels.ignorePatientChanges(); pdfc.update = false; ModForm.$setPristine(); pdfc.fiscalCodeAlreadyExists = false;">Ignore Changes</button>
+                        <span class="label label-warning" ng-show="pdfc.update">Warning: you are going to modify personal data</span>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Modal 1-->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- the x in the corner -->
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Do you want to proceed?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p ng-repeat="(key, value) in panels.patient">
+                                <span ng-show="key != 'id' && key != 'vitalStatus'&& key != 'identifier'">{{key}}:
+                                    <b ng-show="value">{{value}}</b>
+                                    <b ng-hide="value">-</b>
+                                    <span>
+                                    </p>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="pdfc.putDetails(panels.patient); pdfc.update = false; ModForm.$setPristine();"><span class="glyphicon glyphicon-save"></span>  Save Changes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Back To Form</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal 2-->
+            <div id="MergingModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header-warning">
+                            <!-- the x in the corner -->
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Warning: you are going to merge this Patient</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>This operation cannot be undone.</h4>
+                            <h5>This Patient profile (<b>A</b>) will be deleted and copied to another Patient profile (<b>B</b>). Please, insert the LAS identifier of the Patient profile (<b>B</b>) in the form below.</h5>
+                            <hr />
+                            <form class="form-horizontal" role="form" name="mergingForm"  ng-submit="foo" novalidate >
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">LAS identifier (B):</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" name = "identifier" ng-model="pdfc.userInput" ng-change="pdfc.checkPatientUUID(pdfc.userInput)" minlength="32" maxlength="32" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">First (B):</label>
+                                    <div class="col-lg-6">
+                                        <input ng-disabled="true" class="form-control" type="text"  ng-model="pdfc.mergingPatient.firstName" capitalize required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Last (B):</label>
+                                    <div class="col-lg-6">
+                                        <input ng-disabled="true" class="form-control" type="text" ng-model="pdfc.mergingPatient.lastName" capitalize required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">fiscalCode (B):</label>
+                                    <div class="col-lg-6">
+                                        <input ng-disabled="true" class="form-control" type="text"  ng-model="pdfc.mergingPatient.fiscalCode" capitalize required>
+                                    </div>
+                                </div>
+
+                            </form>
+
+
+
+                        <p ng-show="pdfc.mergingError">An error has occurred: {{pdfc.mergingError}}</p>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <span ng-show='pdfc.timer'>
+                                <p ng-show="pdfc.time!=pdfc.maxTime" style='text-align: left;'>Do you really want to proceed? Please, <b>wait {{pdfc.maxTime-pdfc.time}} second<span ng-show="pdfc.time!=pdfc.maxTime">s</span></b> and check that everything is fine...</p>
+                                <p  ng-hide="pdfc.time!=pdfc.maxTime" style='text-align: left;'>Ready to merge!</p>
+                                <div class="progress">
+                                  <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar"
+                                  aria-valuenow="{{pdfc.time}}" aria-valuemin="0" aria-valuemax="100" style="width:{{(pdfc.time/pdfc.maxTime)*100}}%">
+                                  </div>
+                                </div>
+                            </span>
+                            <button type="button" class="btn btn-danger" ng-click="pdfc.merge(pdfc.userInput)" ng-disabled="mergingForm.$invalid || pdfc.time!=pdfc.maxTime"><span class="glyphicon glyphicon-link"></span>  Merge <span ng-show="pdfc.timer && pdfc.time!=pdfc.maxTime">({{pdfc.maxTime-pdfc.time}})</span></button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Go Back</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+            <!-- right column -->
+            <div class="col-md-3">
+                <button type="button" class="btn btn-danger btn-block" ng-disabled="panels.patient.mergedList.length != null" data-toggle="modal" data-target="#MergingModal">Merge this Patient</button>
+                <h4 ng-show="panels.patient.mergedList.length > 0">Merging events:</h4>
+
+                <div class="alert alert-info" ng-repeat="x in panels.patient.mergedList">
+
+                    <span class="glyphicon glyphicon-link"></span> <strong>Merged with:</strong> {{x.mergedWith | limitTo:4}}...
+                    <br /><i>{{x.mergedOn | date : "medium"}}</i>
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div class="container" ng-show="panels.isSelected(3)" >
+            <h1>Pathologies<h1>
+                <h4>( <i ng-show="panels.patient.sex == 'M'">Mr.</i><i ng-show="panels.patient.sex == 'F'">Ms.</i> {{ [panels.patient.firstName, panels.patient.lastName] | getNameOrAnonymous}} )</h4>
+                <hr />
+                <div class="row" ng-controller = "PathologiesController as pc">
+                    <!-- first table -->
+                    <div class="col-md-8">
+                        <h3>Oncologic Pathologies</h3>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:50%">Pathology</th>
+                                    <th style="width:25%">Status</th>
+                                    <th style="width:25%" ></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--{{pc.oncoPaths}}-->
+                                <tr ng-repeat="o in pc.oncoPaths">
+                                    <td>
+                                        <!-- editable oncoPath (text with validation) -->
+                                        <span editable-select="o.name" onbeforesave="pc.save(o, $data, panels.patient.identifier)" e-form="oncoPathForm" e-ng-options="item.name as item.name for item in pc.oncoPathValues">
+                                            {{ o.name }}
+                                        </span>
+                                    </td>
+                                    <td>{{o.status | diseaseStatus}}</td>
+                                    <td>
+                                        <form editable-form name="oncoPathForm" ng-show="oncoPathForm.$visible" class="form-buttons form-inline" shown="pc.inserted == o">
+                                            <button type="submit" class="btn btn-primary" ng-click = "pc.freeze=false">
+                                                save
+                                            </button>
+                                            <button type="button" ng-click="oncoPathForm.$cancel(); pc.freeze=false; pc.canc(o)" class="btn btn-default">
+                                                cancel
+                                            </button>
+                                        </form>
+                                        <div class="buttons" ng-show="!oncoPathForm.$visible">
+                                            <button class="btn btn-primary" ng-disabled ="pc.freeze" ng-click="oncoPathForm.$show(); pc.freeze=true">edit</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-default" ng-disabled ="pc.freeze" ng-click="pc.addOncoPath()">Add oncologic pathology</button>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- second table -->
+                        <h3>Other relevant diseases</h3>
+                        <h4>(coming soon...)</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Pathology</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Test</td>
+                                    <td>Test</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-default" ng-click="addUser()">Add relevant disease</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container" ng-show="panels.isSelected(4)" >
+                <div class="row">
+                </div>
+
+                <h4>Coming soon...</h4>
+                <blockquote>Stay tuned</blockquote>
+            </div>

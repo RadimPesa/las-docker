@@ -1,0 +1,5 @@
+ID	Barcode	Site	Container	Position	Date	Experimental group
+5	7	SCR	01	C5	2014-07-31	aaaa
+8	8	SCL	01	C5	2014-07-31	1
+11	9	SCL	01	C6	2014-07-31	aaaa
+15	9	SCR	01	C6	2014-07-31	1

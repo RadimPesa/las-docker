@@ -1,0 +1,173 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Execute experiments{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<!-- <script type="text/javascript" src="{{MEDIA_URL}}JS/report_finale.js"></script>  -->
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.jeditable.mini.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/decrease/decrease_final.js"></script>
+
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		#aliq_definitive td{font-size: 1.1em;padding:5px;}
+		#aliq_originali,#aliq_definitive {margin-bottom:4px;margin-top: 4px;}
+		#aliq_originali_paginate a,#aliq_definitive_paginate a {padding-top:4px;}
+		#aliq_originali_length,#aliq_definitive_length {margin-top: 8px;}
+		.notes, #aliq_definitive tr td:nth-child(12) {cursor:pointer;}
+	</style>
+	{% if not fine %}
+	<form id="form_fin" action={% url tissue.experiment.DecreaseCanc %} method="post">{% csrf_token %}
+		<input id="canc_sel" type="submit" class="button" disabled="disabled" style="float:right;margin:1em 0em 1em 1em;" value="Abort Selected" title="Click to abort selected procedures" />
+	</form>
+	
+	<form id="form_conf" action={% url tissue.experiment.DecreaseFinal %} method="post">{% csrf_token %}
+		<input id="insert_file" type="submit" name="insert_file" value="Next step - Upload files" class="button" style="float:right;margin:1em;" title="Click to proceed to next step to insert one or more files for each aliquot"/>
+		<input id="conf_all" type="submit" name="salva" value="Save&Finish" class="button" style="float:right;margin:1em;" title="Click to confirm"/>
+	</form>
+	
+	<br style="clear:both;">
+	<fieldset>
+		<h2 align="center" style="font-size:1.3em;">Retrieve aliquots</h2>
+		
+		<section class="superiore">
+			<table border='2px' style="border-color: black;" id="aliq_originali">
+				<thead>
+					<th>N</th>
+					<th>Genealogy ID</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Pos.</th>
+					<th>Plate</th>
+					<th>Tube Pos.</th>
+					<th>Barcode</th>
+					<th>Avail.</th>
+					<th>Conc. (ng/ul)</th>
+					<th>Used vol.(ul)</th>
+					<th>Left vol.(ul)</th>
+					<th>Experiment</th>
+					<th>Notes (Click to edit)</th>
+					<th>Abort</th>
+				</thead>
+				<tbody align="center">
+				{% if listagenerale %}
+					{% for aliquota,conc in listagenerale %}
+						<tr align="center">
+							<td>{{forloop.counter}}</td>
+							<td>{{aliquota.idAliquot.uniqueGenealogyID}}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>{{conc.concattuale}}</td>
+							<td>
+								{% if aliquota.takenValue != -1 %}
+									{{aliquota.takenValue}}
+								{% endif %}
+							</td>
+							<td>
+								{% if aliquota.remainingValue != -1 %}
+									{{aliquota.remainingValue}}
+								{% endif %}
+							</td>
+							<td>{{aliquota.idExperiment}}</td>
+							<td class="notes">{{aliquota.notes}}</td>
+							<td>
+								<input  id="canc_{{forloop.counter0}}" type="checkbox" class="check_canc" gen={{aliquota.idAliquot.uniqueGenealogyID}} />
+							</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+				</tbody>
+			</table>
+		
+		</section>
+	</fieldset>
+	
+	<br style="clear:both;">
+	<div id=inizio style="float:left;border:0px;padding-left:0px;" >
+		<label for="id_barcode" style="font-size:1.4em;">Barcode:</label>
+		<input id="id_barcode" type="text" name="tube" maxlength="50" autocomplete="off" >
+
+	</div>
+	
+	<input id="conf" type="submit" name="barcode" value="Validate barcode" style="margin-left:1.5em;margin-top:1.2em;float:left;" class="button" title="Click to add aliquot to the final list" />
+	<h2 id="contatore" style="float:left;margin-left:10em;font-size:1.3em;">
+	</h2>
+	
+	<br style="clear:both;">
+	<br>
+	
+	<div id="inferio" class="inferiore" style="display:none;">
+		<fieldset>
+			<div>
+				<h2 align="center" style="font-size:1.3em;float:left;width:85%">Validated aliquots</h2>
+				<input id="seltutte" type="button" class="button" value="Set all aliquots exhausted" style="margin-top:0.5em;float:right;">
+			</div>
+			<br style="clear:both;">
+			<table border='2px' style="border-color: black;float:left;" id="aliq_definitive">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Pos.</th>
+					<th>Plate</th>
+					<th>Tube Pos.</th>
+					<th>Barcode</th>
+					<th>Conc. (ng/ul)</th>
+					<th>Used vol.(ul)</th>
+					<th>Left vol.(ul)</th>					
+					<th>Notes (Click to edit)</th>
+					<th>Exhaus.</th>
+				</thead>
+				<tbody align="center">
+				</tbody>
+			</table>
+		</fieldset>
+	</div>
+
+	{% else %}
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both;">
+		<h2>These aliquots have been updated:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N </th>
+				<th>Experiment</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				<th>Conc.(ng/ul)</th>
+				<th>Taken vol.(ul)</th>
+				<th>Final vol.(ul)</th>
+				<th>Exhausted</th>
+			</thead>
+			<tbody>
+				{% for i in lista_vol %}
+		           	{{  i|safe  }}
+		           {% endfor %}
+		    </tbody>
+		</table>
+		<br>
+		<!-- <form action={% url tissue.experiment.createPDFDecreaseVol %} method="post">{% csrf_token %}
+	        <input type="submit" class="button" name="pdf" value="Save to PDF" title="Click to view PDF"/>
+		</form>
+		<br>
+		<form action={% url tissue.experiment.createCSVDecreaseVol %} method="post">{% csrf_token %}
+	        <input type="submit" class="button" name="csv" value="Save to CSV" title="Click to view CSV"/>
+		</form>  
+		<br>
+		<form action={% url tissue.views.index %} method="get">{% csrf_token %}
+	        <input type="submit" class="button" name="termina" value="Finish" title="Click to finish and to go to the index" />
+		</form>	-->
+	{% endif %}
+{% endblock %}

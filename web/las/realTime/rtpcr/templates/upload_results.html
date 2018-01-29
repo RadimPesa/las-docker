@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load jsonify %}
+{% block title %}Insert measures{% endblock %}
+{% block content %}
+	<meta charset="utf-8">
+	<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/upload_results.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	
+	<script type="text/javascript">
+	targets = {{targets|jsonify|safe}};		
+	idplan = {{plan.id}};
+	var NA = "{{ NA }}";
+	</script>
+
+	<style>
+		.ui-spinner {
+			margin-left: 15px;
+			float: left;
+		}
+		tr.row_data td {
+			vertical-align: top;
+		}
+	</style>
+
+	<div id="aliquots" style="float:left;width:100%">
+		<article id='riquadro'>
+		<h3>Current Experiment</span></h3>
+			<article style="width:inherit;overflow:auto">
+				<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url rtpcr.views.upload_results %}">
+					{% csrf_token %}
+					<input id='flagNext' type="hidden" name='flagNext' value="">
+					<input id='measures' type="hidden" name='measures' value="">
+					<fieldset style="margin-top:1%;margin-bottom:1%;width:70%;float:left">
+						<legend> Raw data</legend>
+						<label for='archive_name'>Raw data package name </label><input id='archive_name' name='archive_name' value="">
+						<p></p>
+						<input id='plotfile' type="file" name="file" class="file" multiple/>
+					</fieldset>
+					<input id="submit" class="button" type="submit" value="Save&Stop" onClick="return setNextFlag(false);" style="margin-top:2%;float:left"/>
+					<input id="submit" class="button" type="submit" value="Save&Continue" onClick="return setNextFlag(true);" style="margin-top:2%;float:left"/>
+				</form>
+
+			</article>
+	</div>
+
+	<div style='width:100%;overflow:auto;padding-bottom:1em;float:left; margin-top:1em'>
+			<div style="width:100%;overflow:auto;margin:1em;float:left">
+				<form id='formMeas' enctype="multipart/form-data">
+					<label for='measFile'>Measure file </label><input id='measFile' type="file" name="file" class="file"/>
+					<label for='measFileFormat'>File format:</label>
+					<select id='measFileFormat' name='fileformat' style='margin-right: 25px'>
+					{% for ff_id, ff_data in file_formats.items %}
+						<option value="{{ ff_id }}">{{ ff_data.name }}</option>
+					{% endfor %}
+					</select>
+					<input id="submit" class="button" type="submit" value="Upload measures"/>
+				</form>				
+			</div>
+			Filter by target: 
+				<select id='geneFilter'>
+					<option>All</option>
+				{% for t in targets%}
+					<option value="{{t.uuid}}">{{t.name}}</option>
+				{% endfor %}
+				</select>
+
+			<p></p>
+			
+	        <article style="width:inherit;overflow:auto">
+			    <table border=1px id="measure_table" class='dataTable'>
+	        		<thead>
+						<TR>
+							<TH style="text-align:center;" class="genealogy">Genealogy Id</TH>
+							{% for t in targets %}	
+								<TH style="text-align:center;" tid="{{t.uuid}}" class="no-sort">{{t.name}}</TH>
+							{% endfor %}
+			            </TR>
+	        		</thead>
+	        		<tbody>
+					    {% for row in samples %}
+							<TR class="row_data">
+								<TD class="genealogy" genealogy='{{row.0.idAliquot_has_Request.aliquot_id.genId}}'>{{row.0.idAliquot_has_Request.aliquot_id.genId}}</TD>
+								{% for s in row %}									
+									<TD id="{{s.id}}" sid="{{s.id}}" tid="{{s.probe}}" class='sample' style="position: relative">
+										<span class='mut'></span>
+										<div style="display: block; width: 100%; height: 25px">
+											<input class="spinner" style="background-color:lightgreen" sid="{{s.id}}" tid="{{s.probe}}" index="0" value="" />
+											<span style="float: left; width: 16px; display: inline-block">&nbsp;</span>
+											<span class="ui-icon ui-icon-blue ui-icon-plus addSpinner" style="float: left"></span>
+										</div>
+										<span class="ui-icon ui-icon-circle-close" style="display: block; position: absolute; right: 5px; top: 5px"></span>
+									</TD>
+								{% endfor %}
+							</TR>
+						{% endfor %}
+	        		</tbody>
+	        	</table>
+        	</article>
+        	</div>
+
+	</div>
+
+
+
+{% endblock %}

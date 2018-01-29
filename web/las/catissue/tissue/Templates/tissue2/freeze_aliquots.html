@@ -1,0 +1,68 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Genotype mismatch{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/freeze.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+{% endblock %}
+
+{% block content %}
+	{% if not fine and not errore%}
+		<fieldset class="fieldset" style="width:20%;">
+			<form action={% url tissue.fingerPrinting.NotAvailable %} enctype="multipart/form-data" method="post" >{% csrf_token %}
+				
+				<p>
+					<label for="id_file_cont">Insert file:</label>
+					<br>
+					<input id="id_file_cont" type="file" name="file" size="6" style="display:none;">
+					<input id="filename" type="text" size="10" style="display:inline;">
+					<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;">
+				</p>
+				<a id="file" class="anchor" href="{{MEDIA_URL}}File_Format/Freeze_aliquot.txt" >File Format</a>
+				<br>
+				<br>
+		
+				<input type="submit" value="Confirm" class="button" id="conferma" disabled="disabled" />
+			</form>
+		</fieldset>
+	{% endif %}
+	{% if fine%}
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>Aliquots:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Freezer</th>
+				<th>Rack</th>
+				<th>Plate pos.</th>
+				<th>Plate</th>
+				<th>Tube pos.</th>
+				<th>Barcode</th>
+				<th>Gen. ID (file)</th>
+				<th>Extend to children</th>
+				<th>Work group</th>				
+			</thead>
+			<tbody align="center">
+				{% for i in listaliq %}
+		           	{{  i|safe  }}
+		          {% endfor %}
+		    </tbody>         
+		</table>
+		<br>
+	{% endif %}
+	{% if errore %}
+		<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="window.location=base_url+'/aliquot/notavailable/'"></form>
+		</div>
+	{% endif %}
+{% endblock %}

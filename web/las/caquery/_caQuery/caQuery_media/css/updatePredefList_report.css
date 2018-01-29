@@ -1,0 +1,52 @@
+table.values tbody tr td.first {
+    background-color: #FF5C33;
+    width: 10%;
+}
+
+table.values tbody tr td.second {
+    width: 70%;
+}
+
+table.values tbody tr td.third {
+    width: 10%;
+}
+
+table.values tbody tr td.fourth {
+    width: 10%;
+}
+
+table.values tbody tr.excluded td {
+    background-color: gray;
+    color: #B8B8B8;
+}
+
+table.values tbody tr.excluded input {
+    color: #B8B8B8;
+}
+
+span.edit {
+    cursor: pointer;
+    display: inline-block;
+}
+
+span.exclude {
+    cursor: pointer;
+    display: inline-block;
+}
+
+input.val {
+    border: 0px;
+    outline: 0px;
+    background-color: transparent;
+}
+
+input.val.edit {
+    border-bottom: 1px solid gray;
+    width: 80%;
+}
+
+.btn {
+    width: 160px;
+    vertical-align: top;
+    margin-left: 25px;
+}

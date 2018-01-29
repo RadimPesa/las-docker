@@ -1,0 +1,2 @@
+owner						
+sample_identifier	date	volume	concentration	tech_replicates	sample_feature	exp_group

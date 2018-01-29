@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Insert measures{% endblock %}
+{% block content %}
+	<meta charset="utf-8">
+	<script src="/sanger_media/js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/read_measures.js"></script>
+	<script type="text/javascript" src="/sanger_media/js/jquery.jeditable.mini.js"></script>
+	<link rel="stylesheet" href="/sanger_media/css/jquery.dataTables.css" />
+
+	<script type="text/javascript">
+
+	targets = JSON.parse('{{targetJson|safe}}');
+	probes = {{probes|safe}};
+
+	</script>
+	<style type="text/css">
+	.dialog{
+		display: none;
+	}
+	ul{
+		list-style-type: none;
+		padding: 0;
+	}
+
+	td.overMut{
+		background-color: lightyellow;
+	}
+	span.filteron {
+		height: 1em;
+		margin: 1em;
+		padding-left: 18px;
+		background-image: url("/sanger_media/img/ledorange.png");
+		background-repeat: no-repeat;
+		text-align: left;
+	}
+	</style>
+
+
+
+	<div id="aliquots" style="float:left;width:100%">
+		<article id='riquadro'>
+		<h3>Current Experiment</span></h3>
+
+
+			<div style="width:50%;overflow:auto;margin:1em;float:left">
+				<form id='formMeas' enctype="multipart/form-data">
+					<label for='measFile'>Measure file </label><input id='measFile' type="file" name="file" class="file"/>
+					<input id="submit" class="button" type="submit" value="Upload measures"/>
+				</form>
+			</div>
+
+			<div style="width:45%;overflow:auto;margin:1em;float:right">
+				<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url sangerApp.views.read_measures %}">
+					{% csrf_token %}
+					<input id='aliquots_list' type="hidden" name='aliquots_list' value="">
+					<input id='probes' type="hidden" name='probes' value="{{probes}}">
+                    <input id='targets' type="hidden" name='targets' value="{{targets}}">
+					<input id='plan' type="hidden" name='plan' value="{{plan.id}}">
+					<label>Analysis type </label><select id='analysis_type' name="analysis_type">
+						  <option value="sequence_alteration">Sequence alteration</option>
+						  <!--option value="copy_number_variation">Copy number variation</option-->
+					</select>
+					<input id="submit" class="button" type="submit" value="Save Measures" onClick="return updateInput();" style="float:right"/>
+				</form>
+
+			</div>
+		</article>
+
+			<div style='width:100%;overflow:auto;padding-bottom:1em;float:left'>
+			Filter by gene:
+				<select id='geneFilter'>
+					<option>All</option>
+				{% for t in targets%}
+					<option>{{t}}</option>
+				{% endfor %}
+				</select>
+
+			<p></p>
+
+	        <article style="width:inherit;overflow:auto">
+			    <table border=1px id="measure_table" class='dataTable'>
+	        		<thead>
+						<TR>
+							<TH style="text-align:center;" class="genealogy">Genealogy Id</TH>
+							{% for t in targets %}
+								<TH style="text-align:center;" class="{{t}} no-sort">{{t}}</TH>
+							{% endfor %}
+			            </TR>
+	        		</thead>
+	        		<tbody>
+					    {% for s in samples %}
+							<TR class="row_data">
+								<TD class="genealogy" genealogy='{{s}}'>{{s}}<span class='bs'></span> <span class="ui-icon ui-icon-wrench" style="float:right"></span></TD>
+								{% for t in targets %}
+									<TD sid="{{s}}" tid="{{t}}" style="background-color:lightgreen"><span class='mut' style="float:left">WT</span><span class="ui-icon ui-icon-pencil" style="float:right"></span></TD>
+								{% endfor %}
+							</TR>
+						{% endfor %}
+	        		</tbody>
+	        	</table>
+        	</article>
+        	</div>
+
+	</div>
+
+<article class="dialog" title="Edit mutations" id="mutdialog">
+	<p id='obsSample' style='font-weight: bold;'></p>
+	<span id='targetMutTable' value=''></span>
+	<hr>
+	<p>Select the mutations and edit corresponding measure. Empty list for WT.
+    </p>
+	<p>
+	<button class='button' onclick='window.open("{{annotUrl}}", "_blank","menubar=1,resizable=1,scrollbars=1,width=1250,height=800,left=100,top=100,screenX=100,screenY=100");'>Add mutation</button>{{BASE_URL}}
+	</p>
+    <div id='mutlist'>
+    	<table id='mutTable'>
+    	</table>
+    </div>
+
+
+</article>
+
+
+
+<article class="dialog" title="Edit probes" id="probedialog">
+	<p id='probeSample' style='font-weight: bold;'></p>
+	<hr>
+    <p>Select the probe not read:
+    </p>
+    <div id='probelist'>
+    	<table id='probeTable'>
+    	</table>
+    </div>
+
+
+</article>
+
+
+{% endblock %}

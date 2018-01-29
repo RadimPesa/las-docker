@@ -1,0 +1,44 @@
+{% extends "baseReport.html" %}
+{% block title %}Measurement Event{% endblock %}
+{% block content %}
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+<div style="max-width:600px;">
+    <article id="riquadro" style="margin-bottom:20px">
+    <div id="experiment_info" style="width:inherit;">
+        <h3>Experiment Info</h3>
+        <table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+             <tbody>
+                <tr> 
+                    <th class="planinfo">Operator:</th> 
+                    <td class="planinfo">{{measureserie.idOperator}}</td> 
+                </tr>
+                <tr> 
+                    <th class="planinfo">Executed at:</th> 
+                    <td class="planinfo">{{measureserie.time_executed}}</td> 
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+    </article>
+</div>
+<div style="width:100%">
+    <fieldset id="sample_summary">
+        <legend><b>Archive: {{archiveName}}</b></legend>
+        <table class='dataTable'>
+            <thead>
+            <tr>
+                <th style="text-align:center;">File name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for f in files %} 
+                <tr>
+                    <td>{{f}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table> 
+</fieldset>
+</div>
+{% endblock %}

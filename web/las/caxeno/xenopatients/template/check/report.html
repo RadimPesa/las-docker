@@ -1,0 +1,140 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'CheckedActions_';
+	</script>
+{% endblock %}
+{% block title %}Report of Check Measurements{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<script>
+			jQuery(document).ready(function () {
+				generate_result_table('table#table_res2');
+				generate_result_table('table#table_res3');
+				generate_result_table('table#table_res4');
+			});
+		</script>
+		<div align="center">
+		    {% if accList %}
+			    <h1>Accepted Actions:</h1>
+				<table id="table_res" border="1">
+					<thead>
+						<tr>
+							<th>Genealogy ID</th>                
+						    <th>Date</th>
+						    <th>Value</th>
+						    <th>Notes</th>
+						    <th>Check Notes</th>
+						    <th>Status</th>
+						    <th>Explant</th>
+						    <th>Scope Explant</th>
+						    <th>Treatment</th>
+						    <th>Start treatment</th>
+						    <th>Duration</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+	        			{% for m in accList %}
+	        				{{  m|safe  }}
+	        			{% endfor %}
+        			</tbody>
+			    </table>
+		        <br>
+            {% endif %}
+
+            {% if modList %}
+			    <h1>Modified Actions:</h1>
+			    <table id="table_res2" border="1" class="checkR">
+					<thead>
+						<tr>
+							<th>Genealogy ID</th>                
+						    <th>Date</th>
+						    <th>Value</th>
+						    <th>Notes</th>
+						    <th>Check Notes</th>
+						    <th>Status</th>
+						    <th>Explant</th>
+						    <th>Scope Explant</th>
+						    <th>Treatment</th>
+						    <th>Start treatment</th>
+						    <th>Duration</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+	        			{% for m in modList %}
+	        				{{  m|safe  }}
+	        			{% endfor %}
+        			</tbody>
+			    </table>
+		        <br>
+            {% endif %}
+            
+            {% if rejList %}
+			    <h1>Rejected Actions:</h1>
+			    <table id="table_res3" border="1" class="checkR">
+					<thead>
+						<tr>
+							<th>Genealogy ID</th>                
+						    <th>Date</th>
+						    <th>Value</th>
+						    <th>Notes</th>
+						    <th>Check Notes</th>
+						    <th>Status</th>
+						    <th>Explant</th>
+						    <th>Scope Explant</th>
+						    <th>Treatment</th>
+						    <th>Start treatment</th>
+						    <th>Duration</th>
+					    </tr>
+					</thead>
+					<tbody>
+	        			{% for m in rejList %}
+	        				{{  m|safe  }}
+	        			{% endfor %}
+        			</tbody>
+			    </table>
+		        <br>
+            {% endif %}
+
+            {% if napList %}
+			    <h1>Not Applicable Actions:</h1>
+			    <table id="table_res4" border="1" class="checkR">
+					<thead>
+						<tr>
+							<th>Genealogy ID</th>                
+						    <th>Date</th>
+						    <th>Value</th>
+						    <th>Notes</th>
+						    <th>Status</th>
+					    </tr>
+					</thead>
+					<tbody>
+	        			{% for m in napList %}
+	        				{{  m|safe  }}
+	        			{% endfor %}
+        			</tbody>
+			    </table>
+		        <br>
+            {% endif %}
+		</div>
+	<br style='clear:both;'/>
+	<div style='float:right'>
+	    <a href="{% url xenopatients.check.check %}">
+	    <button id='homebut' class='button'><span>New Session</span></button>
+	    </a>
+	</div>
+
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,89 @@
+
+<!DOCTYPE html> 
+<html> 
+<head>
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/beuta.png">
+<title>{% block title %}{% endblock %}</title>
+    <!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+    <!-- [if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}spinning.css" type="text/css" />
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jsi18n.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/calendar.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/csrfToken.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	//ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+    workingGroups="";
+    {% if request.workingGroups %}
+        workingGroups="{{request.workingGroups}}";
+        $.ajaxSetup({
+            beforeSend: function (request){
+                request.setRequestHeader("workingGroups", workingGroups);
+            }
+        });
+    {% endif %}
+	
+    $('body').ajaxComplete(function(e, xhr, settings) {
+        if (xhr.status == 278) {
+            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+        }
+    });
+    
+    $("span.home").click(function(){
+		window.location="{% url archive.views.index %}";
+	});
+});
+</script>
+
+{% block script %}{% endblock %}
+{% block report %}{% endblock %}
+</head>
+<body {%block bodyoption %}{% endblock %}>
+{% if user.username %}	
+	<header>
+			
+	    <h1 style="float:left;"> <a id="home" href="{% url archive.views.index %}"><img width="143px" height="46px" src="{{MEDIA_URL}}img/logo.png" ></a> Repository</h1>
+		<p id="user_name" style="float:right;" >
+			<span id="datename">{% now "jS F Y" %} |<a href="{{LAS_AUTH_SERVER_URL}}"> LAS Home </a>[{{  user.username  }}]</span><!-- <span class="home" title="home"></span>  -->
+		</p>
+		<br style="clear:both;">
+	   <!--  <h2 > Archive management </h2>  -->
+
+	</header>
+	
+	<!-- <nav id="menu">
+		{% block menu %}
+		{% endblock %}
+	</nav>  -->
+
+	
+	<section id="content">
+				
+		<input type="hidden" id="actual_username" value={{user.username}} />
+		<!-- <h3></h3>
+		<br>-->
+	
+		{% block content %}
+		{% endblock %}
+	
+	</section>
+{% else %}
+	<p> You need to <a href={% url django.contrib.auth.views.login %}>login</a></p>
+{% endif %}
+
+<footer>
+	<!-- If you have any comments or suggestions, <a href=" http://devircc.polito.it/wordpress/?p=560#respond" target="_blank" >click here!</a>  -->
+</footer>
+
+<div class="modal"><!-- Place at bottom of page --></div>
+</body>
+</html>

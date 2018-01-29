@@ -1,0 +1,197 @@
+label.head
+{
+	font-weight: bold;
+	width: 120px;
+	text-align: right;
+	display: inline-block;
+	margin: 5px;
+}
+
+label.smallhead
+{
+    font-weight: bold;
+    text-align: right;
+    color: #282828;
+    width: 100px;
+    display: inline-block;
+    margin: 5px;
+}
+
+
+label.disabled
+{
+    text-shadow: 0px 1px 0px #ffffff;
+    color: #aaaaaa;
+}
+
+select {
+    height: 27px;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+select.dt {
+    height: 27px;
+    width: 98%;
+    margin: 0;
+    padding: 0;
+}
+
+fieldset
+{
+    border-radius:                  5px;
+    -moz-border-radius:             5px;
+    -webkit-border-radius:          5px;
+    border: 1px solid gray;
+}
+
+.pathdiv {
+    display: block;
+    vertical-align: top;
+    margin: 5px;
+    border: 1px solid gray;
+    width: inherit;
+    padding: 5px;
+    min-height: 20px;
+    background-color: #ffffff;
+
+}
+
+
+.btn {
+    width: 160px;
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+
+input[type=radio], input[type=checkbox]
+{
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+input[type=text]
+{
+    border: 1px solid gray;
+    margin-left: 10px;
+    width: 200px;
+    height: 20px;
+    padding: 1px;
+}
+
+textarea {
+    border: 1px solid gray;
+    margin-left: 10px;
+    width: 450px;
+    height: 20px;
+    line-height: 20px;
+    padding: 1px;
+    resize: none;
+    vertical-align: top;
+    font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+textarea.ok
+{
+    color: green;
+}
+
+textarea.nok
+{
+    color: red;
+}
+
+
+input.error
+{
+	border: 2px solid red;
+}
+
+.nopad {
+    padding: 0px;
+}
+
+a.dst, a.path {
+    text-decoration: underline;
+    color: #606060;
+}
+
+a.dst:hover, a.path:hover {
+    cursor: pointer;
+    color: #282828;
+}
+
+p.path {
+    margin-top: 0px;
+}
+
+li {
+    line-height: 18px;
+}
+
+span.pathel {
+    display: inline-block;
+    min-width: 180px;
+}
+
+li span.pathel:nth-child(2) {
+    margin-left: 20px;
+}
+
+button.button {
+    width: 80px;
+}
+
+.loading {
+    -webkit-appearance: none;
+    background: white url("../images/loading-32x32.gif") right no-repeat;
+    background-size: 20px 20px;
+}
+
+span.one {
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #005C5C;
+    color: white;
+    font-weight: bold;
+    font-family: Arial;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 2px;
+    margin-right: 20px;
+}
+span.one::after {
+    content: "1";
+}
+
+span.many {
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #8E1D00;
+    color: white;
+    font-weight: bold;
+    font-family: Arial;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 2px;
+    margin-right: 20px;
+}
+span.many::after {
+    content: "N";
+
+}
+
+.centered {
+    padding: 2px;
+    text-align: center;
+}

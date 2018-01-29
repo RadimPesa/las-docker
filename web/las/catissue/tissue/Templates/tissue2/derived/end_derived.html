@@ -1,0 +1,390 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Derive Aliquots - Step 4{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/derive_end.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/vital/redips-drag-min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DateTimeShortcuts.js"></script>
+
+	<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<script type="text/javascript">
+		dizcambiati={};
+		{% for key, value in dizcamb.items %}
+	  		dizcambiati["{{key}}"]="{{value}}";
+	 	{% endfor %}
+	 	dizautopos={};
+	 	{% for key, value in dizposauto.items %}
+	 		dizautopos["{{key}}"]={{value|safe}};
+ 		{% endfor %}
+		
+	</script>
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		td{border-width:0;border:0 4px 0 4px; padding:3px;vertical-align:middle;}
+		input{font-size:1.3em;}
+		#piastra button, #piastra2 button {height:100%;
+			background-color:rgb(249,248,242); -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;}
+		#lis_aliqder td{border-width: 1px;vertical-align:middle;}
+		#listapias td:hover {border-color:black;#A32900;border-style:solid;border-width:1px;background-color:silver;cursor:pointer;}
+		.drag {vertical-align: middle;padding:0.1em;font-size:1em;border:2px solid}
+		#div_finale input{font-size:1.3em;}
+		#piastra table td,#piastra table th, #piastra2 table td,#piastra2 table th, #aliq_posiz td{border:1px solid black}
+		#piastra table td,#piastra2 table td {height:2.1em;}
+		#aliquote_fin_filter{margin-right: 20px;}
+		#info_tab td {vertical-align: top;}
+		#piastra table, #piastra2 table {width:100%;height:100%;}
+		.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		#lis_aliqder_paginate a,#lis_aliqder_info {padding-top:4px;}
+	</style>
+	
+{% if aliquota %}
+	<input type="hidden" id="riga_tot" value={{riga}} /> 
+	<input type="hidden" id="numero_aliq_tot" /> 
+	<input type="hidden" id="volume_aliq" /> 
+	<input type="hidden" id="conc_aliq" />
+	<input type="hidden" id="numero_aliq_spip" /> 
+	<input type="hidden" id="perc_spip_sup" />
+	<input type="hidden" id="perc_spip_inf" />
+	<input type="hidden" id="indice" value={{indice}} />
+
+	<form id="form_fin" action={% url tissue.derived.LastPartDerivedAliquots %} method="post">{% csrf_token %}
+		<div class="bordicurvi" style="background-color: #E8E8E8;float:left;border:1px solid black;margin-right: 2em;margin-bottom: 1em;padding-top:0.5em;padding-left:0.5em;padding-bottom: 0.3em;">
+			<label for="id_number_aliquots">Aliquots number:</label>
+			<div>
+			<input id="id_number_aliquots" type="text" style="float:left;margin-right:10px;" size="8" name="aliquots">
+			<div style=float:left;>
+			<input id="cambia_aliquote" type="submit" class="button" style="float:left;margin-left:10px;margin-right:10px;" value="Set Aliquots Number" title="Click to set aliquots number"/>
+			<br>
+			<input id="ricalcola" type="submit" class="button" style="float:left;margin-left:10px;margin-top:10px;margin-right:10px;" value="Recalculate values" title="Click to recalculate values in preparation aliquot fields"/> 
+			</div>
+			</div>
+			<br style="clear:both;"/>
+			<br>
+		</div>
+		<div class="bordicurvi" style="float:left;border:1px solid black;margin-right: 2em;margin-bottom: 1em;padding:0.5em 0.5em 0em 0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;" size="10" autocomplete="off" >
+				<br>
+				<input id="validate_barc" type="submit" class="button" style="float:left;margin-top:0.5em;" value="Validate current operation" title="Click to validate sample you are working with now"/> 
+			</div>
+			<br style="clear:both;"/>
+			<br>
+		</div>
+		<table border='1px' style="background-color:#EEDCD6;border-color:black;float:left;margin:0 1em 1em 0;">
+			<th colspan="2">Working aliquots preparation</th>
+			<tr align="center">
+				<td>
+					<label for="id_work_al_sol">Mother solution (ul):</label>
+					<input id="id_work_al_sol" readonly="readonly" type="text" size="5" name="w_al_sol" maxlength="5">
+				</td>
+				<td>
+					<label for="id_work_al_h2o">H2O (ul):</label>
+					<input id="id_work_al_h2o" readonly="readonly" type="text" size="5" name="w_al_h2o" maxlength="5">
+				</td>
+			</tr>
+		</table>
+		<table border='1px' style="background-color:silver; ;border-color: black;border-style:groove;float:left;">
+			<th colspan="2" style="border-left-style: none;">Back up aliquot preparation</th>
+			<tr align="center" style="border:1px solid black;">
+				<td>
+					<label for="id_back_al_sol">Mother solution (ul):</label>
+					<input id="id_back_al_sol" readonly="readonly" type="text" size="5" name="b_al_sol" maxlength="5">
+				</td>
+				<td>
+					<label for="id_back_h2o">H2O (ul):</label>
+					<input id="id_back_h2o" readonly="readonly" type="text" size="5" name="b_al_h2o" maxlength="5">
+				</td>
+			</tr>
+		</table>
+		<br style="clear:both;"/>
+		<table id="info_tab" border='1px' style="border-color:black;border-style:groove;float:left;">
+			<tr>
+				<td>
+					<label for="id_vol_tot">Total volume(ul):</label>
+					<input id="id_vol_tot" readonly="readonly" type="text"  value={{volume}} size="8" name="vol_tot">
+				</td>
+				<td>
+					<label for="id_conc_tot">Total concentration:</label>
+					<input id="id_conc_tot" readonly="readonly" type="text" size="8" name="conc_tot">
+				</td>
+				<td>
+					<label for="scelta_conc">Choose a concentration:</label>
+					<br>
+					<select id="scelta_conc" name="sc_conc">
+						{% if conc %}
+							{% for c in conc %}
+								<option value={{c.id}} unit={{c.idMeasure.measureUnit}} >{{c.value}} {{c.idMeasure.measureUnit}} {{c.idMeasure.idInstrument.name}}</option>
+							{% endfor %}
+						{% endif %}
+					</select>
+				</td>
+				<td>
+					<label style="margin-left:1em;" for="id_der_prot_aliq">Protocol:</label>
+					<input style="margin-left:0.7em;" id="id_der_prot_aliq" readonly="readonly" type="text" value={{derprot}}>
+				</td>
+				<td>
+					<label for="id_date_exec">Execution date:</label>
+					<input id="id_date_exec" type="text" size="8" name="date_exec" >					
+				</td>
+			</tr>
+		</table>
+			
+		</div>
+		<br style="clear:both;">
+		<br>
+		<table border='1px' style="border-color:black;float:left;" id="aliq">
+			<th>Mother aliquot</th>
+			<th >Aliquot 1</th>
+			<th >Aliquot 2</th>
+			<th >Aliquot 3</th>
+			<th >Aliquot 4</th>
+			<!-- <th style="background-color: lime;">Aliquot 5</th> -->
+			<th >Aliquot 5</th>
+				<tr>
+					<!-- <input type="hidden" id="k_{{forloop.counter0}}" value={{aliquota.idDerivationSpecification.idKitBatch.barcode}} />-->
+					<input type="hidden" id="proto"  />
+					<input type="hidden" id="tipoesteso" value={{tipoesteso}} /> 
+					<td align="center" style="vertical-align:middle;">
+						<br>
+						<label>Genealogy ID:</label>
+                        <input id="gen" maxlength="7" readonly="readonly" type="text" name="gen" value={{aliquota}} size="30" />
+                        <br><br>
+                        <label>Barcode:</label>
+                        <input id="barc_campione" readonly="readonly" type="text" value={{barc}} />
+                        <br><br>
+                        <span id="spanposiz" style="display:inline;">
+							<label>Position:</label>
+							<input id="pos_campione" style="vertical-align:middle;" readonly="readonly" type="text" size="5" value={{pos}} />
+						</span>
+                        <br>
+						<h4 style="font-size:1em;font-weight:normal;">Aliquot {{indice}} of {{aliq_da_derivare|length}}</h4>
+					</td>
+					
+					{% for a in lista %}
+						<td align="center" style="padding:8px;border-width:1px;">
+							<div>
+								<label style="font-size: 1em;margin-bottom:5px;" for="volume_{{forloop.counter0}}">Volume(ul):</label>
+								<input id="volume_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" name="volume_{{forloop.counter0}}" size=4 />
+								<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="concentration_{{forloop.counter0}}" class="label_conc" >Concentration<br>(ng/ul):</label>
+								<input id="concentration_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" name="conc_{{forloop.counter0}}"  size=4 />
+								
+								<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="moth_{{forloop.counter0}}">Mother(ul):</label>
+								<input id="moth_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" size=4 readonly="readonly" />
+								<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="h2o_{{forloop.counter0}}">H2O(ul):</label>
+								<input id="h2o_{{forloop.counter0}}" style="margin-top:5px;" maxlength="7" type="text" size=4 readonly="readonly" />
+							</div>
+						</td>
+					{% endfor %}
+					
+				</tr>
+		</table>
+	
+		<br style="clear:both;">
+		
+		<br>
+			<input id="conf_all" type="submit" style="float:left;margin-right:1em;" class="button" value="Next" title="Click to confirm and pass to the next aliquot"/>
+			<h4 id="prossima" class="bordicurvi" style="float:left;margin:0 8em 0 0;border:1px solid black;padding:0.6em;font-size:1em;font-weight: normal;"></h4>
+			<input id="finish" type="submit" style="float:left;" name="finish" class="button" value="Finish" title="Click to confirm and finish procedure at this point"/>
+		<br style="clear:both;">
+		<br>
+	
+		<div id="drag" style="float:left;margin-right:1em;width:100%;max-width: 950px;">
+			<div style="float:left;margin-right:1em;">
+				<table border='1px' style="float:left;" id="aliq_posiz">
+				</table>
+			</div>
+			<div style="float:left;margin-bottom:2em;width:47%;">
+				<table border='1px' style="float:left;width:100%;" id="piastra">
+					<tr>
+						<td class="mark" style="width:100%;">
+							<div style="margin:5px;float:left;">
+								<div style="float:left;">
+									<br>
+									<label style="float:left;margin-right:1em;">Automatic positioning</label>
+									<input id="autpos" type="checkbox" name="automatic_0" style="float:left;margin: 0px;">
+								</div>
+								<div style="float:left;margin-left:1em;">
+									<label for="id_pospezzi">aliquots per container:</label>
+									<input id="id_pospezzi" disabled="disabled" type="text" name="pospezzi" size="2" >
+								</div>
+								<div align="left" style="float:left;margin-left:1em;">
+									<input id="vert" type="radio" name="vertoriz" disabled="disabled" checked="checked" value="vert" style="display:inline;"/>Vertical
+									<br>
+							       	<input id="oriz" type="radio" name="vertoriz" disabled="disabled" value="oriz" style="display:inline;"/>Horizontal
+								</div>
+							</div>
+							<br style="clear:left;">
+							<hr id="rigaorizz" style="margin-bottom:8px;display:none;">
+							<table id="rna">
+							</table>
+							
+							<hr style="margin-top:8px;">
+						 	<div style="padding:5px;float:left;text-align:left;">
+								<label for="barc_plate">Barcode:</label>
+								<input id="barc_plate" type="text" maxlength="50" size="11" autocomplete="off" >
+								<input id="barcode_plate" type="hidden" name="barcode_r" >
+							</div>
+							<div align="left" style="padding:5px;padding-top:8px;float:left;">
+								<input id="tube" type="radio" name="choose" value="tube" style="display:inline;"/>Tube
+								<br>
+						       	<input id="plate" type="radio" name="choose" value="plate" style="display:inline;"/>Plate
+							</div>
+							<div style="padding-left:20px;padding-top:12px;float:left;">
+								<input type="submit" value="Load" class="button" id="load_plate" style="display:inline;margin-top:3px;"/>
+							</div>
+							<br style="clear:both;">
+							<div id="div_finale" style="padding-top:6px;float:left;">
+								<input type="submit" value="Vert. Position" class="button" id="vert_pos" style="display:inline;margin-top:3px;"/>
+								<input type="submit" value="Horiz. Position" class="button" id="pos" style="display:inline;margin-top:3px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div style="float:left;margin-left:1em;margin-bottom:2em;width:47%;">
+				<table border='1px' style="float:left;width:100%;" id="piastra2">
+					<tr>
+						<td class="mark" style="width:100%;">
+							<div style="margin:5px;float:left;">
+								<div style="float:left;">
+									<br>
+									<label style="float:left;margin-right:1em;">Automatic positioning</label>
+									<input id="autpos2" type="checkbox" name="automatic_1" style="float:left;margin: 0px;">
+								</div>
+								<div style="float:left;margin-left:1em;">
+									<label for="id_pospezzi2">aliquots per container:</label>
+									<input id="id_pospezzi2" disabled="disabled" type="text" name="pospezzi2" size="2" >
+								</div>
+								<div align="left" style="float:left;margin-left:1em;">
+									<input id="vert2" type="radio" name="vertoriz2" disabled="disabled" checked="checked" value="vert" style="display:inline;"/>Vertical
+									<br>
+							       	<input id="oriz2" type="radio" name="vertoriz2" disabled="disabled" value="oriz" style="display:inline;"/>Horizontal
+								</div>
+							</div>
+							<br style="clear:left;">
+							<hr id="rigaorizz2" style="margin-bottom:8px;display:none;">
+							<table id="rna">
+							</table>
+							
+							<hr style="margin-top:8px;">
+						 	<div style="padding:5px;float:left;text-align:left;">
+								<label for="barc_plate2" >Barcode:</label>
+								<input id="barc_plate2" type="text" maxlength="50" size="11" autocomplete="off" >
+								<input id="barcode_plate2" type="hidden" name="barcode_r2" >
+							</div>
+							<div align="left" style="padding:5px;padding-top:8px;float:left;">
+								<input id="tube2" type="radio" name="choose2" value="tube" style="display:inline;"/>Tube
+								<br>
+						       	<input id="plate2" type="radio" name="choose2" value="plate" style="display:inline;"/>Plate
+							</div>
+							<div style="padding-left:20px;padding-top:12px;float:left;">
+								<input type="submit" value="Load" class="button" id="load_plate2" style="display:inline;margin-top:3px;"/>
+							</div>
+							<br style="clear:both;">
+							<div id="div_finale2" style="padding-top:6px;float:left;">
+								<input type="submit" value="Vert. Position" class="button" id="vert_pos2" style="display:inline;margin-top:3px;"/>
+								<input type="submit" value="Horiz. Position" class="button" id="pos2" style="display:inline;margin-top:3px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+		</div>
+		<table border='1px solid black' style="float:left;display:none;margin-right:2em;margin-bottom:2em;" id="listapias">
+			<th>
+				Plate list
+			</th>
+			<input value=0 type="hidden" id="numnuovepi" name="numnuovepiastre"/>
+			{% for p in listapiastre %}
+				<tr align="center">
+					<td>
+						{{p}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+		<br style="clear:both;">
+		<div style="width:60%;max-width:600px;">
+		<table border='1px' style="margin-top:1em;" id="lis_aliqder">
+			<thead>
+				<th>N</th>
+				<th>GenealogyID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				<th>Exec.</th>
+			</thead>
+			<tbody>
+				{% for al,barc,pos in aliq_da_derivare %}
+					<tr align="center">
+						<td class="lista_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{al.idAliquot}}</td>
+						<td class="lista_barc">{{barc}}</td>
+						<td class="lista_pos">{{pos}}</td>
+						{% if al.derivationExecuted == 0 %}
+							<td class="da_eseguire"><img id="foto" width="15" height="15"  src="{{MEDIA_URL}}img/n_ok.png"></td>
+						{% else %}
+							<td><img id="foto" width="15" height="15" src="{{MEDIA_URL}}img/ok2.png"></td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+	</form>
+	
+	<div id="dia1" style="display:none" title="OK">
+		<p id='dialogMess'></p>
+	</div>
+	<div id="dia2" style="display:none" title="Warning">
+		<p id='dialogMess2'></p>
+	</div>
+{% endif %}
+<!-- se ho finito le aliquote da derivare -->
+{% if vuota %}
+<h1 align="center">No derivation procedure scheduled for this user</h1>
+{% endif %}
+{% if fine %}
+	<style type="text/css">
+		td{padding:8px;border-width:1px;}
+		th{padding:8px;}
+		#aliquote_fin_paginate a {padding-top:4px;}
+		#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+	</style>
+	
+	<div style='float:left;'>
+		<!-- <span style="font-size:1.4em;">Please note that these aliquots have to be archived <a href="{{DOMAIN_URL}}/storage/archive/" target="_blank" > here </a></span>  -->
+		<a href="{{DOMAIN_URL}}/storage/archive/" target="_blank">
+	    	<button id='homebut' class="button" >Archive created aliquots</button>
+	    </a>
+	</div>
+	<div style='float:right;'>
+	    <a href="{% url tissue.views.index %}">
+	    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	
+	<h2>These aliquots have been saved:</h2>
+	<table border='2px' id="aliquote_fin">
+		<thead>
+			{{  intest|safe  }}
+		</thead>
+		<tbody>
+			{% for i in lista_der %}
+	           	{{  i|safe  }}
+	        {% endfor %}
+	    </tbody>
+	           
+	</table>
+{% endif %}
+{% endblock %}

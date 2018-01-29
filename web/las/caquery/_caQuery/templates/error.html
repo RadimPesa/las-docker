@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Errore{% endblock %}
+
+{% block script %}
+
+<!--  <script type="text/javascript" src="/archive/archive_media/JS/jquery-ui-1.8.15.custom.min.js"></script>-->
+
+<script type="text/javascript" src="/archive/archive_media/JS/tooltip.js"></script>
+<script type="text/javascript" src="/archive/archive_media/JS/url.js"></script>
+<script type="text/javascript" src="/archive/archive_media/JS/jquery-ui.js"></script>
+<script type="text/javascript" src="/archive/archive_media/JS/redips-drag-min.js"></script>
+<script type="text/javascript" src="/archive/archive_media/JS/store.js"></script>
+<script type="text/javascript" src="/archive/archive_media/JS/merge.js"></script>
+<link rel="stylesheet" href="/archive/archive_media/style_drag.css" type="text/css" />
+
+
+<link rel="stylesheet" href="/archive/archive_media/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url archive.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+<h1 id="cont_h1"  align="center" style="font-size: 1.7em;">Error!</h1>
+<p>You are not allowed to use this function!</p>
+{% endblock %}

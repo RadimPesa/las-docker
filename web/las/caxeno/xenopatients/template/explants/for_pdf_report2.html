@@ -1,0 +1,28 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<title>Report of Mice Explants - PDF</title>
+<meta charset="charset=ISO-8859-1"> 
+<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css" />
+
+</head>
+<body>
+<section>
+	{% block content %}
+		<h1>Report of the last Explants Series:</h1>
+		<table border="1">
+			<tr>
+				<td align = 'center'>Mouse Genealogy ID</td>                
+				<td align = 'center'>Type</td>
+				<td align = 'center'>Plate</td>
+				<td align = 'center'>Position</td>
+				<td align = 'center'># of pieces</td>
+			</tr>
+		{% for I in list_report %}
+			{{  I|safe  }}
+		{% endfor %}
+		</table>
+	{% endblock %}
+</section>
+</body>
+</html>

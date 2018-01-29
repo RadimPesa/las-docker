@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Batch actions{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/readBatch.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.js"></script> 
+    <style type="text/css"> 
+        .dataTable td {text-align: center !important;}
+    </style>
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}	
+		<script>
+			var data = {{data|safe}};
+			startUrl = "{% url xenopatients.batch.start %}";
+		</script>
+		<p id='action' style='display:none;'>{{action}}</p>
+        <table id='fileData'>
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+        
+        <div id="dialog" class="dialog confirm" title="Feature List" style="display:none;position: relative;" align='center'>
+        </div>        
+		<div id="dialog2" class="dialog confirm" title="Response" style="display:none;position: relative;">
+        	<p id='saveResponse'></p>
+        </div>
+        
+ 	{% endif %}
+{%  if message  %}
+	<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+	<script>
+		document.getElementById("message").style.display = 'inline';
+	</script>
+{% endif %}
+{% endblock %}

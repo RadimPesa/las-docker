@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Ensure proper rendering and touch zooming -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <!--ink rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"-->
+  <!-- jQuery library -->
+  <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+  <!-- Latest compiled JavaScript -->
+  <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
+
+
+  <!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script-->
+  <!--script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script-->
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-cookies.js"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Modules -->
+  <script src="{{MEDIA_URL}}js/clinical/app.js"></script>
+
+  <!-- Controllers -->
+  <script src="{{MEDIA_URL}}js/clinical/controllers/MainController.js"></script>
+
+  <!-- Services -->
+  <script src="{{MEDIA_URL}}js/clinical/services/getPatient.js"></script>
+
+  <!--link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet"-->
+
+</head>
+<body ng-app="myModule" ng-controller="TypeaheadCtrl">
+
+  {% verbatim %}
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>test</h1>      
+      <p>Test selezione paziente</p>      
+    </div>
+  </div>
+
+
+  <div class='container-fluid'>
+    <p>Data loaded via $http:</p>
+    <input type="text" ng-model="selected" placeholder="Patients loaded via $http" typeahead="patients as (patients.firstName + ' ' + patients.lastName + ' ' + patients.fiscalCode) for patients in getPatients($viewValue)" class="form-control">
+    <!--i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i-->
+  
+  
+  <div class="bs-callout bs-callout-info" id="callout-glyphicons-location">
+    <h4>Selected User:</h4>
+    <ul>
+    <li><i>ID:</i><b> {{selected.identifier}}</b></li>
+    <li><i>Name:</i><b> {{selected.firstName + ' ' + selected.lastName}}</b></li>
+    <li><i>Fiscal Code:</i><b> {{selected.fiscalCode}}</b></li>
+    <li><i>Birth:</i><b> {{selected.birthDate}}</b></li>
+    <li><i>Gender:</i><b> {{selected.sex}}</b></li>
+    <li><i>Vital status:</i><b> {{selected.vitalStatus}}</b></li>
+  </ul>
+
+<button class="btn btn-success" ng-click="go(selected.identifier)" ng-disabled="!selected.identifier">
+<span class="glyphicon glyphicon-user"></span>  Go to Patient profile
+</button>
+<hr>
+  </blockquote>
+  <pre>Model: {{selected | json}}</pre>
+  
+</div>
+
+
+  {% endverbatim %}
+
+
+</body>
+</html>

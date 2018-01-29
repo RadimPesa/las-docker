@@ -1,0 +1,76 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'Explants_'; var newTab = true;
+        listKey = ['expl','expluser', 'expltimestamp', 'notPlateBarcode', 'tissueList', 'miceList', 'dateE', 'notesE', 'usedMice'];
+		jQuery(document).ready(function () {
+			$( "#tabs" ).tabs();
+			for (var i = 0; i < listKey.length; i++){ localStorage.removeItem(listKey[i]); }
+		});
+		function initTab(){
+		    selTab = true;
+		    if (newTab == true){
+		        newTab = false;
+		        generate_result_table("#table_res2");
+		    }
+		}
+	</script>
+{% endblock %}
+{% block title %}Explants{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+	    <div id="tabs">
+	        <ul>
+	            <li><a href="#tabs-1" class="selected">Aliquots Report</a></li>
+	            <li><a href="#tabs-2" onclick="initTab()" class="">Mice Report</a></li>
+	        </ul>
+	    	<div id="tabs-1">
+			<h1>Report of the last explant series:</h1>
+				<table id="table_res" border="1">
+					<thead>
+						<tr>
+							<th>Explanted Genealogy ID</th>                
+							<th>Aliquot Type</th>
+							<th>Plate ID</th>
+							<th>Position</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in list_report %}
+							{{  i|safe  }}
+						{% endfor %}
+					</tbody>
+				</table>
+    		</div>
+	    	<div id="tabs-2">
+				<h1>Report of the last explant series:</h1>
+				<table id="table_res2" border="1">
+					<thead>
+						<tr>
+							<th>Mouse Genealogy ID</th>
+							<th>Arrival Date</th>
+							<th>Scope of Explant</th>
+							<th>Notes of explants</th>
+							<th>Notes of scope</th>
+						</tr>
+					</thead>
+					<tbody>
+					    {% for i in list_report2 %}
+						    {{  i|safe  }}
+					    {% endfor %}
+				    </tbody>
+				</table>
+    		</div>
+		</div>
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

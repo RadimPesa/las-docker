@@ -1,0 +1,114 @@
+\begin{thebibliography}{10}
+
+\bibitem{slideDB}
+Basi di dati - slide.
+\newblock \url{http://dbdmg.polito.it/wordpress/teaching/basi-di-dati/}.
+
+\bibitem{csv}
+Csv\&python.
+\newblock \url{http://docs.python.org/library/csv.html#csv.writer}.
+
+\bibitem{audit}
+Django audit trail.
+\newblock \url{http://code.djangoproject.com/wiki/AuditTrail}.
+
+\bibitem{djangoD}
+Django home page.
+\newblock \url{https://www.djangoproject.com/}.
+
+\bibitem{piston}
+Django piston home.
+\newblock \url{https://bitbucket.org/jespern/django-piston/wiki/Home}.
+
+\bibitem{mongoDB}
+Mongodb.
+\newblock \url{http://www.mongodb.org/}.
+
+\bibitem{pdf}
+Pisa xhtml2pdf.
+\newblock \url{http://www.xhtml2pdf.com/}.
+
+\bibitem{django}
+Tutorial django.
+\newblock \url{https://docs.djangoproject.com/en/dev/intro/tutorial01/}.
+
+\bibitem{wikiAPI}
+Wikipedia en - application programming interface.
+\newblock \url{http://en.wikipedia.org/wiki/Application_programming_interface}.
+
+\bibitem{libroDB}
+Paraboschi S. Torlone~R. Atzeni~P., Ceri~S.
+\newblock {\em Basi di dati - Seconda Edizione}.
+\newblock McGraw-Hill, 2007.
+
+\bibitem{irccarticle1}
+Galimi F. Sassi F. Torti D. Isella C. Cor\`a D. Di Nicolantonio F. Buscarino M.
+  Petti C. Ribero D. Russolillo N. Muratore A. Massucco P. Pisacane A. Molinaro
+  L. Valtorta E. Sartore-Bianchi A. Risio M. Capussotti L. Gambacorta M. Siena
+  S. Medico E. Sapino A. Marsoni S. Comoglio P. Bardelli A. Trusolino~L.
+  Bertotti~A., Migliardi~G.
+\newblock A molecularly annotated platform of patient-derived xenografts
+  ('xenopatients') identifies her2 as an effective therapeutic target in
+  cetuximab-resistant colorectal cancer.
+\newblock {\em Cancer Discovery}, 2011.
+
+\bibitem{tesiB}
+Maione F.
+\newblock {\em Identificazione di biomarcatori predittivi di risposta alla
+  terapia con anticorpi monoclonali anti-EGFR (Cetuximab) nel trattamento delle
+  metastasi epatiche da tumore colorettale: un approccio chirurgico ex-vivo}.
+\newblock Universit\`a degli studi di Torino, 2009.
+
+\bibitem{irccarticle2}
+Sassi F. Isella C. Cor\`a D. Gastaldi S. Ribero D. Muratore A. Massucco P.
+  Siatis D. Paraluppi G. Gonella F. Maione F. Pisacane A. David E. Torchio B.
+  Risio M. Salizzoni M.-Capussotti L. Perera T. Medico E. Di Renzo M. Comoglio
+  P. Trusolino L. Bertotti~A. Galimi~F., Torti~D.
+\newblock Genetic and expression analysis of met, macc1, and hgf in metastatic
+  colorectal cancer: Response to met inhibition in patient xenografts and
+  pathologic correlations.
+\newblock {\em Clinical Cancer Research}, 2011.
+
+\bibitem{libroDjango}
+Kaplan-Moss~J. Holovaty~A.
+\newblock {\em The definitive guide to django - Web development done right}.
+\newblock Apress, 2008.
+
+\bibitem{defC}
+Fausto N. Mitchell~R. Kumar~V., Abbas A.~K.
+\newblock {\em Robbins Basic Pathology}.
+\newblock Saunders/Elsevier, 2007.
+
+\bibitem{tesiPL}
+Pagliasotto L.
+\newblock {\em Analisi e realizzazione di un sistema informativo per la
+  gestione di protocolli sperimentali di ricerca clinica}.
+\newblock Politecnico di Torino, 2008.
+
+\bibitem{tuttoscienze}
+Trusolino L.
+\newblock Caccia all'interruttore anti-tumori.
+\newblock {\em TuttoScienze}, 2011.
+
+\bibitem{uml}
+Fowler M.
+\newblock {\em UML Distilled -Terza Edizione}.
+\newblock Pearson Addison Wesley.
+
+\bibitem{wikiUML}
+Hamilton~K. Miles~R.
+\newblock {\em Learning UML 2.0}.
+\newblock O'Reilly, 2006.
+
+\bibitem{gantt}
+Stanley~E. Portny.
+\newblock {\em Project Management For Dummies}.
+\newblock Wiley Publishing Inc., 2010.
+
+\bibitem{wikiWA}
+Rosen~R. Shklar~L.
+\newblock {\em Web Application Architecture: Principles, Protocols and
+  Practices}.
+\newblock John Wiley and Sons, Ltd, 2009.
+
+\end{thebibliography}

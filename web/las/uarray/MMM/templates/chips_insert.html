@@ -1,0 +1,69 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'Chips';
+</script>
+{% endblock %}
+{% block title %}New Chips{% endblock %}
+
+
+{% block content %}
+
+<style>
+	td.reqinfo{
+		border: 0px;
+	}
+	th.reqinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+
+<div style="max-width:90%;">
+	<fieldset id="chips">
+		<legend>Chips</legend>
+		<table cellspacing="5" class='report'>
+		 	<thead>
+				<tr> 
+					<th>Barcode</th>   
+		            <th>Type</th>
+		            <th>Owner</th> 
+		            <th>Exp date</th>
+		            <th>Lot</th>
+		            <th>Dmap file</th>
+					<th>Notes</th>
+		        </tr>
+	        </thead>
+		<tbody>
+	    {% for key, chip in chips.items %} 
+			 		
+			        <tr>
+			            <td>{{key}}</td> 
+			            <td>{{chip.chipType}}</td>
+			            <td>{{chip.owner}}</td>
+			            <td>{{chip.exp_date}}</td>
+			            <td>{{chip.lot}}</td>
+			            <td>{{chip.dmap}}</td>
+			            <td>{{chip.notes}}</td>					
+			        </tr>
+		 
+		{% endfor %}
+		       </tbody>
+		</table> 
+	</fieldset>
+</div>
+
+{% endblock %}

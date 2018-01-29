@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{MEDIA_URL}}projekktor/themes/maccaco/projekktor.style.css" type="text/css" media="screen" />
+<!-- Load jquery -->
+<!--script type="text/javascript" src="{{MEDIA_URL}}projekktor/jquery-1.9.1.min.js"></script-->
+<!-- load projekktor -->
+<script type="text/javascript" src="{{MEDIA_URL}}projekktor/projekktor-1.3.09.min.js"></script>
+<script type='text/javascript'> var videoplayer =''; </script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/style-menu.css" />
+
+<style type="text/css">
+a.linkvideo {
+    color: #333333 !important; 
+}
+
+a.linkvideo:hover {
+    color: #606060 !important;
+}
+</style>
+
+<div id="wrap" style="width: auto; position: relative;">
+    <div id='video_list' style="float:left; width:35%;">
+	<fieldset style='width:60%'>
+	    <legend>Video List</legend>
+            <div class="accordionVideo">
+                {% for ma in mainActivities %}
+                <h3>{{ma.name}}</h3>
+                <div class='accordionVideo'>
+                    {% for a in ma.activities%}
+                        <h3>{{a.name}}</h3>
+                        <div>
+                            {% for v in ma.videos %}
+                                {% if v.activity = a.id%}
+                                    <p><a class='linkvideo' id='{{v.id}}' href='#' onClick="loadVideo('{{CENTRAL_MEDIA_URL}}{{v.url}}','{{v.title}}')">{{v.title}}</a></p>
+                                {% endif%}
+                            {% endfor %}
+                      </div>  
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+    </fieldset>
+</div>
+
+
+<div id="main" role="main" style="float:left; width:60%">
+        <h3 id="video_title"></h3> 
+	<div id="player_a" class="projekktor"></div>
+	    <script type="text/javascript">
+    		$(document).ready(function(){
+            $( ".accordionVideo" ).accordion({
+                collapsible: true,
+                heightStyle: "content",
+                active: false
+            });
+	        videoplayer= projekktor('#player_a', {
+        	    playerFlashMP4: '{{MEDIA_URL}}projekktor/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',
+	            playerFlashMP3: '{{MEDIA_URL}}projekktor/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',
+	            width: 640,
+	            height: 385,
+	            controls: true,
+                /**playlist:[
+                    {% for ma in mainActivities %}
+                        {% for v in ma.videos %}
+                            { 0 :{src: "{{MEDIA_URL}}"+'{{v.url}}', type: 'video/ogg'} },
+                        {%endfor%}
+                    {%endfor%}
+                ]*/
+        	    }
+                , function(player) {
+        	        
+		              });       
+
+    		});
+  		function loadVideo(url,title){
+         	    projekktor('player_a').setPause();
+                projekktor('player_a').setFile([ { 0 :{src: url, type: 'video/ogg'} } ]);
+        	    //projekktor('player_a').setActiveItem(parseInt(id));
+	            $("#video_title").text(title);
+                projekktor('player_a').setPlay();
+    		}
+	    </script>            
+            <br><br>
+	</div>
+    </div>
+</div>
+
+			
+</nav>
+
+{% endblock %}

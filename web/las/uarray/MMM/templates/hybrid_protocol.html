@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Scanned chips{% endblock %}
+
+
+{% block content %}
+
+
+<form action="{% url MMM.views.hybrid_protocols %}" method="post">{% csrf_token %}
+	<table style="text-align:left">
+	{{ form.as_table }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

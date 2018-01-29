@@ -1,0 +1,387 @@
+{% extends "tissue2/base.html" %}
+{% block title %}BioBank{% endblock %}
+
+
+{% block content %}
+	{% if not errore %}
+		<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}style-menu.css" />
+
+		<script type="text/javascript">
+		
+			jQuery(document).ready(function(){
+				//questi comandi sono nello style-menu.css
+				//$("section#content").css("background-image","url(/archive/archive_media/img/sfondost2.png)");
+				//$("section#content").css("background-position","right bottom");
+				//$("section#content").css("background-repeat","no-repeat");
+				
+			    $('.mainlink li, span').each(function(){
+			        $(this).click(function() {
+			        	var target = $(this).attr('target');
+			        	var url = $(this).attr('url');
+			        	if (url){
+			        		window.location = url;
+			        	}
+			        	else{
+			        		$('.cn-slide').each(function(){
+			        			$(this).hide();	
+			        		});
+			        		$('#'+target).show();
+			        	}
+			    	});
+			    });
+			});
+			
+		</script>
+	
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+				<div class="cn-slide-main mainlink" id="slide-main">
+				    <nav>
+				        <li target="slide-coll">Collections</li>                            
+				        <li target="slide-aliq">Aliquots</li>
+				        <li target="slide-exper">Experiments</li>
+				        <li url='{% url tissue.patient.PatientView %}'>Patients</li>
+				        <li target="slide-kit">Kits</li>
+				        <li target='slide-adm' url='{% url tissue.tissueAdmin.start %}'>Admin</li>
+				        {% if projects %}
+				        	<li target='slide-project'>External projects</li>
+				        {% endif %}
+				    </nav>
+		    	</div>
+		
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-coll">
+		        <nav>
+		        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Sample collection</h2>
+		            <li url='{% url tissue.collection.CollectionInit %}'>Fresh tissues</li>                           
+		            <li url='{% url tissue.collection.ExternAliquots %}'>Archive samples</li>
+		            <li url='{% url tissue.collection.CellLineNewCollection %}'>Cell lines</li>
+		            <li url='{% url tissue.collection.BatchStart %}'>Batch collection</li>
+		            <li url='{% url tissue.collection.AddParameters %}'>Add clinical parameters</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-aliq">
+		        <nav>
+		        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Aliquots</h2>
+		            <li target="slide-der">Derive</li>		            
+		            <li target="slide-split">Split</li>
+<!-- 	            <li target="slide-retr">Retrieve</li>
+		            <li target="slide-exp">Experiments</li>  -->
+		            <li target="slide-slidelabel">Slides labelling</li>
+					<li target="slide-slideprep">Slides preparation</li>
+		            <li target="slide-reval">Perform QC/QA</li>
+		            <li target="slide-transf">Transfer</li>
+		            <li target="slide-genotype">Genotype mismatch</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-der">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Derive</h2>	
+		            <li url='{% url tissue.derived.InsertDerivedAliquots %}'>Plan derivation</li>
+		            <li target="slide-der2">Manual derivation</li>
+		            <li target="slide-der3">Automated derivation</li>
+		            <li url='{% url tissue.derived.saveProtocols %}'>Create new protocol</li>
+		           <!-- <li url='{% url tissue.derived.DerivedAliquotsCalculateValues %}'>Calculate aliquot values</li> -->
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-der2">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-der"><img src="{{MEDIA_URL}}img/arrow.png"></span>Manual derivation</h2>	
+		            <li url='{% url tissue.derived.ExecDerivedAliquots %}'>1. Select aliquots and protocol</li>                           
+		            <li url='{% url tissue.derived.LoadKitDerivedAliquots %}'>2. Select kit</li>
+		            <li url='{% url tissue.derived.LoadDetailsDerivedAliquots2 %}'>3. Perform QC/QA</li>
+		            <li url='{% url tissue.derived.LoadLastPartDerivedAliquots %}'>4. Create derivatives</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-der3">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-der"><img src="{{MEDIA_URL}}img/arrow.png"></span>Automated derivation</h2>
+		        	<li url='{% url tissue.derivation_robot.LoadStep1 %}'>1. Select aliquots and protocol</li>                           
+		            <li url='{% url tissue.derivation_robot.LoadStepKit %}'>2. Select kit</li>
+		            <li url='{% url tissue.derivation_robot.LoadInsertMeasure %}'>3. Perform QC/QA</li>
+		            <li url='{% url tissue.derivation_robot.LoadCreateAliquot %}'>4. Plan create derivatives</li>
+		            <li url='{% url tissue.derivation_robot.CreateDerivatives %}'>5. Create derivatives</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-split">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Split</h2>
+		            <li url='{% url tissue.split.InsertSplitAliquots %}'>Plan splitting</li>                           
+		            <li url='{% url tissue.split.ExecSplitAliquots %}'>Manual splitting</li>
+		            <li target="slide-split2">Automated splitting (robot)</li>
+		        </nav>
+		    </div>	    
+		</div>		
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-split2">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-split"><img src="{{MEDIA_URL}}img/arrow.png"></span>Automated splitting</h2>
+		        	<li url='{% url tissue.split_robot.LoadValidateAliquot %}'>Plan</li>
+		        	<li url='{% url tissue.split_robot.SaveData %}'>Acquire data and save</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-slidelabel">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Slides labelling</h2>	
+		            <li url='{% url tissue.label.InsertLabelAliquots %}'>Plan</li>
+		            <li url='{% url tissue.label.ConvalidateLabelAliquots %}'>Execute</li>
+		            <li target="slide-label-file">Files</li>
+		            <li url='{% url tissue.label.DefineLabelProtocol %}'>Define protocol</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-label-file">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-slidelabel"><img src="{{MEDIA_URL}}img/arrow.png"></span>Files</h2>	
+		            <li url='{% url tissue.label.InsertFile %}'>Insert</li>
+		            <li url='{% url tissue.label.DownloadFileInit %}'>View/Download</li>
+		            <li url='{% url tissue.label.DeleteFile %}'>Delete</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-slideprep">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Slides preparation</h2>	
+		            <li url='{% url tissue.slide.InsertSlideAliquots %}'>Plan</li>                           
+		            <li url='{% url tissue.slide.ChooseSlideAliquots %}'>Execute</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-genotype">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Genotype mismatch</h2>	
+		            <li url='{% url tissue.fingerPrinting.NotAvailable %}'>Block aliquots</li>	           
+		        </nav>
+		    </div>	    
+		</div>
+		
+<!--	<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-retr">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Retrieve</h2>
+	
+		            <li url='{% url tissue.position.InsertPositionVitalAliquots %}'>Plan retrieval</li>                           
+		            <li url='{% url tissue.position.ExecPositionVitalAliquots %}'>Retrieve aliquots</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+ 		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exp">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Experiments</h2>
+	
+		            <li url='{% url tissue.experiment.DecreaseView %}'>Plan experiments</li>                           
+		            <li url='{% url tissue.experiment.DecreaseFinal %}'>Execute experiments</li>
+		        </nav>
+		    </div>	    
+		</div>  -->
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper">
+		        <nav>
+		        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Experiments</h2>
+	
+		            <li url='{% url tissue.experiment.DecreaseView %}'>Plan</li>                           
+		            <li target="slide-exper-exec">Execute</li>
+		            <li target="slide-exper-results">View results</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-exec">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper"><img src="{{MEDIA_URL}}img/arrow.png"></span>Execute</h2>
+	
+		            <li target="slide-exper-exec-bio">Biological</li>                           
+		            <li target="slide-exper-exec-molec">Molecular</li>
+		            <li target="slide-exper-exec-other">Other</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-exec-bio">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper-exec"><img src="{{MEDIA_URL}}img/arrow.png"></span>Biological</h2>
+	
+		            <li url="{{DOMAIN_URL}}/cellline/thawing/start/">Cell line thawing</li>                           
+		            <li url="{{DOMAIN_URL}}/cellline/generation/aliquots/">Cell line generation</li>
+		            <li url='{% url tissue.position.ExecPositionVitalAliquots %}'>Retrieve for implant</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-exec-molec">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper-exec"><img src="{{MEDIA_URL}}img/arrow.png"></span>Molecular</h2>			                                   
+		            <li url="{{DOMAIN_URL}}/dpcr/select_request/">Digital PCR</li>
+		            <li url="{{DOMAIN_URL}}/liqbiopsy/select_request/">Beaming</li> 
+		            <li url="{{DOMAIN_URL}}/micro/home/">Micro array</li>
+		            <li url="{{DOMAIN_URL}}/ngs/select_request/">Next generation sequencing</li>
+		            <li url="{{DOMAIN_URL}}/realTime/select_request/">Real time PCR</li>
+		            <li url="{{DOMAIN_URL}}/sanger/select_request/">Sanger sequencing</li>
+		            <li url="{{DOMAIN_URL}}/fingerPrinting/home/">Sequenom</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-exec-other">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper-exec"><img src="{{MEDIA_URL}}img/arrow.png"></span>Other</h2>
+	
+		            <li url='{% url tissue.experiment.DecreaseFinal %}'>Execute</li>
+		            <li url='{% url tissue.experiment.InsertFiles %}'>Upload results</li>		            
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-results">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper"><img src="{{MEDIA_URL}}img/arrow.png"></span>View results</h2>                          
+		            <li target="slide-exper-results-molec">Molecular</li>
+		            <li url='{% url tissue.experiment.DownloadInit %}'>Other</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-exper-results-molec">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-exper-results"><img src="{{MEDIA_URL}}img/arrow.png"></span>Molecular</h2>			                                   
+		            <li url="{{DOMAIN_URL}}/ngs/get_results/">Next generation sequencing</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-reval">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Perform QC/QA</h2>
+	
+		            <li url='{% url tissue.revalue.InsertRevalueAliquots %}'>Plan revaluation</li>                           
+		            <li url='{% url tissue.revalue.ExecRevalueAliquots %}'>Manual revaluation</li>
+		            <li target="slide-reval2">Automated revaluation (robot)</li>
+		            <li url='{% url tissue.revalue.RevalueAliquotsViewFile %}'>View file saved</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-reval2">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-reval"><img src="{{MEDIA_URL}}img/arrow.png"></span>Automated revaluation</h2>
+		        	<li url='{% url tissue.revalue_robot.LoadValidateAliquot %}'>Plan</li>
+		        	<li url='{% url tissue.revalue_robot.SaveData %}'>Acquire data and save</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-transf">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-aliq"><img src="{{MEDIA_URL}}img/arrow.png"></span>Transfer</h2>
+	
+		            <li url='{% url tissue.transfer.InsertTransferAliquots %}'>Plan transfer</li>                           
+		            <li url='{% url tissue.transfer.PendingTransferAliquots %}'>Send aliquots</li>
+		            <li url='{% url tissue.transfer.ReceiveTransferAliquots %}'>Receive aliquots</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-kit">
+		        <nav>
+		        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>Kits</h2>
+	
+		            <li url='{% url tissue.kit.SaveKitType %}'>Insert new kit type</li>                           
+		            <li url='{% url tissue.kit.SaveSingleKit %}'>Register new kit</li>
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-project">
+		        <nav>
+		        	<h2><span class="cn-back"><img src="{{MEDIA_URL}}img/arrow.png"></span>External projects</h2>
+		        	{%for p in projects %}
+		        		{% if p == "mercuric" %}
+		            		<li url='{% url mercuric.views.collectionMerc %}'>Mercuric</li>
+		            	{% elif p == "funnel" %}
+		            		<li url='{% url funnel.views.collectionFunnel %}'>Funnel</li>
+		            	{% elif p == "symphogen" %}		            		
+		            		<li target="slide-symphogen">Symphogen</li>
+		            	{% elif p == "motricolor" %}
+		            		<li target="slide-motricolor">Motricolor</li>
+		            	{% endif%}
+		            {% endfor %}
+		        </nav>
+		    </div>	    
+		</div>
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-symphogen">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-project"><img src="{{MEDIA_URL}}img/arrow.png"></span>Symphogen</h2>
+		        	
+					<li url='{% url symphogen.views.collectionSym %}'>Blood collection</li>
+		            <li url='{% url tissue.experiment.DownloadRAS %}'>View RAS file</li>
+		            <li url='{% url tissue.experiment.DownloadECD %}'>View ECD file</li>
+		            <li url='{% url tissue.transfer.InsertTransferAliquots %}'>Transfer</li>
+		        </nav>
+		    </div>	    
+		</div>		
+		
+		<div class="cn-container" style='float:left;width:30%;margin-top:0em;'>
+		    <div class="cn-slide mainlink" id="slide-motricolor">
+		        <nav>
+		        	<h2><span class="cn-back" target="slide-project"><img src="{{MEDIA_URL}}img/arrow.png"></span>Motricolor</h2>
+		            <li url='{% url motricolor.views.collectionMotr1 %}'>EORTC 1615 – NKI M16TGA</li>
+		            <li url='{% url motricolor.views.collectionMotr2 %}'>EORTC 1616 - NKI M16VIB</li>
+		            <li url='{% url motricolor.views.collectionMotr3 %}'>EORTC 1604 – VHIO16001</li>
+		        </nav>
+		    </div>
+		</div>
+		
+		<div class='cn-container' style='float:right;width:25%'>
+			<div class="imghome">
+				<img src="{{MEDIA_URL}}img/77.jpg" style="width:100%">
+			</div>
+		</div>
+	
+		<br style="clear:both;"><br><br><br>
+
+	{% else %}
+		<h1 align="center">Error: something went wrong</h1>
+	{% endif %}
+{% endblock %}

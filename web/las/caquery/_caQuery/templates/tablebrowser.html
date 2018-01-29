@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/tablebrowser.css">
+{% endblock %}
+{% block title %}Multidimensional Data Manager - Table browser{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/tablebrowser.js"></script> 
+{% endblock %}
+
+{% block content %}
+
+<section id="riquadroapi">
+    <h3>Table browser</h3>
+
+    <article id="commands">
+    	<div id="whichtable" style="width: 35%">
+            <label>Data source:</label><select id="selds">
+            {% for x in allds %}
+                {% if dst and x == dst.dataSource %}
+                    <option value="{{x.id}}" selected="selected">{{x.name}}</option>
+                {% else %}
+                    <option value="{{x.id}}">{{x.name}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+            {% if not dst %}
+            	<script>
+            		$(function() {$("#selds").prop("selectedIndex", -1)});
+            	</script>
+            {% endif %}
+            <br><br>
+            <form action="./" method="get">
+                <label>Table:</label><select name="dst" id="seldst">
+                {% if dst %}
+                	{% for x in alldst %}
+                		{% if x == dst %}
+                			<option value="{{x.id}}" selected="selected">{{x.name}}</option>
+                		{% else %}
+                			<option value="{{x.id}}">{{x.name}}</option>
+                		{% endif %}
+                	{% endfor %}
+                {% endif %}
+            	</select><button class="button" id="go" style="margin-left: 10px">Go</button>
+            </form>
+        </div>
+
+        <div id="tabledetails" style="width: 25%; margin-top: 40px">
+            <label>Table schema:</label>
+            <table id="tdetails" style="margin-left: 25px">
+            	<thead>
+            		<th>Column name</th>
+            		<th>PK</th>
+            		<th>GenID</th>
+                    <th>Sample data</th>
+            	</thead>
+            	<tbody>
+                    {% if data %}
+                        {% for x in data%}
+                            <tr>
+                                <td>{{ x.name }}</td>
+                                <td>{{ x.pk }}</td>
+                                <td>{{ x.gid }}</td>
+                                <td>{{ x.data }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+            	</tbody>
+            </table>
+        </div>
+        <!--
+        <div id="tabledata" style="width: 25%; margin-top: 40px">
+            <label>Data preview:</label>
+            <table id="tdata" style="margin-left: 25px">
+            	<thead>
+            		<tr></tr>
+            	</thead>
+            	<tbody>
+            	</tbody>
+            </table>
+        </div>
+		-->
+    </article>
+</section>
+
+{% endblock %}
+        

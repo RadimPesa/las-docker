@@ -1,0 +1,137 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+            <link rel="shortcut icon" href="{{MEDIA_URL}}img/topo.ico">
+            <title>{% block title %}{% endblock %}</title>
+            <!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+            <!-- [if lt IE 9]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+            <meta charset="charset=ISO-8859-1">
+            <script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-ui.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.0/media/js/jquery.dataTables.js"></script>
+
+            <script type="text/javascript">window.__admin_media_prefix__ = "/clinical_media/";</script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/url.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/jsi18n.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/core.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/calendar.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/admin/DateTimeShortcuts.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/datePicker.js"></script>
+
+
+            <script type="text/javascript" src="{{MEDIA_URL}}js/interfaceFE.js"></script>
+            <script type="text/javascript" src="{{MEDIA_URL}}js/inputValidation.js"></script>
+
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/forms.css" />
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/spinning.css" />
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/smoothness/jquery-ui.css" />
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/style.css" />
+            <link rel="stylesheet" href="{{MEDIA_URL}}css/datePicker.css" />
+            <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+            <script type="text/javascript">
+            jQuery(document).ready(function() {
+                                jQuery('body').ajaxComplete(function(e, xhr, settings) {
+                                        if (xhr.status == 278) {
+                                        window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                                        }
+                                });
+                            //ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+                            workingGroups="";
+                            {% if request.workingGroups %}
+                                workingGroups="{{request.workingGroups}}";
+                                $.ajaxSetup({
+                                    beforeSend: function (request){
+                                        request.setRequestHeader("workingGroups", workingGroups);
+                                    }
+                                });
+                                {% endif %}
+                });
+
+
+
+                        //customizzazione delle alert
+                function alert2(message, title, buttonText, callback) {
+                            buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+                            title = (title == undefined) ? "The page says:" : title;
+                            cback = (callback == undefined) ? function() {$(this).dialog("close");div.remove();} : function() {$(this).dialog("close");div.remove(); callback()}
+                            var div = $('<div>');
+                            div.html(message);
+                        div.css("padding","25px");
+                            div.attr('title', title);
+                            div.dialog({
+                                autoOpen: true,
+                                modal: true,
+                                draggable: false,
+                                resizable: false,
+                                buttons: [{
+                                            text: buttonText,
+                                            click: cback
+                                        }]
+                                });
+                }
+
+                jQuery(document).ready(function() {
+                        jQuery('body').ajaxComplete(function(e, xhr, settings) {
+                            if (xhr.status == 278) {
+                                window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                            }
+                        });
+                        jQuery(document).tooltip();
+                                /*jQuery(document).bind({
+                            ajaxStart: function() {
+                                jQuery(this).addClass("loading");
+                            },
+                            ajaxStop: function() {
+                                jQuery(this).removeClass("loading");
+                            }
+                        });*/
+                        window.alert = alert2;
+                });
+
+                function home(){
+                    window.location = jQuery("#urlhome").text();
+                }
+        </script>
+        {% block script %}{% endblock %}
+        {% block report %}{% endblock %}
+        </head>
+
+        <body {%block bodyoption %}{% endblock %}>
+    <header>
+
+
+           {% if user.is_authenticated %}
+           <p id="user_name" style="float:right;">
+
+            </p>
+            {% endif %}
+        <br style="clear:both;">
+
+    </header>
+
+
+    <section id="content">
+        {% if message %}
+            <h2 id="message">{{  message  }}</h2>
+        {% endif %}
+            {% if err_message %}
+            <h3 id="err_message">{{  err_message  }}</h3><br>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </section>
+
+    {%  if message  %}
+        <script>
+            document.getElementById("message").style.display = 'inline';
+        </script>
+    {% endif %}
+    <div class="modal"><!-- Place at bottom of page --></div>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/manageModules.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+	<link rel="stylesheet" href="/lasauth_media/manage/css/tables.css">	
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/createWG.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="/lasauth_media/js/jquery.dataTables.js"></script>
+	<style type="text/css" title="currentStyle">
+			@import "/lasauth_media/css/demo_table.css";
+	</style>
+
+</head>
+<body onload="setLoginFocus()">
+	<header>
+		<hgroup>
+			<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+			<h2> Central Authentication Service for LAS modules </h2> 
+		</hgroup>
+	</header>
+	<section id="content">
+		<script>$("section#content").addClass("home");</script>
+		<script> 
+			
+		</script>
+		<p id="user_name">
+			<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+		</p>
+			<div style="padding-left:50px;">   
+			{% if step == '1'%}
+				<ul>
+					<li>OWNER:{{user.username}}</li>
+				<ul>
+				
+				{%for p in currentPerm%}
+					<li>
+						{{p.name}}
+					</li>
+				{%endfor%}
+				</ul>
+				<br>
+				<form enctype="multipart/form-data" method="post" action="">
+					<ol>
+						{% for u in users%}
+							<li><a href="javascript:toggle('{{u.id}}');">{{u.username}}</a></li>
+							<div id="{{u.id}}" style="display:none;">
+								<ul>
+									{% for m in currentMod%}
+										<li><a href="javascript:toggle('{{u.id}}_{{m.shortname}}');">{{m.shortname}}</a></li>
+										<div id="{{u.id}}_{{m.shortname}}" style="display:none;">
+											<ul>
+												{%for p in currentPerm%}
+													{% for item in dictPerms.items %}
+   														{% ifequal item.0 u.username %}
+   															{% for i in item.1%}
+   																{% ifequal i p.codename %}
+																	{% ifequal p.lasmodule.shortname m.shortname%}
+																		<li><input type="checkbox" name="permissions"value="{{u.id}}.{{p.codename}}" checked="checked">{{p.name}}</li>
+																	{% endifequal %}
+																{% endifequal %}
+															{%endfor%}
+														{%endifequal%}
+													{%endfor%}
+												{%endfor%}
+											</ul>
+										</div>
+									{%endfor%}
+								</ul>
+							</div>
+						{%endfor%}
+					</ol>
+					<br>	
+					<input type="hidden" name="step" value="2">
+					<input type="hidden" name="name" value="{{name}}">
+					<input type="submit" value="CREATE" onClick="return validatePermissions();"/>
+			</form>	
+				
+			{% elif step == '2'%}
+				{%if error_message %}
+					<h1>Error!</h1>
+					<p>Can't create Working Group!<p>
+					<p>{{error_message}}</p>
+				{%else%}
+					<h1>REPORT FOR GROUP: {{groupname}}</h1>
+					<ul>
+					{% for item in dictPerms.items %}
+					    <li>{{ item.0 }}</li>
+						    <ul>
+						    	{% for i in item.1 %}
+						    		<li>{{ i }}</li>
+						    	{% endfor %}
+						    </ul>
+					{% endfor %}
+					<ul>
+				{%endif%}
+			{% else%}	
+				<!--  Give the user a "submit" button --> 
+				<form enctype="multipart/form-data" method="post" action="">
+				   {% csrf_token %}
+				   {%if alreadyExist%}
+				   <p> Group Name already in use! </p>
+				   {% endif%}   
+					<h2>Name</h2>
+					<textarea name="name" id="name" rows=1 cols=60 ></textarea>
+					<h2>Select Users</h2>
+					<table id="usersTable">
+						<thead>
+							<tr><th>Users</th><th>Select</th></tr>
+						</thead>
+						{% for u in users%}
+							{%ifnotequal u.username user.username%}
+								<tr>
+									<td>{{u.username}}</td>
+									<td><input type="checkbox" value="{{u.id}}" name="selected"></td>
+								</tr>
+							{%endifnotequal%}
+						{%endfor%}
+						<input type="hidden" name="step" value="1">
+
+
+					</table>
+					<input type="submit" value="Next" onClick="return updateInput();"/>
+				</form>	
+			{%endif%}
+			</div>
+	</section>
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>	
+</body>
+
+</html>

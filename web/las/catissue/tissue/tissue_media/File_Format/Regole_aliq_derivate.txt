@@ -1,0 +1,18 @@
+--1. Numero aliquote da creare
+--2. Volume singola aliquota derivata (ul)
+--3. Concentrazione singola aliquota derivata (ng/ul)
+--4. Estremo superiore dell'intervallo (ug)
+--5. Estremo inferiore dell'intervallo (ug)
+6. Numero di riferimento per le aliquote per quanto riguarda lo spipettamento
+7. Percentuale per lo spipettamento se numero di aliquote maggiore della soglia di prima
+8. Percentuale per lo spipettamento se numero di aliquote minore della soglia
+
+DNA;4;10;2
+RNA;4;10;2
+cRNA;4;10;2
+cDNA;4;10;2
+P;4;10;2
+PL;4;5;1
+VT;4;5;1
+
+--R-N-A;5;10.0;500.0;50;30;4;10;2

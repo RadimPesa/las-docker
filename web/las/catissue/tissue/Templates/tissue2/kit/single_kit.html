@@ -1,0 +1,51 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Register new kit{% endblock %}
+
+{% block script %}
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		.f select,.f input { display:block; position:relative;}
+	</style>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		$("#id_lot").attr("size","15");
+		$("#id_expiration_Date").attr("size","10");
+		$("#id_expiration_Date").datepicker({
+			 dateFormat: 'yy-mm-dd',
+			 minDate: 0
+		});
+		$("#conferma1").click(function(event){
+			//verifico la validita' della data
+			var dd=$("#id_expiration_Date").attr("value");
+			var bits =dd.split('-');
+			var d = new Date(bits[0], bits[1] - 1, bits[2]);
+			var booleano= d && (d.getMonth() + 1) == bits[1] && d.getFullYear() == Number(bits[0])&& d.getDate()==bits[2];
+			if (!booleano){
+				alert("Correct \"Expiration date\" format");
+				event.preventDefault();
+			}
+		});
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div align="center">
+		<div id=inizio style="width:40%;">
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url tissue.kit.SaveSingleKit %} method="post">{% csrf_token %}
+							<section class="f">
+									{{ form.as_p }}
+							</section>
+							<br>
+							<input type="submit" class="button" value="Submit" id="conferma1"/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+/usr/local/lib/python2.7/dist-packages/hgvs/utils/altseqbuilder.py:200
+
+aggiunto:
+and not ref.isdigit() per evitare che la condizione risulti vera quando la referenza e' un numero (numero di basi) di una sola cifra
+
+/usr/local/lib/python2.7/dist-packages/hgvs/variantmapper.py:236
+corretto bug che assumeva erroneamente che list.extend ritorni la lista

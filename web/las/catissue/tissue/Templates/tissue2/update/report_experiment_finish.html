@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	<h3 style="color: black;">Experiment executed</h3>
+	
+    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+		<tr>
+			<td style="padding:3px;"><b>Assigned to:</b></td>
+			<td style="padding:3px;"> {{esec}} </td>
+		</tr>
+	</table>
+	
+	<h3>Aliquots:</h3>
+	<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+		<th style="padding:4px;">N</th>
+		<th style="padding:4px;">Genealogy ID</th>
+		<th style="padding:4px;">Barcode</th>
+		<th style="padding:4px;">Position</th>
+		<th style="padding:4px;">Taken vol.(ul)</th>
+		<th style="padding:4px;">Final vol.(ul)</th>
+		<th style="padding:4px;">Exhausted</th>
+		<th style="padding:4px;">Experiment</th>
+		<th style="padding:4px;">Description</th>
+		{% for alexp in listafin %}
+			<tr>
+				<td style="padding:5px;">{{forloop.counter}}</td>
+				<td style="padding:5px;">{{alexp.gen}}</td>
+				<td style="padding:5px;">{{alexp.barc}}</td>
+				<td style="padding:5px;">{{alexp.pos}}</td>
+				<td style="padding:5px;">{{alexp.takenvol}}</td>
+				<td style="padding:5px;">{{alexp.leftvol}}</td>
+				{% if alexp.exhaus %}
+					<td style="padding:5px;">True</td>
+				{% else %}	
+					<td style="padding:5px;">{{alexp.exhaus}}</td>
+				{% endif %}
+				<td style="padding:5px;">{{alexp.exp}}</td>
+				<td style="padding:5px;">{{alexp.note}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</section>
+</body>
+</html>

@@ -1,0 +1,4 @@
+ID	Barcode	Site	Operator	Date	Weight	X Measurement	Y Measurement
+1	B1	SCR	username	2014-07-18	5.8	1	3
+2	B2	SCL	username	2014-07-18	7.8	1.6	5
+3	B1	SCR	username	2014-08-10		4	8

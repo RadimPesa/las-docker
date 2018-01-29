@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Archive Experiments{% endblock %}
+{% block script %}
+    <script>lasauth_url = "{{LAS_URL}}";</script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xeno_script.js"></script> 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/ongoing.js"></script> <!-- include questo script per avere la funzione di carimento dei gruppi -->
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/TableTools.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/js/ColReorder.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/ZeroClipboard.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/js/ColVis.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/css/TableTools.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/css/ColReorder.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/css/ColVis.css" />
+    <script>
+        jQuery(document).ready(function() {
+            oTableList = jQuery('#group').dataTable({
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "iDisplayLength": 10,
+                //"aaSorting": [[0, 'asc']]
+                "aoColumns" : [
+                    { sClass: "alignCenter" }
+                ]
+            });
+            oSettingsList = oTableList.fnSettings();
+            var i = 0;
+            {% for g in groups %}
+                oTableList.fnAddData(["{{g}}"]);
+                var tr = oSettingsList.aoData[i].nTr;
+                jQuery(tr).click( function() {
+                    loadMeasure("{{g}}");
+                });
+                jQuery(tr).css('cursor', 'pointer');
+                i++;
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+{% block content %}
+{%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+{%  else  %}
+    <div style="float:left;width:25%;">
+        <div style="height:350px;overflow:auto;">
+            <table id="group" class="group">
+                <thead id="groupHead">
+                    <tr>
+                        <th>Group Name</th>
+                    </tr>
+                </thead>
+                <tbody id="measureBody">
+                </tbody>
+            </table>
+            <br>
+        </div>
+        <div style="overflow:auto;">
+            <div style="width:80%;"></p><p id="whoWas" style="display:none;"></p></div>
+            <p id= 'avg'></p>
+        </div>
+    </div>
+    <div id="chart_div" style="float:right;width:60%;"></div>
+    <br style="clear:both;"><br>
+    <p id = "selGroup" style="display:none;"></p>   
+    <div id="tabs">
+        <ul>
+            <li><a href="#first" class="selected">Mice in this group</a></li>
+            <li><a href="#second"  onclick="initTab2()" class="">History of Measurement</a></li>
+            <li><a href="#fourth"  onclick="initTab3()" class="">Weight History</a></li>
+        </ul>
+    	<div id="first" align="center" class='tabContent' style="float:left;width:100%;">
+            <div style="width:100%;overflow:auto;heigth:150px;">
+                <table id="measure" class="group">
+                    <thead id="measureHead">
+                        <tr>
+                            <th>Genealogy ID</th>
+                            <th>Barcode</th>
+                            <th>Last measure</th>
+                            <th>Last value</th>
+                            <th>Last weight</th>
+                            <th>Last notes</th>
+                            <th>Status</th>
+                            <th>Explant</th>
+                            <th>H</th>
+                            <th>Treatment</th>
+                            <th>Start treatment</th>
+                            <th>Duration</th>
+                            <th>H</th>
+                        </tr>
+                    </thead>
+                    <tbody id="measureBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    	<div id="second" align="center" class='tabContent' style="float:left;width:100%;">
+            <table id="measureLong">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    	<div id="fourth" align="center" class='tabContent' style="float:left;width:100%;">
+            <div style="width:100%;overflow:auto;heigth:150px;">
+                <table id="allW">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+	<div id="dialog" class="dialog confirm" title="Comments for your action?" style="display:none;position: relative;">
+    	<p>Do you want to leave some notes?</p>
+    	<textarea id="checkNotes"></textarea>
+    </div>
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

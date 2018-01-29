@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}Analysis Management Module - Home{% endblock %}
+
+
+{% block content %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/js/HVis.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/randomize.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/jqplot/jquery.jqplot.min.js"></script>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/css/HVis.css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}js/jqplot/jquery.jqplot.min.css"/>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+
+
+
+
+<style type="text/css">
+#slider label {
+    position: absolute;
+    width: 20px;
+    margin-left: -10px;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+table.dataTable {
+ 	z-index:105;
+ 	text-align: center;
+	}
+
+table.dataTable td.highsel {
+     background-color: #FECA40;
+}
+
+#param_filters td{
+	padding: 1%;
+
+}
+.ui-spinner{
+	width: 100%;
+}
+
+</style>
+
+<div style="width:100%;float:left">
+<div style="float:left;width:30%">
+	<fieldset style="margin-bottom:3em">
+	<legend>Load elements</legend>
+		<div style="margin-bottom:4px; float:left;">
+			<form id="upload_elem_file" action="." method="POST" enctype="multipart/form-data" style="width:100%">{% csrf_token %}
+				<table style='width:100%'>
+					<tr>
+						<td> 
+							<label>Input file:</label><input type="file" name="file" id="id_file">
+						</td>
+						<td>
+                			<input id="upload" class="button"  type="button" value="Upload File"/>
+                		</td>
+            		</tr>
+                </table>
+             </form>
+             <p style="font-family:Courier New,Helvetica,sans-serif;">Requires these fields: <em>object_identifier, value</em> in this order.</p><p><a href="{{MEDIA_URL}}file_template/randomize.las">Las file template</a></p>
+            		
+    </fieldset>
+</div>
+<div id="parameters" style="width:60%;float:left;margin-left:2%;display:none">
+	<fieldset style="margin-bottom:3em">
+	<legend>Define parameters</legend>
+	<table id="param_filters">
+		<tr>
+			<th>Mean:</th>
+			<td><label for ="th">Expected: </label><input id="th"></td>
+			<td><label for ="minavg">Min: </label><input id="minavg"></td>
+			<td><label for ="maxavg">Max: </label><input id="maxavg"></td>
+		</tr>
+		<tr id="slider_container" style="vertical-align:top">
+			<th> 
+				Range:
+			</th>
+			<td><label for="minr">Min: </label><input id="minr"></td>
+			<td>
+				<div id="slider" style="width:90%;margin-left: 5%;"></div>
+			</td>
+			<td><label for="maxr">Max: </label><input id="maxr"></td>
+		</tr>
+		<tr>
+			<th>Number of groups:</th>
+			<td><input id="ngroups"></td>
+		</tr>
+		<tr>
+			<th>Number of elements per group:</th>
+			<td><input id="nel"></td>
+		</tr>
+		<tr>
+			<th>Optimization runs:</th>
+			<td><input id="optrun"></td>
+			<td></td>
+			<td><input id="randomize" class="button" type="button" value="Run"/></td>
+		</tr>
+
+	</table>
+    </fieldset>
+</div>
+
+</div>
+
+
+<div id='groups_random' style="width:100%;float:left;display:none">
+	<div id='elem_list' style="width:40%;float:left;display:none">
+	<fieldset>
+		<legend>Groups</legend>
+		<table id="partition_elems">
+		</table>
+	</fieldset>
+	</div>
+	<div id='group_info' style="width:50%;float:left;margin-left:2%">
+		<div>
+			<fieldset>
+				<legend>Data distribution</legend>
+			<label for='plottype'><b>Plot type:</b></label>
+			<select id='plottype'>
+  				<option value="dist" selected="selected">Data Distribution</option>
+				<option value="hist">Histogram</option>
+			</select>
+			<table id='select_bins' style='display:none'>
+				<th>Number of bins:</th>
+				<td><input id='nbuckets'></td>
+			</table>
+				
+			<!--canvas id='chart1' width='540' height='540'-->
+			<div id='chart1'></div>
+			</fieldset>
+		</div>
+		<fieldset id='final_info' style='display:none'>
+			<legend>Info groups</legend>
+			
+				<fieldset style='padding:2%;margin:2%'>
+					<legend>Global Statistics</legend>
+						<table>
+							<tr>
+								<th>Mean:</th>
+								<td id='glob_mean'></td>
+							</tr>
+							<tr>
+								<th>Std:</th>
+								<td id='glob_std'></td>
+							</tr>
+							<tr>
+								<th>Coeff. of variation:</th>
+								<td id='glob_coeffvar'></td>
+							</tr>
+						</table>
+				</fieldset>			
+				
+			<table id="groups_stat">
+			</table>
+		</fieldset>
+	</div>
+</div>
+
+
+{% endblock %}

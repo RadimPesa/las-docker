@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="crf">
+<head>
+    <title>CRF</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <style>
+    .ng-invalid.ng-dirty {
+        border-color: #FA787E;
+    }
+    .ng-valid.ng-dirty {/* //commented ng-dirty to make green also undirty input when loading existing patient*/
+        border-color: #78FA89;
+    }
+    .modal-header-warning {
+        padding:9px 15px;
+        border-bottom:1px solid #eee;
+        background-color: #d9534f;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-topright: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    </style>
+
+    <script>
+    // init of Django MEDIA_URL
+    var MEDIA_URL  = '{{ MEDIA_URL|escapejs }}';
+    function static_media(path) {
+        return MEDIA_URL + path;
+    };
+    var initializing = true;
+    var USER = '{{ user.username }}';
+    </script>
+
+
+
+    <!-- Bootstrap's JavaScript requires jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+
+    <script src="{{MEDIA_URL}}js/clinical/crf/app.js"></script>
+
+    <link href="{{MEDIA_URL}}js/bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+
+    <script src="{{MEDIA_URL}}js/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+
+</head>
+<body>
+<crf-panels></crf-panels>
+
+
+</body>
+</html>

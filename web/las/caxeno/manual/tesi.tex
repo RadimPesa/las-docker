@@ -1,0 +1,122 @@
+\documentclass[12pt,a4paper,twoside,openright]{book}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{latexsym}
+
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{stfloats}
+\usepackage{setspace}
+
+\usepackage{amsfonts,psfrag,fancyhdr,layout,appendix,subfigure,url}
+\usepackage[sectionbib]{natbib}
+\usepackage{chapterbib}
+\usepackage{makeidx}
+
+\usepackage{listings}
+\usepackage[usenames]{color}
+
+\usepackage{layout}
+
+\lstnewenvironment{htmlCode}[1][]
+{\lstset{basicstyle=\small\ttfamily, columns=fullflexible,
+keywordstyle=\color{red}\bfseries, commentstyle=\color{blue},
+language=html, basicstyle=\small,
+numbers=left, numberstyle=\tiny,
+stepnumber=1, numbersep=5pt, frame=shadowbox, #1}}{}
+
+\lstnewenvironment{sqlCode}[1][]
+{\lstset{basicstyle=\small\ttfamily, columns=fullflexible,
+keywordstyle=\color{red}\bfseries, commentstyle=\color{blue},
+language=SQL, basicstyle=\small,
+numbers=left, numberstyle=\tiny,
+stepnumber=1, numbersep=5pt, frame=shadowbox, #1}}{}
+
+\lstnewenvironment{pythonCode}[1][]
+{\lstset{basicstyle=\small\ttfamily, columns=fullflexible,
+keywordstyle=\color{red}\bfseries, commentstyle=\color{blue},
+language=C++, basicstyle=\small,
+numbers=left, numberstyle=\tiny,
+stepnumber=1, numbersep=5pt, frame=shadowbox, #1}}{}
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage[english]{babel}
+\usepackage{phdthesis}
+\usepackage{longtable}
+\usepackage{textcomp}
+%\usepackage[T1]{fontenc}
+
+\renewcommand{\algorithmicrequire}{ {\bf Input: } }
+\renewcommand{\algorithmicensure}{ {\bf Output: } }
+\renewcommand{\algorithmiccomment}[1]{/*\textit{#1}*/}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\hyphenation{xe-no-pa-tient}
+
+\newcommand{\Xeno}{Xeno Management Module}
+\newcommand{\Tissue}{BioBank}
+
+
+% Set equal margins on book style
+%\setlength{\oddsidemargin}{40pt}
+%\setlength{\evensidemargin}{40pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\footskip}{30pt}
+\setlength{\headheight}{15pt}
+
+\title{LAS: Laboratory Assistant System}
+\author{Piero Alberto}
+
+\makeindex
+\begin{document}
+%\layout
+\frontmatter
+
+\input{./title.tex}
+\thispagestyle{empty} 
+
+\mbox{}
+\newpage
+
+% Remove parskip for toc
+\setlength{\parskip}{0ex plus 0.5ex minus 0.2ex}
+
+\setcounter{page}{1}
+%\onehalfspacing %interlinea
+%\doublespacing
+%\pagestyle{fancy}
+%\fancyhead[RO]{\emph{Contents}}
+%\fancyhead[LE]{\emph{Contents}}
+
+\tableofcontents
+\listoffigures
+\listoftables
+% Dutch style of paragraph formatting, i.e. no indents.
+\setlength{\parskip}{1.3ex plus 0.2ex minus 0.2ex}
+
+\mainmatter
+
+\input{introduzione}
+
+\input{contesto}
+
+\input{casi_d_uso}
+
+\input{conclusioni}
+
+\input{tabelle}
+\backmatter
+
+\newpage
+\pagestyle{plain}
+%\pagestyle{fancy}
+%\fancyhead[RO]{\emph{Bibliography}}
+%\fancyhead[LE]{\emph{Bibliography}}
+%\addcontentsline{toc}{chapter}{Bibliografia}
+%\bibliographystyle{plain}
+%\bibliography{tesi}
+
+\end{document}

@@ -1,0 +1,383 @@
+.wrapper
+{
+    width: 960px;
+    margin: 0px auto;
+    padding-top: 20px;
+    min-height: 600px;
+}
+
+.wrapper h1, .wrapper h4, .wrapper p, .wrapper pre, .wrapper ul, .wrapper li
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+
+#v-nav
+{
+    height: 100%;
+    margin: auto;
+    color: #333;
+    font: 11px/12px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#v-nav >ul
+{
+    float: left;
+    width: 210px;
+    display: block;
+    position: relative;
+    top: 0;
+    border: 1px solid #DDD;
+    border-right-width: 0;
+    margin: auto 0 !important;
+    padding:0;
+}
+
+#v-nav >ul >li
+{
+    width: 180px;
+    list-style-type: none;
+    display: block;
+    text-shadow: 0px 1px 1px #F2F1F0;
+    font-size: 1.11em;
+    position: relative;
+    border-right-width: 0;
+    border-bottom: 1px solid #DDD;
+    margin: auto;
+    padding: 10px 15px !important;  
+    background: whiteSmoke; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%, #f2f2f2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%, #f2f2f2 100%); /* IE10+ */
+    background: linear-gradient(top, #ffffff 0%, #f2f2f2 100%); /* W3C */       
+}
+
+#v-nav >ul >li.current
+{
+    color: black;
+    border-right: none;
+    z-index: 10;
+    background: white !important;
+    position: relative;
+    moz-box-shadow: inset 0 0 35px 5px #fafbfd;
+    -webkit-box-shadow: inset 0 0 35px 5px #fafbfd;
+    box-shadow: inset 0 0 35px 5px #fafbfd;
+}
+
+#v-nav >ul >li.first.current
+{
+    border-bottom: 1px solid #DDD;
+}
+
+#v-nav >ul >li.last
+{
+    border-bottom: none;
+}
+
+#v-nav >div.tab-content
+{
+    margin-left: 210px;
+    margin-right:200px;
+    border: 1px solid #ddd;
+    background-color: #FFF;
+    min-height: 400px;
+    position: relative;
+    z-index: 9;
+    padding: 12px;
+    moz-box-shadow: inset 0 0 35px 5px #fafbfd;
+    -webkit-box-shadow: inset 0 0 35px 5px #fafbfd;
+    box-shadow: inset 0 0 35px 5px #fafbfd;
+    display: none;
+    padding: 25px;
+}
+
+#v-nav >div.block-content
+{
+	width: 80%;
+    border: 1px solid #ddd;
+    background-color: #FFF;
+    min-height: 500px;
+    position: relative;
+    z-index: 9;
+    padding: 12px;
+    moz-box-shadow: inset 0 0 35px 5px #fafbfd;
+    -webkit-box-shadow: inset 0 0 35px 5px #fafbfd;
+    box-shadow: inset 0 0 35px 5px #fafbfd;
+    padding: 25px;
+}
+
+#v-nav >div.tab-content >h4
+{
+    font-size: 1em;
+    color: Black;
+    text-shadow: 0px 1px 1px #F2F1F0;
+    border-bottom: 1px dotted #EEEDED;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.wrapper li
+{
+    outline: 0;
+    text-decoration: none;
+    -webkit-transition-property: background color;
+    -moz-transition-property: background color;
+    -o-transition-property: background color;
+    -ms-transition-property: background color;
+    transition-property: background color;
+    -webkit-transition-duration: 0.12s;
+    -moz-transition-duration: 0.12s;
+    -o-transition-duration: 0.12s;
+    -ms-transition-duration: 0.12s;
+    transition-duration: 0.12s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    -ms-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+body {
+    background: 					none repeat scroll 0 0 #E8E8E8;
+    color: 							#333333;
+    margin-top: 					0px;
+    font-family: 					"Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-size: 						11.5px;
+	text-align: 					center
+}
+
+img{
+	border-width:                         0px;
+}
+
+header
+{  
+	color:							#d3d3d3;
+	background-color:				#282828;
+	padding-bottom:					0.2px;
+	padding-top: 					0.2px;
+	padding-left: 					2em;
+	border-radius: 					0px 0px 5px 5px;
+	-moz-border-radius: 			0px 0px 5px 5px;
+	-webkit-border-radius: 			0px 0px 5px 5px;
+	box-shadow: 					0px 10px 12px #000000;
+	-moz-box-shadow: 				0px 10px 12px #000000;
+	-webkit-box-shadow: 			0px 10px 12px #000000;
+	text-align:						left;
+	margin:							0 auto;
+}
+
+header a{
+	color:							#d3d3d3;
+	text-decoration:				none;
+}
+
+header h1
+{
+	font-size:						18px;
+	margin-top:						0px;
+	padding-top:					10px;
+}
+header h2
+{
+	font-size:						11px;
+	margin-bottom:					0px;
+	padding-bottom:					10px;
+}
+
+section#content
+{
+	margin: 						2em auto;
+	padding:						1em;
+	border-radius: 					5px;
+	-moz-border-radius: 			5px;
+	-webkit-border-radius: 			5px;
+	box-shadow: 					0px 0px 12px #000000;
+	-moz-box-shadow: 				0px 0px 12px #000000;
+	-webkit-box-shadow: 			0px 0px 12px #000000;
+	text-align:						left;
+}
+
+a.head
+{
+	color: 							white;
+	font-weight: 					bold;
+	text-decoration:				none;
+}
+
+a.head:hover
+{
+	color: 							#606060;
+	font-weight: 					bold;
+	text-decoration:				none;
+}
+
+section#content.home{
+background-image:				url("/lasauth_media/img/sfondo.png");
+background-position:			        right bottom;
+background-repeat:				no-repeat;
+}	
+
+section#content:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+section#description{
+	float: 							left;
+	padding:						3em;
+	width:							60em;
+	text-align:						justify;
+}
+
+section#login{
+	float:							right;
+	padding:						2em;
+	margin-top:						2em;
+	margin-right:					4em;
+	margin-bottom:					8em;
+	border-radius: 					5px;
+	-moz-border-radius: 			5px;
+	-webkit-border-radius: 			5px;
+	box-shadow: 					0px 0px 12px #000000;
+	-moz-box-shadow: 				0px 0px 12px #000000;
+	-webkit-box-shadow: 			0px 0px 12px #000000;
+}
+
+.button{
+  background-color: 				#282828; /* colore di sfondo    */
+  border-radius: 					5px;
+  -moz-border-radius: 			    5px;
+  -webkit-border-radius: 			5px;
+  color: 							#fff;               /* colore del testo    */  
+  margin-left:						160px;
+}
+
+.button:hover{
+	background-color:				#404040;
+}
+
+p.hr {
+height: 1px;
+margin: 15px 0px;
+border-top: 1px solid #000;
+width: 100%;
+}
+
+footer{
+	text-align: right;
+	margin-right: 30px;	
+}
+
+footer a{
+	font-weight: 					bold;
+	text-decoration:				none;
+	color:							#282828;
+}
+
+footer a:hover{
+	color: 							#989898;
+}
+
+span#datename{
+	position: 						relative;
+    top: 							-92px;
+    left:							-10px;
+    color:							#d3d3d3;
+}
+
+p#user_name{
+	text-align:						right;
+	margin:       					0px;
+}
+
+nav{
+	padding:						2em;
+	position:						relative;
+	text-align:						left;
+}
+
+#navlist{
+	margin-bottom:					4em;
+	float:							left;
+}
+article#immagini{
+	float:							right;
+	}
+
+p.imghome{
+	float:							left;
+	padding:						1em;
+	padding-bottom:					2em;
+	border-radius: 					5px;
+	-moz-border-radius: 			5px;
+	-webkit-border-radius: 			5px;
+	box-shadow: 					0px 0px 12px #000000;
+	-moz-box-shadow: 				0px 0px 12px #000000;
+	-webkit-box-shadow: 			0px 0px 12px #000000;	
+	margin:							0em 2em 0em 0em;
+	text-align:						right;
+	font-weight:					bold;
+	margin-bottom:					8em;
+}
+
+p.imghome.b{
+	margin: 0em;
+	}
+
+section#content nav a, section#content nav a:hover{
+	color: 							#333333;
+    font-family: 					"Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-size: 						11.5px;
+    font-weight:					normal;
+}
+
+.navbut{
+    border-color:					#E8E8E8;    
+    border-width:                   1px;
+	border-style:					solid;
+    border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+	padding:						10px;
+	width:							250px;
+	cursor:							pointer;
+}
+
+.navbut:hover{
+	border-color:					#333333;    
+    border-style:					inset;
+    border-width:                   1px;
+    border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+	padding:						10px;
+	background-color:				#CBCBCB;
+}
+
+img#clip{
+	margin-right:					25px;
+	border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+}
+
+span#navtitle{
+	position:						relative;
+	bottom:							16px;
+}
+
+img.home{
+	margin-bottom:					15px;
+}
+
+

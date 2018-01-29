@@ -1,0 +1,94 @@
+{% extends "baseMotr.html" %}
+{% block report %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/TableTools/media/js/TableTools.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/ColReorder/media/js/ColReorder.min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/TableTools/media/js/ZeroClipboard.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/HVis/media/js/HVis.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/ColVis/media/js/ColVis.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/TableTools/media/css/TableTools.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/ColReorder/media/css/ColReorder.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/ColVis/media/css/ColVis.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}JS/DataTables-1.9.1/extras/HVis/media/css/HVis.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}widgets.css"/>
+
+	<style type="text/css">
+        table.dataTable {
+        z-index:105;
+        }
+	
+	    table.dataTable td.highsel {
+	        background-color: #FECA40;
+		}
+	</style>
+
+	<script type="text/javascript">
+		function pad(n) { return ("0" + n).slice(-2); }
+
+		function generate_result_table(intestazione,tabella){
+			//aggiungo un margine destro al filter finale 
+			
+			var lasauth_url = "{{LAS_URL}}";
+		    var d = new Date();
+		    var user = jQuery('#actual_username').val();
+		    //solo per le collezioni
+		    var infocollect="";
+		    var collevent=$("#collevent");
+		    if (collevent.length!=0){
+		    	infocollect+="Informed consent: "+$(collevent).val()+" ";
+		    }
+		    var codpaz=$("#codpaz");
+		    if (codpaz.length!=0){
+		    	var cod=$(codpaz).val();
+		    	if (cod!="/"){
+		    		infocollect+="Patient code: "+cod;
+		    	}
+		    }
+		    var filename = intestazione+"_" + user + '_' + $.datepicker.formatDate('yy-mm-dd', d);
+		    var titolo=intestazione+"_" + user + '_' + $.datepicker.formatDate('yy-mm-dd', d) + "__" + d.getHours() + ":" + pad(d.getMinutes());
+		    var pdfmessage="Laboratory Assistant Suite - Motricolor Manager - " + user + " - " + $.datepicker.formatDate('yy-mm-dd', d) + " " + d.getHours() + ":" + pad(d.getMinutes())+"   "+infocollect;
+		    var tab="#"+tabella;
+		    jQuery(tab).dataTable( {
+		        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+		        "iDisplayLength": -1,
+		        "sDom":'TRCH<\"clear\">lfrtip',
+		        "oTableTools": {
+		        	"aButtons": [ 
+		        	                {
+	   	                                "sExtends": "las",
+	   	                                "sButtonText": "Las",
+	   	                                "sTitle": filename,
+	   	                                "mColumns": "visible"
+		        	                }, 
+		        	                {
+      	                                "sExtends": "pdf",
+      	                                "sButtonText": "Pdf",
+      	                                "sPdfMessage": pdfmessage,
+      	                                "sTitle": filename,
+      	                                "mColumns": "visible",
+      	                                "sPdfSize": "tabloid"
+		        	                },
+		        	                {
+      	                                "sExtends": "data",
+      	                                "sButtonText": "Data",
+      	                                "sTitle": filename,
+      	                                "mColumns": "visible"
+		        	                },
+		        	                {
+      	                                "sExtends": "xls",
+      	                                "sButtonText": "Xls",
+      	                                "sTitle": filename,
+      	                                "mColumns": "visible"
+		        	                }, 
+		        	                "print"
+		        	                ],
+		        	                "sUrl": lasauth_url + "generate_report/",		        			        	
+		        }
+		    });
+		    var tt="#"+tabella+"_filter";
+			$(tt).css("margin-right","6px");
+		}
+	</script>
+{% endblock %}

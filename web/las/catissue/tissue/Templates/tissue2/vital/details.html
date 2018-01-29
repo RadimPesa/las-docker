@@ -1,0 +1,132 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Position Aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/vital/position_details.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/vital/redips-drag-min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	{% if listagen %}
+		
+		<style type="text/css">
+			select{ display:block; position:relative;}
+			button {width:100%; height:100%;
+					background-color:rgb(249,248,242); -moz-border-radius:5px; 
+					border-radius:5px;border-style:hidden;}
+			#da_posiz td, #operativa td{padding:4px;}
+			th{padding:6px;}
+			input{ position:relative;}
+			#aliq input{display:inline;}
+			#listapias th{padding:8px;}
+			#listapias td{padding:8px;border-width:0px;}
+			#listapias td:hover {border-color:black;border-style:solid;border-width:1px;background-color:silver;cursor:pointer;}
+			#operativa table td,#operativa table th,#operativa tr td,#da_posiz table td,div#drag th {border:1px solid black}
+			.drag {font-size: 0.9em;}
+			#operativa table td {height:2.8em;width:2.8em;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		</style>
+
+		<div id="drag" style="float:left;width:80%;">
+			<div style="float:left;">
+			<div class="bordicurvi" style="float:left;border-style:solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em;">
+				<label for="id_valid_barc">Barcode (optional):</label>
+				<div>
+					<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="10" >
+					<input id="validate_barc" type="submit" class="button" style="float:left;" value="Verify barcode" title="Click to verify sample you are working with now"/> 
+				</div>
+			</div>
+			
+			<br style="clear:both;"/>
+			<div id="posiz" style="float:left;">
+				<table border='1px solid' style="float:left;" id="da_posiz">
+					<input type="hidden" id="aliq_tot" value={{listagen|length}} />
+
+						<th class="mark">N</th>
+						<th class="mark">Genealogy ID</th>
+						<th class="mark">Barcode</th>
+						<th class="mark">Position</th>
+						<th class="mark"></th>
+						{% for al,barc,pos,pezzi in listagen %}
+							<tr class="mark">
+								<td class="mark" val="lis_indici" >{{forloop.counter}}</td>
+								<td class="mark" val="lis_gen">{{al.idAliquot.uniqueGenealogyID}}</td>
+								<td class="mark" val="lis_barcode">{{barc}}</td>
+								<td class="mark" val="lis_barcode">{{pos}}</td>
+								<td class="mark">
+									<div num={{forloop.counter}} class="drag" align="center" onmouseover="tooltip.show('{{al.idAliquot.uniqueGenealogyID}}--{{barc}}');" onmouseout="tooltip.hide();" gen={{al.idAliquot.uniqueGenealogyID}} >{{pezzi}}</div>
+								</td>
+							</tr>
+						{% endfor %}
+
+				</table>
+			</div>
+			</div>
+			<div id="vit" style="float:right;">
+				<table border='1px' style="float:right;" id="operativa">
+					<tr>
+					<td id="plate_operative" class="intest" style="width:100%;">
+						{{ a.table_vital|safe }}
+					</td>
+					</tr>
+					<tr>
+					<td class="mark" style="text-align: left;">
+						<div style=padding:5px;padding-top:0px;float:left;>
+							<label for="barcode_plate">Plate Barcode:</label>
+							<input id="barcode_plate" type="text" maxlength="45" name="barcode_op" >
+				
+						</div>
+						<div style=padding-top:1px;float:left;>
+						<br>
+							<input type="submit" class="button" value="LoadPlate" id="load_plate" style="display:inline;margin-top:0.8em;"/>
+						</div>
+					</td>
+					</tr>
+					<tr>
+					<td class="mark" align="center">
+						<div style=padding:1px; align="center">
+						 <form id="form_fin" action={% url tissue.position.ConfirmDetailsPositionVitalAliquots %} method="post" >{% csrf_token %}
+							<input type="submit" class="button" value="Confirm All" name="salva" id="p_confirm" />
+						</form> 
+					</div>
+					</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<table border='1px' style="float:right;display:none;" id="listapias">
+			<th>
+				Plate list
+			</th>
+		</table>
+		
+		<div id="dia1" style="display:none" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+	{% endif %}
+	{% if fine %}
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both;">
+		<h2>These aliquots have been retrieved:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				{{  intest|safe  }}
+			</thead>
+			<tbody>			
+				{% for i in lista %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>		           
+		</table>
+	{% endif %}
+{% endblock %}

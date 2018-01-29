@@ -1,0 +1,30 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Insert Place{% endblock %}
+{% block script %}
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery.ui.all.css"> 
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.position.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.autocomplete.js"></script>
+<!--  <script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.bgiframe.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.dimensions.js"></script>-->
+<script type="text/javascript" src="{{MEDIA_URL}}JS/mioAutocomplete.js"></script>
+{% endblock %}
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+{% block content %}
+	<h1 align="center">Insert new place</h1>
+	<h3>{{  err_message  }}</h3>
+	
+	<form action="." method="post">{% csrf_token %}
+		{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form>
+	
+	
+{% endblock %}

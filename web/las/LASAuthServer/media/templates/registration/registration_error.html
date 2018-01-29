@@ -1,0 +1,15 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration error' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration error' %}</h1>{% endblock %}
+
+{% block content %}
+
+<nav>
+{{ block.super }}
+<p>{% trans 'An error occurred during the registration process. Please try again.' %}</p>
+</nav>
+{% endblock %}

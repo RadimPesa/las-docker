@@ -1,0 +1,75 @@
+{% extends "tissue2/baseReport.html" %}
+
+{% block title %}Clinical Parameters{% endblock %}
+{% block script %}
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/coll_param.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	
+	<style type="text/css">
+			input { display:inline;}
+			.no-close .ui-dialog-titlebar-close {display: none;}
+			div.ui-dialog-buttonset button {width:9em;}
+			.span_feat {cursor:pointer;}
+			#table_genes tr.gene_el, #table_mut tr {cursor:pointer;}
+			#fList tr {text-align:center;}
+			#table_genes tr {text-align: left;}
+			#table_fin img,#table_wt img {cursor:pointer;}
+	</style>
+
+{% endblock %}
+{% block content %}
+	{% if not fine %}
+		<div class="princ" style="float:left;width:20%;">
+			<fieldset class="fieldset">
+				<legend>Categories</legend>
+				<div style='text-align:center'>
+					<table style='margin-left: auto;margin-right: auto'>
+						<tbody>
+						    {% for feature in lista %}
+						    	<tr>
+						    		<td>
+						    			<button class="button" style="width:100%;" onclick ="loadInfo('{{feature.id}}','{{feature.name}}');">{{feature.name}}</button>
+						    		</td>
+						    	</tr>
+						    {% endfor %}
+					 	</tbody>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="selectedList" style="display:none;text-align:center;float:right;width:35%;" >
+            <fieldset class="fieldset">
+	            <legend>List of parameters</legend>
+	            <table id="selectedTable" style="text-align:left;width:100%;margin-left: auto;margin-right: auto;" >
+	                <thead>
+	                </thead>
+	                <tbody>
+	                </tbody>
+	            </table>
+	            <form id="form_fin" action={% url tissue.collection.CollParam %} method="post">{% csrf_token %}
+	            	<input id="conferma1" type="button" value="Save&Finish" style="text-align:center;margin-top: 1em;" class="button" />
+	            </form>
+            </fieldset>
+        </div>
+		
+		<div id="dialog" class="dialog confirm" style="display:none;" align='center'>
+            <p id="pdialog"></p>
+            <table id="fList">
+            </table>
+        </div>
+		
+	{% else %}	
+		<h2 style="font-size:1.4em;" align="center">All data have been acquired into the system</h2>
+		<br>
+		<br>
+		<div align="center">
+		<input style="position:relative;display: inline;" id="close" type="submit" class="button" value="Close the window" title="Click to close the window"/>
+		</div>
+	{% endif %}
+{% endblock %}

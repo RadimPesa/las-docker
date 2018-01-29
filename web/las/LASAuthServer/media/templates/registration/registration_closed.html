@@ -1,0 +1,19 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration is closed' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration is closed' %}</h1>{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a href="{% url 'loginmanager.views.logout' %}">Logout</a> [{{  user.username  }}]</span>
+</p>
+{%endif%}
+<nav>
+{{ block.super }}
+<p>{% trans 'I am afraid that registration is currently closed.' %}</p>
+</nav>
+{% endblock %}

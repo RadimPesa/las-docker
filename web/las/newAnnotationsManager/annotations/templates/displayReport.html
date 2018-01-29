@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Define target sequences{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/cvi_busy_lib.js"></script>
+<script src="{{MEDIA_URL}}js/opentip-jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/displayReport.js"></script>
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script src="{{MEDIA_URL}}js/genid.json"></script>
+<script>
+    var ref = "{{ref}}";
+</script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}css/opentip.css" rel="stylesheet" type="text/css" />
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style>
+table#results thead th, table#samplesummary thead th {text-align: center;}
+th.site {text-align: center; color: #081473;}
+td.center {text-align: center;}
+td.bold {font-weight: bold;}
+td.wt {background-color: #84D97E; color: #fff;}
+td.mut {background-color: #E62E2E; color: #fff;}
+td.na {background-color: #C7C7C7; color: #fff;}
+td.conflict {background-color: #FFD000; color: #000;}
+td.single {border: 10px solid white;}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<article id="riquadro">
+<h3>Annotations Report Results</h3>
+    <div>
+        <br>
+        Display format:&nbsp;
+        <select id="sel_hgvs">
+            <option value="0">HGVS nucleotide</option>
+            <option value="1">HGVS coding transcript</option>
+            <option value="2">HGVS protein</option>
+        </select>
+        <br><br>
+        <table id="results">
+            <thead>
+                <th style="width: 120px">Sample</th>
+                {% for x in x_labels %}
+                <th class="site"{% for val in x %} data-content_{{ forloop.counter0 }}="{{ val }}"{% endfor %}>{{ x.0 }}</th>
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for mrow in matrix %}
+                <tr>
+                    {% for cell in mrow %}
+                        {% if forloop.first %}
+                            <td class="bold center">{{ cell }}</td>
+                        {% else %}
+                            {% if cell.type == 'single' %}
+                                <td class="data {{ cell.class }} center single"{% for val in cell.text %} data-content_{{ forloop.counter0 }}="{{ val }}"{% endfor %}></td>
+                            {% elif cell.type == 'multiple' %}
+                                <td class="center">
+                                <table style="width: 100%"><tbody>
+                                {% for site in cell.cells %}
+                                    <tr><td class="data {{ site.class }} center"{% for val in site.text %} data-content_{{ forloop.counter0 }}="{{ val }}"{% endfor %}></td></tr>
+                                {% endfor %}
+                                </tbody></table>
+                                </td>
+                            {% endif %}    
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</article>
+{% endblock %}

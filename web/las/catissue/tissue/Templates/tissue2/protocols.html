@@ -1,0 +1,69 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Save new protocol{% endblock %}
+
+{% block script %}
+
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/protocol.js"></script>
+
+	<style type="text/css">
+		.f select, .interna select { display:block; position:relative;}		
+	</style>
+
+{% endblock %}
+
+{% block content %}
+	{% if not fine %}
+		<script type="text/javascript"> 
+			lisprotocol = $.parseJSON('{{lisprot|safe}}');		
+		</script>
+		
+		<div align="center">
+			<div id=inizio style="width:60%;">
+				<table align="center" id="iniziale">
+					<tr>
+						<td>
+							<form id="formdati" action={% url tissue.derived.saveProtocols %} method="post">{% csrf_token %}
+								<section class="f" style="float:left;">
+										{{ form.as_p }}
+								</section>
+								<section class="interna" style="float:left;margin-left:4em;">
+								</section>
+								<br id="d" style="clear:both;">
+								<!-- <a style="font-size:1.6em;" id="file" href="{{MEDIA_URL}}Kit_instructions/tissue.pdf" class="anchor" title="Click for kit instructions">Kit Instructions</a>
+								 -->
+								<br>
+								<br>							
+							</form>
+							<input type="submit" class="button" value="Save&Finish" id="conferma" />
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	{% else %}
+		<style type="text/css">			
+			#prot_fin_paginate a {padding-top:4px;}
+			#prot_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+				
+		<h2>Protocol saved:</h2>
+		<table border='2px' id="prot_fin">
+			<thead>
+				{{ intest|safe }}
+			</thead>
+			<tbody>
+		        {{  dati_prot|safe  }}
+		    </tbody>           
+		</table>	
+	{% endif %}
+{% endblock %}

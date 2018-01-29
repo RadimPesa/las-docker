@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Explants{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+	{% endif %}
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	
+	{% endif %}
+
+	<div id='continueDiv'>
+		<form name="form" action="{% url xenopatients.views.index %}" method="POST" >
+			<input type="submit" value="Continue..." id="go"/>
+		</form>
+	</div>
+
+{% endblock %}
+

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Mice Measurements{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/measure.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/quant_weight.js"></script>
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <div id="inputDiv" align="center">
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Insert Measure </legend>
+    			<table align="center" style='float:left'>
+                    <tr>
+                        <td><label for="threshold" style="float:left">Threshold for average:</label></td>
+                        <td><input id="threshold" type="text" name="threshold" value='400' size='8' style="float:left"></td>
+                        <td><input type="button" value="Set Threshold" id="setH" onclick="setTH()"  style="float:left"/></td>
+                        <td><label for="id_weight">Weight (g):</label></td>
+                        <td><input id="id_weight" type="text" name="weight" maxlength="9" onkeyup="wToBlank(event)"></td>
+                        <td><label for="id_x_measurement"> X Measurement (mm):</label></td>
+                        <td><input type="text" name="x_measurement" id="id_x_measurement" onkeyup="wToBlank(event)"></td>
+                        <td><label for="id_y_measurement">Y Measurement (mm):</label></td>
+                        <td><input type="text" name="y_measurement" id="id_y_measurement" onkeyup="wToBlank(event)"></td>
+                    </tr>
+                    </table>
+
+                    <table style='float:left'>
+                    <tr>
+                        <td><label for="id_notes">Notes:</label></td>
+                        <td><input id="id_notes" type="text" name="notes" maxlength="45" onPaste="return false;" onkeypress="validate(event)"></td>
+                        <td><label for="id_barcode_of_mouse">Mouse barcode:</label></td>
+                        <td><input onkeyup="wToBlank(event)" id="id_barcode_of_mouse" type="text" name="barcode_of_mouse" maxlength="15"></td>
+                        <td>{{ formSite.as_p }}</td>
+                        <td><input type="button" value="Add Row" id="Add" onclick="makeMeasure()" /></td>
+                        <td><input type="button" value="Delete Row(s)" id="Delete" onclick="deleteRow('quant')" /></td>
+
+                    </tr>
+    			</table>
+
+            </fieldset>
+		</div>
+		<br/>
+        <div class="HorizontalMain" style="width:100%;" align='center'>
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Measured Groups </legend>
+                <table id="tableList" currGroup=""><tr id="row1"><tr></tr></table>
+            </fieldset>
+        </div>
+        <div style="width:100%;">
+            <div class="VerticalMain" style="height:400px;width:100%;">
+                <table id="measure" class="group">
+                    <thead id="measureHead">
+                        <tr>
+                            <th>Counter</th>
+                            <th align="center" >Id Genealogy</th>
+                            <th>H</th>
+                            <th>H</th>
+                            <th>H</th>
+                            <th align="center" >Volume</th>
+                            <th align="center" >Weight</th>
+                            <th align="center" >Previous Weight</th>
+                            <th align="center" >Previous Weight Date</th>
+                            <th align="center" >Explant</th>
+                            <th align="center" >Scope</th>
+                            <th>H</th>
+                            <th align="center" >Barcode</th>
+                            <th>H</th>
+                            <th align="center" >Treatment</th>
+                            <th>H</th>
+                            <th>H</th>
+                            <th align="center" >Start Date</th>
+                            <th align="center" >Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="measureBody">
+                    </tbody>
+                </table>
+            </div>
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Averages </legend>
+                <p id='avg'>Average volume of the group:</p><br>
+                <p id='avgChecked' >Average volume of the selected mice:</p><br>
+            </fieldset>
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Actions </legend>
+                    <table>
+                        <tr>
+    		          	    <td><input type="button" id='save'name="save" value="Save Measure Serie" onclick="saveQuant()"/></td>
+    				        <td><input type="button" value="Program Treatment" id='startT' name='startT' class='startT' onclick='openTreat("{% url xenopatients.measure.startTreatment %}")'/></td>
+    				        <td><input type="button" value="Stop Treatment" id='StopT' name='stopT' class='stopT' onclick='stopTreat()'/></td>
+                            <td><input type="button" value="Sacrifice" id='Sacr' name='sacr' onclick="makeAction('sacrifice without explant')"/></td>
+                            <td><input type="button" value="Explant without sacrifice" id='lite' name='lite' onclick="makeAction('explant without sacrifice')"/></td>
+                        </tr>
+                    </table>
+    				<table>
+    				    <tr>
+    					    <td><input type="button" value="Explant" onclick="makeAction('ready for explant')" /></td>
+    					    <td>{{ formSD.as_p }}</td>
+    					    <td><label for="explNotes">Notes for explant: </label></td>
+    					    <td><textarea rows="2" cols="40" type="text" id="explNotes" name="explNotes" value="" maxlength="180" onpaste="return false;" onkeypress="validate(event)"> </textarea></td>
+    				    </tr>
+                    </table>
+            </fieldset>
+        </div>
+		<div id="dialog" class="dialog confirm" title="OPS!!" style="display:none;position: relative;">
+        	<p id='dialogMessage'></p>
+        </div>
+    	{%  if message  %}
+    		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+    		<script>
+    			document.getElementById("message").style.display = 'inline';
+    		</script>
+    	{% endif %}
+    {% endif %}
+{% endblock %}

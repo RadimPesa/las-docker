@@ -1,0 +1,42 @@
+{% extends "tissue2/base.html" %}
+{% block title %}View file{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/revalue/file_view.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery.ui.all.css"> 
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.position.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.autocomplete.js"></script>
+
+
+	<style type="text/css">
+		select, input { display:block; position:relative;}
+		td{padding:8px;vertical-align: middle;}
+		th{padding:8px;vertical-align: middle;}
+	</style>
+	
+{% endblock %}
+
+{% block content %}
+	<div id="inizio" style="float:left;width:50%;padding-top:0.7em;padding-bottom:0.7em;" >
+		<p style="float:left;">
+			<label for="id_aliquot">Insert genealogy ID:</label>
+			<input id="id_aliquot" type="text" maxlength="30" name="aliquot" size="30">
+		</p>
+		<p style="float:left;">
+			<input id="conferma1" type="submit" class="button" style="margin-left:1em;margin-top:0.8em;" value="View">
+		</p>
+	</div>
+	<br id="br_finale" style="clear:both;">
+	<br>
+	<table border='1px' style="float:left;display:none;border-color:black;" id="derivati">
+		<th>N</th>
+		<th>File name</th>
+		<th>Event</th>
+		<th>Date</th>
+	</table>
+{% endblock %}

@@ -1,0 +1,4 @@
+ID	Barcode	Site	Container	Position	Date	Experimental group
+1	B1	SCR	01	C5	2014-07-31	exp1
+2	B2	SCL	01	C5	2014-07-31	exp2
+

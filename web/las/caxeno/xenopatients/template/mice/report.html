@@ -1,0 +1,45 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'MiceLoading_';
+	</script>
+{% endblock %}
+{% block title %}Report of Mice Loading{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div align="center">
+			<table id="table_res" border="1">
+				<thead>
+					<tr>
+						<th>Barcode</th>                
+						<th>Birth Date</th>
+	                    <th>Arrival Date</th>
+						<th>Available Date</th>
+						<th>Strain</th>
+						<th>Gender</th>
+						<th>Status</th>
+						<th>Source</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for m in list_report %}
+						{{  m|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

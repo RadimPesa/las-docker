@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body>
+		<section style="color: black;">			    
+			<h3>Please note that the following aliquots are still available in the system. Maybe you have to delete them.</h3>
+			<h4>Click <a href= "{{ perc }}" >here</a> to do it</h4>
+			
+			<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+				<th style="padding:4px;">N </th>
+				<th style="padding:4px;">Genealogy ID</th>
+				<th style="padding:4px;">Nickname</th>
+				<th style="padding:4px;">Barcode</th>
+				<th style="padding:4px;">Position</th>
+				<th style="padding:4px;">Creation date</th>				
+				<th style="padding:4px;">Procedure</th>
+				<th style="padding:4px;">Procedure date</th>
+				{% for diz in lista %}
+					<tr>
+						<td style="padding:5px;">{{forloop.counter}}</td>
+						<td style="padding:5px;">{{diz.genealogy}} </td>
+						<td style="padding:5px;">{{diz.nick}} </td>
+						<td style="padding:5px;">{{diz.barcode}}</td>
+						<td style="padding:5px;">{{diz.pos}}</td>
+						<td style="padding:5px;">{{diz.data}}</td>
+						<td style="padding:5px;">{{diz.proc}}</td>
+						<td style="padding:5px;">{{diz.dataproc}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</body>
+</html>

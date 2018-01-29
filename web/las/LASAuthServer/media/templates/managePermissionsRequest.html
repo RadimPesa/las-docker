@@ -1,0 +1,62 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/managePermissionsRequest.js"></script>
+
+	<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+	</p>
+
+<nav>
+{% if request_list%}		
+	<table class="table-user">
+		<thead>
+			<tr><th>username</th><th>Request summary</th><th>Update</th></tr>
+		</thead>
+		{% regroup request_list|dictsort:"user.username" by user as req%}
+		{% for x in req%}
+		<tr>
+			<td>{{x.grouper}}</td>
+			<td>
+			<table>
+			<thead>
+				<tr><th>Permissions</th><th>Performed at</th></tr>
+			</thead>
+			{% for u in x.list %}
+		    		<tr>
+		    		<td>
+		    			{% regroup u.permissions.all|dictsort:"lasmodule.shortname" by lasmodule as permessi%}
+						{% for perms in permessi%}
+							<li style="font-weight:bold;">{{perms.grouper}}
+								<ul>
+									{%for item in perms.list%}
+										<li  style="font-weight:normal;">
+										<input  type="checkbox" name="permissions_{{x.grouper}}"  value="{{ item.id }}"/>
+										{{item}}
+										</li>
+									{%endfor%}
+								</ul>
+							</li>
+						{%endfor%}
+		    		</td>
+					<td>{{u.date_time}}</td>
+					</tr>
+			{%endfor%}
+			</table>
+			</td>
+			<td style="padding-left:30px;"><a href="" onClick="acceptPermissions('{{x.grouper}}','{% url loginmanager.views.managePermissionsRequest %}')" ><img src="/lasauth_media/img/button-ok.png"></a></td>
+			</tr>
+	    {% endfor %}
+	</table>
+	{% else %}
+		<h3><span id="navtitle">There is no permission pending request. </span></h3>
+	{% endif%}
+</br>
+
+
+</nav>
+
+{% endblock %}

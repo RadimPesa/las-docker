@@ -1,0 +1,131 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+
+    }
+    .ui-tabs-anchor{
+        color:black !important;
+    }
+    </style>
+
+    <script>
+    $(document).ready(function() {
+        $("#htabs-outer").tabs();
+        $("#htabs-inner").tabs();
+        $("#htabs-extern2").tabs();
+        $("#htabs-extern").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        $("#htabs-extern > ul > li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        $('#htabs-extern').css({'display':'block'});
+     });
+     function evaluateRequest(wgID){
+         var choose='';
+         if($("#selectBox-"+wgID ).val()=='yes'){
+             action='accept';
+         }
+         else{
+             action='reject';
+             var c=confirm('You are rejecting the request for the working group.\nAre you sure?');
+             if (c==false) return false;
+         }
+         startLag();
+            $.ajax({
+            url:"{% url loginmanager.views.workingGroupsRequests %}",
+                type: "POST",
+                data: {
+                   action:action,
+                   wgID:wgID },
+            }).done(function(data) {
+                endLag();
+                if(data["message"]=='error')
+                    alert("Error during request evaluation!");
+                else
+                    alert("Request processed!");
+                window.location.href = "{% url loginmanager.views.workingGroupsRequests %}"
+            });
+    return;
+    }
+
+</script>
+    <script>$("section#content").addClass("home");</script>
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+    <nav>
+        <div id="htabs-extern" style="display: none;">
+            <ul>
+                <li><a href="#htabs-outer">Manage Working Groups Requests</a></li>
+            </ul>
+            <div id="htabs-outer">
+                <h1>Select group...</h2>
+                    <!--begin htab outer menu-->
+                    <ul>
+                    {% if tempRecord %}
+                      {% regroup tempRecord by WG as wg_list %}
+                      {% for wg in wg_list%}
+                         <li><a href="#htab-outer-{{wg.grouper.id}}">{{wg.grouper.name}}</a></li>
+                      {% endfor %}
+                      </ul>
+                      {% for wg in wg_list %}
+                         <div id = "htab-outer-{{wg.grouper.id}}">
+                           <h2>Working group: {{wg.grouper.name}}</h2>
+                           <div id="htabs-inner-{{wg.grouper.id}}">
+                           <p>Choose 'yes' in order to accept the invitation</p>
+                           <select id="selectBox-{{wg.grouper.id}}">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                           </select>
+                            <p></p>
+                             <fieldset>
+                               <br>
+                               <label style="font-weight:bold;">Principal Investigator: </label> {{wg.grouper.owner.first_name}}&nbsp;{{wg.grouper.owner.last_name}}&nbsp;({{wg.grouper.owner.email}})<br><br>
+                               <label style="font-weight:bold;">Roles: </label><br>
+                               <ul>
+                                 {% for role in wg.list %}
+                                    <li>{{role.role.name}}</li>
+                                 {% endfor %}
+                               </ul>
+                               <button class='button' style='float:right;' onClick='evaluateRequest({{wg.grouper.id}});'> Confirm  </button>
+                             </fieldset>
+                           </div>
+                         </div>
+                      {% endfor %}
+                    {% else %}
+                       <p> No Pending Requests! </p>
+                    {% endif %}
+                <!--end htab outer panels-->
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+

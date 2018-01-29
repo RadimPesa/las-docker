@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Protocol Creation{% endblock %}
+{% block script %} 
+    <script>
+        namecc = "{{ namecc }}";
+        cc_id = "{{ cc_id }}";
+    </script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/modify_cc.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/createCC.js"></script>
+    <!--<script type="text/javascript" src="{{MEDIA_URL}}js/generation.js"></script>
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/generation.css"/>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/protocol.css" />-->
+{% endblock %}
+
+{% block content %}
+    <div id='actions' align='center'>
+        <input type="button" value="Select Exisisting Configuration" style="font-size:16px;float:center;text-align:center;" onclick="selecting();"/>
+        <br/><br/>
+        <input type="button" value="Modify Actual Configuration" style="font-size:16px;float:center;text-align:center;" onclick="modding();"/>
+    </div>
+
+    <div id="selecting" style="display:none;">
+
+        <table id="availableProt">
+            <thead>
+                <tr>
+                    <th>H</th>
+                    <th>H</th>
+                    <th>Protocol Name</th>
+                    <th>Infos</th>
+                    <th>H</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in protocols_list %}
+                    <tr>
+                        <td>{{p.id}}</td>
+                        <td>{{p.type_process}}</td>
+                        <td>{{p.protocol_name}}</td>
+                        <td><img src="{{MEDIA_URL}}/img/info_icon.png" onclick="getInfos(this);" protId="{{p.id}}"></td>
+                        <td class="tip_pias">{{p.type_plate}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div id="dialog_selectP" class="dialog confirm" title="Feature List" style="display:none;position: relative;" align='center'>
+            <p>Protocol infos:</p>
+            <table id="protocol_infos" class="infos">
+            </table>
+        </div>
+    </div>
+
+    <div id="modding" style="display:none;">
+        <p id="p_title_id" style="text-align:center;font-size:20px;color:#00008B;"></p>
+        <p style="text-align:center;font-size:16px;color:#00008B;">Choose the Culturing Conditions</p>
+        <br/><br/>
+        <div id="drag_no" style="float:left;width:74%;">
+            <div style="float:left;width:45%;">
+                <table style="float:left;text-align:center;">
+	                <tr>
+	                <td class="mark">
+	                <table id="cult_cond_cat" >
+    	                <thead>
+    		                <th class="mark" style="text-align:center;font-size:18px;color:#00008B;">
+    			                Type of Culturing Conditions
+    		                </th>
+    	                </thead>
+    	                <tbody>
+                        {% for t in type_el %}
+                            <tr><td class="mark" style="font-size:14px;" onclick ='loadInfo("{{t.name}}");'></br><div class="drag_no" align="center">{{t.name}}</div></td></tr>
+                        {% endfor %}
+    	                </tbody>
+	                </table>									
+	                </td>
+	                </tr>
+                </table>
+            </div>
+            <div id="central_div" style="visibility:hidden;float:center;text-align:center;">
+                <table id="center_table" style="float:center;text-align:center;" border="1px">
+                    <thead>
+		                <th id="head_1" class="mark" style="text-align:center;">
+			                Features of Culturing Conditions</br>(with Proposed Default Value)
+			                </br></br><img id="up" src="{{MEDIA_URL}}img/admin/arrow-up.gif" style="float:right;cursor:pointer" />
+		                </th>
+	                </thead>
+	                <tbody>
+	                </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="selectedList" style="display:none;text-align:center;" id="drag">
+            <p style="font-size:16px;padding:5px;color:#00008B;">List of Culturing Conditions</br></p>
+            <table id="selectedTable" style="text-align:center;" >
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <input type="button" value="Save Protocol" style="font-size:16px;float:center;text-align:center;" onclick="saveMods();"/>
+        </div>
+        <div id="dialog" class="dialog confirm" title="Feature List" style="display:none;position: relative;" align='center'>
+            <p>Insert values for the needed features.</p>
+            <table id="fList">
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

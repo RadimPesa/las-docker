@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
+<title>{% block title %}{% endblock %}</title>
+
+
+	<link rel="stylesheet" href="/lasauth_media/css/style.css">
+	
+    <!-- jquery -->	
+	<script src="/lasauth_media/js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="/lasauth_media/js/jquery.dataTables.js"></script>
+	<!--script type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script-->
+	<script type="text/javascript" src="/lasauth_media/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<link rel="stylesheet" href="/lasauth_media/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="/lasauth_media/css/smoothness/jquery-ui-1.10.3.custom.css">
+
+	
+	
+	<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+	<!-- [if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		//ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+	    workingGroups="";
+	    {% if request.workingGroups %}
+	        workingGroups="{{request.workingGroups}}";
+	        $.ajaxSetup({
+	            beforeSend: function (request){
+	                request.setRequestHeader("workingGroups", workingGroups);
+	            }
+	        });
+	    {% endif %}
+	
+		
+	    $('body').ajaxComplete(function(e, xhr, settings) {
+	        if (xhr.status == 278) {
+	            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+	        }
+	    });
+	
+		$("span.home").click(function(){
+			window.location="{% url mercuric.views.indexMercuric %}";
+		});
+
+	});        
+</script>
+{% block script %} {% endblock %}
+	
+</head>
+
+<body {%block bodyoption %}{% endblock %}>
+
+	<header>
+			
+		    <h1 style="float:left;"> <a id="home" href="{% url mercuric.views.indexMercuric %}"><img width="143px" height="46px" src="/lasauth_media/img/mercuric_large_logo.png"></a></h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   {% if user.is_authenticated %}
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} | <a href="{% url mercuric.views.logout %}">Logout</a> [{{  user.username  }}]</span><!--  <span class="home" title="home"></span> -->
+			</p>
+			{% endif %}
+		<br style="clear:both;">
+			
+	</header>
+
+
+	<section id="content">	
+		{% block content %}{% endblock %}
+	</section>
+	{% block footer %}{% endblock %}
+    <div class="modal"><!-- Place at bottom of page --></div>	
+</body>
+
+</html>

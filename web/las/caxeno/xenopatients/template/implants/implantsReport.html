@@ -1,0 +1,46 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'Implants_';
+	</script>
+{% endblock %}
+{% block title %}Implants{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <script>
+            listKey = ['implant', 'implanttimestamp', 'implantuser', 'implDate', 'implNotes', 'implProt', 'dictG'];
+            clearStorage(listKey, false);
+        </script>
+		<div align="center">
+			<table id="table_res" border="1">
+				<thead>
+				<tr>
+					<th align='center'>Barcode</th>                
+					<th align='center'>Implanted Genealogy ID</th>
+					<th align='center'>Actual Genealogy ID</th>
+					<th align='center'>Group</th>
+					<th align='center'>Site</th>
+					<th align='center'>Bad Quality Flag</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for i in list_report %}
+					{{  i|safe  }}
+				{% endfor %}
+				</tbody>
+			</table>
+		<br/>
+		</div>
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}
+

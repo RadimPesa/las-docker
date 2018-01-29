@@ -1,0 +1,12 @@
+The file has to have this structure:
+
+GenealogyID/Barcode
+GenealogyID/Barcode
+GenealogyID/Barcode
+...
+
+Ex:
+BRC0001TMH000000000RL0100
+NUEL572358
+BRC0003BMXB34002000VT0100
+...

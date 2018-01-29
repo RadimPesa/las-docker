@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block title %}Execute experiment{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/execute_experiment.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	
+	<style type="text/css">
+		#tab_aliq_paginate a,#tab_fin_paginate a {padding-top: 4px;}
+		#tab_aliq,#tab_fin {margin: 4px 0 4px 0; }
+		#tab_aliq tbody tr {cursor:pointer;}
+	</style>
+	
+	<script type="text/javascript">		
+		dizvalexp=$.parseJSON('{{expvalue|safe}}');
+	</script>
+{% endblock %}
+
+{% block content %}
+	<input type="hidden" id="titoloreq" value="{{title}}" />
+	<input type="hidden" id="descrreq" value="{{description}}" >
+	<div style="width:40%;float:left;">
+		<table id="tab_aliq" class='tabaliq' border='1px' >
+			<thead>
+				<th>Label</th>
+				<th>Description</th>
+				<th>Operator</th>
+				<th>Capture type</th>
+				<th>Files</th>
+				<!-- colonna in cui compare il simbolo di eseguito quando vengono inseriti i valori per quel campione -->
+				<th></th>
+				<!-- colonna nascosta in cui c'e' il nome dei file caricati -->
+				<th></th>
+			</thead>
+			<tbody>
+				{% for dizaliq in data %}
+					<tr>
+						<td class="label">{{dizaliq.label}}<input type="hidden" class="inputgen" value="{{dizaliq.genid}}" /></td>
+						<td class="description">{{dizaliq.description}}</td>
+						<td class="operator">{{dizaliq.owner}}<input type="hidden" class="takenvol" value="{{dizaliq.takenvolume}}" /></td>
+						<td>{{dizaliq.capture}}</td>
+						<td></td>
+						<td align="center" class="foto">
+							<img class="confirm_end" style="display: none;" width="13" height="13" src="{{MEDIA_URL}}img/ok2.png">
+							<img class="confirm_partial" style="display: none;" width="13" height="13" src="{{MEDIA_URL}}img/pencil.png">
+						</td>
+						<td class="listfiles"></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<div style="float:left;margin-left:1.5em;">
+		<fieldset id="pageform" style="float:left;margin-bottom:1em;">
+			<legend>Experiment information</legend>
+			<table id="tableform" style="border-spacing:1em;display:inline;float:left;">
+				<tr>							
+					<td>
+						<label>Purity*:</label>
+					</td>
+					<td>
+						<input class="radiobutton" type="radio" style="display:inline;" value="Ok" name="purity">Ok
+						<input class="radiobutton" type="radio" style="display:inline;" value="Failed" name="purity">Failed
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Quantity*:</label>
+					</td>
+					<td>
+						<input class="radiobutton" type="radio" style="display:inline;" value="Ok" name="quantity">Ok
+						<input class="radiobutton" type="radio" style="display:inline;" value="Failed" name="quantity">Failed
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Fragment distribution*:</label>
+					</td>
+					<td>
+						<input class="radiobutton" type="radio" style="display:inline;" value="Ok" name="distribution">Ok
+						<input class="radiobutton" type="radio" style="display:inline;" value="Failed" name="distribution">Failed
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="volumefornito" >Provided volume (ul):</label>
+					</td>
+					<td id="tdvolumefornito"></td>
+				</tr>
+				<tr>
+					<td>
+						<label for="volumeusato" >Total used volume (ul)*:</label>
+					</td>
+					<td>
+						<input type="text" class="da_canc" id="volumeusato" name="Used volume" tag="Used volume" size="5" maxlength="10" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="exhausted" >Aliquot exhausted:</label>
+					</td>
+					<td>
+						<input type="checkbox" id="exhausted" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="assay">Assay*:</label>
+					</td>
+					<td>
+						<select id="assay">
+							<option selected="selected" value="">---------</option>
+							<option value="53401">53401</option>
+							<option value="43268">43268</option>
+							<option value="54182">54182</option>
+							<option value="66552">66552</option>
+							<option value="70133">70133</option>
+							<option value="799331">799331</option>
+							<option value="799341">799341</option>
+							<option value="Exome">Exome</option>
+							<option value="LB-Panel">LB-Panel</option>
+							<option value="WGA">WGA</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="treatment">Sample treatment*:</label>
+					</td>
+					<td>
+						<select id="treatment">
+							<option selected="selected" value="">---------</option>
+							<option value="NN">NN</option>
+							<option value="TAG">TAG</option>								
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="pack" >Pack slip library prep*:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" id="pack" tag="Pack slip" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="library" >Library name*:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" id="library" tag="Library name" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="date" >Date*:</label>
+					</td>
+					<td>					
+						<input type="text" class="da_canc" id="date" size="11" tag="Date" maxlength="10" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="instrument">Instrument*:</label>
+					</td>
+					<td>
+						<select id="instrument">
+							<option selected="selected" value="">---------</option>
+							<option value="MiSeq1_M02679">MiSeq1_M02679</option>
+							<option value="MiSeq2_M04126">MiSeq2_M04126</option>
+							<option value="NS500_140">NS500_140</option>								
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="name" >Sample ID BSO:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" tag="Sample ID BSO" id="sampleidbso" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="chemistry">Run chemistry*:</label>
+					</td>
+					<td>
+						<select id="chemistry">
+							<option selected="selected" value="">---------</option>
+							<option value="V1">V1</option>
+							<option value="V2">V2</option>
+							<option value="V3">V3</option>								
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="flowcell" >Lot n° flowcell:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" id="flowcell" tag="Lot n. flowcell" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="cartridge" >Lot n° reagent cartridge:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" tag="Lot n. reagent cartridge" id="cartridge" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="buffer" >Lot n° buffer:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" tag="Lot n. buffer" id="buffer" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="box" >Lot n° accessory box:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" tag="Lot n. accessory box" id="box" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="density" >Cluster density (K/mm&sup2;)*:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="numvalue" id="density" name="Cluster density" tag="Cluster density" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="pm" >pM loaded*:</label>
+					</td>
+					<td>
+						<input type="text" onkeypress="validate2(event)" id="pm" tag="pM loaded" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="run" >Run name*:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" id="run" tag="Run name" maxlength="30" size="15" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="button" id="confirm_only" value="Save and continue later&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" class="button" style="background-image: url('{{MEDIA_URL}}img/pencil.png');background-repeat: no-repeat;background-position:98% 50%;background-size:10% 70%;"/>
+					</td>
+					<td>
+						<input type="button" id="confirm_finish" value="Submit sample data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" class="button" style="background-image: url('{{MEDIA_URL}}img/ok2.png');background-repeat: no-repeat;background-position:95% 50%;background-size:8.5% 70%;"/>
+					</td>
+					<td></td>
+				</tr>
+			</table>
+		</fieldset>
+		<br>
+		<span >* mandatory field</span>
+	</div>
+	<div style="float:left;margin-left:1.5em;">
+		<fieldset>
+	        <legend>Associated files</legend>
+	        <form id="upload_sample_file" enctype="multipart/form-data" method="post" action={% url ngs.views.views_experiment.execute_experiment_save %} >
+	        	{% csrf_token %}
+		        <p id='filelist'><input id='currentfile' type="file" name="file" class="file" multiple/> </p>
+	        	<input id='aliquots_list' type="hidden" name='aliquots_list' value=""/>
+	        </form>
+        <!-- 	<div style='float:left;width:30%'>
+        		<input id="associate" class="button" type="submit" value="Associate files" style="float:left"/>
+        	</div>  -->	        
+		</fieldset>
+	</div>
+	
+	<p style="text-align:right;float:right;">
+		<input id="save" class="button" type="submit" value="Save&Finish" />
+	</p>
+	<br style="clear:both;">
+	<table id="tab_fin" border='1px' >
+		<thead>
+			<th>N</th>
+			<th>Label</th>
+			<th>New label</th>
+			<th>Failed</th>			
+		</thead>
+		<tbody align="center">							
+		</tbody>
+	</table>
+	
+	<article class="dialog" id="viewfile_dialog" style="display:none;">
+   	    <input id='rowFile' type='hidden'/>
+        <div class="filediv_dialog">
+       		<p>Select files to delete for the sample</p>
+
+        </div>
+    </article>
+    
+    <div id="dialogTitle" class="dialog confirm" title="Experiment title" style="display:none;position: relative;">
+		<p style="font-size:1.1em;">Please insert the experiment title and the description</p>
+		<div>
+			<label for="titolodialog" title="Please insert a title for the experiment">Experiment title:</label>
+			<br>
+			<input type="text" onkeypress="validate2(event)" id="titolodialog" maxlength="60" size="40" title="Please insert a title for the experiment" />
+		</div>
+		<div style="margin-top:0.4em;">
+			<label for="id_notes" >Description (optional):</label>
+			<br>					
+			<textarea id="id_notes" onkeypress="validate2(event)" maxlength="100" name="notes" cols="30" rows="5" size="30" ></textarea>
+		</div>
+	</div>
+{% endblock %}

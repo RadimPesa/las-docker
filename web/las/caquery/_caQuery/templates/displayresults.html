@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Multidimensional Data Manager - Results{% endblock %}                            
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/css/TableTools.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/css/ColReorder.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/css/ColVis.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/HVis/media/css/HVis.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery-tree-master/src/css/jquery.tree.css" />
+
+<!--link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/default.css" /-->
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/component.css" />
+
+
+
+<style type="text/css">
+    table.dataTable {
+        /*z-index:105;*/
+    }
+    table.dataTable td.highsel {
+        background-color: #FECA40;
+    }
+
+    td.details-control { /*, th.details-control*/
+        width: 1%;
+        background: url('{{MEDIA_URL}}expand_collapse_plus.gif') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {/*, tr.shown th.details-control */
+        background: url('{{MEDIA_URL}}expand_collapse_minus.gif') no-repeat center center;
+    }
+
+    table.dataTable td.details-content {
+        padding: 10px 50px 20px 50px;
+        background-color: #FFFFF0;
+    }
+
+    table.dataTable tr.shown {
+        background-color: #FAFAB6;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block script %}
+
+
+
+
+
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/TableTools.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/js/ColReorder.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/HVis/media/js/HVis.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/js/ColVis.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/fnSetFilteringDelay.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/displayresults.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}jquery-tree-master/src/js/jquery.tree.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/modernizr.custom.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/jquery.dlmenu.js"></script>
+
+
+<script>
+
+    selectedNode = {};
+    {% if shareableOutput %}
+       var shareableOutput = true;
+    {% else %}
+       var shareableOutput = false;
+    {% endif %}
+
+    var qid = "{{qid}}";
+    var rid = "{{rid}}";
+    var getResultsUrl = "{% url _caQuery.views.getresults %}";
+
+
+    function pad(n) { return ("0" + n).slice(-2); }
+
+    function generate_result_table(tableID, actionName){
+        var d = new Date();
+        var lasauth_url = "{{LAS_URL}}";
+        var user = jQuery('#username').text();
+        var filename = actionName + user + '_' + $.datepicker.formatDate('yy-mm-dd', d) + "--" + pad(d.getHours()) + "-" + pad(d.getMinutes()) + "-" + pad(d.getSeconds());
+        
+        resultsDt = jQuery(tableID).dataTable( {
+        
+            "aoColumns": [
+                {
+                    "sTitle": "Select<input type='checkbox' id='selectAllCheck'></input>",
+                    "mDataProp": null, 
+                    "sWidth": "20px", 
+                    "sDefaultContent": "<input type='checkbox' class='selectCheck' ></input>", 
+                    "bSortable": false
+                },
+
+                {% if trans %}
+                {
+                    "sClass": 'details-control',
+                    "bSortable": false,
+                    "sDefaultContent": '',
+                    "mDataProp": null
+                },
+                {% endif %}
+                
+                {% for x in headers %}
+                { "sTitle": "{{ x.0 }}",
+                  "mDataProp": "{{ x.1 }}",
+                  {% if trans and forloop.first %}
+                    "bSortable": false,
+                    "bVisible": false
+                  {% endif %}
+                },
+                {% endfor %}
+            ],
+            "aaSorting": [[{% if trans %}2{% else %}1{% endif %},'asc']],
+            "fnDrawCallback": function() {$('#selectAllCheck').prop('checked', false); ctrl.remove();},
+            "aLengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
+            "iDisplayLength": 20,
+            "bProcessing": true,
+            "bServerSide": true,
+            "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                if (selectedNode.hasOwnProperty(aData.pk)) {
+                    $('td:eq(0)', nRow).children('.selectCheck').prop('checked',true);
+                }
+                return nRow;
+            },            
+            {% if qid %}
+                "sAjaxSource": "{% url _caQuery.views.getresults %}?qid={{qid}}&rid={{rid}}&action=results",
+            {% endif %}
+            
+            // fix because when there are translators, datatables sends the wrong column indices for sorting
+            // (it will send '2' for column '1', probably because the first column with the +/- buttons is still
+            // counted as a valid column, even though it has the 'mData' property set to 'null')
+            {% if trans %}
+                "fnServerParams": function(aoData) {aoData[aoData.length - 3].value -= 2;},
+            {% else %}
+                "fnServerParams": function(aoData) {aoData[aoData.length - 3].value -=1 ;},
+            {% endif %}
+
+        });
+
+        jQuery(tableID).dataTable().fnSetFilteringDelay(400);
+
+        {% if trans %}
+        // assign click handler to expand/collapse detail icons
+            $('#results tbody').on('click', 'td.details-control', function () { // td.details-control
+                var tr = $(this).closest('tr');
+                var api = resultsDt.api();
+                var row = api.row( tr );
+                console.log(row.data())
+                if ( row.child.isShown() ) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Load data to display
+                    $.ajax({
+                        url: "{% url _caQuery.views.getresults %}?qid={{ qid }}&rid={{rid}}&action=translators&rowid=" + row.data().pk
+                    })
+                    .done(function(res) {
+                        res = JSON.parse(res);
+                        var content = '';
+                        for (var i in res.meta) {
+                            content += "<h4>" + res.meta[i].title + "</h4><br>";
+                            content += "<table><thead><tr>";
+                            for (var j = 0; j < res.meta[i].headers.length; ++j) {
+                                content += "<th>" + res.meta[i].headers[j] + "</th>";
+                            }
+                            content += "</tr></thead><tbody>";
+                            for (var j = 0; j < res.data[i].length; ++j) {
+                                content += "<tr>";
+                                for (var k = 0; k < res.data[i][j].length; ++k) {
+                                    content += "<td>" + res.data[i][j][k] + "</td>";
+                                }
+                                content += "</tr>";
+                            }
+                            content += "</tbody></table><br>";
+                        }
+                        row.child(content);
+                        row.child().find("table").dataTable({
+                            'bFilter': false,
+                            'bPaginate': false,
+                            'bInfo': false
+                        });
+                        row.child.show();
+                        row.child().children().addClass("details-content");
+                        tr.addClass('shown');
+                    })
+                    .fail(function(data) {
+                        row.child("Could not retrieve data from server.").show();
+                        tr.addClass('shown');
+                    })
+                    
+                }
+            } );
+        {% endif %}
+    }
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div style= 'margin-bottom:5em;width:100%'>
+<div id="dl-menu" class="dl-menuwrapper">
+    <button class="dl-trigger">Open Menu</button>
+    <ul class="dl-menu">
+        <li>
+            <a onclick="return exportData();">Export</a>
+        </li>
+        {% if canshare %}
+            {% if shareableOutput %}
+            <li>
+                <a onclick="return shareData();">Share</a>
+            </li>
+            {% endif %}    
+        {% endif %}
+
+        <!--li>
+            <a href="#">Furniture</a>
+            <ul class="dl-submenu">
+                <li>
+                    <a href="#">Living Room</a>
+                    <ul class="dl-submenu">
+                        <li><a href="#">Sofas &amp; Loveseats</a></li>
+                        <li><a href="#">Coffee &amp; Accent Tables</a></li>
+                        <li><a href="#">Chairs &amp; Recliners</a></li>
+                        <li><a href="#">Bookshelves</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Bedroom</a>
+                    <ul class="dl-submenu">
+                        <li>
+                            <a href="#">Beds</a>
+                            <ul class="dl-submenu">
+                                <li><a href="#">Upholstered Beds</a></li>
+                                <li><a href="#">Divans</a></li>
+                                <li><a href="#">Metal Beds</a></li>
+                                <li><a href="#">Storage Beds</a></li>
+                                <li><a href="#">Wooden Beds</a></li>
+                                <li><a href="#">Children's Beds</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Bedroom Sets</a></li>
+                        <li><a href="#">Chests &amp; Dressers</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Home Office</a></li>
+                <li><a href="#">Dining &amp; Bar</a></li>
+                <li><a href="#">Patio</a></li>
+            </ul>
+        </li-->
+    </ul>
+</div><!-- /dl-menuwrapper -->
+
+</div>
+
+<p id="error">
+{{  message  }}
+</p>
+
+<p id="username" style='display:none;'>{{  user.username  }}</p>
+
+<script>
+$("span.home").click(function(){window.location="{% url _caQuery.views.home %}";});
+
+ctrl = getBusyOverlay("viewport", {color:'#B2B2B2', opacity:1, text:'Loading results, please wait...', style: 'color: #222222;'}, {color:'#222222', weight:'3', size:100, type:'rectangle', count:12});
+</script>
+<table id="results">
+<thead>
+    <th></th>
+    {% if trans %}
+    <th></th>
+    {% endif %}
+    {% for x in headers %}
+    <th>{{ x.0 }}</th>
+    {% endfor %}
+</thead>
+<tbody>
+    
+</table>
+
+<article class="dialog" title="" id="shareDialog" style="display:none;">
+<!--div id='contentShareDialog'></div-->
+
+</article>
+
+
+
+
+<article class="dialog" title="" id="exportDialog">
+<div id="tabs" style="width:100%;float:left;height:90%">
+    <ul>
+        <li><a href="#fSel">File format</a></li>
+        <li><a href="#hSel">Data</a></li>
+    </ul>
+    
+    <div id='fSel' style="width:90%;float:left;">
+        <div style="float:left;width:100%">
+            <input type="checkbox" class='fileType' name="xls" value="excel">Excel<br>
+            <input type="checkbox" class='fileType' name="las" value="las">las<br>
+            <input type="checkbox" class='fileType' name="las" value="data">Data only<br>
+        </div>
+    </div>
+
+    <div id='hSel' style="width:90%;float:left;">
+    </div>
+</div>
+
+<div style="width:100%;float:left;">
+    <span class="ui-icon ui-icon-info" style="float:left"></span>If you select more than one file format a compressed file will be downloaded.
+</div>
+   
+</article>
+
+
+{% endblock %}
+

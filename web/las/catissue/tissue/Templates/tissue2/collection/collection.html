@@ -1,0 +1,420 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Insert new Collection{% endblock %}
+{% block script %}
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DateTimeShortcuts.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/collect.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/mioAutocomplete.js"></script>	
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		#tabs button {width:35px; height:35px; font-size: 15px; 
+				background-color:rgb(249,248,242); -moz-border-radius:5px; 
+				border-radius:5px;border-style:hidden;}
+		td {border-width:0px;border-right:4px; padding:3px;}
+		h1{font-size:22px;}
+		#view_aliquots select{font-size:1.2em;}
+		#aliq_filter{margin-right: 20px;}
+		.ui-tabs {background: none repeat scroll 0 0 transparent;}
+		#aliquots_table tr{text-align: center;}
+		table.aliquots_tab td{border:solid 1px;	}
+		#aliquots_table_filter {margin-bottom:4px;}
+		#f-output,#o-output,#c-output {font-size:1.1em;padding-left:1em;}
+		#aliquots_table img {cursor:pointer;}
+		.ui-button {width:auto;height:auto;}
+		#tab_blood {margin-top:1.5em;margin-bottom:1em;}
+	</style>
+
+{% endblock %}
+
+{% block content %}
+	
+{% if not fine2 %}	
+	{%if not secondo %}
+	<fieldset id="pageform" align="center">
+		<legend style="color:#A32900;font-size:14px;">Insert new sample collection</legend>
+	<!-- Pagina iniziale in cui inserire i valori generali della collezione -->
+		<div align="center">
+			<div>
+				<table>
+				<tr>
+				<td>
+				<form id="primo_form" action={% url tissue.collection.collection %} method="post">{% csrf_token %}
+					<input type="hidden" id="caso_reopen" name="reopen_caso" />
+					<section class="f" >
+					<style type="text/css">
+						.f p {float:left;margin-right:5px;}
+						.f select, .f input {display:block; position:relative;}
+					</style> 
+					{{ form.as_p }}
+					</section>
+					<br style="clear:both;">
+					<br>
+					<div>
+						<span style="font-size:1.1em;">You are collecting for:</span>
+						<select id="id_workgr" name="workgr"></select>
+					</div>
+					<input type="hidden" id="cons_exists" name="cons_exists" />
+					<input type="hidden" id="localid" name="localid" />
+					<input type="hidden" id="local_exists" name="local_exists" />
+					<br>
+					<!-- sezione per gestire i tipi di tessuto -->
+					<section class="t" style="float:left;" >	
+						<style type="text/css">
+						.t ul {list-style-type: none; float:left; padding:0px;}	
+						.t li {padding-right:10px; float:left;}
+						.t input {display:inline; margin:0px; }
+						.t li>label{font-size: 1.5em;}
+						</style> 
+						{{ formT.as_p }}
+					</section>
+					<br style="clear:both;"/>
+					<br>
+					<input type="button" id="param" value="Add clinical parameters" name="start" style="float:left;" class="button"/>
+					<!-- <input type="button" id="verifica_coll" value="Verify collection event" style="float:right;" class="button"/>  -->
+					<br style="clear:both;">
+					<p class="hr2"></p>
+					<p align="right">
+						<input id="conferma" type="submit" value="Confirm" name="start" class="button"/>
+					</p>
+				</form>
+				</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+	</fieldset>	
+	<div id="dia" class="dialog confirm" title="Warning" style="display:none;position: relative;">
+    	<p id='dialogMess'></p>
+    </div>
+		
+	<!-- Seconda pagina con le tabelle delle provette -->
+	{% else %}	
+	<style type="text/css">
+		input{font-size:1.2em;}
+		.t ul {list-style-type: none; float:left; padding:0px;}	
+		.t li {padding-right:10px; float:left;margin:0.3em;}
+		.t input {display:inline; margin:0px; }
+		.t li>label{font-size: 1.5em;}
+		.t li > label[for="id_tissue_0"] {color:red;}
+		.t label[for="id_tissue_1"] {color:olive;}
+		.t label[for="id_tissue_2"] {color:yellow;}
+		.t label[for="id_tissue_3"] {color:blue;}
+		.t label[for="id_tissue_4"] {color:green;}
+		.t label[for="id_tissue_5"] {color:#5B80B2;}
+		.t label[for="id_tissue_6"] {color:purple;}
+		.t label[for="id_tissue_7"] {color:#1EFB38;}
+		.t label[for="id_tissue_8"] {color:gray;}
+		.t label[for="id_tissue_9"] {color:aqua;}
+		.t label[for="id_tissue_10"] {color:teal;}
+		.t label[for="id_tissue_11"] {color:#BA6C6C;}
+		.t label[for="id_tissue_12"] {color:fuchsia;}
+		.t label[for="id_tissue_13"] {color:#A5DC81;}
+		.t label[for="id_tissue_14"] {color:navy;}
+		.t label[for="id_tissue_15"] {color:maroon;}
+		.t label[for="id_tissue_16"] {color:#CF2D25;}
+		.t label[for="id_tissue_17"] {color:#CCA3A3;}
+		.t label[for="id_tissue_18"] {color:#FF6600;}
+		.t label[for="id_tissue_19"] {color:#009900;}
+		.t label[for="id_tissue_20"] {color:#996633;}
+		.t label[for="id_tissue_21"] {color:#507E15;}
+		.t label[for="id_tissue_27"] {color:#99CF53;}
+	</style> 
+	<fieldset id="raccolta" style="margin-bottom:10px;">
+		<div style="float:left;margin-right:7em;">
+		<h2 id="titolo" align="center" style="color:black;font-size:16px;margin-top:0px;margin-bottom:0px;"></h2>
+		<section class="s">
+			<form id="formtessnascosto" name="hiddenTissuesForm">
+				{% if idinput %}
+					{% for t in idinput %}
+						<input type="hidden" value={{t}} id=tissue name="tissueH" >
+					{% endfor %}
+				{% endif %}
+			</form>
+		</section>
+		<section class="a">
+			<input type="hidden" id="tum" value={{tumore}} />
+			<input type="hidden" id="tumid" value={{tumid}} />
+			<input type="hidden" id="caso" value={{caso}} />
+			<input type="hidden" id="posto" value={{posto}} />
+			<input type="hidden" id="coll_data" value={{dat}} />
+			<input type="hidden" id="coll_ev" value={{coll_ev}} />
+			<input type="hidden" id="paziente" value={{patient}} />
+			<input type="hidden" id="prot_study" value={{study_prot}} />
+			<input type="hidden" id="wg_pag2" value={{workgr}} />
+			<input type="hidden" id="reopen" value={{reopen}} />
+			<input type="hidden" id="ic_exists" value={{ic_exists}} />
+			<input type="hidden" id="local_id" value={{localid}} />
+			<input type="hidden" id="local_exists" value={{local_exists}} />
+		</section>
+		<br>
+		<label for="gen_id" >GenealogyID:</label>
+		<input id="gen_id" type="text" maxlength="45" name="genealogy_id" readonly="readonly">
+		</div>
+		<div style="float:left;text-align:left;">
+			<section class="t" >
+				<form id="tissueNameList" name="tissueNameList">
+					{{ formT.as_p }}
+				</form>	
+			</section>
+		</div>
+		
+		<!-- per concludere il float:left del checkbox -->
+		<br style="clear:both;"/>
+		<!-- E' una sezione centrata -->
+		<section  style=float:left;>
+		<!--  <form action="/tissue/collection/save/" method="post">{% csrf_token %}-->
+			<input type="submit" class="button" value="Next Tissue" name="fase2" id="confirm_all" style="margin-top:5px"/>
+		<!--</form>-->
+		</section>
+
+		<section class=confirm style=float:left;>
+			<form id="form_fin" action={% url tissue.collection.coll_save %} method="post">{% csrf_token %}
+				<input type="submit" class="button" value="Save&Finish" name="fine" id="confirm" style="margin-top:5px;margin-left:5px;" />
+			</form>
+		</section>
+	</fieldset>
+	<div align="center" >
+	<div id="tabs">
+	    <ul>
+	        <li><a id="li_tab1" href="#tabs-1">Standard Archive</a></li>
+	        <li><a id="li_tab2" href="#tabs-2">Blood</a></li>
+	        <li><a id="li_tab3" href="#tabs-3">Urine</a></li>
+	        <li><a id="li_tab4" href="#tabs-4">Ascitic</a></li>
+	        <li><a id="li_tab5" href="#tabs-5">Liquor</a></li>
+	    </ul>
+		<div id="tabs-1">
+			<table width="100%" style="border-bottom-style: none;">
+			<tr>
+			<td align="center">
+				<table width="100%" style="border-bottom-style: none;">
+				<tr>		
+				<!-- parte che gestisce le aliquote vitali -->
+				<td style="padding-left:8em;">
+				
+					{{ a.table_vital|safe }}
+					<br>
+					<div align="center" style="padding:5px;">
+						<div style="display:inline;">
+							<label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_vital">Barcode:</label>
+							<input style="display:inline;" id="barcode_vital" type="text" maxlength="45" name="barcode_v" size="13">
+						</div>
+						<div style="padding:5px;padding-top:9px;display:inline;">
+							<input type="radio" name="choose_vital" value="tube" style="display:inline;"/>Tube							
+					       	<input type="radio" name="choose_vital" value="plate" style="display:inline;"/>Plate
+						</div>
+						<div style="padding-left:10px;padding-top:12px;display:inline;">
+							<input type="submit" class="button" value="Load" id="load_vital_plate" style="display:inline;"/>
+						</div>
+					</div>
+		
+					<!--<br style="clear:both;"> 
+					<br> -->
+					<section>
+					<span style="float:left;padding-left:5px;">
+					</span>
+					</section>
+				</td> 
+				
+					<!-- parte per gestire FFPE -->
+					
+					<td style="padding:1px;">
+						{{ a.table_tubes|safe }}						
+					</td> 
+				</tr>
+				</table>
+				</td>
+				</tr>
+				<tr>
+				<td align="center">
+				<table width="100%"  id="secondatabella">
+				<tr>
+				
+				<!-- parte per gestire RNAlater -->
+				
+				<td align="center" style="padding:0px;">
+				<!-- button {width:2.65em; height:2.65em; font-size: 1.6em;} -->
+				
+					{{ a.table_rna|safe }}
+					<div align="center" style=padding:5px;>
+						<div style="display:inline;">
+							<label style="display:inline;padding-top:4px;" for="barcode_rna">Barcode:</label>
+							<input style="display:inline;" id="barcode_rna" type="text" maxlength="45" name="barcode_r" >
+						</div>
+						<div style="padding:5px;padding-top:9px;display:inline;">
+							<input type="radio" name="choose_rna" value="tube" style="display:inline;"/>Tube	
+						    <input type="radio" name="choose_rna" value="plate" style="display:inline;"/>Plate
+						</div>
+						<div style="padding-left:10px;padding-top:12px;display:inline;">
+							<input style="display:inline;" type="submit" value="Load" id="load_rna_plate" class="button" />
+						</div>
+					</div>
+						
+				</td> 
+				
+				<!-- parte per gestire SnapFrozen -->
+				
+				<td align="center" style="padding-left:5px;padding-top:0px;">
+					{{ a.table_sf|safe }}
+					
+					<div style=padding:5px; align="center">
+						<div style="display:inline;">
+							<label style="display:inline;padding-top:4px;" for="barcode_sf" >Barcode:</label>
+							<input style="display:inline;" id="barcode_sf" type="text" maxlength="45" name="barcode_s" >
+						</div>
+						<div style="padding:5px;padding-top:9px;display:inline;">
+							<input type="radio" name="choose_sf" value="tube" style="display:inline;"/>Tube	
+						    <input type="radio" name="choose_sf" value="plate" style="display:inline;"/>Plate
+						</div>
+						<div style="padding-left:10px;padding-top:12px;display:inline;">
+							<input style="display:inline;" type="submit" class="button" value="Load" id="load_sf_plate" style="display:inline;"/>
+						</div>
+					</div>
+						
+				</td> 
+				
+				</tr>
+				</table>
+				</td>
+				</tr>
+				</table>
+			</div>
+			<div id="tabs-2">
+				<table id="tabella2" width="100%" style="border-bottom-style: none;">
+					<tr>
+						<td align="center">
+							{{ a.table_rna|safe }}
+							<div align="center" style="padding:5px;">
+								<label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_blood_plate">Barcode:</label>
+								<input style="display:inline;" id="barcode_blood_plate" type="text" readonly="readonly" maxlength="45" size="13">
+							</div>
+						</td>
+						<td align="center">
+	            			{{ a.table_blood|safe }}
+	            		</td>
+	            	</tr>
+	            </table>
+	        </div>
+	        
+	        <div id="tabs-3">
+				<table id="tabella3" width="100%" style="border-bottom-style: none;">
+					<tr>
+						<td align="center">
+							{{ a.table_rna|safe }}
+							<div align="center" style="padding:5px;">
+								<label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_uri_plate">Barcode:</label>
+								<input style="display:inline;" id="barcode_uri_plate" type="text" readonly="readonly" maxlength="45" size="13">
+							</div>
+						</td>
+						<td align="center">
+	            			{{ a.table_urine|safe }}
+	            		</td>
+	            	</tr>
+	            </table>
+	        </div>
+	        
+	        <div id="tabs-4">
+				<table id="tabella3" width="100%" style="border-bottom-style: none;">
+					<tr>
+						<td align="center">
+							{{ a.table_rna|safe }}
+							<div align="center" style="padding:5px;">
+								<label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_uri_plate">Barcode:</label>
+								<input style="display:inline;" id="barcode_uri_plate" type="text" readonly="readonly" maxlength="45" size="13">
+							</div>
+						</td>
+						<td align="center">
+	            			{{ a.table_urine|safe }}
+	            		</td>
+	            	</tr>
+	            </table>
+	        </div>
+	        
+	        <div id="tabs-5">
+				<table id="tabella3" width="100%" style="border-bottom-style: none;">
+					<tr>
+						<td align="center">
+							{{ a.table_rna|safe }}
+							<div align="center" style="padding:5px;">
+								<label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_uri_plate">Barcode:</label>
+								<input style="display:inline;" id="barcode_uri_plate" type="text" readonly="readonly" maxlength="45" size="13">
+							</div>
+						</td>
+						<td align="center">
+	            			{{ a.table_urine|safe }}
+	            		</td>
+	            	</tr>
+	            </table>
+	        </div>        
+		</div>
+
+		<section class="canc">
+            <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+                <fieldset  class="fieldset" style="height:85%;">
+                    <legend class="legend"> Aliquots </legend>
+                    <div style="height:100%;">
+                        <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+                        </table>
+                    </div>
+                </fieldset> 
+            </div>
+        </section>
+        
+        <div id="dialog" class="dialog confirm" title="Warning" style="display:none;position: relative;">
+                <p id='dialogMessage'></p>
+        </div>
+        
+		{% endif %}
+{% else %}	<!--if per il parametro fine2-->
+		<style type="text/css">
+			td{padding:6px;border-width:1px;}
+			th{padding:8px;}
+			#aliq_paginate a {padding-top:4px;}
+			#aliq {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+	    <h2>You collected these aliquots:</h2>
+	    <input type="hidden" id="collevent" value={{collevent}} />
+	    <input type="hidden" id="codpaz" value={{codpaz}} />
+	    <table border='2px' id="aliq">
+	      <thead>
+		      {{  intest|safe  }}
+		  </thead>
+	  	  <tbody>
+	  	      {% for i in aliq %}
+	           	{{  i|safe  }}
+	          {% endfor %}
+	      </tbody>
+	    </table>
+	    <br>
+        <br>
+        <br>
+        <span style="font-size:1.4em;">Please note that these aliquots have to be archived <a href="{{DOMAIN_URL}}/storage/archive/" target="_blank" > here </a></span>
+	  <script type="text/javascript">
+		$(document).ready(function () {
+
+		//$("#cont_h1").css("font-size","18px");
+		//$("#cont_h1").text("Collection finished. All data have been saved");
+		
+		//$("#cont_h1").after("<br><h2 id=\"q\">You collected these aliquots:</h2>");
+		//svuoto il local storage
+		for (var i = 0; i < listKey.length; i++){
+            localStorage.removeItem(listKey[i]);
+        }
+		localStorage.removeItem("clinicalfeat");
+		});
+	</script>
+	<br>
+{% endif %}
+{% endblock %}
+

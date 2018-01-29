@@ -1,0 +1,18 @@
+{% extends "tissue2/base.html" %}
+
+{% block title %}Login{% endblock %}
+   
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+{% block content %}
+<h1>User Registration</h1>
+<form method="post" action="."> {% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit", value="register" />
+</form>
+{% endblock %}

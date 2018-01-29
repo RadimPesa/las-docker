@@ -1,0 +1,458 @@
+{% extends "tissue2/base.html" %}
+{% block title %}BioBank{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		table{border-collapse: separate;background-color: transparent;}
+		td{padding:0px;}
+	</style>
+	<script>
+		$("section#content").css("background-image","url({{MEDIA_URL}}img/sfondobanca.png)");
+		$("section#content").css("background-position","right bottom");
+		$("section#content").css("background-repeat","no-repeat");
+		$(document).ready(function() {
+
+		$("td.navbut.a").click(function(){
+			//window.location="{% url tissue.views.collection %}";	
+			$("nav#sampleoverlay").show("bind");
+		});
+		$("td.navbut.b").click(function(){
+			//window.location="{% url tissue.views.DerivedAliquotsView %}";
+			$("nav#aliquotsoverlay").show("bind");	
+		});
+		$("td.navbut.c").click(function(){
+			//window.location="{% url tissue.views.RevalueAliquotsView %}";
+			$("nav#revalueoverlay").show("bind");			
+		});
+		$("td.navbut.d").click(function(){
+			//window.location="{% url tissue.views.KitsInitial %}";	
+			$("nav#kitoverlay").show("bind");
+		});
+		$("td.navbut.e").click(function(){
+			window.location="{% url tissue.views.saveProtocols %}";	
+		});
+		$("td.navbut.f").click(function(){
+			window.location="{% url tissue.views.ExternAliquots %}";	
+		});
+		$("td.navbut.g").click(function(){
+			//window.location="{% url tissue.views.VitalView %}";	
+			$("nav#retrievevitaloverlay").show("bind");
+		});
+		$("td.navbut.h").click(function(){
+			//window.location="{% url tissue.views.SplitAliquotsView %}";	
+			$("nav#splitoverlay").show("bind");
+		});
+		$("td.navbut.i").click(function(){
+			window.location="{% url tissue.views.InsertDerivedAliquots %}";	
+		});
+		$("td.navbut.j").click(function(){
+			//window.location="{% url tissue.views.DerivedAliquotsSelect %}";
+			$("nav#derselectoverlay").show("bind");	
+		});
+		$("td.navbut.k").click(function(){
+			window.location="{% url tissue.views.DerivedAliquotsCalculateValues %}";	
+		});
+		$("td.navbut.l").click(function(){
+			window.location="{% url tissue.views.DerivedAliquotsViewFile %}";	
+		});	
+		$("td.navbut.m").click(function(){
+			window.location="{% url tissue.views.InsertRevalueAliquots %}";	
+		});
+		$("td.navbut.n").click(function(){
+			window.location="{% url tissue.views.ExecRevalueAliquots %}";	
+		});	
+		$("td.navbut.o").click(function(){
+			window.location="{% url tissue.views.SaveKitType %}";	
+		});
+		$("td.navbut.p").click(function(){
+			window.location="{% url tissue.views.SaveSingleKit %}";	
+		});	
+		$("td.navbut.q").click(function(){
+			window.location="{% url tissue.views.InsertPositionVitalAliquots %}";	
+		});
+		$("td.navbut.r").click(function(){
+			window.location="{% url tissue.views.ExecPositionVitalAliquots %}";	
+		});	
+		$("td.navbut.s").click(function(){
+			window.location="{% url tissue.views.InsertSplitAliquots %}";	
+		});
+		$("td.navbut.t").click(function(){
+			window.location="{% url tissue.views.ExecSplitAliquots %}";	
+		});	
+		$("td.navbut.u").click(function(){
+			window.location="{% url tissue.views.collection %}";
+		});
+		//e' il menu' dei derivati
+		$("td.navbut.v").click(function(){
+			//window.location="{% url tissue.views.DerivedAliquotsView %}";
+			$("nav#deriveoverlay").show("bind");
+		});
+		$("td.navbut.w").click(function(){
+			window.location="{% url tissue.views.ExecDerivedAliquots %}";	
+		});
+		$("td.navbut.x").click(function(){
+			window.location="{% url tissue.views.LoadKitDerivedAliquots %}";	
+		});	
+		$("td.navbut.y").click(function(){
+			window.location="{% url tissue.views.LoadDetailsDerivedAliquots2 %}";	
+		});
+		$("td.navbut.z").click(function(){
+			window.location="{% url tissue.views.LoadLastPartDerivedAliquots %}";	
+		});	
+		$("td.navbut.aa").click(function(){
+			$("nav#volumeoverlay").show("bind");	
+		});
+		$("td.navbut.ab").click(function(){
+			window.location="{% url tissue.views.DecreaseView %}";	
+		});
+		$("td.navbut.ac").click(function(){
+			window.location="{% url tissue.views.DecreaseFinal %}";	
+		});
+		$("td.navbut.ad").click(function(){
+			window.location="{% url tissue.views.PatientView %}";	
+		});
+		$("td.navbut.ae").click(function(){
+			$("nav#transfoverlay").show("bind");	
+		});
+		$("td.navbut.af").click(function(){
+			window.location="{% url tissue.views.InsertTransferAliquots %}";	
+		});
+		$("td.navbut.ag").click(function(){
+			window.location="{% url tissue.views.PendingTransferAliquots %}";	
+		});
+		$("td.navbut.ah").click(function(){
+			window.location="{% url tissue.views.ReceiveTransferAliquots %}";	
+		});
+		
+		$("span#closesample").click(function(){
+			$("nav#sampleoverlay").hide("bind");
+		});
+		$("span#closealiquots").click(function(){
+			$("nav#aliquotsoverlay").hide("bind");
+		});
+		$("span#closederive").click(function(){
+			$("nav#deriveoverlay").hide("bind");
+		});
+		$("span#closeselder").click(function(){
+			$("nav#derselectoverlay").hide("bind");
+		});
+		$("span#closerevalue").click(function(){
+			$("nav#revalueoverlay").hide("bind");
+		});
+		$("span#closekit").click(function(){
+			$("nav#kitoverlay").hide("bind");
+		});
+		$("span#closeretrievevital").click(function(){
+			$("nav#retrievevitaloverlay").hide("bind");
+		});
+		$("span#closesplit").click(function(){
+			$("nav#splitoverlay").hide("bind");
+		});
+		$("span#closevolume").click(function(){
+			$("nav#volumeoverlay").hide("bind");
+		});
+		$("span#closetransf").click(function(){
+			$("nav#transfoverlay").hide("bind");
+		});
+		
+	});
+	</script>
+	{% if not errore %}
+	<section id="indice" style="margin-top:-1em;">
+	
+	<nav id="menuImg">
+		<nav id="sampleoverlay" class="overlay" style="display:none">
+			<span id="closesample" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+		
+	        <table>
+	            <tr>
+	                <td class="navbut u">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Fresh tissues</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut f">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Archive samples</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="aliquotsoverlay" class="overlay" style="display:none">
+			<span id="closealiquots" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+		
+	        <table>
+	            <tr>
+	                <td class="navbut v">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Derive</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut h">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Split</td></tr>
+						</table>
+	                </td>
+				</tr>
+				<tr>
+					<td class="navbut g">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Retrieve</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut aa">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Experiments</td></tr>
+						</table>
+	                </td>
+				</tr>
+				<tr>
+					<td class="navbut c">
+						<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Perform QC/QA</td></tr>
+						</table>
+					</td>
+					<td class="navbut ae">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Transfer</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+	
+        <nav id="deriveoverlay" class="overlay" style="display:none">
+			<span id="closederive" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+			<table>
+				<tr>
+					<td class="navbut i">
+						<table>
+		                	<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan derivation</td></tr>
+						</table>
+					</td>
+					<td class="navbut j">
+						<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Derive aliquots</td></tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="navbut k">
+						<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Calculate aliquot values</td></tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="derselectoverlay" class="overlay" style="display:none">
+	        <span id="closeselder" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+	        <table>
+	            <tr>
+	                <td class="navbut w">
+						<table>
+	                		<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td id="navtitle">1. Select aliquots and protocols</td></tr>
+	                	</table>
+					</td>
+	                <td class="navbut x">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td id="navtitle">2. Select kit</td></tr>
+						</table>
+					</td>
+				<tr>
+				</tr>
+					
+	                <td class="navbut y">
+						<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td id="navtitle">3. Perform QC/QA</td></tr>
+						</table>
+					</td>
+					
+	                <td class="navbut z">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td id="navtitle">4. Create derivatives</td></tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="revalueoverlay" class="overlay" style="display:none">
+			<span id="closerevalue" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+		
+	        <table>
+	            <tr>
+	                <td class="navbut m">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan revaluation</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut n">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Revalue aliquots</td></tr>
+						</table>
+	                </td>
+				</tr>
+				<tr>
+					<td class="navbut l">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>View file saved</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="kitoverlay" class="overlay" style="display:none">
+		<span id="closekit" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+        <table>
+            <tr>
+                <td class="navbut o">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Insert new kit type</td></tr>
+					</table>
+                </td>
+                <td class="navbut p">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Register new kit</td></tr>
+					</table>
+                </td>
+			</tr>
+			<!-- <tr>
+				<td class="navbut e">
+                	<table>
+					<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Create new protocol</td></tr>
+					</table>
+                </td>
+			</tr>  -->
+		</table>
+		</nav>
+		
+		<nav id="retrievevitaloverlay" class="overlay" style="display:none">
+	        <span id="closeretrievevital" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+        
+			<table>
+	            <tr>
+	                <td class="navbut q">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan retrieval</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut r">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Retrieve aliquots</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="splitoverlay" class="overlay" style="display:none">
+	        <span id="closesplit" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+        
+			<table>
+	            <tr>
+	                <td class="navbut s">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan splitting</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut t">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Split aliquots</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="volumeoverlay" class="overlay" style="display:none">
+	        <span id="closevolume" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>       
+			<table>
+	            <tr>
+	                <td class="navbut ab">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan experiments</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut ac">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Execute experiments</td></tr>
+						</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+		
+		<nav id="transfoverlay" class="overlay" style="display:none">
+	        <span id="closetransf" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>
+        
+			<table>
+	            <tr>
+	                <td class="navbut af">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Plan transfer</td></tr>
+						</table>
+	                </td>
+	                <td class="navbut ag">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Send aliquots</td></tr>
+						</table>
+	                </td>
+				</tr>
+				<tr>
+	                <td class="navbut ah">
+	                	<table>
+							<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Receive aliquots</td></tr>
+						</table>
+	                </td>
+	            </tr>
+			</table>
+		</nav>
+		
+		<table id="menu_iniz" style="float:left;width:60%;">
+            <tr>
+                <td class="navbut a">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Sample collection</td></tr>
+					</table>
+                </td>
+                <td class="navbut b">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Aliquots</td></tr>
+					</table>
+                </td> 
+            </tr>
+            <tr>                
+                <td class="navbut d">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Kits and protocols</td></tr>
+					</table>
+                </td>
+                <td class="navbut ad">
+                	<table>
+						<tr><td><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td>Patients</td></tr>
+					</table>
+                </td> 
+            </tr>    
+		</table>
+		
+		
+		
+		<article id="immagini" style="float:right;width:35%;">
+			<p class="imghome">
+				<img src="{{MEDIA_URL}}img/77.jpg" width="100%" > <!-- width="400px" height="270px"> -->
+			</p>
+		</article>
+	</nav>
+		<br style="clear:both;">
+		<br>
+		<br>
+		</section>
+	{% else %}
+		<h1 align="center">Error: something went wrong</h1>
+	{% endif %}
+{% endblock %}

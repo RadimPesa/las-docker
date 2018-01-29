@@ -1,0 +1,93 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'ScanQC';
+</script>
+{% endblock %}
+{% block title %}Scanned chips QC{% endblock %}
+
+
+{% block content %}
+
+<style>
+	td.reqinfo{
+		border: 0px;
+	}
+	th.reqinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+
+<div>
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px;max-width:50%;">
+<div id="request_info">
+	<h3>Scan Event Info</h3>
+	<table id="request_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="reqinfo">Scan terminated at:</th> 
+	            <td class="reqinfo">{{scanevent.endScanTime}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="reqinfo">Operator:</th> 
+	            <td class="reqinfo">{{scanevent.idOperator.username}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="reqinfo">Protocol:</th> 
+	            <td class="reqinfo">{{scanevent.idProtocol.name}}</td> 
+	        </tr>
+			<tr>
+	        	<th class="reqinfo">Notes:</th> 
+	            <td class="reqinfo">{{scanevent.notes}}</td> 
+	        </tr>
+	    </tbody> 
+
+	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="chip_position_layout">
+	<legend>Aliquots</legend>
+	<table class='report' cellspacing="5">
+		 	<thead>
+				<tr> 
+					<th>Chip barcode</th>
+					<th>Chip position</th>
+					<th>Genealogy ID</th>   
+		            <th>Sample identifier</th>
+		            <th>Q/C</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+    {% for aliquot in samples %} 
+		 		
+		        <tr>
+		            <td>{{aliquot.chipbarcode}}</td> 
+		            <td>{{aliquot.posonchip}}</td>                     
+		            <td>{{aliquot.genealogy}}</td> 
+		            <td>{{aliquot.sample_identifier}}</td>
+		            <td>{{aliquot.qc|yesno:"Good, Bad, Unknown"}}</td>
+		        </tr>	 
+	{% endfor %}
+	       </tbody>
+	</table> 
+</fieldset>
+</div>
+{% endblock %}

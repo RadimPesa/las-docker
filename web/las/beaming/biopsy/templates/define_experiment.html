@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Select working session{% endblock %}
+
+
+{% block content %}
+
+<meta charset="utf-8">
+	
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/define_experiment.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+
+<style type="text/css">
+.sample {  border: 1px solid;
+		   padding: 5px;
+		   overflow: hidden;
+}
+
+.column {
+	border: 1px solid;
+	vertical-align: middle;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+}
+
+.row {
+	border: 1px solid;
+	vertical-align: middle;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+}
+
+.cell{
+	width: 100%;
+	text-align: center;
+}
+
+@media screen and (max-width: 1060px){
+	.#al_list td{
+		font-size: 12px !important;
+	}
+}
+@media screen and (max-width: 900px){
+	#al_list td{
+		font-size: 11px !important;
+	}
+}
+</style>
+
+<fieldset style="padding-bottom:0; margin-bottom:15px;">
+	<legend>Experiment settings</legend>
+	<div id="exp_form" style="margin-bottom:4px; float:left;">
+	<table>
+		<tr>
+			<th style="text-align:right;padding-right:20px">Instrument:</th>
+			<td>
+			<select id="instrument_selection" style="width: 160px">
+				{% for inst in instruments %}
+					<option instrumentid="{{inst.id}}">{{inst.name}}</option>
+				{% endfor %}
+			</select>
+			</td>
+			<th style="text-align:right;padding-right:20px">Layout:</th>
+			<td>
+			<select id="layout_selection" style="width: 160px">
+				{% for l in layouts %}
+					<option layoutid="{{l.id}}">{{l.name}}</option>
+				{% endfor %}
+			</select>
+			</td>
+		</tr>
+
+	</table>
+
+	<p style="float:right"><input id="settings_button" class="button" type="submit" value="Set parameters" /></p>	
+	</div>
+
+	<div style="float:right" id='plan' idplan={{plan.id}}> 
+		<p style="float:right"><input id="terminate_button" class="button" type="submit" value="Save experiment" disabled="disabled"/></p>	
+	</div>
+</fieldset>
+
+
+<div id="experiment" style='display:none'>	
+    <div id="samples" style="width:30%;float:left">
+	    <article id="riquadro" style="min-height:650px">
+	        <h3>Aliquots</h3>
+	        <table id='al_list' style='padding:4%;text-align:center;width:100%'>
+	        	<thead>
+	        		<tr>
+	        			<th>Alias</th>
+	        			<th>Genealogy ID</th>
+	        		</tr>
+	        	</thead>
+	        	<tbody>
+	        	{% for al in aliquots%}
+	        	<tr class="aliquot_sample" alid={{al.id}} genid={{al.aliquot_id.genId}} style='background-color:white'>
+	        		<th class='sample'> AL{{al.id}} </th>
+	        		<td class='sample'>{{al.aliquot_id.genId}}</td>
+	        	</tr>
+	        	{% endfor%}
+				</tbody>
+	        </table>
+
+		</article>
+    </div>
+
+	<div id="layout" style="width:68%;float:left;padding-left:2%;overflow:auto">
+		<article id="riquadro" style="min-height:650px">
+			<h3 style="text-align: center">Experiment Planning </h3>
+			<div id='plate' style="float:left;width:100%;height:50%;padding-top:3%;overflow:auto">
+			</div>
+			<div id='target_list' style="float:left; width:100%;padding-top:2%;overflow:auto">
+			<fieldset style="float:center;text-align:center;margin-top:2%;margin-left:1%;margin-right:2%">
+			<legend>Targets</legend>
+			<table align="center" id='table_selected_targets' style="float:left;padding-left:2%;width:100%">
+				<tbody>
+					{% for t in mutations %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td>{{ t.gene }}</td>
+							<td>{{ t.genename|safe }}</td>
+							<td>{{ t.probe }}</td>
+							<td>{{ t.mut_aa|safe }}</td>
+							<td>{{ t.mut_cds|safe }}</td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			</fieldset>
+			</div>
+
+
+		</article>
+    </div>
+</div>  
+
+<div id="targets" style="width:100%;float:left;padding-top:1%;display:none">
+		<article id="riquadro" style="min-height:500px">
+			<h3 style="text-align: center">Gene selection</h3>
+			<div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+			<table> <tr><td><b>Gene:</b></td><td><input type="text" maxlength="45" name="search_gene"> <input id="search_gene" class="button" type="submit" value="Search Gene Symbol"/></td>
+			<td><input id="reset_targets" class="button" type="submit" value="Reset filters"/></td></tr>
+			<tr><td></td><td></td><td><input id="select_target" class="button" type="submit" value="Select Target" disabled='disabled'/></td>  </tr>
+			</table>
+			</div>
+			<div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+			<table id='table_genes' style='float:left'>
+				<tbody>
+				</tbody>
+			</table>
+			</div>
+			<div style='float:left;width:100%;margin-top:1%'>
+			<h3 style="text-align: center">Mutation selection</h3>
+			<div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+			<table id='table_mut' style='float:left'>
+				<tbody>
+				</tbody>
+			</table>
+			</div>
+			</div>
+		</article>
+    </div>
+
+
+{% endblock %}

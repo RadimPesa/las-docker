@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Select Samples to be Processed{% endblock %}
+
+
+{% block content %}
+
+
+
+<meta charset="utf-8">
+	
+<script src="/sanger_media/js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="/sanger_media/js/validate_samples.js"></script>
+<script type="text/javascript" src="/sanger_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/sanger_media/js/jquery.jeditable.mini.js"></script>
+<link rel="stylesheet" href="/sanger_media/css/jquery.dataTables.css" />
+
+
+
+    <div style="overflow: hidden; width:100%">
+	   <div id='session_info' style="float:left; width:60%">
+            
+            <fieldset style="float:left; width:100%; margin-bottom:5px;">
+                <p id='sessionid' val="{{plan_session.id}}"><b>Session:</b> {{plan_session.timestamp}}</p>
+                <p><b>Title:</b> {{plan_session.title}}</p>
+                <p><b>Description:</b> {{plan_session.description}}</p>
+                <p><b>Requested by:</b> {{plan_session.idOperator}}</p>
+            </fieldset>
+
+
+        </div>
+
+
+	   <div id='commands' style="float: right; width:30%">
+            <article style="overflow:auto">
+		
+		  <p style="text-align:right;float:right"><input id="proceed" class="button" disabled="disabled" type="submit" value="Proceed with next step" /></p> 
+
+		  <p style="text-align:right;float:right"><input id="save_stop" class="button" disabled="disabled" type="submit" value="Save & Stop" /></p> 
+
+	       </article>
+	
+	   </div>
+    </div>
+
+	<div id='aliquot_toval'>
+	<article id='riquadro' style="width:inherit;overflow:auto">
+
+	<h3>Aliquot to prepare</span></h3>
+
+		<table border=1px id="aliquot_toval_table">
+        	<thead>
+				<tr>
+				<th style="text-align:center;">Id Aliquot</th>
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Sample features</th>
+                <th style="text-align:center;">Owner</th>
+                <th style="text-align:center;">Volume</th>
+                <th style="text-align:center;">Concentration</th>
+                <th style="text-align:center;">Taken Volume</th>
+                <th style="text-align:center;">Barcode</th>
+                <th style="text-align:center;">Father Container</th>
+                <th style="text-align:center;">Position</th>
+                </tr>
+        	</thead>
+        	<tbody>
+            {% for al in aliquots%}
+                <tr>
+                    <td> {{al.idaliquot}} </td>
+                    <td> {{al.genId}} </td>
+                    <td> {{al.sample_features}} </td>
+                    <td> {{al.owner}} </td>
+                    <td> {{al.volume}} </td>
+                    <td> {{al.concentration}} </td>
+                    <td> {{al.volumetaken}} </td>
+                    <td> {{al.barcode}} </td>
+                    <td> {{al.father_container}} </td>
+                    <td> {{al.pos}} </td>
+                </tr>
+            {% endfor %}
+        	</tbody>
+        </table>
+
+
+     </article>
+ 	</div>
+ 	<div id='preparation_info' style="margin-bottom:10px;margin-top:10px">
+ 		<b>Identifier:</b> <input id="alidentifier" type="text" maxlength="50" value="" name="alidentifier" style="margin-right:20px" onkeyup="checkKeyP(event)" />
+        <input id="submit_barcode" class="button" type="submit" value="Prepare" style="margin-left:20px" />
+ 	</div>
+
+
+	<div id='aliquot_validated'>
+	<article id='riquadro' style="width:inherit;overflow:auto">
+    
+    <h3>Aliquots prepared</span></h3>
+
+        <article style="width:inherit;overflow:auto">
+
+        <table border=1px id="aliquot_validated_table">
+        	<thead>
+				<tr>
+                <th style="text-align:center;">Id Aliquot</th>
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Sample features</th>
+                <th style="text-align:center;">Owner</th>
+                <th style="text-align:center;">Original Volume</th>
+                <th style="text-align:center;">Original Concentration</th>
+                <th style="text-align:center;">Taken Volume (Editable)</th>
+                <th style="text-align:center;">Exhausted</th>
+                <th style="text-align:center;">Barcode</th>
+                </tr>
+        	</thead>
+        	<tbody>
+
+
+        	</tbody>
+        </table>
+
+        </article>
+     </div>
+
+
+{% endblock %}

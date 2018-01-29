@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Insert  New Chip{% endblock %}
+
+
+{% block content %}
+
+
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/uarray_media/js/jquery.jeditable.mini.js"></script>
+<script src="/uarray_media/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+<script src="/uarray_media/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/uarray_media/js/chip_type.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+<link rel="stylesheet" href="/uarray_media/css/validationEngine.jquery.css" type="text/css"/>
+
+<style type="text/css">
+div.hidden{
+    opacity: 0;
+}
+</style>
+
+{% if message %}
+
+<script>
+$(document).ready(function() {
+    //$("#infobox").html("Request has been saved");
+    $("#infobox").removeClass("hidden");
+    setTimeout(function(){
+        $("#infobox").fadeTo(1000,0, function(){
+            $("#infobox").html("&nbsp;");
+        })
+    }, 2000);
+});
+</script>
+{% endif %}
+
+
+<div id="infobox" class="confirmbox hidden"> {{message}} &nbsp;</div>
+
+
+	<section id="1">
+		<article id="riquadro">
+		   <h3> Insert New Chip Type </h3>
+		   <article id="commands" style="padding:40px;overflow:auto;">
+		   	<form id='chip_type_form'>
+			<div  style="float:left; width:50%">
+				<table>
+					<tr><th><label for="id_title">Title:</label></th><td><input type="text" name="title" id="id_title" data-validation-engine="validate[required,custom[onlyLetterNumber]]"/></td></tr>
+					<tr><th><label for="id_manufacturer">Manufacturer:</label></th><td><input type="text" name="manufacturer" id="id_manufacturer" data-validation-engine="validate[required,custom[onlyLetterSp]]" /></td></tr>
+					<tr><th><label for="id_organism">Organism:</label></th><td><input type="text" name="organism" id="id_organism" data-validation-engine="validate[required,custom[onlyLetterSp]]"/></td></tr>
+					<tr><th><label for="id_number_Positions">Number positions:</label></th><td><input type="text" name="number_Positions" id="id_number_Positions" data-validation-engine="validate[required,custom[integer]]"/></td></tr>
+					<tr><th><label for="id_probes_Number">Probes number:</label></th><td><input type="text" name="probes_Number" id="id_probes_Number" data-validation-engine="validate[required,custom[integer]]"/></td></tr>
+					<tr><th><label for="id_GeoPlatform_Id">Geoplatform id:</label></th><td><input type="text" name="GeoPlatform_Id" id="id_GeoPlatform_Id" data-validation-engine="validate[required,custom[onlyLetterNumber]]"/></td></tr>
+					<tr><th><label for="id_manifest_File">Manifest file url:</label></th><td><input type="text" name="manifest_File" id="id_manifest_File" data-validation-engine="validate[required,custom[url]]"/></td></tr>
+					<tr><th><label for="id_notes">Notes:</label></th><td><textarea id="id_notes" rows="10" cols="40" name="notes"></textarea></td></tr>				
+				</table>
+			</div>
+				</form>
+			<div id="layout_setting" style="float:left; width:40%;display:none">
+				<label for="id_layout"><b>Template Layout:</b></label><select name="layout" id="id_layout"></select>
+				<p></p>
+				<table id="layout_table" border=1px style="text-align:center;">
+                	<thead>
+	                    <tr>
+	                    	<th style="text-align:center;">Position</th>
+                        	<th style="text-align:center;">Identifier</th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                    </tbody>
+                </table>
+			</div>
+			<div style="float:left;width:100%;text-align:center">
+				<input class="button" type="submit" value="Insert New Chip Type" onclick="insertType()"/> 
+			</div>
+			</article>
+		</article>
+
+	</section>
+		
+
+
+{% endblock %}

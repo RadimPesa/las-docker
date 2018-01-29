@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Select working session{% endblock %}
+
+
+{% block content %}
+
+<meta charset="utf-8">
+	
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/define_experiment.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+
+<style type="text/css">
+.sample {  border: 1px solid;
+		   padding: 5px;
+		   overflow: hidden;
+}
+
+.column {
+	border: 1px solid;
+	vertical-align: middle;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+}
+
+.row {
+	border: 1px solid;
+	vertical-align: middle;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+}
+
+.cell{
+	width: 100%;
+	text-align: center;
+}
+</style>
+
+<fieldset style="padding-bottom:0; margin-bottom:15px;">
+	<legend>Experiment settings</legend>
+	<div id="exp_form" style="margin-bottom:4px; float:left;">
+	<table>
+		<tr>
+			<th style="text-align:right;padding-right:20px">Instrument:</th>
+			<td>
+			<select id="instrument_selection" style="width: 160px">
+				{% for inst in instruments %}
+					<option instrumentid="{{inst.id}}">{{inst.name}}</option>
+				{% endfor %}
+			</select>
+			</td>
+			<th style="text-align:right;padding-right:20px">Layout:</th>
+			<td>
+			<select id="layout_selection" style="width: 160px">
+				{% for l in layouts %}
+					<option layoutid="{{l.id}}">{{l.name}}</option>
+				{% endfor %}
+			</select>
+			</td>
+		</tr>
+
+	</table>
+
+	<p style="float:right"><input id="settings_button" class="button" type="submit" value="Set parameters" /></p>	
+	</div>
+
+	<div style="float:right" id='plan' idplan={{plan.id}}> 
+		<p style="float:right"><input id="terminate_button" class="button" type="submit" value="Save experiment" disabled="disabled"/></p>	
+	</div>
+</fieldset>
+
+
+<div id="experiment" style='display:none'>	
+    <div id="samples" style="width:15%;float:left">
+	    <article id="riquadro" style="height:595px">
+	        <h3>Aliquots</h3>
+	        <table style='margin-left:4%;margin-top:3%;'>
+	        	<thead>
+	        		<tr>
+	        			<th>Alias</th>
+	        			<th>Genealogy ID</th>
+	        		</tr>
+	        	</thead>
+	        	<tbody>
+	        	{% for al in aliquots%}
+	        	<tr class="aliquot_sample" alid={{al.id}} genid={{al.aliquot_id.genId}} style='background-color:white'>
+	        		<th class='sample'> AL{{al.id}} </th>
+	        		<td class='sample'>{{al.aliquot_id.genId}}</td>
+	        	</tr>
+	        	{% endfor%}
+				</tbody>
+	        </table>
+
+		</article>
+    </div>
+
+	<div id="layout" style="width:50%;float:left;padding-left:2%">
+		<article id="riquadro" style="height:595px">
+			<h3 style="text-align: center">Experiment Planning </h3>
+			<div id='plate' style="float:left;width:60%;height:80%;padding-top:3%;overflow:auto">
+			</div>
+			<div id='target_list' style="float:right; width:40%;padding-top:2%">
+			<fieldset style="float:center;text-align:center;margin-top:2%;margin-left:1%;margin-right:2%">
+			<legend>Targets</legend>
+			<table align="center" id='table_selected_targets' style="float:left;padding-left:2%;width:100%">
+				<thead>
+				<tr>
+					<th>Id</th>
+					<th>Gene</th>
+					<th>Mutation</th>					
+					<th>Color</th>
+				</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			</fieldset>
+			</div>
+
+
+		</article>
+    </div>
+
+	<div id="targets" style="width:30%;float:left;padding-left:2%">
+		<article id="riquadro" style="height:595px">
+			<h3 style="text-align: center">Gene/Mutations List </h3>
+
+			<fieldset style="float:center;text-align:center;margin-top:2%;margin-left:1%">
+			<legend>Target insertion</legend>
+				
+
+			<table style="float:left;padding-left:2%">
+				<tr>
+					<th>Gene: </th>
+					<td><input type="text" maxlength="45" name="insert_gene"></td>
+				</tr>
+				<tr>
+					<th>Mutation: </th>
+					<td><input type="text" maxlength="45" name="insert_probe"></td>
+				</tr>
+			</table>
+
+			<p style="float:rigth;padding-left:2%"><input id="search_target" class="button" type="submit" value="Search target"/><input id="reset_targets" class="button" type="submit" value="Reset filters"/></p>	
+			<p style="float:rigth;padding-left:2%"><input id="insert_target" class="button" type="submit" value="Insert new target"/><input id="select_target" class="button" type="submit" value="Select target" disabled="disabled"/></p>	
+			</fieldset>
+
+			<table id='table_targets'>
+				<tbody>
+				{% for t in targets%}
+	        		<tr>
+	        			<td>{{forloop.counter}}</td>
+	        			<td>{{t.gene}}</td>
+	        			<td>{{t.probe}}</td>
+	        		</tr>
+	        	{% endfor%}
+
+				</tbody>
+			</table>
+		</article>
+    </div>
+
+</div>   
+
+
+{% endblock %}

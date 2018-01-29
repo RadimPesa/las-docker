@@ -1,0 +1,1 @@
+sample	to_tumor	to_germline	to_case	to_all

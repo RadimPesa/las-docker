@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Xenopatients - Login{% endblock %}
+{% block content %}
+
+<script>
+$(document).ready(
+function setLoginFocus()
+{
+	document.loginForm.username.focus();
+}
+);
+$("p#user_name").css("display","none");
+
+$("section#content").addClass("index");
+
+</script>
+
+
+<section id="description">
+	<br><br>
+	The <b>Institute for Cancer Research</b> is a private non-profit institution founded by the Fondazione Piemontese per la Ricerca sul Cancro-Onlus (<b>FPRC</b>) and operated by the Fondazione del Piemonte per l'Oncologia (<b>FPO</b>: a joint venture between the FPRC and the Regione Piemonte). It is the seat of the Department of Oncological Sciences of the University of Torino. Its mission is to make a significant contribution to fight cancer by understanding the basics, and by providing optimal diagnostic and therapeutic services. Both basic research and clinical research are actively performed, placing the Institute at the interface between molecular biology and medicine. The FPRC provides enduring fund raising to complete the Institute's buildings and to support basic research.<br><br>
+	<b>Laboratory Assistant Suite</b> (<b>LAS</b>) platform assists the researchers in different laboratory activities. Its modular architecture allows managing different kinds of raw data (e.g., biological, molecular) and tracking experimental data. Furthermore, the platform supports the integration of different resources and aids in performing a variety of analyses in order to extract knowledge related to tumors.
+	<br>
+	The LAS architecture is the result of a joint effort by both IT researchers of Database and Data Mining Group of Politecnico di Torino and biomedical researchers of Institute for Cancer Research and Treatment (IRCC) of Candiolo (Italy).
+	<br><br>
+	The <b>Xeno Management Module</b> implements... ecc
+	<br><br><br><br><br><br>
+</section>
+	<section id="login">
+
+	<h1> Login </h1>
+	<p class="hr"></p>
+	<p id="error">{{  err_message  }}</p>
+	<form name='loginForm' action="{% url xenopatients.views.login %}" method='post'> {% csrf_token %}
+		<table>
+			<tr>
+			<td><label for="username">Username:</label></td>
+			<td><input type="text" name="username" value="" id="username"></td>
+			</tr>
+			<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" name="password" value="" id="password"></td>
+			</tr>
+			<tr>
+		<td></td><td align="right"><input type="submit" value="Login" class="button"/></td>
+		</tr>
+		</table>
+		<input type="hidden" name="next" value="{{ next }}" />
+	<form/>
+	</section>
+	{% endblock %}

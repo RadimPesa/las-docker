@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	<h3 style="color: black;">You have been designated to execute the following:</h3>
+	
+	<table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+		<tr>
+			<td style="padding:3px;"><b>Assigner:</b></td>
+			<td style="padding:3px;"> {{assigner}} </td>
+		</tr>
+		<tr>
+			<td style="padding:3px;"><b>Experiment:</b></td>
+			<td style="padding:3px;"> {{exp.name}} </td>
+		</tr>
+		<tr>
+			<td style="padding:3px;"><b>Description:</b></td>
+			<td style="padding:3px;"> {{note}} </td>
+		</tr>
+	</table>
+	
+	<h3>Aliquots:</h3>
+	<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+		<th style="padding:4px;">N </th>
+		<th style="padding:4px;">Genealogy ID</th>
+		<th style="padding:4px;">Barcode</th>
+		<th style="padding:4px;">Position</th>
+		<th style="padding:4px;">Used vol.(ul)</th>
+		<th style="padding:4px;">Left vol.(ul)</th>
+		{% for val in listafin %}
+			<tr>
+				<td style="padding:5px;">{{forloop.counter}}</td>
+				<td style="padding:5px;">{{val.gen}}</td>
+				<td style="padding:5px;">{{val.barcode}}</td>
+				<td style="padding:5px;">{{val.position}}</td>
+				<td style="padding:5px;">{{val.volequiv}}</td>
+				<td style="padding:5px;">{{val.volfinale}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</section>
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'LayoutExperiment';
+</script>
+{% endblock %}
+{% block title %}Layout Experiment{% endblock %}
+
+
+{% block content %}
+
+<meta charset="utf-8">
+	
+<style>
+	td.planinfo{
+		border: 0px;
+	}
+	th.planinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td{
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	border: 1px solid #003600;
+	padding: 2px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+
+<div style="max-width:600px;">
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px">
+<div id="plan_info">
+	<h3>Experiment Info</h3>
+	<table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="planinfo">Operator:</th> 
+	            <td class="planinfo">{{plan.idOperator}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Defined at:</th> 
+	            <td class="planinfo">{{plan.time_creation}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Instrument:</th> 
+	            <td class="planinfo">{{plan.idInstrument}}</td> 
+	        </tr>     
+	    </tbody> 	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="chip_position_layout">
+	
+	<legend><b>Aliquots</b></legend>
+	<table cellspacing="5">
+		 	<thead>
+				<tr> 
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Technical replicates</th>
+                <th style="text-align:center;">Target Name</th>
+                <th style="text-align:center;">Gene</th>
+                <th style="text-align:center;">Primer FW</th>
+                <th style="text-align:center;">Primer RV</th>
+                <th style="text-align:center;">Start</th>
+				<th style="text-align:center;">End</th>
+				<th style="text-align:center;">Length</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+    	{% for aliquot in samples %} 
+		 		
+		        <tr>
+		            <td>{{aliquot.genid}}</td>
+		            <td>{{aliquot.replicates}}</td>
+		            <td>{{aliquot.name}}</td>
+		            <td>{{aliquot.gene_symbol}}</td>
+		            <td>{{aliquot.primerfw}}</td>
+		            <td>{{aliquot.primerrv}}</td>
+		            <td>{{aliquot.start_base}}</td>
+		            <td>{{aliquot.end_base}}</td>
+		            <td>{{aliquot.length}}</td>
+		        </tr>	 
+		{% endfor %}
+	       </tbody>
+	</table> 
+</fieldset>
+</div>
+
+
+{% endblock %}

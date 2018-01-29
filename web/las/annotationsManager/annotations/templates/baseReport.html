@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block report %} 
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/TableTools.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/ColReorder.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/ZeroClipboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/ColVis.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/HVis.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/TableTools.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/ColReorder.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/ColVis.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/HVis.css" />
+
+<style type="text/css">
+	table.dataTable {
+ 	z-index:105;
+	}
+
+    table.dataTable td.highsel {
+        background-color: #FECA40;
+}
+</style>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery(".report").each(function(){
+        generate_result_table(this);
+    });
+});
+
+function pad(n) { return ("0" + n).slice(-2); }
+
+function generate_result_table(table){
+    var d = new Date();
+    var user = jQuery('#user_name').attr('user');
+    var filename = actionname + "_" + user + '_' + $.datepicker.formatDate('yy-mm-dd', d) + "--" + pad(d.getHours()) + "-" + pad(d.getMinutes()) + "-" + pad(d.getSeconds());
+    jQuery(table).dataTable( {
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "iDisplayLength": 10,
+        "sDom":'TRCH<\"clear\">lfrtip',
+        "oTableTools": {
+                "aButtons": [ "copy", 
+                {
+                                "sExtends": "csv",
+                                "sButtonText": "Las",
+                                "sTitle": filename,
+                                "sFileName": "*.las",
+                                "sFieldSeperator": "\t",
+                                "sFieldBoundary": "",
+                                "mColumns": "visible"
+                }, 
+                {
+                                "sExtends": "pdf",
+                                "sUrl": base_url + "/generate_pdf/",
+                                "sButtonText": "Pdf",
+                                "sPdfMessage": "Laboratory Assistant Suite - Beaming Manager - " + user + " - " + $.datepicker.formatDate('yy/mm/dd', d) + " @ " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()),
+                                "sTitle": filename,
+                                "mColumns": "visible",
+                                "sPdfSize": "tabloid"
+                }
+                , "print"
+                ],
+                "sSwfPath": base_url + "{{MEDIA_URL}}swf/copy_csv_xls_pdf.swf"
+        }
+    });
+}
+
+</script>
+
+{% endblock %}
+
+{%block home%}
+<div style='float:right'>
+    <a href="{% url annotations.views.home %}">
+    <button id='homebut' class='button'><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Revalue aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/revalue/revalue_execute.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript">
+		//serve solo per la rivalutazione con il robot, per capire se il campione ha un volume o no
+		dizvolumi = $.parseJSON('{{dizvolumi|safe}}');
+	</script>
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		#aliq_definitive td{font-size: 1.1em;padding:5px;}
+		#aliq_originali,#aliq_definitive {margin-bottom:4px;margin-top: 4px;}
+		#aliq_originali_paginate a,#aliq_definitive_paginate a {padding-top:4px;}
+		#aliq_originali_length,#aliq_definitive_length {margin-top: 8px;}
+	</style>
+	
+	<form id="form_fin" action={% url tissue.revalue.CancRevalueAliquots %} method="post">{% csrf_token %}
+		<input id="canc_sel" type="submit" class="button" disabled="disabled" style="float:right;margin:1em 0em 1em 1em;" value="Abort Selected" title="Click to abort selected procedures" />
+	</form>
+	
+	<form id="form_conf" action={% url tissue.revalue.ExecEffectiveRevalueAliquots %} method="post">{% csrf_token %}		
+		<input id="conf_all" type="submit" class="button" style="float:right;margin:1em;" value="Next step" title="Click to confirm and pass to the next view"/>
+	</form>
+	
+	<input id="tipoesp" value="{{tipo}}" type="hidden" />
+	<input id="id_robot" type="hidden" name="robot" value="{{robot}}">
+	<br style="clear:both;">
+	<fieldset>
+		<h2 align="center" style="font-size:1.3em;">Retrieve aliquots</h2>
+		<section class="superiore">
+			<table border='1px' style="border-color: black;float:left;" id="aliq_originali">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Position</th>
+					<th>Plate</th>
+					<th>Tube Position</th>
+					<th>Barcode</th>
+					<th>Available</th>
+					<th>Abort</th>
+				</thead>
+				<tbody>
+				{% if lista %}
+					{% for aliquota in lista %}
+						<tr align="center">
+							<td>{{forloop.counter}}</td>
+							<td>{{aliquota.idAliquot.uniqueGenealogyID}}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<input  id="canc_{{forloop.counter0}}" type="checkbox" class="check_canc" gen={{aliquota.idAliquot.uniqueGenealogyID}} />
+							</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+				</tbody>
+			</table>
+		</section>
+	</fieldset>
+	
+	<br style="clear:both;">
+	<!-- <form id="form_conferma" action={% url tissue.revalue.ExecEffectiveRevalueAliquots %} method="post">{% csrf_token %}  -->
+	<div id=inizio style="float:left;border:0px;padding-left:0px;" >	
+		<label for="id_barcode" style="font-size:1.4em;">Barcode:</label>
+		<input id="id_barcode" type="text" name="tube" maxlength="50" autocomplete="off" >
+	</div>
+	<input id="conf" type="submit" style="margin-left:1.5em;margin-top:1.2em;float:left;" class="button" value="Validate Barcode" title="Click to add aliquot to the samples to revalue now" />
+	<h2 id="contatore" style="float:left;margin-left:10em;font-size:1.3em;">
+	
+	</h2>
+	
+	<br style="clear:both;">
+	<br>
+
+	<div id="inferio" class="inferiore" style="display:none;">
+		<fieldset>
+			<h2 align="center" style="font-size:1.3em;">Validated aliquots</h2>
+			<table border='2px' style="border-color: black;float:left;" id="aliq_definitive">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Position</th>
+					<th>Plate</th>
+					<th>Tube Position</th>
+					<th>Barcode</th>
+				</thead>
+				<tbody align="center">
+				</tbody>
+			</table>
+		</fieldset>
+	</div>
+
+{% endblock %}

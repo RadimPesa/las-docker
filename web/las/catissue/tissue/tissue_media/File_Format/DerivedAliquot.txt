@@ -1,0 +1,12 @@
+This file has to have this structure (only derived aliquots are allowed):
+
+DerivedAliquot GenealogyID
+DerivedAliquot GenealogyID
+DerivedAliquot GenealogyID
+...
+
+Ex:
+BRC0001TMH000000000R01000
+MEL0002SMH000000000D03D01
+BRC0003BMXB34002000R01D05
+...

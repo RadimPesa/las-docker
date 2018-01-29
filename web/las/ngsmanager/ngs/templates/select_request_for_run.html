@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Select request{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/select_request_run.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	
+	<style type="text/css">
+		.dataTables_paginate a {padding-top: 4px;}
+		.tabaliq {margin: 4px 0 4px 0 !important; }		
+		#plan_table {cursor:pointer;}
+		#accordion .ui-state-default,#accordion .ui-widget-content {background:none;}
+		#accordion .ui-widget-content {border:1px solid black;border-top:0px;}
+		.ui-state-default span, .ui-state-default p {color:black;}
+		.ui-state-hover .ui-icon, .ui-state-default .ui-icon {background-image:url("{{MEDIA_URL}}css/ui-lightness/images/ui-icons_222222_256x240.png");}
+		.ui-state-default {font-weight:normal;}
+		.ui-state-default span b {font-size:1.1em;}
+		#request_infos td {padding:0.3em;}
+	</style>
+	
+	<script type="text/javascript">
+		listalabel=$.parseJSON('{{lislabel|safe}}');
+		dizdatialiq=$.parseJSON('{{dizdatialiq|safe}}');
+	</script>
+{% endblock %}
+
+{% block content %}
+	
+	<h3>Select a request</h3>
+	<table style="padding:1em;float:left;padding-left:0px;">
+		<tr>
+			<td title="For already analyzed samples">
+				<label for="sample" >Insert label of a sample that has to be reanalyzed:</label>
+				<br>
+				<input type="text" id="sample" maxlength="100" size="50" />
+			</td>
+			<td style="vertical-align: bottom;">
+				<input type="button" id="loadlabel" value="Load sample" class="button"/>
+			</td>
+		</tr>
+	</table>
+	<p style="text-align:right;float:right;"><input id="select" class="button" disabled="disabled" type="submit" value="Select" /></p>
+	<br style="clear:both;">
+	<div id="accordion">
+		{% for richiesta in data %}
+								
+			<div class='divinterna' style='border-width:0.1em;border-color: black;'>
+				<span style='display:inline;font-size:1em;margin-left:2em;'><b>Title:</b> {{richiesta.title}}&nbsp;&nbsp;&nbsp; <b>Description:</b> {{richiesta.description}} &nbsp;&nbsp;&nbsp; <b>Operator:</b> {{richiesta.owner}}</span>
+				<p style="display:inline-block;margin:0px;float:right">
+					<label style="font-size:1em;">Select</label>
+					<input class="check_select" type="checkbox" style="float:right;">
+					<input type="hidden" class="request_id" value={{richiesta.id}} />
+				</p>
+			</div>
+			<div class='divtabelle'>
+				<table class='tabaliq' border='1px'>
+					<thead>
+						<th>Label</th>
+						<th>Description</th>
+						<th>Operator</th>
+						<th>Info</th>
+					</thead>
+					<tbody align="center">
+						{% for dizaliq in richiesta.aliquots %}
+							<tr>
+								<td>{{dizaliq.label}}</td>
+								<td>{{dizaliq.description}}</td>
+								<td>{{dizaliq.owner}}</td>
+								<td><img src="{{MEDIA_URL}}img/info_icon.png" title="Show info" class="info_request" style="cursor:pointer;vertical-align:middle;" label="{{dizaliq.label}}" ></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endfor %}
+	</div>	
+	
+	<div id="dialog" class="dialog confirm" title="Feature List" style="display:none;" align='center'>
+        <p style="font-size:1.2em;">Request info:</p>
+        <table id="request_infos" class="infos">
+        </table>
+    </div>
+{% endblock %}

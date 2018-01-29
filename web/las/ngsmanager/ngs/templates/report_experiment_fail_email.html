@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<body>
+		<section style="color: black;">
+			<h3 style="color: black;">Please note that the following sample did not pass the quality control:</h3>
+		    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+				
+				<th style="padding:4px;">N </th>
+				<th style="padding:4px;">Label</th>
+				<th style="padding:4px;">Description</th>
+				<th style="padding:4px;">Purity</th>
+				<th style="padding:4px;">Quantity</th>
+				<th style="padding:4px;">Fragment distribution</th>
+				{% for c in listafin %}
+					<tr>
+						<td style="padding:5px;">{{forloop.counter}}</td>
+						<td style="padding:5px;">{{c.label}}</td>
+						<td style="padding:5px;">{{c.description}}</td>
+						<td style="padding:5px;">{{c.Purity}}</td>
+						<td style="padding:5px;">{{c.Quantity}}</td>
+						<td style="padding:5px;">{{c.Fragmentdistribution}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</body>
+</html>

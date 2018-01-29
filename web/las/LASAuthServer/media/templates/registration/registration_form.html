@@ -1,0 +1,244 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration' %}</h1>{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <p id="user_name">
+            <span id="datename">{% now "jS F Y" %} | <a href="{% url 'loginmanager.views.logout' %}">Logout</a> [{{  user.username  }}]</span>
+        </p>
+        <nav>
+        <p>
+            You are already registered, {{user.username}}!
+        </p>
+    {%else%}
+        <style>
+            #sortable1, #sortable2 { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; margin-right: 10px; background: #eee; width: 143px;}
+            #sortable1 li, #sortable2 li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+        </style>
+        <script type="text/javascript" src="/lasauth_media/registration/js/registration_form.js"></script>
+        <script type="text/javascript" src="/lasauth_media/registration/js/jquery.cookie.js"></script>
+        <script>
+            setRegistrationUrl("{% url 'registration_register' %}","{% url 'registration_complete' %}","{% url 'loginmanager.views.index' %}", "{% url 'registration_error' %}");
+            {% if project %}
+		project='{{project}}';
+	    {% endif %}
+        </script>
+        <nav>
+        <div id="main_div" style="display: none;">
+            <fieldset id="userInfo" style="width:40%; top:10%; float: left;">
+              	<legend>User Info</legend>
+                <table>
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" id="firstname" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td><input type="text" id="lastname" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td><input type="text" id="username" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td><input type="text" id="email1" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail (Again)</td>
+                        <td><input type="text" id="email2" value=""></td>
+                    </tr>
+                    {%if not DEMO %}
+                    <tr>
+                        <td><p>User Type</p></td>
+                        <td>
+                            <select name="userType" id="userType">
+                                <option value = "nothing">Select user type..
+                                    {% if not project %}
+                                <option value = "pi">Principal investigator
+                                    {% endif %}
+                                <option value = "user">LAS User
+                            </select>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <br>
+                <form action='.' method='POST' id="captcha_form">
+                    <p><b>Security check</b>&nbsp;&nbsp;Please enter the letters below:</p>
+                    {{ cf }}
+                    &nbsp;&nbsp;Can't read this? Try another: <button id="refresh_captcha" class="js-captcha-refresh button" style="margin-left:0;">Refresh</button>
+                </form>
+                <br><br>
+                <button id="reset_button" class="button" onClick="resetForm();" style="float:left; margin-left:0;">Reset data</button>
+                {% if not DEMO%}
+                    <button id="confirm_button" class="button" onClick="showSlaveDiv();" style="float:right; ">Continue</button>
+                {% else %}
+                    <button id="confirm_button" class="button" onClick="demoRegister();" style="float:right; ">Continue</button> 
+                {% endif %}
+
+            </fieldset>
+        </div>
+        <div id= 'affiliation' style="display: none;">
+            <fieldset style="z-index: 10;float:right; width:40%;" >
+              	<legend>Affiliation</legend>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="Affiliation" width="100%">
+		            <tr><td>Institution</td><td><input type="text" id = "aff_name"/></td></tr>
+                            <tr><td>Department</td><td><input type="text" id = "aff_dep"/></td></tr>
+		            <tr><td>Country</td><td><input type="text" id = "aff_state"/></td></tr>
+		            <tr id ="pi_name_row"><td>PI name</td><td><input type="text" id = "aff_pi_name"/></td></tr>
+		            <tr id ="pi_lastname_row"><td>PI lastname</td><td><input type="text" id = "aff_pi_lastname"/></td></tr>
+		            <tr id ="pi_mail_row"><td>PI e-mail</td><td><input type="text" id = "aff_pi_mail"/></td></tr>
+                </table>
+                <button id="search_affiliation" class="button"  onClick="searchAffiliation();">Search Affiliation</button>
+                {%if not DEMO %}
+                <button id="create_affiliation" class="button" onClick="newAff();">Create Affiliation</button>
+                {% endif %}
+            </fieldset>
+            <div id="dialog-form-aff" title="Create new affiliation">
+                <p class="validateTips">All form fields are required.</p>
+                <form>
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>Company Name</td>
+                                <td><input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td>State</td>
+                                <td><input type="text" name="state" id="state" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td>Department</td>
+                                <td><input type="text" name="department" id="department" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="dialog-form-pi" title="Create new PI">
+                <p class="validateTips">All form fields are required.</p>
+                <form>
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>PI Name</td>
+                                <td><input type="text" name="pi_name" id="pi_name" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td>PI Last Name</td>
+                                <td><input type="text" name="pi_lastname" id="pi_lastname" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td>PI E-mail</td>
+                                <td><input type="text" name="pi_email" id="pi_email" class="text ui-widget-content ui-corner-all" value=""/></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </form>
+            </div>
+            <fieldset style="z-index: 10;float:right; width:40%;" id='search_result_pi'>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="From_pi" width="100%">
+	                <thead>
+		                <tr>
+			                <th>Institution</th>
+			                <th>Country</th>
+			                <th>Department</th>
+                            <th>Verified</th>		
+		                </tr>
+	                </thead>
+	                <tbody>
+                        <!-- INSERIRE DATI DELLA RICERCA DA AJAX-->
+                    </tbody>
+	                <tfoot>
+		                <tr>
+			                <th></th>
+			                <th></th>
+			                <th></th>
+                            <th></th>
+		                </tr>
+	                </tfoot>
+                </table>
+                <br><br>
+                <button id="add_pi" class="button" style="width:10%; margin-left:40%;">Add</button>
+                <br><br>
+                <br><br>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="To_pi" width="100%">
+		            <thead>
+			            <tr>
+				            <th>Company Name</th>
+				            <th>State</th>
+				            <th>Department</th>		
+                            <th>Verified</th>
+			            </tr>
+		            </thead>
+		            <tbody>		
+		            </tbody>
+		            <tfoot>
+			            <tr>
+				            <th></th>
+				            <th></th>
+				            <th></th>
+                            <th></th>
+			            </tr>
+		            </tfoot>
+	            </table>
+                <br><br>
+                <button id="remove_pi" class="button" style="width:10%; margin-left:40%;">Remove</button>
+                <br><br>
+                <button id='continue_pi' class="button" onClick="secondStepDiv();" style='float:right;' >Continue Registration</button>
+            </fieldset>
+
+            <fieldset style="z-index: 10;float:right; width:40%;"  id='search_result_user'>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="From_user" width="100%">
+	                <thead>
+		                <tr>
+			                <th>PI Name</th>
+			                <th>PI LAST NAME</th>	
+                            <th> Affiliations </th>
+                            <th>Verified</th>
+		                </tr>
+	                </thead>
+	                <tbody>
+                        <!-- INSERIRE DATI DELLA RICERCA DA AJAX-->
+                    </tbody>
+                </table>
+                <br><br>
+                <button id="add_user" class="button" style="width:10%; margin-left:40%;" >Add</button>
+                <br><br>
+                <br><br>
+                <br><br>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="To_user" width="100%">
+		            <thead>
+			            <tr>
+                            <th>PI Name</th>
+			                <th>PI LAST NAME</th>	
+                            <th>Affiliations</th>
+                            <th>Verified</th>
+			            </tr>
+		            </thead>
+		            <tbody>		
+		            </tbody>
+		            <tfoot>
+			            <tr>
+				            <th></th>
+				            <th></th>
+				            <th></th>
+                            <th></th>
+			            </tr>
+		            </tfoot>
+	            </table>
+                <button id="remove_user" class="button" style="width:10%; margin-left:40%;">Remove</button>
+                <br><br><br>
+                <button id='continue_user' class="button" onClick="secondStepDiv();" style='float:right;' >Continue Registration</button>
+            </fieldset>
+        </div>
+        <div id="slave_div" style="display: none;">
+        </div>
+        <div id="affDialog" title="Affiliations" style="display: none;"></div>
+    {% endif %}
+{% endblock %}

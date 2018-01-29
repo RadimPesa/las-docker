@@ -1,0 +1,112 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Derive Aliquots - Step 3{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/2.details.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/DateTimeShortcuts.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	
+{% endblock %}
+
+{% block content %}
+	{% if lista %}
+		<style type="text/css">
+			td{padding:6px;vertical-align: middle;}
+			th{padding:6px;vertical-align: middle;text-align:center;}
+			#aliq input{display:inline;}
+			#tabella_barc td {border-width: 0px;}
+			#tab_riepilogo td {padding:3px;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		</style>
+
+		<div class="bordicurvi" style="float:left;border-style: solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="10" autocomplete="off" >
+				<input id="validate_barc" type="submit" class="button" style="float:left;" value="Verify barcode" title="Click to verify sample you are working with now"/> 
+			</div>			
+		</div>
+
+		<form id="form_conf" action={% url tissue.derived.DetailsDerivedAliquots2 %} method="post">{% csrf_token %}
+			<div style="float:right;">
+				<input id="conf_all" type="submit" value="Confirm and stop" class="button" style="margin-bottom:0.5em;display:inline;" name="stop" title="Click to confirm and stop derivation procedure at this step"/>
+				<input id="next_step" type="submit" value="Next step" style="display:inline;" class="button" name="next" title="Click to confirm and pass to 'Create new Aliquots' step"/>
+			</div>
+			<br style="clear:both;"/>
+			<table border='2px solid' style="float:left;" id="aliq">
+				<th >N </th>
+				<th >Genealogy ID</th>
+				<th >Barcode</th>
+				<th >Position</th>
+				<th>Process failed</th>
+				<th>Volume outcome (ul)</th>
+				<th><input type="submit" id="add_mis_tutti" value="Add Measures for all" class="button" title="Click to insert measures for all aliquots" /></th>
+				<th></th>
+				<th>Measurement date</th>
+				<th>Derivation protocol</th>
+				<th>Start date</th>
+				{% for aliquota,barc,pos,vol in lista %}
+					<tr align="center" class="interna">						
+						<input type="hidden" class="campi_prot" id="proto_{{forloop.counter0}}" name="prot_{{forloop.counter0}}" value={{aliquota.idDerivationProtocol.id}} />
+						
+						<td class="lis_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{aliquota.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" class="gen_aliq_der" name="gen_{{forloop.counter0}}" value={{aliquota.idAliquot.uniqueGenealogyID}} id_aldersched={{aliquota.id}} />
+						</td>
+						<td class="lis_barcode">{{barc}}</td>
+						<td>{{pos}}</td>
+						<td>
+							<input style="margin:10px;" id="outcome_{{forloop.counter0}}" type="checkbox" name="outcome_{{forloop.counter0}}" size=5 />
+						</td>
+						<td>
+							<input id="volume_{{forloop.counter0}}" maxlength="7" type="text" name="volume_{{forloop.counter0}}" value="{{vol}}" size=5 />
+						</td>
+						<td>
+							<input type="submit" id="add_misura_{{forloop.counter0}}" class="button add_measure" value="Add Measures" title="Click to insert aliquot measures" />
+						</td>
+						<td>
+							<input type="submit" id="view_misura_{{forloop.counter0}}" class="button" value="View Measures" title="Click to view inserted measures" />
+						</td>
+						<td>
+							<input id="id_date_meas_{{forloop.counter0}}" autocomplete="off" class="vDate" type="text" size="10" name="date_meas_{{forloop.counter0}}" >
+						</td>
+						<td>{{aliquota.idDerivationProtocol}}
+							<input id="nome_prot_der_{{forloop.counter0}}" type="hidden" value="{{aliquota.idDerivationProtocol.name}}" />
+							<input id="tipo_der_{{forloop.counter0}}" type="hidden" value="{{aliquota.idDerivedAliquotType.abbreviation}}" />
+						</td>						
+						<td>{{aliquota.initialDate|date:"jS F Y"}}</td>
+					</tr>
+				{% endfor %}
+				
+			</table>
+			{% for aliquota,barc,pos,vol in lista %}
+				<input type="hidden" id="sched_{{forloop.counter0}}" />
+				<input type="hidden" id="exh_{{forloop.counter0}}" value={{aliquota.aliquotExhausted}} />
+			{% endfor %}
+			<br style="clear:both;">
+			<br>
+			<input type="hidden" id="righe_totali" name="tot_righe" />
+			
+			<div id="dialog-confirm" style="display:none" title="Reschedule procedure">
+				<p></p>
+			</div>
+		</form>
+		
+		<div id="dia1" style="display:none" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+	{% endif %}
+	
+	{% if not lista and not fine and not vuota %}
+		<h1 align="center">No derivation procedure scheduled for this user</h1>
+	{% endif %}
+	{% if vuota %}
+		<h1 align="center">Derivation failed. No aliquots saved</h1>
+	{% endif %}
+	{% if fine %}
+		<h1 id="h1_finale" align="center">Operation executed. All data have been saved</h1>
+	{% endif %}
+{% endblock %}

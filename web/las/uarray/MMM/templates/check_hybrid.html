@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block title %}Select Samples to be Hybridized{% endblock %}
+
+
+{% block content %}
+
+
+
+<meta charset="utf-8">
+	
+<script src="/uarray_media/js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="/uarray_media/js/check_hybrid.js"></script>
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8" src="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+<link rel="stylesheet" type="text/css" href="/uarray_media/js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+
+
+
+    <div style="overflow: hidden; width:100%">
+	   <div id='session_info' style="float:left; width:60%">
+            
+            <fieldset style="float:left; width:100%; margin-bottom:5px;">
+                <p id='sessionid' val="{{plan_session.id}}"><b>Session:</b> {{plan_session.timeplan}}</p>
+                <table> <tr>
+                    <th>Hybridization Instrument:</th><td>{{plan_session.idInstrument}}</td>
+                    <th>Hybridization Protocol:</th><td>{{plan_session.idHybProtocol.name}}</td><td><span id='protocol_info' style="display:inline-block" class ="ui-icon ui-icon-info"/></span></td></tr>
+                </table>
+            </fieldset>
+
+
+        </div>
+
+
+	   <div id='commands' style="float: right; width:30%">
+            <article style="overflow:auto">
+		
+		  <p style="text-align:right;float:right"><input id="proceed" class="button" disabled="disabled" type="submit" value="Proceed" /></p> 
+
+		  <p style="text-align:right;float:right"><input id="save_stop" class="button" disabled="disabled" type="submit" value="Save & Stop" /></p> 
+
+	       </article>
+	
+	   </div>
+    </div>
+
+	<div id='aliquot_toval'>
+	<article id='riquadro' style="width:inherit;overflow:auto">
+
+	<h3>Aliquot to prepare</span></h3>
+
+		<table border=1px id="aliquot_toval_table">
+        	<thead>
+				<tr>
+				<th style="text-align:center;">Id Aliquot</th>
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Sample features</th>
+                <th style="text-align:center;">Owner</th>
+                <th style="text-align:center;">Experimental group</th>
+                <th style="text-align:center;">Volume (ul)</th>
+                <th style="text-align:center;">Concentration (ul/ng)</th>
+                <th style="text-align:center;">Technical Replicates</th>
+                <th style="text-align:center;">Barcode</th>
+                <th style="text-align:center;">Plate Position</th>
+                <th style="text-align:center;">Plate</th>
+                <th style="text-align:center;">Rack Position</th>
+                <th style="text-align:center;">Rack</th>
+                <th style="text-align:center;">Freezer</th>                
+                </tr>
+        	</thead>
+        	<tbody>
+            {% for al in aliquots%}
+                <tr>
+                    <td> {{al.idaliquot}} </td>
+                    <td> {{al.genId|default_if_none:""}} </td>
+                    <td> {{al.sample_features|default_if_none:""}} </td>
+                    <td> {{al.owner}} </td>
+                    <td> {{al.exp_group|default_if_none:""}} </td>
+                    <td> {{al.volume}} </td>
+                    <td> {{al.concentration}} </td>
+                    <td> {{al.replicates}} </td>
+                    <td> {{al.barcode}} </td>
+                    <td> {{al.pos}} </td>
+                    <td> {{al.father_container}} </td>
+                    <td> {{al.rack_pos}} </td>
+                    <td> {{al.rack}} </td>
+                    <td> {{al.freezer}} </td>
+                    
+                </tr>
+            {% endfor %}
+        	</tbody>
+        </table>
+
+
+     </article>
+ 	</div>
+ 	<div id='preparation_info' style="margin-bottom:10px;margin-top:10px">
+ 		<b>Barcode:</b> <input id="alidentifier" type="text" maxlength="50" value="" name="alidentifier" style="margin-right:20px" onkeyup="checkKeyP(event)" />
+
+
+        <input id="submit_barcode" class="button" type="submit" value="Prepare" style="margin-left:20px" />
+
+
+ 	</div>
+
+
+	<div id='aliquot_validated'>
+	<article id='riquadro' style="width:inherit;overflow:auto">
+    
+    <h3>Aliquot prepared</span></h3>
+
+        <article style="width:inherit;overflow:auto">
+
+        <table border=1px id="aliquot_validated_table">
+        	<thead>
+				<tr>
+                <th style="text-align:center;">Id Aliquot</th>
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Sample features</th>
+                <th style="text-align:center;">Owner</th>
+                <th style="text-align:center;">Experimental group</th>
+                <th style="text-align:center;">Original Volume (ul)</th>
+                <th style="text-align:center;">Original Concentration (ng/ul)</th>
+                <th style="text-align:center;">Technical replicates</th>
+                <th style="text-align:center;">cRNA Volume (ul)</th>
+                <th style="text-align:center;">Water Volume (ul)</th>
+                <th style="text-align:center;">Hybridization Buffer (ul)</th>
+                <th style="text-align:center;">Exhausted</th>
+                <th> </th>
+                <th> </th>
+                <th style="text-align:center;">Barcode</th>
+                </tr>
+        	</thead>
+        	<tbody>
+
+
+        	</tbody>
+        </table>
+
+        </article>
+     </div>
+
+<div id="protocol-dialog" title="Hybridization Protocol Info" style="display:none;position:relative" class="dialog">        <table style="border-spacing:10px; text-align:left">
+            <tbody>
+                <tr><th>Load quantity (ng):</th><td name='loadQuantity' val="{{plan_session.idHybProtocol.loadQuantity}}"> {{plan_session.idHybProtocol.loadQuantity}}</td></tr>
+                <tr><th>Hybridization temperature (°C):</th><td name='hybridTemp' val="{{plan_session.idHybProtocol.hybridTemp}}"> {{plan_session.idHybProtocol.hybridTemp}}</td></tr>
+                <tr><th>Hybridization time (hours):</th><td name='hybTime' val="{{plan_session.idHybProtocol.hybTime}}">{{plan_session.idHybProtocol.hybTime}}</td></tr>
+                <tr><th>Hybridization buffer (ul):</th><td name='hybBuffer' val="{{plan_session.idHybProtocol.hybBuffer}}">{{plan_session.idHybProtocol.hybBuffer}}</td></tr>
+                <tr><th>Total volume (ul):</th><td name='totalVolume' val="{{plan_session.idHybProtocol.totalVolume}}">{{plan_session.idHybProtocol.totalVolume}}</td></tr>
+                <tr><th>Denaturation temperature (°C):</th><td name='denTemp' val="{{plan_session.idHybProtocol.denTemp}}">{{plan_session.idHybProtocol.denTemp}}</td></tr>
+                <tr><th>Denaturation time (minutes):</th><td name='denTime' val="{{plan_session.idHybProtocol.denTime}}">{{plan_session.idHybProtocol.denTime}}</td></tr>
+                <tr><th>Notes:</th><td name='notes' val="{{plan_session.idHybProtocol.notes}}">{{plan_session.idHybProtocol.notes}}</td></tr>
+            </tboby>
+        </table>
+</div>
+
+
+<div id="aliquot-dialog" title="Modify Hybridization parameters" style="display:none;position:relative" class="dialog">
+    <table id='alvalidated_info' style="border-spacing:10px; text-align:left">
+        <tbody>
+            <tr><th>Genealogy id: </th><td name="genealogy"></td></tr>
+            <tr><th>Sample Identifier: </th><td name="sample_identifier"></td></tr>
+            <tr><th>Sample Features: </th><td name="sample_features"></td></tr>
+            <tr><th>Owner: </th><td name="owner"></td></tr>
+            <tr><th>Experimental Group: </th><td name="exp_group"></td></tr>
+            <tr><th>Original Volume (ul): </th><td name="volume"></td></tr>
+            <tr><th>Original Concentration (ng/ul): </th><td name="concentration"></td></tr>
+            <tr><th>Technical Replicates: </th><td name="replicates"></td></tr>
+        </tbody>
+    </table>
+    <hr/>
+    <table id='hybvalidated_info' style="border-spacing:10px; text-align:left">
+        <tbody>
+            <tr><th>cRNA Volume (ul): </th><td name="cRNAVolume"></td></tr>
+            <tr><th>Water Volume (ul): </th><td name="waterVolume"></td></tr>  
+            <tr style="display:none"><th>Warning: </th><td name="warning"></td></tr>  
+        </tbody>
+    </table>
+    <hr/>
+    <table id='change_hybparams' style="border-spacing:10px; text-align:left">
+        <tbody>
+            <tr><th>Total Volume (ul): </th><td> <input type="text" maxlength="20" value="" name="totalVolume"></td></tr>
+            <tr><th>Hybridization Buffer (ul): </th><td><input type="text" maxlength="20" value="" name="hybBuffer"></td></tr>  
+            <tr><th>Load Quantity (ng): </th><td> <input type="text" maxlength="20" value="" name="loadQuantity"></td></tr>    
+        </tbody>
+    </table>
+
+    <p style="text-align:center"><input id="recomupute" class="button" type="submit" value="Recompute" /></p>
+
+</div>
+
+
+{% endblock %}

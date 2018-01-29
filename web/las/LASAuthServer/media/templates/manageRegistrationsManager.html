@@ -1,0 +1,115 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrationsManager.js"></script>
+
+<nav>
+<h1>UNTREATED PI</h1>			
+<table class="table-user" >
+ 	{% if untreated_list %}
+	    <thead>
+		    <tr><th>username</th><th>e-mail</th><th>First name</th><th>Last name</th><th>status</th><th>Requested activities</th><th>Approve</th><th>Reject</th></tr>
+	    </thead>
+	    {% for u in untreated_list %}
+        	<tr>
+            {% for key, value in u.items %}
+                {% ifequal key 'profile' %}
+            		<td>{{value.user.username}}</td>
+            		<td>{{value.user.email}}</td>
+            		<td>{{value.user.first_name}}</td>
+            		<td>{{value.user.last_name}}</td>
+            		<td>{{value.status}}</td>
+                {% endifequal %}
+            {%endfor%}
+            <td>
+            {% for key, value in u.items %}
+                {% ifequal key 'father_activities'%}
+                    {% for fact in value %} 
+                        <ul><label style="font-weight:bold;list-style-type:none;" >{{fact.name}}</label>
+                            {% for key2, value2 in u.items %}       
+                                {% ifequal key2 'activities' %}
+                          			{% for act in value2 %}                                    
+                                        {% ifequal act.father_activity.name fact.name%}
+                                            {% for key3, value3 in u.items %}
+                                                {% ifequal key3 'profile' %}                    			        
+                                                    <li style="list-style-type:none;"><input type="checkbox" name="activities_{{value3.id}}"  value="{{ act.id }}" checked>{{act.name}}</input></li>
+                                                {%endifequal%}
+                                            {% endfor %}
+                                        {% endifequal %}
+			                        {%endfor%}
+                                {% endifequal %}
+                            {% endfor %}
+                        </ul>
+            		{%endfor%}
+        	    {% endifequal %}
+            {% endfor %}
+            </td>    
+            {% for key, value in u.items %}
+            {% ifequal key 'profile' %}
+            <td style="padding-left:30px;"><a href="" onClick="acceptRegistration('{{value.id}}','{% url loginmanager.views.manageRegistrationsManager %}')" ><img src="/lasauth_media/img/button-ok.png"></a></td>
+            <td style="padding-left:30px;"><a href="" onClick="rejectRegistration('{{value.id}}','{% url loginmanager.views.manageRegistrationsManager %}')"><img src="/lasauth_media/img/Remove-icon.png"></a></td>
+		    </tr>
+            {% endifequal %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <h1>There are no untreated registration.</h1>
+    {% endif %}
+</table>
+</br>
+<h1>PENDING PI</h1>
+<table class="table-user">
+    {% if pending_list %}
+	    <thead>
+		    <tr><th>username</th><th>e-mail</th><th>First name</th><th>Last Name</th><th>status</th></tr>
+	    </thead>
+
+        {% for u in pending_list %}
+        	<tr>
+        	    <td>{{u.profile.user.username}}</td>
+        		<td>{{u.profile.user.email}}</td>
+        		<td>{{u.profile.user.first_name}}</td>
+        		<td>{{u.profile.user.last_name}}</td>
+        		<td>{{u.profile.status}}</td>
+		    </tr>
+        {% endfor %}
+    {% else %}
+        <h1>There are no pending registration.</h1>
+    {% endif %}
+	
+</table>
+<br>
+<h1>REJECTED PI</h1>
+<table class="table-user">
+    {% if rejected_list %}
+	    <thead>
+		    <tr><th>username</th><th>e-mail</th><th>First name</th><th>Last name</th><th>status</th><th>Delete from DB</th></tr>
+	    </thead>
+
+        {% for u in rejected_list %}
+        	<tr>
+        		<td>{{u.profile.user.username}}</td>
+        		<td>{{u.profile.user.email}}</td>
+        		<td>{{u.profile.user.first_name}}</td>
+        		<td>{{u.profile.user.last_name}}</td>
+        		<td>{{u.profile.status}}</td>
+                    {% for key, value in u.items %}
+                        {% ifequal key 'profile' %}
+                			<td style="padding-left:35px;"><a href="" onClick="deleteRecord('{{value.id}}','{% url loginmanager.views.manageRegistrationsManager %}')"><img src="/lasauth_media/img/Remove-icon.png"></a></td>
+                        {% endifequal %}
+                    {% endfor %}
+        		</form>
+		    </tr>
+        {% endfor %}
+    {% else %}
+        <h1>There are no rejected registration.</h1>
+    {% endif %}
+	
+</table>
+
+</nav>
+
+{% endblock %}

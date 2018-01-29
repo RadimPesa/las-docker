@@ -1,0 +1,116 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Position Aliquots{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.autocomplete.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/vital/position.js"></script>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css"> 
+
+	<style type="text/css">
+		textarea {display:block;resize:none;}
+		ul{list-style-type: none;}
+		#aliquote {margin-bottom:4px;margin-top: 4px;}
+		#aliquote_paginate a {padding-top:4px;}
+		#aliquote_length {margin-top: 14px;}
+		#aliquote img {cursor:pointer;}
+	</style>
+{% endblock %}
+
+{% block content %}
+<!-- <h1  align="center">Plan Aliquots to Retrieve</h1>  -->
+{% if not fine and not errore %}
+
+	<div id=inizio style="float:left;width:45%;margin-right:20px;">
+		<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+			<tr>
+				<td>
+					{{ form.as_p }}
+					<input type="hidden" id="commenti" value={{note}} />
+					<label for="id_file">File/s:</label>
+					<br>
+					<form id="form_file" action={% url tissue.position.InsertPositionVitalAliquots %} enctype="multipart/form-data" method="post">{% csrf_token %}
+						<input id="id_file" type="file" name="file" size="6" style="display:none;" />
+						<input id="filename" type="text" size="10" style="display:inline;" />
+						<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;" />
+					
+						<input id="addfile" type="submit" class="button" value="Add file" name="aggiungi_file" />
+					</form>
+					<br><br>
+					<form id="form_fin" action={% url tissue.position.InsertPositionVitalAliquots %} method="post">{% csrf_token %}
+						<input style="float:left;" disabled="disabled" type="submit" class="button" value="Confirm" id="conferma"/>
+						
+					</form>
+					<input style="float:right;" type="button" class="button" value="Add Aliquot" id="nuova_aliquota"/>
+
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id="tabella_aliq" style="margin-left:10px;float:left;width:40%;" >
+		<table id="aliquote" border='2px solid black' >
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				<th></th>
+			</thead>
+			<tbody align="center">
+				{% if posizionare %}
+					{% for aliquota,barc,pos in posizionare %}
+						<tr>
+							<td >{{forloop.counter}}</td>
+							<td >{{aliquota}}</td>
+							<td >{{barc}}</td>
+							<td >{{pos}}</td>
+							<td class="control_center"><img width="13px" height="13px" onclick="cancella(this.parentNode.parentNode)" src='{{MEDIA_URL}}img/admin/icon_deletelink.gif' ></img></td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% else %}	
+	{% if fine %}
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>Planned aliquots:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+			</thead>
+			<tbody align="center">
+				{% for aliquota,barc,pos in posizionare %}
+					<tr>
+						<td >{{forloop.counter}}</td>
+						<td >{{aliquota}}</td>
+						<td >{{barc}}</td>
+						<td >{{pos}}</td>
+					</tr>
+				{% endfor %}
+		    </tbody>
+		           
+		</table>
+		<br>
+	{% endif %}
+	{% if errore %}
+		<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load jsonify %}
+
+{% block title %}Annotations Manager - Sequenom report{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/sequenomReport.js"></script>
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script src="{{MEDIA_URL}}js/genid.json"></script>
+<script type="text/javascript">
+var plate_autocomplete_api_url = "{% url api.newapi.sequenomPlates %}";
+var snp_autocomplete_api_url = "{% url api.newapi.snpInfo %}";
+</script>
+{% endblock %}
+
+{% block style %}
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style>
+label.captions {display: inline-block; width: 80px; margin-right: 10px; margin-bottom: 16px; vertical-align: top;}
+label.captions.large {width: 100px;}
+label.captions.xlarge {width: 120px;}
+ul.inline {display: inline-block; margin-top: 0px; margin-left: 0px; padding-left: 0px;}
+div.sortable-container {padding: 20px; min-height: 50px; margin-top: 10px; border: solid 1px rgb(170, 170, 170); background-color: #fff; border-radius: 4px;}
+.textbtn {cursor: pointer;}
+.textbtn:hover {text-decoration: underline;}
+.genidpar{width: 50px;}
+span.action {cursor: pointer;}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<article id="riquadro">
+<h3>Sequenom data report</h3>
+<br>
+To generate a Sequenom experimental data report, please provide values for the filtering parameters below.
+<br><br>
+N.B. If no filtering condition is provided, the entire set of Sequenom experimental data will be used.
+<br><br>
+<div id="main_tabs" style="min-height: 550px; width: 900px">
+    <ul>
+        <li><a href="#plate">Plate</a></li>
+        <li><a href="#date">Date</a></li>
+        <li><a href="#samples">Sample</a></li>
+        <li><a href="#snp">SNP</a></li>
+        <!--<li><a href="#alter-file">Load from file</a></li>-->
+    </ul>
+
+    <div id="plate">
+        <br /><br />
+        <label class="captions xlarge" for="tech">Sequenom plate:</label>
+        <input style="width:30%" id="plateid" />
+        <button id="addplate">Add</button> 
+
+        <div class="sortable-container">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Selected plates:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="platesummary">
+                <thead>
+                    <th></th>
+                    <th>Barcode</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>                
+
+
+    </div>
+    
+    <div id="date">
+        <br /><br />
+        <label class="captions large" for="tech">Analysis date:</label>
+        <select id="op1" class="rangeFrom">
+            <option value=">"> after </option>
+            <option value="="> on </option>
+            <option value="<"> before </option>
+        </select>
+        <input id="date1" type="text" class="rangeFrom" value=""/>
+        <span style="display: inline-block; width: 10px"></span>
+        <select id="op2" class="rangeTo">
+            <option value="<"> before </option>
+        </select>
+        <input id="date2" type="text" class="rangeTo" value=""/>
+        <span style="display: inline-block; width: 15px"></span>
+        <button id="adddate">Add</button>
+
+        <div class="sortable-container">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Selected dates:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="datesummary">
+                <thead>
+                    <th></th>
+                    <th>Date 1</th>
+                    <th>Date 2</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>                
+
+    </div>
+
+    <div id="samples">
+
+        <p>Genealogy ID type: <select id="selgenidtype">
+        </select></p>
+
+        <table id="genid">
+            <thead style="font-size: 10px">
+                <th style="width: 40px" class="add"></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 40px" class="add">
+                        <button type="button" id="add_gid" class="add_btn" style="margin-right:5px;">Add</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Load Genealogy IDs from file:</span>
+                    </td>
+                    <td>
+                        <form id="filefrm3"><input type="file" id="genidfile" /></form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Insert full Genealogy IDs:<br>(newline or blank separated)</span>
+                    </td>
+                    <td>
+                        <textarea id="fullgenid" type="text" style="width:500px;height:80px; resize:none" maxlength="20000"></textarea>
+                    </td>
+                    <td>
+                        <button type="button" id="clear_gid2" style="margin-right:5px;">Clear</button><br><br>
+                        <button type="button" id="add_gid2" style="margin-right:5px;">Add</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div id="genidlist" style="max-height: 200px;overflow: auto;"></div>
+
+        <center>
+        <div class="sortable-container" style="max-width: 400px">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Target samples:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="samplesummary">
+                <thead>
+                    <th></th>
+                    <th>GenealogyID</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </center>
+    </div>
+
+    <div id="snp">
+        <br /><br />
+        <label class="captions" for="tech">SNP:</label>
+        <input style="width:30%" id="snpid" />
+        <button id="addsnp">Add</button> 
+
+        <div class="sortable-container">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Selected SNPs:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="snpsummary">
+                <thead>
+                    <th></th>
+                    <th>SNP</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>                
+
+
+    </div>
+
+</div>
+
+<br><br>
+<form id="report" action="./" method="post">
+    <input type="submit" value="Generate report" id="generateReport" />
+        <input type="hidden" name="plates" id="frm_plates" />
+        <input type="hidden" name="dates" id="frm_dates" />
+        <input type="hidden" name="samples" id="frm_samples" />
+        <input type="hidden" name="snps" id="frm_snps" />
+
+    {% csrf_token %}
+</form>
+<br>
+
+</article>
+{% endblock %}

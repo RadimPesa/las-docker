@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Query annotations{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/cvi_busy_lib.js"></script>
+<script src="{{MEDIA_URL}}js/opentip-jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/queryAnnotations.js"></script>
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script src="{{MEDIA_URL}}js/genid.json"></script>
+
+<script src="{{MEDIA_URL}}lib/sumoselect/jquery.sumoselect.min.js"></script>
+
+<script>
+    var ref = "{{ref}}";
+</script>
+
+<script type="text/javascript">
+var technologies = JSON.parse('{{ technologies_json|safe }}');
+var labels = JSON.parse('{{ labels_json|safe }}');
+var annotations_url = "{{ annotations_url }}";
+if (annotations_url == "") {
+    alert("Cannot connect to Annotations Manager API!");
+}
+</script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}css/opentip.css" rel="stylesheet" type="text/css" />
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="{{MEDIA_URL}}lib/sumoselect/sumoselect.css" rel="stylesheet" />
+<style>
+select.select1 {min-width: 310px; width: 310px;}
+select.select3 {min-width: 70px; width: 70px;}
+input.input3 {min-width: 120px; width: 120px; border: 1px solid rgb(170, 170, 170); border-radius: 4px; height: 24px; vertical-align: top; text-align: right;}
+.select2-container {width: 310px;}
+div.sortable-container {padding: 20px; min-height: 50px; margin-top: 10px; border: solid 1px rgb(170, 170, 170); background-color: #fff; border-radius: 4px;} /*max-height: 310px; overflow-y: auto; */
+ul.sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+ul.sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-weight: bold; height: 18px; cursor: pointer; width: 300px;}
+ul.sortable li span.ui-icon { display: inline-block; margin-left: 0px; margin-right: 10px;}
+ul.sortable li span.ui-icon:hover { cursor: pointer; background-color: #C9C9C9; }  
+button[type=button],button[type=submit] { border-radius: 3px; }
+.genidpar{width: 50px;}
+span.action {cursor: pointer;}
+span.action:hover {background-color: #99C199;}
+table#altgenesummary thead th, table#samplesummary thead th {text-align: center;}
+td.center {text-align: center;}
+.textbtn {cursor: pointer;}
+.textbtn:hover {text-decoration: underline;}
+span.small {font-size: 10px;}
+
+div.container-left {width: 33%; border-width:1px 0px 1px 1px; border-style: solid; border-color: grey; min-height: 300px; height: 300px; max-height: 480px; background: white; overflow-y: scroll;}
+div.container-right {margin-left: 0px; float: right; width: 66%; border-width:1px 1px 1px 0px; border-style: solid; border-color: grey; min-height: 600px; background: #dddddd;}
+label.captions {display: inline-block; width: 80px; margin-right: 10px; margin-bottom: 16px;}
+label.captions.wide {width: 120px;}
+select.wide {min-width: 330px; width: 330px;}
+
+a.boxclose{
+    float:right;
+    margin-top:-18px;
+    margin-right:-18px;
+    cursor:pointer;
+    color: #dddddd;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 5px;
+}
+
+.boxclose:before {
+    content: "×";
+}
+
+span.criterion {margin: 10px; padding: 10px; display: block; min-height: 100px; border: 1px solid #AEAEAE; background: #FBF5EF;}
+b.criterion {font-size: 1.1em;}
+</style>
+{% endblock %}
+
+{% block content %}
+<article id="riquadro">
+<h3>Query Annotations</h3>
+<br>
+<label for="annot-src" class="captions wide">Annotation source:</label>
+<select id="annot-src" class="wide">
+    <option value="0">Validated annotations</option>
+    <option value="1" selected="true">All annotations</option>
+</select>
+<br>
+<div id="main_tabs" style="min-height: 500px; width: 900px">
+    <ul>
+        <li><a href="#criteria">Annotation types</a></li>
+        <li><a href="#genes">Genes</a></li>
+        <li><a href="#samples">Samples</a></li>
+        <!--<li><a href="#alter-file">Load from file</a></li>-->
+    </ul>
+
+    <div id="criteria">
+        Querying criteria:
+        <br /><br />
+        <label class="captions" for="tech">Technology:</label>
+        <select class="wide type" id="tech">
+        <option value="0">Any</option>
+        {% for t in technologies %}
+        <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+        </select>
+        <br /><br />
+        <label class="captions" for="domain">Domain:</label>
+        <select class="wide type" id="domain" multiple="multiple">
+        </select>
+        <br />
+        <button type="button" id="newcriterion">Add criterion</button>
+        <br /><br />
+        <div class="sortable-container">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Selected querying criteria:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="criteriasummary">
+                <thead>
+                    <th></th>
+                    <th>Technology</th>
+                    <th>Domain</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>                
+    </div>
+    
+    <div id="genes">
+        <br><br>
+        <table style="width: 100%" class="form">
+            <tbody>
+                <tr>
+                    <td style="width: 15%">Region:</td>
+                    <td style="width: 85%">
+                        <select class="select3" id="chrom">
+                            {% for x in chrom %}
+                            <option value="{{ x.1 }}" data-start="{{ x.2 }}" data-end="{{ x.3 }}">chr{{ x.1 }}</option>
+                            {% endfor %}
+                        </select>&nbsp;:
+                        <input class="input3" type="number" id="coord-from" class="from" />
+                        -
+                        <input class="input3" type="number" id="coord-to" class="to" />
+                        <button type="button" id="applyregion">Apply</button>
+                        <button type="button" id="clearregion">Clear</button>
+                    </td>
+                </tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr>
+                    <td style="width: 15%">Gene:</td>
+                    <td style="width: 85%">
+                        <select class="select1" id="gene2">
+                            <option></option>
+                        </select>
+                        <button type="button" id="addgene">Add</button>
+                        <button type="button" id="addgene-all">Add all</button>
+                    </td>
+                </tr>
+
+                <!--<tr>
+                    <td style="padding-top: 30px; width: 15%">File:</td>
+                    <td style="padding-top: 30px; width: 85%">
+                        <form id="filefrm2"><input type="file" id="genefile" /></form>
+                        <button type="button" id="load-seqaltfile">Load</button>
+                    </td>
+                </tr>-->
+            </tbody>
+        </table>
+        <div class="sortable-container">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">
+                    Predefined gene list:
+                    <select id="predef_genes" class="list">
+                    </select>
+                </div>
+                <div style="float:right">
+                    <!--<span id="exportsites" class="textbtn" style="margin-right: 10px">Export to file</span>-->
+                    <span id="savegenelist" class="textbtn" style="margin-right: 10px">Save as list</span>
+                    <span style="margin-right: 10px">|</span>
+                    <span id="delgenelist" class="textbtn" style="margin-right: 10px">Delete list</span>
+                    <span style="margin-right: 10px">|</span>
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="altgenesummary">
+                <thead>
+                    <th></th>
+                    <th>Chrom</th>
+                    <th>Gene</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>                
+    </div>
+
+    <div id="samples">
+
+        <p>Genealogy ID type: <select id="selgenidtype">
+        </select></p>
+
+        <table id="genid">
+            <thead style="font-size: 10px">
+                <th style="width: 40px" class="add"></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 40px" class="add">
+                        <button type="button" id="add_gid" class="add_btn" style="margin-right:5px;">Add</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Load Genealogy IDs from file:</span>
+                    </td>
+                    <td>
+                        <form id="filefrm3"><input type="file" id="genidfile" /></form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="font-size:10px;margin-right:10px;">Insert full Genealogy IDs:<br>(newline or blank separated)</span>
+                    </td>
+                    <td>
+                        <textarea id="fullgenid" type="text" style="width:500px;height:80px; resize:none" maxlength="20000"></textarea>
+                    </td>
+                    <td>
+                        <button type="button" id="clear_gid2" style="margin-right:5px;">Clear</button><br><br>
+                        <button type="button" id="add_gid2" style="margin-right:5px;">Add</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div id="genidlist" style="max-height: 200px;overflow: auto;"></div>
+
+        <center>
+        <div class="sortable-container" style="max-width: 400px">
+            <div style="height: 20px; margin-bottom: 20px">
+                <div style="float:left">Target samples:</div>
+                <div style="float:right">
+                    <span class="textbtn clearall">Clear all</span>
+                </div>
+            </div>
+            <table id="samplesummary">
+                <thead>
+                    <th></th>
+                    <th>GenealogyID</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </center>
+    </div>
+</div>
+
+<div style="margin-top: 20px">
+    <form id="frm_report" method="POST" action="./">
+        {% csrf_token %}
+        <input type="hidden" name="source" id="frm_source" />
+        <input type="hidden" name="criteria" id="frm_criteria" />
+        <input type="hidden" name="genes" id="frm_genes" />
+        <input type="hidden" name="samples" id="frm_samples" />
+        <button type="submit" style="margin: 0px 5px 25px 25px;">Submit query</button>
+    </form>
+</div>
+
+
+</article>
+{% endblock %}

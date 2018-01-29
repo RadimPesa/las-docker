@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block title %}Implants{% endblock %}
+
+{% block script %}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/drag&drop.css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}js/redips-drag-min.js"></script>
+	<!-- initialize drag and drop -->
+	<script type="text/javascript">
+		// after page is loaded, initialize DIV elements inside tables
+		window.onload = function () {
+			// reference to the REDIPS.drag library
+			var	rd = REDIPS.drag;
+			// initialization
+			rd.init();
+			// set hover color
+			rd.hover.color_td = '#E7C7B2';
+			// set drop option to 'shift'
+			//rd.drop_option = 'shift';
+			rd.drop_option = 'switch';
+			// set shift mode to vertical2
+			rd.shift_option = 'vertical2';
+			// enable animation on shifted elements
+			rd.animation_shift = true;
+			// set animation loop pause
+			rd.animation_pause = 20;
+			jQuery(".edit").click(toggleName);
+		}
+
+		function loadG(){
+			window.open("{% url xenopatients.implants.loadG %}","_blank",'width=900,height=600,left=100,top=100,screenX=100,screenY=100,modeal=yes');
+        }
+
+		//controlla se il check relativo all'opzione del genID è selezionato o meno, per abilitare o disabilatare l'input text relativo
+		function checkGen(){
+	        if (jQuery('#genID').is(':checked') == true)
+	            jQuery('#genText').attr('disabled', false);
+            else
+                jQuery('#genText').attr('disabled', true);
+		}
+		
+        function toggleName(){
+            console.debug("%s", 'enter');
+            var textID = '#text' + jQuery(this).attr("id");
+            console.debug("%s", jQuery(textID).attr('disabled'));
+            console.debug("%s", jQuery(textID).val());
+            console.debug("%s", textID);
+            console.debug("%s", jQuery(textID).val().length);
+            if (jQuery(textID).is(':disabled') == true){
+                jQuery(this).attr('value', "OK");
+                jQuery(textID).removeAttr('disabled');
+                jQuery("#save").attr('disabled',true);
+            }else{
+                jQuery(this).attr('value', "Edit");
+                jQuery("#save").attr('disabled',false);
+                jQuery(textID).attr('disabled', 'true');
+                var value = jQuery(textID).attr('value');
+                console.log('ttt' + base_url + '/api.countGroupName/'+value);
+		        jQuery.ajax({
+			        url: base_url + '/api.countGroupName/'+value,
+			        type: 'GET',
+			        dataType: 'text',
+			        success: function(text){
+                        if (parseInt(text) > 0)
+                            jQuery(textID).attr('value', value + '.' + text);
+                        jQuery(textID).attr('size', jQuery(textID).val().length);
+		            }
+		        }); 
+            }
+        }
+
+		//aggiorna i nomi delle colonne e riorganizza i contenuti a seconda del parametro del genID
+		function organize(){
+		    if ( !isNaN(jQuery("#genText").val()) ){
+		        var protocol = jQuery("#infoProtocol").text();
+		        //var obj = jQuery("#obj").text();
+		        var implantData = jQuery("#implants").text();
+		        var dateC = jQuery("#date").is(':checked');
+		        var genC = jQuery("#genID").is(':checked');
+		        var cypher = jQuery("#genText").val();
+		        var protocolC = jQuery("#protocol").is(':checked');
+		        jQuery.ajax({
+			        url: base_url + '/api.organizeGroups/',
+			        type: 'POST',
+			        data: {'organize':'new', 'dateC':dateC, 'genC':genC, 'cypher':cypher, 'protocolC':protocolC, 'implants':implantData, 'scope':protocol},
+			        dataType: 'text',
+			        success: function(text){
+			            var code = text.substring(1, text.length-1);
+			            console.debug("%s", code);
+			            jQuery("#table1").replaceWith(code);
+            			var	rd = REDIPS.drag;
+			            rd.init();
+			            rd.hover.color_td = '#E7C7B2';
+			            rd.drop_option = 'switch';
+			            rd.shift_option = 'vertical2';
+			            rd.animation_shift = true;
+			            rd.animation_pause = 20;
+			            jQuery(".edit").click(toggleName);
+		            }
+		        }); 
+		    }
+		    else
+		        alert("The field for the characters for filtering the genealogy ID must contain a number.");
+		}
+		
+		function parseTable(){
+			var timer = setTimeout(function(){jQuery("body").addClass("loading");}, 500);
+            var tabl = document.getElementById('table1');
+            var l = tabl.rows.length;
+            var i = 0;
+            var j = 0;
+            var s = "";
+            var columnCount =  jQuery('#table1').find('tr')[0].cells.length;
+            for (j = 0; j < columnCount; j++){
+                for (i = 0; i < l; i++ )
+                {
+                    var tr = tabl.rows[i];
+                    var cll = tr.childNodes[j];
+                    var ct = "";
+                    if (cll.nodeName == "TH"){
+                        console.log(cll.childNodes.length )
+
+                        if (cll.childNodes.length > 1) {
+                            header = cll.childNodes[0];
+                            var text = '#text'+header.getAttribute('id');
+                            ct = jQuery(text).attr("value");
+                        }else{
+                            ct = cll.innerHTML.replace( /<[^<>]+>/g, '' );
+                        }
+                        if (ct != ""){
+                            if (s == "")
+                                s = ct;
+                            else if (s.charAt(s.length-1) == "&")
+                                s = s + ct;
+                            else
+                                s = s + "|" + ct;
+                        }
+                    }else{
+                        var ct = cll.innerHTML.replace( /<[^<>]+>/g, '' );
+                        if (ct != "")
+                            s = s + "|" + ct;
+                    }
+                }
+                s = s + '&';
+            }
+            s = s.substring(0, s.length-1);
+            console.debug("result = %s", s);
+            
+            var implantData = jQuery("#implants").text();
+            //console.debug("implant = %s", implantData);
+
+            var notes = jQuery("#infoNotes").text();
+            //console.debug("notes = %s", notes);
+            
+            var date = jQuery("#infoDate").text()
+            //console.debug("date = %s", date);
+            
+            var protocol = jQuery("#infoProtocol").text();
+            //console.debug("protocol = %s", protocol);
+
+            //var empty = jQuery("#infoEmpty").text()
+            //console.debug("empty = %s", empty);
+
+            //var plates = jQuery("#infoPlate").text()
+            //console.debug("plate = %s", plate);
+            
+            //inviare s, implantData, protocol, note, plate, 'empty' e data al server per il salvataggio
+            //questo datatable non c'entra niente con il plugin di jQuery dataTable
+            jQuery.ajax({
+		        url: base_url + '/implants/rImplants',
+		        type: 'POST',
+		        data: {'dataTable':s, 'implants':implantData, 'notes':notes, 'date':date, 'protocol':protocol},//, 'plates':plates},
+		        dataType: 'text',
+	        });
+		}
+	</script>
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        
+        <table>
+            <tr>
+                <td><label for="date"> <input id="date" name="option" type="checkbox" checked="checked" value="Date of implant">Date of implant</label></td>
+                <td><label for="protocol"><input id="protocol" name="option" type="checkbox" checked="checked" value="Protocol">Protocol</label></td>
+                <td>
+                    <label for="genID" onclick="checkGen()"><input id="genID" disabled=true name="option" type="checkbox" value="Genealogy ID" checked="checked">Genealogy ID: first</label>
+                    <input id="genText" type="text" name="cypher" maxlength="2" id="cypher" size="2" value="12"><label for="genID">characters.</label>
+                </td>
+                <td><input type="button" value="Organize" onclick="organize()"></input></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="Load existing group" onclick="loadG()"></input></td>
+                <td><input type="button" id='save' value="Save" onclick="parseTable()"></input></td>
+            </tr>
+        </table>
+        <br>
+        <div id="drag">
+            {{ table|safe }}
+        </div>
+
+     
+
+        <p id="infoProtocol" style="display:none;">{{ protocol }}</p>
+        <p id="infoNotes" style="display:none;">{{ notes }}</p>
+        <p id="infoDate" style="display:none;">{{ date }}</p>
+        <p id="implants" style="display:none;">{{ implants }}</p>
+        
+	{%  if message  %}
+		<!-- visualizza il messaggio-->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+
+	{% endif %}
+
+{% endblock %}
+

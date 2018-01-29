@@ -1,0 +1,47 @@
+<!DOCTYPE html> 
+
+<head>
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/beuta.png">
+<title>Login</title>
+    <!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+    <!-- [if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css"  />
+</head>
+<body onload="document.loginForm.username.focus();">
+
+	<header>
+		<hgroup>
+			
+		    <h1 style="float:left;"><img width="143px" height="46px" src="{{MEDIA_URL}}img/logo.png" > Storage Management Module </h1>
+		    <p style="clear:both" padding="0" margin="0">
+		    <h2 style="float:left;"> Archive management </h2>
+		    <p id="data" style="float:right;">{% now "jS F Y" %}&nbsp;&nbsp; </p>
+		    <p style="clear:both" padding="0" margin="0">
+	    </hgroup>
+	</header>
+	
+	<section id="content" style="padding-left:15px;">
+	<h1> Login </h1>
+		{%if message %}
+		<p> Bad username or password. Please try again </p>
+		{% endif %}
+		
+		<form name='loginForm' action='.' method='post'> {% csrf_token %}
+			<p>
+				<label for="username">Username:</label>
+				<input type="text" name="username" value="" id="username">
+			</p>
+			<p>
+				<label for="password">Password:</label>
+				<input type="password" name="password" value="" id="password">
+			</p>
+			<input type="submit" value="Login" />
+			<input type="hidden" name="next" value={{next}} /> <!-- {{ next }} -->
+		</form>
+	</section>
+		
+</body>
+</html>

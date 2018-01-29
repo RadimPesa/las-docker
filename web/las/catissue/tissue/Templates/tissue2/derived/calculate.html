@@ -1,0 +1,135 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Derived Aliquots{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/calculate.js"></script>
+
+{% endblock %}
+
+{% block menu %}
+
+    <ul>
+    	<li><a  href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		td{border-width:0px;border-right:4px; padding:3px;}
+		th{font-size: 1.2em;padding:8px;}
+		input{font-size:20px;}
+		button {width:40px; height:40px; font-size: 20px; 
+			background-color:rgb(249,248,242); -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;}
+	</style>
+
+	<input type="hidden" id="numero_aliq_tot" /> 
+	<input type="hidden" id="volume_aliq" /> 
+	<input type="hidden" id="conc_aliq" /> 
+	<!-- <input type="hidden" id="interv_sup" /> 
+	<input type="hidden" id="interv_inf" />  -->
+	<input type="hidden" id="numero_aliq_spip" /> 
+	<input type="hidden" id="perc_spip_sup" />
+	<input type="hidden" id="perc_spip_inf" />   
+
+<table border='2px' style="border-color:black;border-style:groove;float:left;">
+	<tr>
+		<td>
+			<label style="font-size: 1.4em;" for="id_der_prot_aliq">Protocol:</label>
+			<br>
+			<select id="scelta_prot">
+				<option selected="selected" >-----------</option>
+				{% if derprot %}
+					{% for d in derprot %}
+						<option value={{d.id}}>{{d.name}}</option>
+					{% endfor %}
+				{% endif %}
+			</select>
+		</td>
+		<td>
+			<label style="font-size: 1.4em;" for="id_vol_tot">Total Volume(uL):</label>
+			<input id="id_vol_tot" type="text" size="8" name="vol_tot">
+		</td>
+		<td>
+			<label style="font-size: 1.4em;" for="id_conc_tot">Total Concentration(ng/uL):</label>
+			<input id="id_conc_tot" type="text" size="8" name="conc_tot">
+		</td>	
+	</tr>
+</table>
+<br style="clear:both;"/>
+<br>
+<div  style="float:left;border-style: ridge;border-color:black;margin-right: 2em;margin-bottom: 1em;padding-top:0.5em;padding-left:0.5em;">
+	<label style="font-size: 1.4em;" for="id_number_aliquots">Aliquots number:</label>
+	<div>
+	<input id="id_number_aliquots" type="text" style="float:left;margin-right:10px;" size="8" name="aliquots">
+	<div style=float:left;>
+	<input id="calcola" type="submit" class="button" style="float:left;margin-left:10px" value="Calculate" title="Click to calculate values for the aliquots"/>
+	<br>
+	<input id="ricalcola" type="submit" class="button" style="float:left;margin-left:10px;margin-top:10px;margin-right:10px;" value="Recalculate values" title="Click to recalculate values in preparation aliquot fields"/> 
+	</div>
+	</div>
+	<br style="clear:both;"/>
+	<br>
+</div>
+<table border='2px' style="background-color:#FFD199;border-color:black;border-style:groove;float:left;">
+	<th colspan="2">Working aliquots preparation</th>
+	<tr>
+		<td>
+			<label style="font-size: 1.4em;" for="id_work_al_sol">Mother solution (uL):</label>
+			<input id="id_work_al_sol" readonly="readonly" type="text" size="8" name="w_al_sol" maxlength="5">
+		</td>
+		<td>
+			<label style="font-size: 1.4em;" for="id_work_al_h2o">H2O (uL):</label>
+			<input id="id_work_al_h2o" readonly="readonly" type="text" size="8" name="w_al_h2o" maxlength="5">
+		</td>
+	</tr>
+</table>
+<table border='2px' style="background-color:silver; ;border-color: black;border-style:groove;border-left-style:none;float:left;">
+	<th colspan="2" style="border-left-style: none;">Back up aliquot preparation</th>
+	<tr>
+		<td>
+			<label style="font-size: 1.4em;" for="id_back_al_sol">Mother solution (uL):</label>
+			<input id="id_back_al_sol" readonly="readonly" type="text" size="8" name="b_al_sol" maxlength="5">
+		</td>
+		<td align="center">
+			<label style="font-size: 1.4em;" for="id_back_h2o">H2O (uL):</label>
+			<input id="id_back_h2o" readonly="readonly" type="text" size="8" name="b_al_h2o" maxlength="5">
+		</td>
+	</tr>
+</table>
+		
+	</div>
+	<br style="clear:both;">
+	<br>
+	<table border='2px' style="border-color:black;float:left;display:none;" id="aliq">
+		<th style=display:none;> </th>
+		<th style="background-color: lime;">Aliquot 1</th>
+		<th style="background-color: lime;">Aliquot 2</th>
+		<th style="background-color: lime;">Aliquot 3</th>
+		<th style="background-color: lime;">Aliquot 4</th>
+		<th style="background-color: lime;">Aliquot 5</th>
+		<th style="background-color: silver;">Aliquot 6</th>
+			<tr>
+				<input type="hidden" id="proto" /> 
+				<td style=display:none;> </td>
+				{% for a in lista %}
+					<td align="center" style="padding:8px;border-width:1px;">
+						<div>
+						<label style="font-size: 1em;margin-bottom:5px;" for="volume_{{forloop.counter0}}">Volume(uL):</label>
+						<input id="volume_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" name="volume_{{forloop.counter0}}" size=4 />
+						<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="concentration_{{forloop.counter0}}">Concentration<br>(ng/uL):</label>
+						<input id="concentration_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" name="conc_{{forloop.counter0}}"  size=4 />
+						<!-- <hr style="margin-bottom: 5px;margin-left:-8px;margin-right:-8px;">  -->
+						<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="moth_{{forloop.counter0}}">Mother(uL):</label>
+						<input id="moth_{{forloop.counter0}}" style="margin-top:5px;margin-bottom:5px;" maxlength="7" type="text" size=4 readonly="readonly" />
+						<label style="font-size: 1em;margin-bottom:5px;margin-top:5px;" for="h2o_{{forloop.counter0}}">H2O(uL):</label>
+						<input id="h2o_{{forloop.counter0}}" style="margin-top:5px;" maxlength="7" type="text" size=4 readonly="readonly"/>
+						</div>
+					</td>
+				{% endfor %}
+				
+			</tr>
+	</table>
+{% endblock %}

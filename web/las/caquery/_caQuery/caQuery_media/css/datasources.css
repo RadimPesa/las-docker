@@ -1,0 +1,51 @@
+label
+{
+	font-weight: bold;
+	width: 100px;
+	text-align: right;
+	display: inline-block;
+	margin: 5px;
+}
+
+button {
+    width: 120px;
+}
+
+#selds {
+    height: 27px;
+    width: 62.5%;
+    margin: 0;
+    margin-left: -4px;
+    padding: 0;
+}
+
+.dsbtn {
+    width: 160px;
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+input
+{
+	border: 1px solid black;
+	width: 62%;
+}
+
+input.error
+{
+	border: 2px solid red;
+}
+
+.nopad {
+    padding: 0px;
+}
+
+img.thumb {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #000;
+    margin: 0;
+  }
+

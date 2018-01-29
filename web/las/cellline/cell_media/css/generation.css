@@ -1,0 +1,115 @@
+#head_1, #head_2 {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+/*select{ font-size: 1.4em;}
+label { font-size:1.4em;} */
+button {width:40px; height:40px; 
+		background-color:rgb(249,248,242); -moz-border-radius:5px; 
+		border-radius:5px;border-style:hidden;}
+td {border-width:0px;border-right:4px; padding:3px;}
+
+input{ text-align:right; }
+/*table th{line-height: 25px;}*/
+
+.drag { position: relative; }
+
+#aliq input{display:inline;}
+#listapias th{padding:8px;}
+#listapias td{padding:8px;}
+#listapias td:hover {border-color:#A32900;border-style:solid;border-width:1px;background-color:#FF9A45;cursor:pointer;}
+	
+.tooltip_em {
+	//border-bottom: 1px dotted #000000;
+	color: #00008B;
+	//outline: none;
+	//cursor: help; 
+	//text-decoration: none;
+	position: absolute;
+	padding: 0.5em 0.5em;
+	background: #FFFFAA;
+	border: 1px solid #FFAD33;
+	border-radius: 5px 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px; 
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	font-family: Calibri, Tahoma, Geneva, sans-serif;
+}
+
+.tooltip_em span {				
+	left: 1em;
+	top: 2em;
+	z-index: 99;
+	margin-left: 0;
+	width: 250px;
+	
+	position: absolute;								
+}
+
+#form_id {
+	text-align:center; 
+	 width: 50%;
+	margin: 30px auto;
+	background: #535353;
+	padding: 25px;
+	overflow: hidden;
+		
+	/* rounded corners */
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+ 
+	/* add gradient */
+	background-color: #FFFEFC;
+	background: -webkit-gradient(linear, left top, left bottom, from(#BEBCBB), to(#FFFEFC));
+	background: -moz-linear-gradient(top, #BEBCBB, #FFFEFC);
+ 
+	/* add box shadows */
+	-moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+	box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+#label_id_sin { /* Stili per la label */
+	display: block; /* Impostiamo la label come elemento blocco */
+	line-height: 30px; /* Altezza di riga */
+	width: 150px; /* Larghezza */
+	color: #00008B; /* Colore del testo */
+	float: left; /* Float a sinistra */
+	margin: 10px 0; /* Margini */
+	font-size: 14px;
+}
+
+#label_id_des { /* Stili per la label */
+	display: block; /* Impostiamo la label come elemento blocco */
+	line-height: 30px; /* Altezza di riga */
+	width: 180px; /* Larghezza */
+	color: black; /* Colore del testo */
+	float: right; /* Float a destra */
+	margin: 10px 0; /* Margini */
+}
+
+#protocol_infos {
+      text-align: center;    
+      border-spacing: 15px;
+    }  
+.col_ftname {
+    width: 70%;
+} 				
+.root {
+font-weight: bold;
+}
+
+.father {
+font-style: italic;
+}			
+
+#divCen{
+	margin-top:-0.8%;
+	margin-left: 1%;
+}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Define a New Project{% endblock %}
+
+
+{% block content %}
+	<section id="1">
+		<article id="riquadro">
+		
+		    <h3> Insert New Project </h3>
+		    <article id="commands"  style="padding:40px;">
+			<p style="color:#003600"><b>{{done}}</b></p>
+			<p style="color:red"><b>{{alert}}</b></p>
+	
+			<form action="." method="POST" >{% csrf_token %}
+			<table>
+			{{ form }}
+			</table>
+			<p id="ultimo" style="text-align:right"><input class="button" type="submit" value="Insert Project" /></p>
+			</form>
+			</article>
+		</article>
+		</section>
+	</section>
+	
+		
+	
+
+
+<br>
+
+
+<script>
+		$("th").each(function(){
+			$(this).css('text-align','right');
+			$(this).css('padding-right','20px');
+		});
+		
+		$("input#id_barcode").val("");
+		
+		$("input#id_title").css('width','340px');
+</script>	
+
+
+
+{% endblock %}

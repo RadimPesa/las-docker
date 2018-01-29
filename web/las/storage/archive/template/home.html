@@ -1,0 +1,14 @@
+<html>
+<head>
+    <title>Storage</title>
+    <link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.js"></script>
+</head>
+
+<body>
+    <form name="fileInput" enctype="multipart/form-data" action="{% url archive.views.InsPlate %}" method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" name="submit"></input>
+    </form>
+</body>
+</html>

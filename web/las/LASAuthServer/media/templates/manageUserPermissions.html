@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/managePermissions.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />>
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/managePermissions.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		username="{{u.username}}";
+		{% for m in moduli %}
+			modules.push("{{m.shortname}}");
+		{%endfor%}
+	</script>
+</head>
+<body onload="setLoginFocus()">
+	<header>
+	<hgroup>
+		<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+		<h2> Central Authentication Service for LAS modules </h2> 
+	</hgroup>
+	</header>
+
+	<section id="content">
+	<script>$("section#content").addClass("home");</script>
+
+	<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+	</p>	
+		{% if moduli %}
+			<div>    
+            
+            	<h1 class="title">User: {{u.username}}</h1>
+            	<div>
+					<input type="text" id="postOrder" name="postOrder" value="" size="30" style="display:none;">
+					<input type="button" id="savePermissions" name="savePermissions" value ="SAVE PERMISSIONS" onClick="UpdatePostOrder('{% url loginmanager.views.saveUserPermissions %}');" style="float:right;" class="button">
+				</div>
+				</br></br></br>
+            	<div id="v-nav">
+	                <ul>
+	                	{% for m in moduli %}
+	                    	<li tab="tab{{m.shortname}}">{{m.shortname}}</li>
+	     				{% endfor%}
+	                </ul>
+                	<div style="visibility: hidden;" class="ui-state-highlight" id="message"></div>
+                	{% for m in moduli %}
+		                <div class="tab-content" >
+		                    <h4>{{m.name}}&nbsp;{% if m in moduliSuper %}(Superuser){% endif%}</h4>
+    						<div id="maincolumn">
+      							<div class="text">
+									<div class="listBlock">
+										<h2>Available Permissions</h2>
+										<ul id="sortable1{{m.shortname}}" class="sortable1" style="min-height: 128px;">	
+											{% for x in permsnok %}
+												{% if x.lasmodule.shortname == m.shortname%}
+													<li class="ui-widget-content" id="{{x.codename}}">{{x.name}}</li>
+												{% endif%}
+											{% endfor%}
+										</ul>
+										<br/>
+										{% if not m in moduliSuper %}
+	<a href="javascript:void(0);" id="move_right{{m.shortname}}" style="padding-left:130px; font-size:1.2em;">ADD &raquo;</a>
+{% endif%}
+									</div>
+									<div class="listBlock">			
+										<h2 style="margin-left:100px;">Current Permissions</h2>
+										<ul id="sortable2{{m.shortname}}" class="sortable2" style="min-height: 128px;">
+										{% for x in permsok %}
+											{% if x.lasmodule.shortname == m.shortname%}
+												<li class="ui-widget-content" id="{{x.codename}}">{{x.name}}</li>
+											{% endif%}
+										{% endfor%}
+										</ul>
+										<br/>
+										{% if not m in moduliSuper %}
+    <a href="javascript:void(0);" id="move_left{{m.shortname}}" style="font-color:black; padding-left:130px; font-size:1.2em;">&laquo; REMOVE</a>
+{% endif%}
+									</div>	
+      							</div>
+    						</div>					
+						</div>     
+            		{%endfor%}
+	            </div>           	
+        	</div>
+			
+		{% else %}
+    		<h1 class="title">No module is currently available for user: {{u.username}}</h1>
+		{% endif %}
+	</nav>
+	</section>
+	
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>
+	
+</body>
+
+</html>

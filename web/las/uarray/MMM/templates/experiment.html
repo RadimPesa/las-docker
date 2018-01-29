@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Dataset info{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+
+{% for link in samples%}
+<p>{{link}}</p>
+{% endfor%}
+
+{% endblock %}

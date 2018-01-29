@@ -1,0 +1,4 @@
+ID	Barcode mouse	Site	Date	Tissue type	Plate type	Barcode plate	Position	Quantity
+1	B1	SCR	2014-07-30	TUM	VT	01	A1	3
+2	B2	SCL	2014-07-30	LNG	RL	02	A1	1
+

@@ -1,0 +1,675 @@
+{% extends "base.html" %}
+{% load templatefilters %}
+
+{% block title %}Multidimensional Data Manager - Query Generator{% endblock %}                            
+
+{% block script_ %}
+
+<!-- WireIt CSS -->
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/WireIt.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/boxlist.css" />
+
+<!-- YUI -->
+<script type="text/javascript" src="{{MEDIA_URL}}lib/yui/utilities/utilities.js"></script>    
+        
+<!-- Excanvas -->
+<!--[if IE]><script type="text/javascript" src="{{MEDIA_URL}}lib/excanvas.js"></script><![endif]-->
+<!-- WireIt -->
+<script type="text/javascript" src="{{MEDIA_URL}}js/WireIt.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/CanvasElement.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/Wire.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/Terminal.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/util/DD.js"></script>
+
+<script src="{{MEDIA_URL}}DataTables-1.9.0/media/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/json2.js"></script>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/inputvalidation.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/genidbuttonmanagement.js"></script>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/querygen.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/boxlist.js"></script>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/qent.json?{%now 'YmdHis'%}"></script>
+
+<style type="text/css">
+.panelModule{
+    overflow-y: auto;
+    height: 350px;
+    width: 50%;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% if message %}
+<p id="error">
+    {{  message  }}
+</p>
+{% endif %}
+
+<p id="username" style='display:none;'>{{  user.username  }}</p>
+
+<script>
+    $("span.home").click(function(){
+        window.location="{% url _caQuery.views.home %}";        
+    });
+    $(function() {
+        $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+        $("#tabs li").removeClass('ui-corner-top').removeClass('ui-tabs-hide').addClass('ui-corner-left');
+
+        // instantiate start terminal
+        var start_block = YAHOO.util.Dom.get('start');
+        start_terminal = new WireIt.Terminal(start_block, {name: "Start", direction: [1,0], offsetPosition: [50,15], wireConfig:{color: "#EEEEEE", bordercolor:"#282828", width: 2}, "ddConfig": {"type": "output","allowedTypes": ["input"]}, "nMaxWires": 6});
+        $(start_block).attr("data-block_id", "start");
+        $(start_block).data("out-terminal", [start_terminal]);
+        //start_terminal.eventAddWire.subscribe(function (e,params){console.log("start: addWire");console.log(params[0])});
+        //start_terminal.eventRemoveWire.subscribe(function (e,params){console.log("start: removeWire");console.log(params[0])});
+
+        // instantiate end terminal
+        var end_block = YAHOO.util.Dom.get('end');
+        end_terminal = new WireIt.Terminal(end_block, {name: "End", direction: [-1,0], offsetPosition: [-20,15], wireConfig:{color: "#EEEEEE", bordercolor:"#282828", width: 2}, "ddConfig": {"type": "input", "allowedTypes": ["output"]}, "nMaxWires": 1});
+        $(end_block).attr("data-block_id", "end");
+        $(end_block).data("in-terminal", [end_terminal]);
+
+        // init base terminals
+        QueryGen.initBaseTerminals("start", "end", end_terminal);
+
+        // init clicks
+        $("section#central").click(QueryGen.canvasClickHandler);
+        $("p.button3").click(QueryGen.buttonClickHandler);
+        $("p.button2").click(QueryGen.buttonClickHandler);
+
+        // init navigation buttons in template definition panel
+        $("#prev-param").click({dir: -1}, QueryGen.changeTemplateForm);
+        $("#next-param").click({dir: 1}, QueryGen.changeTemplateForm);
+
+        // init clear button
+        $("span#clear_btn").click(function(){
+            start_terminal.removeAllWires();
+            end_terminal.removeAllWires();
+            $("canvas.WireIt-Wire").remove();
+            $("div.WireIt-Terminal").removeClass("WireIt-Terminal-connected");
+            $("p.box").each(function() {QueryGen.deleteGraphNode($(this).attr("data-block_id"));});
+            $("p.box").remove();
+            $("section#central .WireIt-Wire-scissors").remove();
+        });
+
+        // init other buttons
+        $('span#query_submit').click(QueryGen.submitGraph);
+        $('span#save_transl').click(QueryGen.submitGraphAsTranslator);
+        $('span#save_templ').click(QueryGen.startTemplateDefinition);
+        $('span#back_to_design').click(QueryGen.backToDesign);
+
+    {% if graph_nodes %}
+    
+        $("#query_title").val("{{ title }}");
+        $("#query_description").val("{{ description }}");
+    {% autoescape off %}
+        console.log({{ graph_nodes }});
+        QueryGen.loadQueryGraph({{ graph_nodes }});
+    {% endautoescape %}
+    
+    {% endif %}
+
+    {% if last_query_id %}
+        $("#redolast").click(function() {
+            if (QueryGen.getGraphSize() > 2) {
+                confirm ("The current query will be lost. Continue?", "Warning", "Yes", "No", function() {window.location.href = "{% url _caQuery.views.querygen %}?qid={{ last_query_id }}"; });
+            } else {
+                window.location.href = "{% url _caQuery.views.querygen %}?qid={{ last_query_id }}"; 
+            }
+        });
+    {% endif %}
+
+    });
+
+    var autocomplete_api_url = "{% url autocomplete-api %}";
+    var display_results_url = "{% url _caQuery.views.displayresults %}";
+    var qid = null;
+    {% if qid %}
+        qid = "{{qid}}";
+    {% endif %}
+    var tqid = null;
+    var tparams = null;
+    var transid = null
+    {% if tqid %}
+        tqid = "{{tqid}}";
+        tparams = $.parseJSON('{{tparams|safe}}');
+    {% endif %}
+
+    {% if transid %}
+        transid = "{{transid}}";
+    {% endif %}    
+
+
+
+        
+    //function filterdic(d,f,v){var r=[];for (x in d) {if (d[x].hasOwnProperty(f)) {if (d[x][f] == v) r.push(d[x]);}} return r;}
+    //GUIdata.Value.filter = function(f,v){var r=[];for (x in this) {if (this[x].hasOwnProperty(f)) {if (this[x][f] == v) r.push(this[x]);}} return r;}
+
+</script>
+
+<section id="topbuttons" style="font-weight:bold">
+    <div style="margin-bottom:5px">
+        <span id="help"><span class="ui-icon ui-icon-help" style="float:left"></span>Help</span>
+        <span id="redolast"><span class="ui-icon ui-icon-arrowrefresh-1-s" style="float:left"></span>Reload last query</span>
+
+
+</section>
+
+
+
+<section id="columns">
+
+<section id="leftcol">
+    <article id="riquadro">
+        <h3> Entities </h3>
+        <article id="commands">
+            <div id="tabs" class="ui-tabs">
+                <ul class="ui-tabs">
+                {% for x in ds %}
+                    <li class="ui-tabs-hide fixed-height"><a href="#{{ x.0 }}"><p title="{{ x.1.name }}"><img class="navbar" src="{{ x.1.iconUrl }}"></p></a></li>
+                {% endfor %}
+                </ul>
+                {% for y in qe %}
+                    <div id="{{ y.0 }}" class="panelModule">
+                    {% for x in y.1 %}
+                        <p class="button3 {{ y.0 }}" title="{{x.description}}" id="qent{{x.id}}" data-bcat="qent" data-dbid="{{x.id}}">{{ x.name }}</p>
+                    {% endfor %}                                                    
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
+    </article>
+</section>
+
+<section id="central">  
+        <article id="riquadro">
+                <h3>Dataflow Drawing</h3>       
+                <article id="canvas" class="Canvas">
+                    <span id='overlay' class='overlay'></span>
+                    <p id="start"><em id="startend_start">Start</em></p>
+                    
+                    <p id="end">
+                        <em id="startend_end">End</em>
+                        <span id="configend" class="arrow" title="Configure query outputs"></span>
+                    </p>
+                </article>
+        </article>
+</section>
+
+<section id="rightcol">
+    <article id="riquadro">
+        <h3>Operators</h3>
+        <article id="joins">
+        {% for x in ops %}
+            <p class="button2" id="op{{x.id}}" title="{{x.description}}" data-bcat="op" data-dbid="{{x.id}}"><img id="imgop{{x.id}}" class="operator" width="50" height="50" src="{{MEDIA_URL}}{{x.iconUrl}}"></p>
+        {% endfor %}                                                    
+        </article>
+    </article>
+</section>
+
+<section id="definetempl" style="display: none">
+    <article id="riquadro" style="width: 450px; position: relative">
+        <h3>Template definition</h3>
+        <p style="margin-left: 10px">Please define the template parameters</p>
+        
+        <p id="templbtn" style="font-weight: bold; position: absolute; right: 20px; bottom: 5px"><button id="prev-param" class="query_submit">< Previous</button><button id="next-param" class="query_submit">Next ></button></p>
+
+    </article>
+
+</section>
+
+
+</section>
+
+
+<section id="filltext">
+<span>Title:</span>
+<textarea id="query_title" onkeypress="validate2(event)"></textarea>
+<span>Description:</span>
+<textarea id="query_description" onkeypress="validate2(event)"></textarea>
+</section>
+<p class="hr2">
+<section id="buttons">
+        <span id="clear_btn" class="query_submit">Clear</span>
+        {% if '_caQuery.can_view_MDAM_save_translators' in user.get_all_permissions %}
+            <span id="save_transl" class="query_submit">Save As Translator</span>
+        {%endif%}
+        {% if '_caQuery.can_view_MDAM_save_templates' in user.get_all_permissions %}
+            <span id="save_templ" class="query_submit">Save As Template</span>
+        {% endif %}
+        <span id="back_to_design" class="query_submit" style="display: none">Back to query design</span>
+        <span id="query_submit" class="query_submit">Submit</span>
+</section>
+
+<article class="dialog" title="" id="configdialog">
+    <div id="configtabs">
+    <ul>
+    <li><a href="#config-flt">Filters</a></li>
+    <li><a href="#config-in">Input</a></li>
+    <li><a href="#config-out">Outputs</a></li>
+    </ul>
+    <div id="config-flt"></div>
+    <div id="config-in">
+        <p>Match the previous entity to the current one through this path:</p>
+        <p class="valuesovf" id="config-in-list"></p>
+    </div>
+    <div id="config-out">
+        <p>Send the following outputs to the next block:</p>
+        <p class="valuesovf" id="config-out-list"></p>
+    </div>
+    </div>
+</article>
+
+<div id="ctxmenu" class="menu ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable">
+    <div class="ctxmenu-titlebar ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+        <span class="ui-dialog-title">Correlate with attribute</span>
+    </div>
+    <p class="menu-item">
+        <input id="menu-item-0" class="menu-item" name="dd" type="radio" value="0" /><label for="menu-item-0">None</label>
+    </p>
+</div>
+<script>
+$(function() {
+    $("#ctxmenu").hide();
+});
+</script>
+
+<script>
+$(function() {
+
+    $("#configdialog").dialog(
+    	{
+	        autoOpen: false,
+	        modal: true,
+	        width: 850,
+	        position: { my: "center bottom"},
+            resizable: false,
+            minHeight: 250,
+	        buttons:
+	        [
+                {
+                    text: "Remove all filters"
+                },
+	        	{
+	                text: "Ok",
+	                click: function() {
+	                	$(this).dialog("close");                                                                                         
+	                }
+	            }
+        	]
+		}
+	);
+    $("#configdialog").css('max-height', '450px'); // set thru CSS because maxHeight property of dialog does not work
+    $("#configtabs").tabs();
+});
+
+</script>
+
+
+<article class="dialog info" title="Permitted Button Relationships">
+        <article id="permitted">
+                {% for i in conflicts %}
+                        <p>
+                        {{i.id1}}<span id="_trattino">-</span>{{i.id2}}
+                        </p>
+                {% endfor %} 
+                <p style="display: none">Genealogy ID<span id="_trattino">-</span>Mice</p>
+                <p style="display: none">Genealogy ID<span id="_trattino">-</span>Aliquots</p>
+        </article>
+</article>
+
+<article class="dialog" id="gbdialog" title="Configure grouping operation">
+        <article id="groupattrib">
+            <p id="groupattr">Group selected entity by:&nbsp;
+                <select id="selattr"></select>
+            </p>
+            <div id="gbconfigtabs">
+                <ul>
+                    <li><a href="#gbconfig-flt">Filters</a></li>
+                    <li><a href="#gbconfig-in">Input</a></li>
+                    <li><a href="#gbconfig-out">Outputs</a></li>
+                </ul>
+                <div id="gbconfig-flt">
+                    <p>Filter groups by:</p>
+                    <p id="gbitemadd-flt" class="gbitemadd"><span class='gbitemadd'></span></p>
+                    <p class="valuesovf" id="gbconfig-flt-list" style="min-height: 50px"></p>
+                </div>
+                <div id="gbconfig-in">
+                    <p>Match the previous entity to the grouping entity through this path:</p>
+                    <p class="valuesovf" id="gbconfig-in-list"></p>
+                </div>
+                <div id="gbconfig-out">
+                    <p>Send the following outputs to the next block:</p>
+                    <p id="gbitemadd-out" class="gbitemadd"><span class='gbitemadd'></span></p>
+                    <p class="valuesovf" id="gbconfig-out-list" style="min-height: 50px"></p>
+                </div>
+            </div>
+        </article>
+</article>
+
+<article class="dialog" id="extenddialog" title="Configure extend operator">
+        <article id="entities" style="height: 95%">
+            <p>Extend the current block with attributes from the following entities:</p>
+            <p class="valuesovf" id="ent-list" style="height: auto; max-height: 90%"></p>
+        </article>
+</article>
+
+
+<article class="dialog" id="templdialog" title="Select template">
+    <article>
+        <p>Please choose a template:</p>
+        <select id="seltempl" size="2">
+        </select>
+    </article>
+</article>
+
+<article class="dialog" id="translatordialog" title="Select translator(s)">
+    <article>
+        <p>Please choose one or more translators:</p>
+        <p class="cfgval valuesovf" id="translatorslist" style="display: block;"></p>
+            
+    </article>
+</article>
+
+
+<article class="dialog" id="templconfigdialog" title="Configure template">
+    <div id="templinfo">
+        <p id="templname"></p>
+        <p id="templdescr"></p>
+    </div>
+    <div id="templconfigtabs">
+        <ul>
+            <li id="a_templ_flt"><a href="#templconfig-flt">Filters</a></li>
+            <li><a href="#templconfig-in">Input</a></li>
+            <li><a href="#templconfig-out">Outputs</a></li>
+        </ul>
+
+        <div id="templconfig-flt">
+            <p>Template parameters:</p>
+            <ul></ul>
+        </div>
+
+        <div id="templconfig-in">
+            <div id="templinputs">
+                <ul></ul>
+            </div>
+        </div>
+
+        <div id="templconfig-out">
+            <p>Send the following outputs to the next block:</p>
+            <p class="valuesovf" id="templ-config-out-list"></p>
+        </div>
+
+    </div>
+</article>
+
+
+<script>
+$(function() { 
+    $("#translatordialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        open: function() {
+            ;
+        }        
+    });
+
+    $("#templdialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        open: function() {
+            $("#seltempl").prop("selectedIndex", -1);
+        },
+        buttons:
+        [
+            {
+                text: "Cancel",
+                click: function() {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "Ok",
+                click: function() {
+                    QueryGen.confirmTemplateSelection();
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+
+    for (var x in templates) {
+        
+        if ($(templates[x].WG).filter(workingGroupsList).length != 0 || $(templates[x].WG).filter(["admin"]).length != 0){ 
+            if (!templates[x].isTranslator){
+                var opt = "<option value='"+x+"'>"+templates[x].name+"</option>";
+                $("#seltempl").append(opt);
+            }
+        }
+    }
+
+    $("#templconfigdialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 850,
+        minHeight: 250,
+        buttons:
+        [
+            {
+                text: "Ok",
+                click: function() {
+                    $(this).dialog("close");                                                                                         
+                }
+            }
+        ]
+    });
+
+    $("#templconfigtabs").tabs();
+
+
+    $("#gbdialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        /*beforeClose: function(event, ui) {
+            $("select#selattr").children().remove();
+            $('span#btnname').text('');
+            $("input#addnum").val('');
+            $('select#confrontog').val('>');
+        },*/ 
+    });
+
+    $("#extenddialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        height: 400,
+    });
+
+    $("#gbconfigtabs").tabs();
+
+    $("#gbitemadd-flt").click(function() {
+        var next_uid = $("#gbdialog").data("next_uid");
+        var el = $(QueryGen.gbItem);
+        var outs = $("#gbdialog").data("outs");
+        var target = el.find("select:eq(1)");
+        target.append($("<option value='-1'>*</option>"));
+        for (var i in outs) {
+            target.append($("<option value='"+i+"'>"+outs[i].name+"</option>"));
+        }
+        el.find("select:eq(0)").change(function() {$(this).next().children("option:eq(0)").toggle($(this).val() == 'COUNT').parent().prop("selectedIndex", -1);});
+        el.find("select.rangeFrom").change(QueryGen.toggleStatus);
+        el.find("span.gbitemdel").click(function() {$(this).parent().remove();})
+        $("#gbconfig-flt-list").append(el);
+        target.prop("selectedIndex", -1);
+        // set filter uid
+        el.data("uid", next_uid);
+        $("#gbdialog").data("next_uid", next_uid + 1);
+    });
+
+    $("#gbitemadd-out").click(function() {
+        var el = $(QueryGen.gbOut);
+        var outs = $("#gbdialog").data("outs");
+        var target = el.find("select:eq(1)");
+        target.append($("<option value='-1'>*</option>"));
+        for (var i in outs) {
+            target.append($("<option value='"+i+"'>"+outs[i].name+"</option>"));
+        }
+        el.find("select:eq(0)").change(function() {$(this).next().children("option:eq(0)").toggle($(this).val() == 'COUNT').parent().prop("selectedIndex", -1);});
+        el.find("span.gbitemdel").click(function() {if (!$(this).hasClass("noRemove")) {$(this).parent().remove();} else {alert("Output is in use by next block.", "Cannot delete");}})
+        $("#gbconfig-out-list").append(el);
+        target.prop("selectedIndex", -1);
+    });
+});
+</script>
+
+<article class="dialog" id="geniddialog" title="Set Genealogy ID (or part of it)">
+        <article id="genidparts">
+                <p>Genealogy ID type:
+                <select id="selgenidtype">
+                    {% for x in genidtype %}
+                    <option>{{ x.name }}</option>
+                    {% endfor %}
+                </select></p>
+                <table id="genid">
+                
+                <thead style="font-size: 10px">
+                    <th style="width: 40px" class="add"></th>
+                </thead>
+                <tbody>
+                <tr>
+                <td style="width: 40px" class="add">
+                    <span id="add_gid" class="add_btn" style="margin-right:5px;">add</span>
+                </td>
+                
+                </tr>
+                </tbody>
+                </table>
+                <br>
+				
+				<div>
+                <table>
+                    <tr>
+                        <td>
+                            <span style="font-size:10px;margin-right:10px;">Load Genealogy IDs from file:</span>
+                        </td>
+                        <td>
+                            <form id="genidfrm"><input type="file" id="genidfile" /></form>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span style="font-size:10px;margin-right:10px;">Insert full Genealogy IDs:<br>(newline or blank separated)</span>
+                            </td>
+                        <td>
+                            <textarea id="fullgenid" type="text" style="width:500px;height:80px; resize:none" maxlength="20000"></textarea></td>
+                        <td>
+                            <span id="add_gid2" class="add_btn" style="margin-right:5px;">add</span>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <br>
+				
+                <div id="genidlist" style="max-height: 200px;overflow: auto;"></div>
+                
+        </article>
+</article>
+
+<article class="dialog help" title="Help">
+ <p>
+ Choose a button from the <b>Entities</b> panel, then move the cursor on the <b>Dataflow Drawing</b> area. Click anywhere in the area and a query block will appear.<br><br>Place all the blocks you want. You can destroy a block by clicking on <span class="ui-icon ui-icon-closethick" style='position: relative; top: 3px'></span>. Click on <span class="ui-icon ui-icon-wrench" style='position: relative; top: 3px'></span> to open 
+ a dialog box with the filtering parameters.<br><br> You can connect two blocks by dragging a terminal over another terminal, from output to input. Some blocks cannot be connected together. Before clicking <b>Submit</b>, make sure that all the blocks are connected, including Start and End.
+ </p>
+</article>
+ 
+
+<article class="dialog templateblock" title="Template">
+</article>
+
+
+<article id='templateReset' class="dialog" title="Template reset">
+ <p>
+ Do you really want to return to the query design. If yes you will lose all the settings and a new template will be defined.
+ Press "Yes" to back to query design, "No" to continue in template definition.
+ </p>
+</article>
+
+
+<script type="text/javascript">
+
+
+
+$("span#help").click(function(){
+        $(".dialog.help").dialog("open");
+});
+
+$("span#permitted_butt_rel").click(function(){
+        $(".dialog.info").dialog("open");
+});
+
+
+$(".dialog.info").dialog({
+                autoOpen: false,
+                modal: false,
+                width: 320,
+                resizable: false,
+                buttons: [
+                                         {
+                                        text: "Ok",
+                                        click: function() {
+                                                $(this).dialog("close");                                                                                         
+                                        }
+                                         }
+                                ] 
+                        });
+                                        
+$(".dialog.help").dialog({
+                autoOpen: false,
+                modal: false,
+                width: 420,
+                buttons: [
+                                         {
+                                        text: "Ok",
+                                        click: function() {
+                                                $(this).dialog("close");                                                                                         
+                                        }
+                                         }
+                                ] 
+                        });
+
+</script>
+
+
+
+<form id="submit_query_frm" action="{% url _caQuery.views.querygen %}" method="post">
+    <input type="hidden" id="sqf_title" name="title" />
+    <input type="hidden" id="sqf_description" name="description" />
+    <input type="hidden" id="sqf_graph_nodes" name="graph_nodes" />
+    <input type="hidden" id="sqf_qid" name="qid" />
+    {% csrf_token %}
+</form>
+
+<form id="submit_template_frm" action="{% url _caQuery.views.createTemplate %}" method="post">
+    <input type="hidden" id="stf_title" name="title" />
+    <input type="hidden" id="stf_description" name="description" />
+    <input type="hidden" id="stf_base_query" name="base_query" />
+    <input type="hidden" id="stf_conf" name="configuration" />
+    <input type="hidden" id="stf_isTranslator" name="isTranslator" value="false" />
+    <input type="hidden" id="stf_idtemplate" name="templateid" />
+    {% csrf_token %}
+</form>
+
+
+
+{% endblock %}
+ 

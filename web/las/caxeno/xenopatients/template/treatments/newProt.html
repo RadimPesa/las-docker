@@ -1,0 +1,603 @@
+{% extends "base.html" %}
+{% block title %}Manage Treatments{% endblock %}
+
+{% block script %}
+	<style><!--stile per la paginazione della tabella-->
+		h2  {
+			border: none;
+			}
+		h3  {
+				margin-top:						0px;
+				margin-bottom:					0px;
+				padding-bottom:					0em;
+				padding-top: 					0em;
+				padding-left: 					0em;
+				padding-right: 					0em;
+				/*box-shadow: 					0px 0px 0px #000000;
+				-moz-box-shadow: 				0px 0px 0px #000000;
+				-webkit-box-shadow: 			0px 0px 0px #000000;*/
+			}
+		#ganttTable{
+				border-collapse: 				collapse;
+
+		}
+		.ganttTd{
+				width: 							2em; 
+				height:							2em; 	
+				border:							1px solid gray;
+		}
+		.defCursor {cursor:pointer;}
+
+	</style>
+	<script>
+		function addArm(){
+			document.getElementById('createStep').style.display = 'inline';
+			document.getElementById('listOldStep').style.display = 'none';
+			document.getElementById('selectArm').style.display = 'none';
+			document.getElementById('id_name').focus();
+		}
+
+		jQuery(document).ready(function(){
+		    var images = jQuery("#oldArmTable img");
+		    var oldPath = jQuery(images[0]).attr("src");
+		    for (i = 0; i < images.length; i++){
+				jQuery(images[i]).attr('src', base_url + oldPath);
+		    }
+		    console.log(base_url + oldPath);
+		});
+
+		//salva tutto nel db alla fine della creazione del protocollo
+		function saveAll(){
+			var nameP = document.getElementById('pName').value;
+			var descrP = document.getElementById('pDescr').value;
+			jQuery.ajax({
+				url: base_url + '/treatments/manage/newProtocol', 
+				type: 'POST',
+				data: {'nameP':nameP, 'descrP':descrP},
+				dataType: 'text',
+			});
+			cancelArm();
+		}
+
+		function cancelArm(){
+			document.getElementById('createStep').style.display = 'none';
+			document.getElementById('id_name').value = '';
+			document.getElementById('id_description').value = '';
+			document.getElementById('id_duration').value = '';
+			document.getElementById('id_dose').value = '';
+			document.getElementById('id_schedule').value = '1';
+			document.getElementById('createDiv').style.display = 'inline';
+			document.getElementById('tableDiv').style.display = 'none';
+			document.getElementById('submitDiv').style.display = 'none';
+			document.getElementById('ganttDiv').style.display = 'none';
+			document.getElementById('optionsDiv').style.display = 'none';
+			var table = document.getElementById('ganttTable');
+			//per cancellare le righe già create nella tabella di Gantt
+			var j = 0;
+			for (j = table.rows.length; j > 0; j--){
+				if (document.getElementById("row"+j))
+					table.deleteRow(j-1);
+			}
+		}
+
+		//si accede alla parte della schermata per creare nuovi arm e/o selezionare quelli esistenti
+		function goToArm(){
+			var nameP = document.getElementById('nameP').value
+			var descrP = document.getElementById('descrP').value
+			if (nameP != ""){
+			
+                var url = base_url + "/api.protocol/" + nameP;
+                jQuery.ajax({
+                	url:url,
+                    method: 'get',
+                    dataType:'json',
+                    success: function(transport) {
+                    	console.log(transport);
+                        //var response = JSON.parse(transport);
+                        var exist = transport['exist'];
+                        if(exist=='0') //il protocollo esiste
+                            alert("Warning: a protocol with this name already exists.");
+                        else{
+				            document.getElementById('promem').innerHTML = "You're defining a new protocol: "+nameP; //scritta che indica il nome del protocollo in fase di creazione
+				            document.getElementById('dataProt').style.display = 'none'; //input form per nome e descrizione protocollo
+				            document.getElementById('dataArms').style.display = 'inline'; //readonly per nome e descrizione protocollo
+				            document.getElementById('armButton').style.display = 'inline'; //tasti per usare la schermata
+				            document.getElementById('listArms').style.display = 'inline'; // lista degli arm gia' creati
+				            //document.getElementById('listStep').style.visibility = 'visible'; //poi da togliere da qua 
+				            document.getElementById('pName').value = nameP;
+				            document.getElementById('pDescr').value = descrP;                        
+                        }
+                    }
+                });			
+			}
+			else{
+				alert("You have to insert at least the name of the new protocol.");
+				document.getElementById('nameP').focus();
+			}
+		}
+
+	function cancP() {
+		jQuery.ajax({
+			url: base_url + '/treatments/manage',
+			type: 'GET',
+			dataType: 'text',
+		});
+	}
+
+	//mi fa vedere gli step dell'arm selezionato nella parte alta della schermata
+	function loadStep(event){
+		var event=event||window.event;
+		idEl = event.target.id;
+		arm = document.getElementById(idEl).getAttribute("armName");
+		document.getElementById('listStep').style.visibility = 'visible';
+		
+        var tableA = document.getElementById('armTable');
+        var j = 0;
+		for (j = tableA.rows.length; j >= 0; j--){
+			if (document.getElementById("armCell"+j))
+				document.getElementById("armCell"+j).style.color = 'black';
+		}
+        document.getElementById(idEl).style.color = "red";
+		
+        var table = document.getElementById('stepTable');
+		j = 0;
+		for (j = table.rows.length; j >= 0; j--){
+			console.debug("J: %s", j);
+			if (document.getElementById("rowS"+j)){
+				document.getElementById("rowS"+j).style.display = "none";
+				if (document.getElementById("step_cell"+j).getAttribute('arm')==arm){
+					document.getElementById("rowS"+j).style.display = "block";
+					document.getElementById("step_cell"+j).style.display = "block";
+				}
+			}
+		}
+	}
+
+	function loadOldStep(event){
+		var event=event||window.event;
+		idEl = event.target.id;
+		arm = document.getElementById(idEl).getAttribute("armName");
+		document.getElementById('listOldStep').style.display = 'inline';
+        var table = document.getElementById('oldStepTable');
+		var url = base_url + "/api.list_step/" + arm;
+		jQuery.ajax({
+			url:url,
+			method: 'get',
+			success:function(transport) {
+				var steps = JSON.parse(transport['list_step']);
+				var i = 0;
+				var j = 0;
+				document.getElementById('listOldStep').style.display = 'inline';
+				for (j = table.rows.length; j >= 0; j--){
+					if (document.getElementById("rowOS"+j))
+					    table.deleteRow(j);
+				}
+				while(steps[i])
+					{
+						var rowCount = table.rows.length;
+						var row = table.insertRow(rowCount);
+						row.setAttribute("id","rowOS"+rowCount); 
+						var cell = row.insertCell(0);
+						cell.setAttribute("id","step_cell"+rowCount); 
+						cell.innerHTML = 'From '+ steps[i]['start_step'] +' to '+ steps[i]['end_step'] +': '+ steps[i]['drugs_id'] +', '+ steps[i]['dose'] + ' mg, ' + steps[i]['schedule'] +' times via '+ steps[i]['id_via'];
+						i++;
+					}
+			}
+		});
+	}
+
+	function defineArm() {
+		//inviare dati al server
+		//riportare l'utente qui
+		gantt2str();
+		//creare liste riassuntive
+		//lista arm
+		var nameArm = document.getElementById('id_name').value;
+		var e = document.getElementById("id_type_of_time");
+		var unitOfTime = e.options[e.selectedIndex].text;
+        var table = document.getElementById('armTable');
+		var rowCount = table.rows.length;
+		var row = table.insertRow(rowCount);
+		row.setAttribute("id","row"+rowCount);
+		var cell = row.insertCell(0);
+		cell.setAttribute("id","armCell"+rowCount); 
+		cell.setAttribute("onclick","loadStep(event)");
+		cell.setAttribute("class","defCursor"); 
+		cell.setAttribute("style", "border:4px outset lightgrey;background-color:silver;");
+		cell.setAttribute("armName", nameArm);
+		cell.innerHTML = nameArm +" - " +unitOfTime;
+
+		//lista step
+		//cancellare i dati inseriti
+		cancelArm();
+	}
+
+	//permette di accedere alla sezione per selezionare un braccio già esistente
+	function selectArm() {
+		document.getElementById('createStep').style.display = 'none';
+		document.getElementById('selectArm').style.display = 'inline';
+	}
+
+	//permette di selezionare un braccio già esistente
+	function getArm(event) {
+		var event=event||window.event;
+		idEl = event.target.id;
+		//alert(idEl);
+		var nameArm = document.getElementById(idEl).getAttribute("armName");
+		console.log(nameArm);
+		var unitTime = document.getElementById(idEl).getAttribute("unitTime");
+		console.log(unitTime);
+		//document.getElementById('createStep').style.display = 'none';
+		document.getElementById('listOldStep').style.display = 'none';
+		document.getElementById('selectArm').style.display = 'none';
+
+        var table = document.getElementById('armTable');
+		var rowCount = table.rows.length;
+
+
+        var j = 0;
+		for (j = table.rows.length; j >= 0; j--){
+		    console.log("armCell"+j);
+			if (document.getElementById("armCell"+j)){
+			    console.log("armCell"+j);
+				document.getElementById("armCell"+j).style.color = 'black';
+			}
+		}
+
+
+		var row = table.insertRow(rowCount);
+		row.setAttribute("id","row"+rowCount);
+
+		var cell = row.insertCell(0);
+		cell.setAttribute("id","armCell"+rowCount); 
+		cell.setAttribute("onclick","loadStep(event)");
+		cell.setAttribute("class","defCursor"); 
+		cell.setAttribute("style", "border:4px outset lightgrey;background-color:silver;color:black;");
+		cell.setAttribute("armName", nameArm);
+		cell.innerHTML = nameArm +" - " +unitTime;
+
+        var table = document.getElementById('stepTable');
+		var url = base_url + '/api.list_step/' + nameArm;
+		jQuery.ajax({
+			url:url,
+			method: 'get',
+			async: false,
+			success: function(transport) {
+				var steps =JSON.parse(transport['list_step']);
+				var i = 0; var j = 0;
+				while(steps[i])
+					{
+						var rowCount = table.rows.length;
+						var row = table.insertRow(rowCount);
+						row.setAttribute("id","rowS"+rowCount); 
+						row.setAttribute("style","display:none;");
+						var cell = row.insertCell(0);
+						cell.setAttribute("id","step_cell"+rowCount);
+						cell.setAttribute("arm",nameArm);
+						//cell.setAttribute("style","display:none;");
+						cell.innerHTML = 'From '+ steps[i]['start_step'] +' to '+ steps[i]['end_step'] +': '+ steps[i]['drugs_id'] +', '+ steps[i]['dose'] + ' mg, ' + steps[i]['schedule'] +' times via '+ steps[i]['id_via'];
+						i++;
+					}
+			}
+		});
+
+		jQuery.ajax({
+			url: base_url + '/treatments/manage/newProtocol',
+			type: 'POST',
+			async: false,
+			data: {'type': '1', 'nameA':nameArm, },
+			dataType: 'text',
+		});
+
+	}
+
+	//usata per entrare nella schermata per creare un nuovo trattamento	
+	function viewCreate() {
+		//document.getElementById('startDiv').style.display = 'none';
+		document.getElementById('createDiv').style.display = 'inline';
+		document.getElementById('id_name').focus();
+	}
+
+	//crea la riga di intestazione del diagramma di gantt
+	function createGantt() {
+        var table = document.getElementById('ganttTable');
+		var rowCount = table.rows.length;
+		var newRow = rowCount + 1
+		var row = table.insertRow(rowCount);
+		row.setAttribute("id","row"+newRow); 
+		var N = parseInt(document.getElementById('id_duration').value);
+		for (var i = N; i >= 0 ; i--){
+			var cell = row.insertCell(0);
+			if (i > 0 ){
+				cell.innerHTML = i-1;
+				cell.setAttribute("class","ganttTd"); 
+			}
+			else
+				cell.innerHTML = "";
+		}
+    }
+
+	//usata per far visualizzare il diagramma di gantt con le dimensioni corrette, dopo aver inserito i dati più generali del trattamento
+	function viewGantt() {
+		if(document.getElementById('id_name').value != ""){
+			if(document.getElementById('id_description').value != ""){
+				if (is_int(document.getElementById('id_duration').value)){
+					if(document.getElementById('id_duration').value > 0){
+						var nameT = document.getElementById('id_name').value
+						var url = base_url + "/api.acute_treatment/" + nameT
+						jQuery.ajax({
+							url:url,
+							method: 'get',
+							statusCode: {
+							500: function() {
+							  	document.getElementById('createDiv').style.display = 'none';
+								document.getElementById('tableDiv').style.display = 'inline';
+								document.getElementById('submitDiv').style.display = 'inline';
+								document.getElementById('name').innerHTML = nameT;
+								document.getElementById('descr').innerHTML = document.getElementById('id_description').value;
+								document.getElementById('duration').innerHTML = document.getElementById('id_duration').value;
+								var e = document.getElementById("id_type_of_time");
+								document.getElementById("type").innerHTML = e.options[e.selectedIndex].text;
+								document.getElementById('ganttDiv').style.display = 'inline';
+								document.getElementById('optionsDiv').style.display = 'inline';
+								createGantt();
+								},
+							200: function(transport) {
+                                    alert("Warning: an arm with this name already exists.");
+								}
+							}
+						});
+					}else
+						alert('Duration must be a positive integer number.');
+				}else
+					alert('Duration must be an positive integer number.');	
+			}else
+					alert("You'inserted a blank description.");	
+		}else
+			alert("You'inserted a blank name.");	
+	}
+
+	//aggiunge una nuova riga al diagramma di gantt (che corrisponde a una medicina in piu' nel trattamento, con i suoi dosaggi e schedule)
+	function addGanttRow() {
+		if(document.getElementById('id_dose').value != ""){
+			if(document.getElementById('id_schedule').value != ""){
+				if (is_numeric(parseFloat(document.getElementById('id_dose').value))){
+					if(document.getElementById('id_dose').value > 0){
+						if (is_int(document.getElementById('id_schedule').value)){
+							if(document.getElementById('id_schedule').value > 0){
+								var table = document.getElementById('ganttTable');
+								var rowCount = table.rows.length;
+								var newRow = rowCount + 1;
+								var e1 = document.getElementById("id_drug");
+								var e2 = document.getElementById("id_via");
+								var row = table.insertRow(rowCount);
+
+								var drug = e1.options[e1.selectedIndex].text;
+								var via = e2.options[e2.selectedIndex].text;
+								var dose = document.getElementById('id_dose').value;
+								var schedule = document.getElementById('id_schedule').value;
+
+								row.setAttribute("id","row"+newRow); 
+
+								var cell1 = row.insertCell(0);
+								cell1.innerHTML = drug;
+								cell1.setAttribute("id","drug_cell"+newRow); 
+								cell1.style.display = 'none';
+
+								cell2 = row.insertCell(0);
+								cell2.innerHTML = schedule;
+								cell2.setAttribute("id","schedule_cell"+newRow); 
+								cell2.style.display = 'none';
+
+								var cell3 = row.insertCell(0);
+								cell3.innerHTML = dose;
+								cell3.setAttribute("id","dose_cell"+newRow); 
+								cell3.style.display = 'none';
+
+								var cell4 = row.insertCell(0);
+								cell4.innerHTML = via;
+								cell4.setAttribute("id","via_cell"+newRow); 
+								cell4.style.display = 'none';
+
+								var N = parseInt(document.getElementById('id_duration').value);
+								for (var i = N; i >= 0 ; i--){
+									var cell = row.insertCell(0);
+
+									if (i > 0 ){
+										cell.setAttribute("id","cell"+newRow+'_'+i); 
+										cell.setAttribute("status","0"); 
+										cell.setAttribute("onclick","setCell('cell"+newRow+'_'+i+"')"); 
+										cell.setAttribute("class","ganttTd");
+										//cell.setAttribute("align","center");
+										cell.innerHTML = "<img id='imgcell"+newRow+"_"+i+"' src='{{MEDIA_URL}}img/slot.png' style='display:none;' width='115%' height='50%'>"; 
+									}else{
+										cell.innerHTML = "Step"+String(parseInt(newRow-1));
+										cell.setAttribute("id","border_cell"+newRow); 
+										cell.setAttribute("class","ganttTd");
+										cell.setAttribute("title","Drug: "+String(drug)+"\nVia: "+String(via)+"\nDose: "+String(dose)+"\nSchedule: "+String(schedule)); 
+
+									}
+								}
+							}else
+								alert("Schedule must be a positive integer number.");	
+						}else
+							alert("Schedule must be an positive integer number.");		
+					}else
+						alert("Dose must be a positive integer number.");	
+				}else
+					alert("Dose must be an positive integer number.");		
+			}else
+					alert("You'inserted a blank schedule.");	
+		}else
+			alert("You'inserted a blank dose.");
+
+    }
+
+	//cambia il colore e lo status della cella quando viene cliccata
+	function setCell(id) {
+		if (document.getElementById(id).getAttribute('status') == '0'){	
+			//document.getElementById(id).style.backgroundColor = 'black';
+			document.getElementById('img'+id).style.display = 'inline';
+			document.getElementById(id).setAttribute('status', '1');
+		}else{
+			//document.getElementById(id).style.backgroundColor = '#CFE2E2';
+			document.getElementById('img'+id).style.display = 'none';
+			document.getElementById(id).setAttribute('status','0');
+		}
+    }
+	</script>
+{% endblock %}
+{% block bodyoption %}	onLoad="if (document.getElementById('nameP')) document.getElementById('nameP').focus();"{% endblock %}
+{% block content %}
+	<p id="promem" style="float:left;font-size: 1.3em;font-style: italic;"></p><p style="clear:both;">
+	<div id='dataProt'  style="width:40%;" align='center'>
+		<fieldset  class="fieldset" >
+			<legend class="legend"> Protocol's Data </legend></br>
+			<form name="dataProtForm" action="" method="" align="center">
+				<label for="nameP">Name Protocol:<br> </label><input type="text" id="nameP" name="nameP" value="" maxlength="45" onPaste="return false;" onkeypress="validate(event)"/> <br><br>
+				<label for="descrP">Description of New Protocol:<br> </label><textarea rows="5" cols="40" type="text" id="descrP" name="descrP" value="" maxlength="180" onPaste="return false;" onkeypress="validate(event)"/> </textarea><br>
+				<br><br>
+				<input type="button" id="next" value="Next >> " onclick="goToArm()"></input>			
+				<br><br>
+			</form>
+		</fieldset>
+	</div>
+
+
+	<div id='dataArms' style="width:25%;display:none;float:left;" align='center'>
+		<fieldset  class="fieldset" >
+			<legend class="legend"> Protocol's Data </legend></br>
+			<table>
+				<tr>
+					<td><label for = "pName">Name Protocol: </label></td>
+					<td><input readonly="readonly" id="pName" name="pName" value=""></td>
+				</tr>
+				<tr>
+					<td><label for = "pDescr">Description: </td>
+					<td><textarea rows="5" cols="20" readonly="readonly" id="pDescr" name="pDescr" value=""></textarea></td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+
+	<div id='listStep' style="width:40%;float:right;visibility:hidden;margin-left:5%;height:150px;overflow:auto;" align='left'><!--visibility:hidden-->
+		<fieldset  class="fieldset" >
+			<legend class="legend"> List of created step </legend>
+			<table id="stepTable"></table><br>
+		</fieldset>
+	</div>
+
+	<div id='listArms' style="width:25%;float:right;display:none;height:150px;overflow:auto;" align='center'>
+		<fieldset  class="fieldset" >
+			<legend class="legend"> List of created arms </legend>
+			<br>List of created arms:<br><br>
+			<table id="armTable"></table><br>
+		</fieldset>
+	</div>
+
+	<br><br><br>
+
+	<div id='armButton' style="width:25%;float:left;display:none;overflow:auto;margin-top:25px;" align='center'>
+		<form name="cancForm" action="{% url xenopatients.treatments.manageTreatments %}" method="POST" style="float:left;">
+			<input type="submit" id="cancP" value="Cancel"></input>
+		</form>
+		<form name="bForm" action="" method="" style="float:left;">
+			<input type="button" id="addA" value="Create Arm" onclick="addArm()"></input>
+			<input type="button" id="addA" value="Select Arm" onclick="selectArm()"></input>
+			<input type="button" id="save" value="Save" onclick="saveAll()"></input>
+		</form>
+	</div>
+
+	<br style="clear:both">
+
+	<div id="createStep" style="display:none;">
+		<hr>
+
+		<div id='createDiv'>
+			<fieldset  class="fieldset" >
+				<legend class="legend"> New Arm Data </legend>
+				<div style="width:50%;">
+					{{ formT.as_p }}
+					<input type="submit" value="Cancel" id="cancel" onclick="cancelArm()" />
+					<input type="button" value="OK" id="create" onclick="viewGantt()" />
+				</div>
+			</fieldset>
+		</div>
+
+		<div id='tableDiv' style="display:none;float:left;">
+			<fieldset  class="fieldset" >
+				<legend class="legend"> Arm's Data </legend>
+				<table id='readTable'>
+					<tr>
+						<td><label for = "name">Name</label></td>
+						<td><label id = "name"></td>
+					</tr>
+					<tr>
+						<td><label for = "descr">Description</label></td>
+						<td><label id = "descr"></td>
+					</tr>
+					<tr>
+						<td><label for = "duration">Duration</label></td>
+						<td><label id = "duration"></td>
+					</tr>
+					<tr>
+						<td><label for = "type">Type Of Time</label></td>
+						<td><label id = "type"></td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+
+		<div id='optionsDiv' style="display:none;float:right;">
+			<fieldset class="fieldset" >
+				<legend class="legend"> Define Step </legend>
+				<form name="optionsTreatmentForm" action="" method="">
+					{{ formO.as_p }}
+				</form>
+				<input type="button" value="Add" id="create" onclick="addGanttRow()" />
+			</fieldset>
+
+		</div>
+
+		<p style="clear: both;"></p><br><br>
+		<div id='ganttDiv' style='display:none;'>
+			<fieldset class="fieldset" >
+				<legend class="legend"> Gantt Chart </legend>
+				<br>
+				<table id='ganttTable'></table>
+				<br>
+			</fieldset>
+		</div>
+		<br><br>
+
+		<div id="submitDiv" style='display:none;'>
+			<input type="submit" value="Cancel" id="cancel"  onclick="cancelArm()" />
+			<input type="button" name="save" value="Save" onclick="defineArm()"/>	
+		</div>
+	</div>
+
+
+	<div id="selectArm" style="display:none;">
+		<hr>
+		<div id='listOldArms' style="width:25%;float:left;margin-right:5%;height:200px;overflow:auto;" align='center'>
+			<fieldset class="fieldset" >
+				<legend class="legend"> List of exisisting arms </legend>
+				<!--<table id="armTable"></table>-->
+				{{ armHtml|safe }}
+				<br>
+			</fieldset>
+		</div>
+
+		<div id='listOldStep' style="width:40%;float:left;display:none;" align='left'>
+			<fieldset class="fieldset" >
+				<legend class="legend"> List of step </legend>
+				<form name="listStepForm" action="" method="" align="left">
+					<table id="oldStepTable"></table><br>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+
+
+
+{% endblock %}

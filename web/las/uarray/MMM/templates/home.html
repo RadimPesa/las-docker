@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}MicroArray Management Module - Home{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/uarray_media/css/style-menu.css" />
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    $('.mainlink li, span').each(function(){
+        $(this).click(function() {
+        	var target = $(this).attr('target');
+        	var url = $(this).attr('url');
+        	if (url){
+        		window.location = url;
+        	}
+        	else{
+        		$('.cn-slide').each(function(){
+        			$(this).hide();	
+        		});
+        		$('#'+target).show();
+        	}
+    	});
+    });
+});
+</script>
+
+
+
+<div class="cn-container" style='float:left;width:30%'>
+		<div class="cn-slide-main mainlink" id="slide-main">
+		    <nav>
+		    	<li url='{% url MMM.views.upload_request_file %}'>External requests</li>
+		        <!--li target="slide-req">Requests</li--> 
+		        <li target='slide-hyb'>Hybridization</li>
+		        <li target="slide-scan">Scan</li>
+		        <li target='slide-chip'>Chips</li>
+		        <li target='slide-prot'>Protocols</li>
+		        <li url='{% url MMM.views.explore_scan %}'>Experiments</li>
+		        <!--li target='slide-exp'>Experiments</li-->
+		    </nav>
+    	</div>
+
+</div>
+
+<div class="cn-container" style='float:left;width:30%'>     
+    <!-- Slide 1 and sub-slides -->
+	    <!--div class="cn-slide mainlink" id="slide-req">
+	        <nav>
+	        	<h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Request</h2>
+
+	            <li url='{% url MMM.views.pending_request %}'>Pending requests</li>                           
+	            
+	        </nav>
+	    </div-->
+	   
+	    <div class="cn-slide mainlink" id="slide-hyb">
+	        <h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Hybridization</h2>
+	        <nav>
+	        	<li url='{% url MMM.views.plan_hybrid %}'>Plan hybridization</li>
+	        	<li url='{% url MMM.views.select_plan %}'>Retrieve aliquots</li>
+	        	<li url='{% url MMM.views.select_hybrid %}'>Hybridization</li>
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-scan">
+	        <h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Scan</h2>
+	        <nav>
+	        	<li url='{% url MMM.views.pre_scan %}'>Scan</li>
+	        	<li url='{% url MMM.views.select_scan %}'>Pending scans</li>
+	        </nav>
+	    </div>
+
+	    <div class="cn-slide mainlink" id="slide-chip">
+	        <h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Chips</h2>
+	        <nav>
+	        	<li url='{% url MMM.views.new_chip %}'>New Chip</li>
+	        	<li url='{% url MMM.views.new_chip_type %}'>Chips Management</li>
+	        </nav>
+	    </div>
+
+		<div class="cn-slide mainlink" id="slide-prot">
+	        <h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Scan</h2>
+	        <nav>
+	        	<li url='{% url MMM.views.hybrid_protocols %}'>Hybridization Protocol</li>
+	        	<li url='{% url MMM.views.scan_protocols %}'>Scan Protocol</li>
+	        </nav>
+	    </div>
+
+	    <!--div class="cn-slide mainlink" id="slide-exp">
+	        <h2><span class="cn-back"><img src="/uarray_media/images/arrow.png"></span>Scan</h2>
+	        <nav>
+	        	<li url='{% url MMM.views.explore_scan %}'>Retrieve by chip</li>
+	        	<li url='{% url MMM.views.compose_data %}'>Compose dataset</li>
+	        </nav>
+	    </div-->
+</div>
+	
+<div class='cn-container' style='float:right;width:25%'>
+	<div class="imghome">
+		<img src="/uarray_media/img/micro2.jpg" style="width:100%">
+	</div>
+	
+</div>
+
+	<br style="clear:both;"><br><br><br>
+
+{% endblock %}

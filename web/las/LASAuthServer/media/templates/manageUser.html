@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+
+
+
+	<nav>
+	<h1>Control Panel of user: {{u.username}}</h1>		
+	
+	<table id="navlist">
+			
+		<tr>
+			<td class="navbut managePermissions">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/lock-icon.png" width="44" height="44"></td><td>Manage Permissions</td></tr></table>
+			</td>
+		</tr>	
+		<script>
+			$(".navbut.managePermissions").click(function(){
+				window.location.href="{% url loginmanager.views.editUserPermissions u.id%}"
+						
+			});
+		</script>
+		<tr>
+			<td class="navbut manageModules">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/modules-icon.png" width="44" height="44"></td><td>Manage Modules</td></tr></table>
+			</td>
+		</tr>
+	
+	<script>
+	$(".navbut.manageModules").click(function(){
+		window.location.href="{% url loginmanager.views.editUserModules u.id %}"		
+	});
+	</script>
+        </tr>
+	</table>
+	<article id="immagini">
+		<p class="imghome a"><img class="home" id="dna" width="400" height="250" src="/lasauth_media/img/dna3.jpg"><br>Molecular Analysis</p>
+		<p class="imghome b"><img class="home" width="400" height="250" src="/lasauth_media/img/tumorali.jpg"><br>Biological Data Management</p>
+	</article>
+			
+</nav>
+
+{% endblock %}

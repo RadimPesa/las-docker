@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/manageModules.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+	<link rel="stylesheet" href="/lasauth_media/manage/css/tables.css">
+	
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/currentPermissions.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="/lasauth_media/js/jquery.dataTables.js"></script>
+	<style type="text/css" title="currentStyle">
+			@import "/lasauth_media/css/demo_table.css";
+	</style>
+	<script>
+		lasauthmedia="/lasauth_media/";
+		{% for perm in currentPerm%}
+			addPermission({{perm.lasmodule.id}},'{{perm.name}}');
+		{%endfor%}
+	</script>
+	
+</head>
+<body onload="setLoginFocus()">
+	<header>
+		<hgroup>
+			<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+
+		</hgroup>
+	</header>
+	<section id="content">
+		<script>$("section#content").addClass("home");</script>
+		<p id="user_name">
+			<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+		</p>
+		{% if currentMod %}
+			<div style="padding-left:50px;">    
+		    	<div>
+		    		<h1 class="title">Available Modules</h1>
+					<table cellpadding="0" cellspacing="0" border="0" class="displayHalf" id="example">
+						<thead>
+							<tr>
+								<th>Modules</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for mod in currentMod%}
+							<tr id="{{mod.id}}">
+								<td>{{mod.name}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</br></br>
+		{% else %}
+			<h3><span id="navtitle">Sorry, no module is currently available. </span></h3>
+		{% endif%}
+		
+		{% if reqModules %}
+			<div style="padding-left:50px;">    
+		    	<h1 class="title">Requested Modules</h1>
+				</br></br>
+			    <table class="table-user">
+					<thead>
+						<tr><th>Modules</th><th>Performed at:</th></tr>
+					</thead>
+				    	{% for req in reqModules%}
+				    	<tr>
+				    		<td>
+				    			<ul>
+				    			{% for mod in req.modules.all %} 
+				    				<li>{{mod.name}}</li>
+				    			{% endfor%}
+				    			</ul>
+				    		</td>
+				    		<td>{{req.date_time}}</td>
+						</tr>
+						{% endfor%}
+				</table>
+				</br></br>
+			</div>
+		{% else %}
+			<h3><span id="navtitle">There is no module pending request. </span></h3>
+		{% endif%}
+		
+		{% if reqPermissionss%}
+			<div style="padding-left:50px;">
+				<h1 class="title">Requested Permissions</h1>
+				</br></br>
+			    <table class="table-user">
+					<thead>
+						<tr><th>Permissions</th><th>Performed at:</th></tr>
+					</thead>
+				    	{% for req in reqPermissions%}
+				    	<tr>
+				    		<td>
+				    			{% regroup req.permissions.all|dictsort:"lasmodule.shortname" by lasmodule as permessi%}
+								{% for perms in permessi%}
+									<li style="font-weight:bold;">{{perms.grouper}}
+										<ul>
+											{%for item in perms.list%}
+												<li  style="font-weight:normal;">
+													{{item}}
+												</li>
+											{%endfor%}
+										</ul>
+									</li>
+								{%endfor%}
+				    		</td>
+				    		<td>{{req.date_time}}</td>
+						</tr>
+						{% endfor%}
+				</table>
+			</div>
+		{% else %}
+			<h3><span id="navtitle">There is no permission pending request. </span></h3>
+		{% endif%}
+		</section>
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>	
+</body>
+
+</html>

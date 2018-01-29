@@ -1,0 +1,213 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Slides preparation{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/slide/slide_end.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/vital/redips-drag-min.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		td{border-width:0px;border-right:4px; padding:3px;vertical-align:middle;}
+		th{padding:8px;}
+		button {width:100%; height:100%; 
+			background-color:rgb(249,248,242); -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;}
+		#listapias td:hover {border-color:black;#A32900;border-style:solid;border-width:1px;border-top-width:1px;background-color:silver;#FF9A45;cursor:pointer;}
+		.drag {vertical-align: middle;padding:0.1em;font-size:1em;border:2px solid}
+		#aliq label{margin-bottom: 5px;}
+		#aliq input{margin-top: 5px; margin-bottom: 5px;}
+		#lis_aliqder td{border-width: 1px;vertical-align:middle;}
+		#piastra table td,#piastra table th{border:1px solid black}
+		.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		#piastra table td {height:2.1em;}
+		#lis_aliqder_paginate a, #aliquots_table_paginate a{padding-top:4px;}
+		#aliquots_table tr{text-align: center;}
+		#aliquots_table img {cursor:pointer;}
+		#aliquots_table_filter {margin-bottom:4px;}
+		.posiz {background-color:silver;border-style:solid;border-color:black;}
+	</style>
+{% if aliquota %}	
+	<input type="hidden" id="indice" value={{indice}} />	
+	<input type="hidden" id="tot_ali" value={{tot_aliq}} />
+	<input type="hidden" id="tipocont" value={{tipovetr}} />
+	
+	<form id="form_fin" action={% url tissue.slide.LastPartSlideAliquots %} method="post">{% csrf_token %}
+		<div class="bordicurvi" style=";float:left;border-style:solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em 0.5em 0em 0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;" size="10" autocomplete="off" >
+				<br>
+				<input id="validate_barc" type="submit" class="button" style="float:left;margin-top:0.5em;" value="Validate current operation" title="Click to validate sample you are working with now"/> 
+			</div>
+			<br style="clear:both;"/>
+			<br>
+		</div>
+		
+		<br style="clear:both;"/>
+		<input type="hidden" id="proto" value={{tipo}} name="protocollo" /> 
+			
+		<br style="clear:both;">
+		<table border='1px' style="border-color: black;float:left;" id="aliq">
+			<th>Aliquot</th>
+			<th>Options</th>			
+			<tr>		
+				<td align="center" style="vertical-align:middle;">
+					<div style="padding-bottom:2em;">	
+						<label>Genealogy ID:</label>
+						<input id="gen" style="vertical-align:middle;" readonly="readonly" type="text" name="gen" value={{aliquota}} size=32 />
+						<label>Barcode:</label>
+						<input id="barc_campione" style="vertical-align:middle;" readonly="readonly" type="text" value={{barcode}} size=26 />
+						<span id="spanposiz" style="display:inline;">
+							<label>Position:</label>
+							<input id="pos_campione" style="vertical-align:middle;" readonly="readonly" type="text" size="5" value={{position}} />
+						</span>
+					</div>
+					<div id="aliq_esaur" style="border-top:1px solid;">
+						<h4 style="display:inline;">Aliquot Exhausted</h4>
+						<input style="margin:1em;display:inline;" id="exh" type="checkbox" name="exhausted" size=5 />
+					</div>
+				</td>
+				
+				<td align="center" style="padding:8px;border-width:1px;vertical-align: middle;">
+					<div>
+						<label style="margin-bottom:5px;" for="spessore">Thickness({{spess.unityMeasure}}):</label>
+						<input id="spessore" style="margin-top:5px;margin-bottom:5px;" maxlength="5" type="text" value={{spess.value}} size=3 />
+						<label style="margin-bottom:5px;margin-top:5px;" for="pezzi_vetrino">N° of sections per slide:</label>
+						<input id="pezzi_vetrino" style="margin-top:5px;" maxlength="5" type="text" value={{geom}} size=3 />
+						<label style="margin-bottom:5px;margin-top:5px;" for="pezzi_blocco">N° of sections per block:</label>
+						<input id="pezzi_blocco" name="p_blocco" style="margin-top:5px;" maxlength="5" value={{pezziblocco}} type="text" size=3 />
+					</div>
+				</td>	
+			</tr>
+		</table>			
+	
+		<div style="float:left;margin-left:2em;max-width:80em;">
+			<div style="float:left;">
+				<table border='1px' style="float:left;" id="piastra">
+					<tr>
+						<td class="mark" >
+							<div id="rna">
+							</div>
+							<hr style="margin-top:8px;">
+						 	<div style=padding:5px;float:left;text-align:left;>
+								<label for="barcode_plate">Slide barcode:</label>
+								<input id="barcode_plate" type="text" maxlength="50" size="11" name="barcode_r" autocomplete="off" >
+							</div>				
+							<div style="padding-left:20px;padding-top:12px;float:left;">
+								<input type="submit" value="Load" class="button" id="load_plate" style="display:inline;margin-top:3px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<table border='2px' style="float:left;display:none;margin-left:2em;" id="listapias">
+			<th>Slide list</th>
+			<input value=0 type="hidden" id="numnuovepi" name="numnuovepiastre"/>
+			{% if listapiastre %}
+				{% for p in listapiastre %}
+					<tr align="center">
+						<td>{{p}}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+		
+		<br style="clear:both;">
+			
+		<br>
+			<input id="conf_all" type="submit" style="float:left;" class="button" value="Next Aliquot" title="Click to confirm and pass to the next aliquot"/>
+			<input id="finish" type="submit" style="float:left;margin-left:1.5em;" name="finish" class="button" value="Finish" title="Click to confirm and finish procedure at this point"/>
+		<br style="clear:both;">
+		<br>
+			
+		<div style="width:30%;max-width:600px;float:left;">
+			<table border='1px' style="float:left;width:100%;" id="lis_aliqder">
+				<thead>
+					<th>N</th>
+					<th>GenID</th>
+					<th>Barcode</th>
+					<th>Position</th>
+					<th>Exec.</th>
+				</thead>
+				<tbody>
+					{% for al,barc,pos in lista_divid %}
+						<tr align="center">
+							<td class="lista_indici">{{forloop.counter}}</td>
+							<td class="lista_gen">{{al.idAliquot.uniqueGenealogyID}}</td>
+							<td class="lista_barc">{{barc}}</td>
+							<td >{{pos}}</td>
+							{% if al.executed == 0 %}
+							<td><img id="foto" width="15" height="15" src="{{MEDIA_URL}}img/n_ok.png"></td>
+							{% else %}
+							<td><img id="foto" width="15" height="15" src="{{MEDIA_URL}}img/ok2.png"></td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</form>
+	
+	<br style="clear:both;">
+	
+	<section class="canc">
+        <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+            <fieldset  class="fieldset" style="height:85%;">
+                <legend class="legend"> Aliquots </legend>
+                <div style="height:100%;">
+                    <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+                    </table>
+                </div>
+            </fieldset> 
+        </div>
+    </section>
+    
+	<div id="dia1" style="display:none" title="OK">
+		<p id='dialogMess'></p>
+	</div>
+	<div id="dia2" style="display:none" title="Warning">
+		<p id='dialogMess2'></p>
+	</div>
+{% endif %}
+<!-- se ho finito le aliquote da dividere -->
+
+{% if fine %}
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both;">
+	<h2>These aliquots have been saved:</h2>
+	<table border='2px' id="aliquote_fin">
+		<thead>
+			<th>N</th>
+			<th>Genealogy ID</th>
+			<th>Barcode</th>
+			<th>Position</th>			
+			<th>Mother Gen.</th>
+			<th>Mother Barc.</th>
+			<th>Mother Pos.</th>
+		</thead>
+		<tbody>
+			{% for i in lista_der %}
+	        	{{  i|safe  }}
+	        {% endfor %}
+	    </tbody>
+	</table>
+	<br>
+    <br>
+    <br>
+    <span style="font-size:1.4em;">Please note that these aliquots have to be archived <a href="{{DOMAIN_URL}}/storage/archive/" target="_blank" > here </a></span>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'ValidatedAliquots';
+</script>
+{% endblock %}
+{% block title %}Validated Aliquots{% endblock %}
+
+
+{% block content %}
+
+<style>
+	td.planinfo{
+		border: 0px;
+	}
+	th.planinfo{
+		border: 0px;
+		text-align:	right;
+		padding-right: 20px;
+	}
+	
+	td#bottoni{
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #003600;
+	}
+	td#bottoni:hover{
+		background-color: #E0E0E0;
+	}
+	
+</style>
+
+
+<div>
+<p style="color:red">{{ errore }}</p>
+<article id="riquadro" style="margin-bottom:20px;max-width:50%;">
+<div id="plan_info">
+	<h3>Plan Info</h3>
+	<table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	     <tbody>
+	        <tr> 
+	            <th class="planinfo">Operator:</th> 
+	            <td class="planinfo">{{plan.idOperator}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Requested at:</th> 
+	            <td class="planinfo">{{plan.timestamp}}</td> 
+	        </tr>
+	        <tr> 
+	            <th class="planinfo">Aliquots prepared at:</th> 
+	            <td class="planinfo">{{plan.timechecked}}</td> 
+	        </tr>
+	        <tr>
+	        	<th class="planinfo">Request title:</th> 
+	            <td class="planinfo">{{plan.title}}</td> 
+	        </tr>
+			<tr>
+	        	<th class="planinfo">Request description:</th> 
+	            <td class="planinfo">{{plan.description}}</td> 
+	        </tr>
+     
+	    </tbody> 
+
+	    
+	</table>
+
+</div>
+</article>
+
+<fieldset id="chip_position_layout">
+	
+	<legend><b>Aliquots</b></legend>
+	<table class='report' cellspacing="5">
+		 	<thead>
+				<tr> 
+                <th style="text-align:center;">Genealogy ID</th>
+                <th style="text-align:center;">Sample features</th>
+                <th style="text-align:center;">Owner</th>
+                <th style="text-align:center;">Original Volume</th>
+                <th style="text-align:center;">Original Concentration</th>
+                <th style="text-align:center;">Taken Volume</th>
+                <th style="text-align:center;">Exhausted</th>
+
+		        </tr>
+	        </thead>
+	        <tbody>
+    	{% for smpid, aliquot in val_aliquots.items %} 
+		 		
+		        <tr>
+		            <td>{{aliquot.genid}}</td>
+		            <td>{{aliquot.sample_features}}</td>
+		            <td>{{aliquot.owner}}</td>
+		            <td>{{aliquot.volume}}</td>
+		            <td>{{aliquot.concentration}}</td>
+					<td>{{aliquot.volumetaken}}</td>
+					<td>{{aliquot.exhausted}}</td>
+		        </tr>
+	 
+		{% endfor %}
+	       </tbody>
+	</table> 
+</fieldset>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+<html>
+<head>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/report.css" />
+<style type="text/css">
+@page {
+		size: {{pagesize}};
+		margin: 1cm;
+		@frame footer {
+    		    -pdf-frame-content: footerblock;
+    		    bottom: 1cm;
+    		    margin-left: 1cm;
+    		    margin-right: 1cm;
+                margin-top: 1cm;
+    		    height: 1cm;
+		}
+}
+</style>
+</head>
+<body>
+<div>
+    <h2><img src="{{MEDIA_URL}}img/logo-trasp.png" width="143" height="46" border="0"> {{title|safe}}</h2>
+    
+    <div>
+        <table class='report'>
+            <thead>
+                {% for h in header %}
+                    {% if h.class != ""%}
+                        <th class="{{h.class}}">{{h.title|safe}}</th>
+                    {% else%}
+                        <th>{{h.title|safe}}</th>
+                    {% endif%}
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for row in body %}
+                    <tr>
+                        {% for cell in row %}
+                            {% if cell.class != ""%}
+                                <td class="{{cell.class}}">{{cell.data|safe}}</td>
+                            {% else%}
+                                <td>{{cell.data|safe}}</td>
+                            {% endif%}
+                        {% endfor %}
+                    </tr>                    
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+    <div id="footerblock">
+        <pdf:pagenumber>
+    </div>
+</body>
+</html>

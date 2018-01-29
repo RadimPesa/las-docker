@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Used aliquots - PDF</title>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" />
+
+</head>
+<body>
+<section>
+        {% block content %}
+                <h1 align="center">Used aliquots</h1>
+                <table border="1">
+                        <tr>
+                       		<td width="3%" align="center"><strong><br>N</strong></td>
+                       		<td align="center"><strong><br>Experiment</strong></td>
+                            <td align="center"><strong><br>GenealogyID</strong></td>                
+                            <td align="center"><strong><br>Barcode</strong></td>
+                            <td width="9%" align="center"><strong><br>Conc. (ng/ul)</strong></td>
+                            <td width="9%" align="center"><strong><br>Taken vol.(ul)</strong></td>
+                            <td width="9%" align="center"><strong><br>Final vol.(ul)</strong></td>
+                            <td width="6%" align="center"><strong><br>Exhausted</strong></td>                                
+                        </tr>
+                {% for m in list_report %}
+                        {{  m|safe  }}
+                {% endfor %}
+                </table>
+        {% endblock %}
+</section>
+</body>
+</html>

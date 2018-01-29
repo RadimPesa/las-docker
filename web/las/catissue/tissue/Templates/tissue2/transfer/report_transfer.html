@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	{% if mail %}
+		<h3 style="color: black;">Today you have to execute this transfer procedure:</h3>
+	{% else %}
+		<h3 style="color: black;">You have been designated to execute a transfer procedure</h3>
+	{% endif %}
+    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+		<tr>
+			<td><b>Assigner:</b></td>
+			<td> {{assigner}} </td>
+		</tr>
+		{% if not mail %}
+			<tr>
+				<td><b>Shipment date:</b></td>
+				<td> {{data|date:"jS F Y"}} </td>
+			</tr>
+		{% endif %}
+		<tr>
+			<td><b>Address to:</b></td>
+			<td> {{addr}} </td>
+		</tr>
+	</table>
+	<h3>Aliquots to transfer:</h3>
+	<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+		<th style="padding:4px;">N </th>
+		<th style="padding:4px;">Genealogy ID</th>
+		<th style="padding:4px;">Barcode</th>
+		<th style="padding:4px;">Position</th>
+		{% for aliquota,barc,pos in listafin %}
+			<tr>
+				<td style="padding:5px;">{{forloop.counter}}</td>
+				<td style="padding:5px;">{{aliquota}} </td>
+				<td style="padding:5px;">{{barc}}</td>
+				<td style="padding:5px;">{{pos}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</section>
+</body>
+</html>

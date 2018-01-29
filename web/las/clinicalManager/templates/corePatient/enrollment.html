@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="enrollment">
+<head>
+    <title>Patients enrollment</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .ng-invalid.ng-dirty {
+        border-color: #FA787E;
+    }
+    .ng-valid.ng-dirty {/* //commented ng-dirty to make green also undirty input when loading existing patient*/
+        border-color: #78FA89;
+    }
+    </style>
+
+    <script>
+    // init of Django MEDIA_URL
+    var MEDIA_URL  = '{{ MEDIA_URL|escapejs }}';
+    function static_media(path) {
+        return MEDIA_URL + path;
+    };
+    var initializing = true;
+    var USER = '{{ user.username }}';
+
+    </script>
+
+
+
+    <!-- Bootstrap's JavaScript requires jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+
+    <script src="{{MEDIA_URL}}js/clinical/enrollment/app.js"></script>
+
+</head>
+{% verbatim %}
+<body ng-controller = "FormController as fc">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Patients enrollment</h1>
+            <p class="lead">Use this form to enroll a Patient in a Trial.</p>
+            <p><a class="btn btn-lg btn-success" href="/clinical" role="button">&laquo; Back to Clinical Home</a></p>
+        </div>
+
+        <div class="col-md-9">
+
+            <h3>Enroll a Patient <b ng-show="fc.enrollmentData.project">in {{fc.enrollmentData.project}}</b></h3>
+            <form class="form-horizontal" role="form" name="enrollForm"  ng-submit="fc.enroll(fc.enrollmentData)" novalidate >
+                <fieldset ng-disabled = "fc.generalLock">
+                    {% endverbatim %}
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">User *:</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" type="text" value = '{{user.username}}' disabled = 'true'>
+                        </div>
+                    </div>
+                    {% verbatim %}
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Trial *:</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" ng-model="fc.enrollmentData.project" ng-change="fc.getMedCent(fc.enrollmentData.project); fc.enrollmentData.medicalCenter=undefined; fc.enrollmentData.ICcode=undefined; fc.icAlreadyExists=undefined; fc.globalICcodes=undefined;" required>
+                                <option ng-repeat="trial in fc.trials | orderBy : trial.name" value="{{trial.identifier}}">{{trial.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Medical Center *:</label>
+                        <div class="col-lg-6">
+                            <select ng-disabled="!fc.enrollmentData.project" class="form-control" ng-model="fc.enrollmentData.medicalCenter" required >
+                                <option ng-repeat="medCen in fc.medicalCenters | orderBy : medCen.name" value="{{medCen.identifier}}">{{medCen.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Informed Consent *:</label>
+                        <div class="col-lg-6">
+                            <input ng-disabled="!fc.enrollmentData.project" class="form-control" type="text" name='iccode' ng-model="fc.enrollmentData.ICcode" ng-change="fc.checkInformedConsent(fc.enrollmentData.ICcode, fc.enrollmentData.project); fc.informedConsentWarning(fc.enrollmentData.ICcode);" required capitalize>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h3>Personal Data <b ng-show="fc.matchingLength == 1">of {{fc.enrollmentData.firstName}} {{fc.enrollmentData.lastName}}</b></h3>
+                    <fieldset ng-disabled = "fc.matchingLength == 1">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Fiscal Code *:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-focus="fc.infoFiscalCode = true; fc.matchingLength = undefined" ng-blur="fc.checkIfExists(fc.enrollmentData.fiscalCode); fc.infoFiscalCode = false " ng-model="fc.enrollmentData.fiscalCode" minlength="16" maxlength="16" size = "16" required capitalize>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">First Name *:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.firstName" required capitalize>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Last Name *:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.lastName" required capitalize>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Birth Date *:</label>
+                            <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input type="text"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="select the date using the calendar button"
+                                    class="form-control"
+                                    datepicker-popup="MMMM dd, yyyy"
+                                    ng-model="fc.enrollmentData.birthDate"
+                                    is-open="fc.opened"
+                                    ng-required="true"
+                                    show-weeks = 'false'
+                                    ng-readonly="true"
+                                    placeholder="select the date using the calendar button &raquo;"
+                                    close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="fc.open($event)" data-toggle="tooltip"
+                                        data-placement="top" title="click me to select a date"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Birth Nation:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.birthNation" capitalize>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Birth Place:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.birthPlace" capitalize>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Residence Nation:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.residenceNation" capitalize>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Residence Place:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="fc.enrollmentData.residencePlace" capitalize>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Race:</label>.
+                            <div class="col-lg-6">
+                                <select class="form-control" ng-model="fc.enrollmentData.race">
+                                    <option value="WH">White</option>
+                                    <option value="IN">American Indian or Alaska Native</option>
+                                    <option value="AS">Asian</option>
+                                    <option value="BK">Black or African American</option>
+                                    <option value="HW">Native Hawaiian Or Other Pacific Islander</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Gender *:</label>
+                            <div class="col-lg-2">
+                                <select type="text" class="form-control" ng-model="fc.enrollmentData.sex" required>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset></fieldset>
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"></label>
+                        <input type="submit" class="btn btn-success" value="Submit" ng-disabled="!enrollForm.$valid || fc.generalLock">
+                        <input type="button" value="Reset" class="btn btn-default" ng-click = "fc.clear();">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-danger" ng-show="fc.icAlreadyExists && fc.icWarning">
+                    <strong>Error:</strong> This informed consent already exists in {{fc.enrollmentData.project}}
+                </div>
+                <div class="alert alert-warning" ng-show="fc.icWarning && fc.icAlreadyExists==false">
+                    <strong>Warning:</strong> A similar informed consent already exists in the following projects: <strong>{{fc.globalICcodes}}</strong>. <br/> Please, proceed carefully
+                </div>
+                <div class="alert alert-info" ng-show="fc.infoFiscalCode">
+                    <strong>Info:</strong> If the fiscal code matches an existing one, then a new informed consent is added to the matching patient for the selected trial.
+                </div>
+                <div class="alert alert-success" ng-show="fc.matchingLength == 0">
+                    Fiscal code <strong>{{fc.enrollmentData.fiscalCode}}</strong> does not match existing data. You are going to create a new patient.
+                </div>
+                <div class="alert alert-warning" ng-show="fc.matchingLength == 1">
+                    Fiscal code <strong>{{fc.enrollmentData.fiscalCode}}</strong> matches existing data. <br/>You are going to enroll this patient: <strong>{{fc.enrollmentData.firstName}} {{fc.enrollmentData.lastName}}</strong>
+                </div>
+
+                <div class="alert alert-success" ng-show="fc.enrolled == true">
+                    <span class="glyphicon glyphicon-ok"></span> <strong>Succes</strong> Patient enrolled in {{fc.enrollmentData.project}}
+                </div>
+                <div class="alert alert-danger" ng-show="fc.enrolled == false">
+                    <span class="glyphicon glyphicon-remove"></span> <strong>Error while enrolling patient in {{fc.enrollmentData.project}}</strong>
+                </div>
+
+                </div>
+            </div>
+
+
+
+        </body>
+        {% endverbatim %}
+        </html>

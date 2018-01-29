@@ -1,0 +1,118 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="charset=UTF-8">  
+	    <!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+	    <!-- [if lt IE 9]>
+	    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	    <meta charset="charset=ISO-8859-1">
+
+	    
+		<script src="/rtpcr_media/js/jquery-1.8.3.min.js"></script>
+		<script src="/rtpcr_media/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<script src="/rtpcr_media/js/jquery.tablesorter.min.js"></script>
+		<script src="/rtpcr_media/js/jquery.tablesorter.pager.js"></script>
+		<script src="/rtpcr_media/js/jquery.tablesorter.js"></script>
+		<script src="/rtpcr_media/js/jquery.jsort.0.4.js"></script>
+		<script src="/rtpcr_media/js/jquery.metadata.js"></script>
+		<script src="/rtpcr_media/js/inputvalidation.js"></script>
+		<script src="/rtpcr_media/js/urls.js"></script>
+	
+		<link rel="stylesheet" href="/rtpcr_media/css/style.css">
+		<link rel="stylesheet" href="/rtpcr_media/css/ui-lightness/jquery-ui-1.9.2.custom.css">
+		<link rel="stylesheet" href="/rtpcr_media/css/jquery.dataTables.css">
+		<link rel="stylesheet" href="/rtpcr_media/css/spinning.css">
+		<link rel="stylesheet" href="/rtpcr_media/css/validationEngine.jquery.css">
+	
+		{% block headers %}{% endblock %}
+		<title>{% block title %}{% endblock %}</title>
+			
+		<link rel="shortcut icon" href="/rtpcr_media/img/favicon.ico">	
+		<script>
+			//customizzazione delle alert
+			function pad(n) { return ("0" + n).slice(-2); }
+
+			function alert2(message, title, buttonText) {
+
+		    buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+		    title = (title == undefined) ? "The page says:" : title;
+
+		    var div = $('<div>');
+		    div.html(message);
+			div.css("padding","25px");
+		    div.attr('title', title);
+		    div.dialog({
+		        autoOpen: true,
+		        modal: true,
+				height: 200,
+		        draggable: true,
+		        resizable: true,
+		        buttons: [{
+		            text: buttonText,
+		            click: function () {
+		                $(this).dialog("close");
+		                div.remove();
+		            }
+		        }]
+		    });
+			}
+			window.alert = alert2;
+			
+			$(document).ready(function() {
+				$("span.home").click(function(){
+			        window.location="{% url rtpcr.views.home %}";
+			    });
+			});
+
+		    jQuery(document).ready(function() {
+                jQuery('body').ajaxComplete(function(e, xhr, settings) {
+                        if (xhr.status == 278) {
+                            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                        }
+                });
+			    //ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+			    workingGroups="";
+			    {% if request.workingGroups %}
+			        workingGroups="{{request.workingGroups}}";
+			        $.ajaxSetup({
+			            beforeSend: function (request){
+			                request.setRequestHeader("workingGroups", workingGroups);
+			            }
+			        });
+				{% endif %}
+
+            });
+        media_url = "{{MEDIA_URL}}";
+    	lasauth_url = "{{LAS_URL}}";
+		</script>
+
+{% block script %} {% endblock %}
+</head>
+<body {%block bodyoption %}{% endblock %}>
+	<header>
+			
+		    <h1 style="float:left;"> <a id="home" href="{% url rtpcr.views.home %}"><img width="143px" height="46px" src="/rtpcr_media/img/logo-trasp.png"></a> Real-Time PCR </h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   {% if user.is_authenticated %}
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} | <a href="{% url rtpcr.views.logout_view %}">LAS Home</a> [{{  user.username  }}]</span><!--  <span class="home" title="home"></span> -->
+			</p>
+			{% endif %}
+		<br style="clear:both;">
+			
+	</header>
+
+
+	<section id="content">	
+		{% block home %}{% endblock %}
+		{% block content %}{% endblock %}
+	</section>
+	
+    <div class="modal"><!-- Place at bottom of page --></div>	
+
+
+	</body>
+</html>

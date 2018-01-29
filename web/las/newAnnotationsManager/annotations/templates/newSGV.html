@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% load jsonify %}
+
+{% block title %}Annotations Manager - New Short Genetic Variation{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/cvi_busy_lib.js"></script>
+<script src="{{MEDIA_URL}}js/opentip-jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/newSGV.js"></script>
+<script src="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/js/select2.js"></script>
+<script src="{{MEDIA_URL}}js/genid.json"></script>
+
+<script src="{{MEDIA_URL}}lib/sumoselect/jquery.sumoselect.min.js"></script>
+
+<script type="text/javascript">
+var sgv_params = function() {
+    var tmp = $.parseJSON('{{sgv_params|jsonify|safe}}');
+    var d = {}
+    for (var i = 0; i < tmp.length; ++i) {
+        d[tmp[i].id] = tmp[i].name;
+    }
+    return d;
+}()
+var sgv_types_params = $.parseJSON('{{sgv_types_params|jsonify|safe}}');
+var tmp = $.parseJSON('{{sgv_types|jsonify|safe}}');;
+var sgv_types = {};
+for (var k in tmp) {
+    sgv_types[tmp[k].id] = tmp[k];
+}
+var snpFromDbSnp_url = "{% url api.newapi.snpFromDbSnp %}";
+</script>
+
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}css/opentip.css" rel="stylesheet" type="text/css" />
+<link href="{{MEDIA_URL}}lib/select2-4.0.0-Beta 2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="{{MEDIA_URL}}lib/sumoselect/sumoselect.css" rel="stylesheet" />
+<style>
+select.select1 {min-width: 310px; width: 310px;}
+select.select3 {min-width: 70px; width: 70px;}
+input.input3 {min-width: 120px; width: 120px; border: 1px solid rgb(170, 170, 170); border-radius: 4px; height: 24px; vertical-align: top; text-align: right;}
+.select2-container {width: 310px;}
+div.sortable-container {padding: 20px; min-height: 50px; margin-top: 10px; border: solid 1px rgb(170, 170, 170); background-color: #fff; border-radius: 4px;} /*max-height: 310px; overflow-y: auto; */
+ul.sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+ul.sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-weight: bold; height: 18px; cursor: pointer; width: 300px;}
+ul.sortable li span.ui-icon { display: inline-block; margin-left: 0px; margin-right: 10px;}
+ul.sortable li span.ui-icon:hover { cursor: pointer; background-color: #C9C9C9; }  
+button[type=button],button[type=submit],button[type=reset] { border-radius: 3px; }
+.genidpar{width: 50px;}
+span.action {cursor: pointer;}
+span.action:hover {background-color: #99C199;}
+table#altgenesummary thead th, table#samplesummary thead th {text-align: center;}
+td.center {text-align: center;}
+.textbtn {cursor: pointer;}
+.textbtn:hover {text-decoration: underline;}
+span.small {font-size: 10px;}
+
+div.container-left {width: 33%; border-width:1px 0px 1px 1px; border-style: solid; border-color: grey; min-height: 300px; height: 300px; max-height: 480px; background: white; overflow-y: scroll;}
+div.container-right {margin-left: 0px; float: right; width: 66%; border-width:1px 1px 1px 0px; border-style: solid; border-color: grey; min-height: 600px; background: #dddddd;}
+label.captions {display: inline-block; width: 80px; margin-right: 10px; margin-bottom: 16px;}
+label.captions.wide {width: 120px;}
+label.captions.narrow {width: 40px; margin-right: 5px;}
+select.wide {min-width: 218px; width: 218px;}
+input.wide {min-width: 206px; width: 206px; height: 22px; border-radius: 5px; border: 1px solid #A4A4A4; padding-left: 5px; padding-right: 5px; color: #333333;}
+select.narrow {min-width: 60px; width: 60px;}
+input.narrow {min-width: 106px; width: 106px; height: 22px; border-radius: 5px; border: 1px solid #A4A4A4; padding-left: 5px; padding-right: 5px; color: #333333;}
+
+
+a.boxclose{
+    float:right;
+    margin-top:-18px;
+    margin-right:-18px;
+    cursor:pointer;
+    color: #dddddd;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 5px;
+}
+
+.boxclose:before {
+    content: "×";
+}
+
+span.criterion {margin: 10px; padding: 10px; display: block; min-height: 100px; border: 1px solid #AEAEAE; background: #FBF5EF;}
+b.criterion {font-size: 1.1em;}
+
+select {border-radius: 5px;}
+
+span.callout {
+    display: inline-block;
+    width: 200px;
+    background-color: #444;
+    background-image: -moz-linear-gradient(top, #444, #444);
+    position: absolute;
+    color: #ccc;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 20px #999;
+    margin: 25px;
+    min-height: 30px;
+    border: 1px solid #333;
+    text-shadow: 0 0 1px #000;
+    vertical-align: middle;
+  
+    /*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;*/
+}
+
+.callout::before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    border: 0.9em solid transparent;
+    position: absolute;
+}
+
+.callout.right::before {
+    left: -20px;
+    top: 20%;
+    border-right: 10px solid #444;
+}
+span.hr {display: block;}
+span.hr.hidden {display: none;}
+span#hr-container .SlectBox {width: 65px;}
+span#hr-container input {vertical-align: top;}
+</style>
+{% endblock %}
+
+{% block content %}
+<article id="riquadro">
+<h3>New Short Genetic Variation</h3>
+<div style="float: left">
+    <span class="callout right" id="callout-0" style="display: none"></span>
+    <br>
+    <label for="assembly" class="captions wide">Assembly:</label>
+    <select id="assembly" class="wide">
+        {% for a in assembly %}
+        <option value="{{ a.id }}">{{ a.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <label for="method" class="captions wide">Method:</label>
+    <select id="method" class="wide">
+        <option value="0">Import from dbSNP</option>
+        <option value="1">Manual</option>
+    </select>
+    <br>
+
+    <span id="sgv_name-0" style="display: none" >
+        <label class="captions wide">Name:</label>
+        <select class="captions wide" id="name">
+            <option></option>
+        </select>
+        <br>
+        <label class="captions wide">Type:</label>
+        <input type="text" readonly="true" class="captions wide" />
+        <br>
+        <label for="allele" class="captions wide">Allele(s):</label>
+        <select id="allele" class="wide" multiple="multiple">
+        </select>
+    </span>
+    <span id="sgv_name-1" style="display: none" >
+        <label class="captions wide">Name:</label>
+        <input class="wide" type="text" />
+    </span>
+
+    <br>
+
+    <div id="div-manual" style="display: none">
+        <label for="chrom" class="captions wide">Chromosome:</label>
+        <select id="chrom" class="wide">
+            {% for c in chrom %}
+            <option value="{{ c }}">chr{{ c }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="start" class="captions wide">Start coordinate:</label>
+        <input id="start" class="wide" type="number" />
+        <br>
+
+        <label for="strand" class="captions wide">Strand:</label>
+        <select id="strand" class="wide">
+            <option value="+">+</option>
+            <option value="-">-</option>
+        </select>
+        <br>
+
+        <label for="type" class="captions wide">Type:</label>
+        <select id="type" class="wide">
+            {% for x in sgv_types|dictsort:"rank" %}
+                {% if x.enabled %}
+                <option value="{{ x.id }}">{{ x.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+
+        {% for p in sgv_params|dictsort:"rank" %}
+        <div id="par-{{ p.id }}" class="par" style="display: none">
+            <label for="{{ p.id }}" class="captions wide">{{ p.name }}:</label>
+            <input id="{{ p.id }}" class="wide" type="{{ p.type }}" />
+        </div>
+        {% endfor %}
+
+        <label for="xref" class="captions wide">External ID (optional):</label>
+            <input id="xref" class="wide" />
+    </div>
+
+    <form id="frm-data" action="./" method="post">
+        <input type="hidden" id="frm-assembly" name="assembly" />
+        <input type="hidden" id="frm-method" name="method" />
+        <input type="hidden" id="frm-dbsnp_pk" name="dbsnp_pk" />
+        <input type="hidden" id="frm-sgv_name" name="sgv_name" />
+        <input type="hidden" id="frm-allele" name="allele" />
+        <input type="hidden" id="frm-type" name="type" />
+        <input type="hidden" id="frm-chrom" name="chrom" />
+        <input type="hidden" id="frm-start" name="start" />
+        <input type="hidden" id="frm-strand" name="strand" />
+        <input type="hidden" id="frm-params" name="params" />
+        <input type="hidden" id="frm-referer" name="referer" value="{{ referer }}" />
+        <input type="hidden" id="frm-xref" name="xref" />
+        <input type="hidden" id="frm-hr" name="hr" />
+        {% csrf_token %}
+        <button type="reset">Reset</button>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<div style="float: left; margin-left: 50px; margin-top: 15px">
+Add an homologous region:&nbsp;
+<button type="button" id="addhr">Add</button>
+<br><br>
+<span id="hr-container"></span>
+<span class="hr hidden">
+<span style="display: inline-block; font-weight: bold">HR</span>&nbsp;
+<label class="captions narrow">Chrom:</label>
+<select class="chrom narrow">
+{% for c in chrom %}
+    <option value="{{ c }}">chr{{ c }}</option>
+{% endfor %}
+</select>
+&nbsp;&nbsp;
+<label class="captions narrow">Start:</label>
+<input class="start narrow" type="number" />
+&nbsp;&nbsp;
+<label class="captions narrow">Strand:</label>
+<select class="strand narrow">
+    <option value="+">+</option>
+    <option value="-">-</option>
+</select>
+&nbsp;&nbsp;<button type="button" onclick="javascript:$(this).parent().remove()">Remove</button>
+</span>
+</div>
+</article>
+{% endblock %}

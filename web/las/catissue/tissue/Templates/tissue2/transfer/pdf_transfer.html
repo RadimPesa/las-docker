@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Transferred aliquots - PDF</title>
+
+</head>
+<body>
+<section>
+        {% block content %}
+            <h1 align="center">Transferred aliquots</h1>
+
+            <h4>{% if addr != "" %} Sent to: {{  addr  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endif %}
+            {% if data != "" %} Date: {{data|date:"jS F Y"}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endif %}
+            {% if corr != "" %} Courier: {{  corr  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endif %}
+            {% if track != "" %} Tracking Number: {{  track  }} {% endif %}</h4>
+		
+            <table border="1">
+                     
+        		{{  intest|safe  }}
+                     
+            	{% for m in list_report %}
+                     {{  m|safe  }}
+             	{% endfor %}
+            </table>
+        {% endblock %}
+</section>
+</body>
+</html>

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Move aliquots to storage{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/archiveFF.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/redips-drag-min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+{% endblock %}
+
+{% block menu %}
+
+    <ul>
+    	<li><a  href={% url archive.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+		
+		<style type="text/css">
+			select{ font-size:1.5em;}
+			label {font-size:1.4em;} 
+			button {width:37px; height:37px; font-size: 20px; 
+					background-color:rgb(249,248,242); -moz-border-radius:5px; 
+					border-radius:5px;border-style:hidden;}
+			td {border-right:4px; padding:3px;}
+			th {font-size: 1.5em;}
+			input{font-size: 1.3em;}
+			table th{line-height: 25px;}
+			input{font-size:1.5em;}
+			#aliq input{display:inline;}
+			#listapias th{font-size:1.4em; padding:8px;}
+			#listapias td{font-size:1.3em; padding:8px;border-width:0px;}
+			#listapias td:hover {border-color:black;#235032;border-style:solid;border-width:1px;background-color:silver;#99E5A6;cursor:pointer;}
+			.drag {width:1em;height:0.9em;}
+			#tab_riass_paginate a {padding-top:4px;}
+			#tab_riass_length {margin-top: 10px;}
+			#tab_riass_length label, #tab_riass_filter label {font-size:1.2em;}
+			#tab_riass_filter input {font-size:1.2em;}
+			#tab_riass_filter {margin-bottom: 4px;}
+			#tab_riass td,#tab_gen td{font-size: 1.3em;padding:8px;vertical-align: middle;}
+			#tab_riass{margin-bottom:4px;}
+		</style>
+		
+		<h1 id="cont_h1"  align="center">Archive free containers</h1>
+		<br>
+		
+		<div id="drag" style="float:left;width:100%;">
+			<div style="float:left;">
+				<div style="background-color:#E8E8E8;padding:0.8em;border:0.2em solid;">
+					<label for="id_tipi">Choose aliquot type (optional):</label>
+					<br>
+					<select id="id_tipi" name="tipi" style="display:inline;margin-bottom:0.5em;margin-top:0.3em;">
+						{% for aliq in tipaliq %}
+							<option value={{aliq.abbreviation}}>{{aliq.longName}}</option>
+						{% endfor %}
+					</select>
+					<input id="l_aliquote" class="button" type="button" value="Load">
+				</div>
+				<br>
+				<br>
+				<label for="barcode_pieces" style="display:inline;">Container barcode:</label>
+				<input id="barcode_pieces" type="text" maxlength="45" style="display:inline;" >
+				<input type="submit" value="Ok" class="button" id="load_barc" style="display:inline;"/>
+				<br>
+				
+				<table border='2px' style="display:none;border-color: black;float:left;margin-top:2em;" id="tab_gen">
+					<thead>
+						<th class="mark">Genealogy ID</th>
+						<th class="mark"></th>
+					</thead>
+					<tbody>
+						<tr align="center">
+							<td class="mark" id="td_gen"></td>
+							<td class="mark" id="td_tasto"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="vit" style="float:right;">
+				<table border='2px' style="float:right;margin-bottom:1.5em" id="operativa">
+					<tr>
+						<td id="plate_operative" class="intest">
+							{{ a.drawer|safe }}
+						</td>
+					</tr>
+					<tr align="center">
+						<td class="mark" style="text-align: left;">
+							<div style="padding:5px;padding-top:0px;" >
+								<div style="float:left;">
+								<label for="barcode_plate" style="display:inline;">Barcode:</label>
+								<input id="barcode_plate" type="text" size="10" maxlength="45" name="barcode_op" style="display:inline;" >
+								<input type="submit" value="Load" class="button" id="load_plate" style="display:inline;"/>
+								</div>
+								<div style="float:right;">
+									<form action={% url archive.views.saveStoreAliquotsCassette %} method="post" id="form_conferma">{% csrf_token %}
+										<input type="submit" value="Confirm All" class="button" name="salva" id="p_confirm" style="display:inline;" />
+									</form>
+								</div> 
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<br style="clear:both">
+		
+		<table border='2px' style="border-color: black;float:left;display:none;" id="tab_riass">
+			<thead>
+				<th>N </th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+			</thead>
+			<tbody align="center">
+			<!-- {% if diz %}
+				{% for key,value in diz.items %}
+					<tr align="center" id="tr_{{forloop.counter0}}">
+						<td>{{forloop.counter}}</td>
+						<td>{{key}}</td>
+						<td>{{value}}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}  -->
+			</tbody>
+		</table>
+		<table border='2px' style="float:right;display:none;margin-right:5em;" id="listapias">
+			<th>
+				Plate list
+			</th>
+		</table>
+	{% if fine %}
+	<h1 align="center" style="font-size: 1.7em;">Store executed. All data have been saved</h1>
+	{% endif %}
+{% endblock %}

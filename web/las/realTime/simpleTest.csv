@@ -1,0 +1,20 @@
+					
+SDS 2.3	AQ Results				
+Filename	FRANCESCO G. 8-05-13				
+PlateID					
+Assay Type	Absolute Quantification				
+Run DateTime	41402,6984375				
+Operator					
+ThermalCycleParams					
+					
+Sample Information					
+					
+Well	Sample Name	Detector Name	Reporter	Task	Ct
+112	BLANK	EGFR	SYBR	NTC	Undetermined
+113	BLANK	EGFR	SYBR	NTC	Undetermined
+114	BLANK	EGFR	SYBR	NTC	Undetermined
+367	BT474	EGFR	SYBR	Unknown	25,834
+368	BT474	EGFR	SYBR	Unknown	25,764
+369	BT474	EGFR	SYBR	Unknown	25,914
+7	CRC0335NMH0000000000D04000	EGFR	SYBR	Unknown	27,911
+45	CRC0335NMH0000000000D03000	EGFR	SYBR	Unknown	29,411

@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="/caQuery_media/css/updateds.css">
+<link rel="stylesheet" href="/caQuery_media/css/colpick.css" type="text/css"/>
+{% endblock %}
+{% block title %}Multidimensional Annotation Manager - API Registration{% endblock %}
+{% block script %}
+<script type="text/javascript" src="/caQuery_media/js/updatedatasources.js"></script> 
+<script type="text/javascript" src="/caQuery_media/js/colpick.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a id="lashome" href="">LAS Home</a> [{{  name  }}] </span> <span class="home" title="MDAM Home"></span>
+</p>
+
+<br><br>
+
+<section id="riquadroapi">
+    <h3>Edit data sources</h3>
+
+    <article id="commands">
+	
+        <table style="width: 870px">
+            <tr>
+                <td style="width:200px">
+                    <label for="selds">Choose data source:</label>
+                </td>
+                <td>
+                    <select id="selds">
+                        {% for s in datasrc %}
+                        <option value="{{s.id}}">{{s.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <script>
+                        $("#selds").prop("selectedIndex", -1);
+                    </script>
+                    <span style="margin-right: 30px">&nbsp;</span>
+                    <button id="dropdsbtn" class="dsbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-trash"></span></td><td class="nopad">Delete data source</td></tr></table></button>
+                    <button id="newdsbtn" class="dsbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-plusthick"></span></td><td class="nopad">New data source</td></tr></table></button>
+                </td>
+            </tr>
+            <tr><td style="height: 30px">&nbsp;</td></tr>
+        </table>
+            
+        <div id="tabs">
+            <ul>
+                <li><a href="#fragment-0"><span><b>Queryable entities</b></span></a></li>
+                <li><a href="#fragment-1"><span><b>Queryable entities</b></span></a></li>
+                <li><a href="#fragment-2"><span><b>Query paths</b></span></a></li>
+            </ul>
+
+            <div id="fragment-0">
+                <table style="width: 870px">
+                    <tr>
+                        <td style="width:178px">
+                            <label>Select queryable entities for data source:</label>
+                        </td>
+                        <td style="text-align: center">
+                            <table style="width: 654px; margin: 0px; padding: 0px">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0px">Available</p>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <p style="margin: 0px">Queryable</p>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:180px; height: 120px; padding: 0px">
+                                        <select multiple="multiple" id="avlEnt" class="entPicker"></select>
+                                    </td>
+                                    <td style="width: 80px; padding: 0px">
+                                        <p><button class="entPbtn" type="button" id="btnToRight">>></button></p>
+                                        <p><button class="entPbtn" type="button" id="btnToLeft"><<</button></p>
+                                        <p><button class="entPbtn" type="button" id="btnReset">Reset</button></p>
+                                    </td>
+                                    <td style="width:180px; height: 120px; padding: 0px">
+                                        <select multiple="multiple" id="qrbEnt" class="entPicker"></select>
+                                    </td>
+                                    <td style="width: 100px; vertical-align: center; padding: 20px">
+                                        <button id="btnSave" class="dsbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-check"></span></td><td class="nopad">Save</td></tr></table></button>
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="fragment-1">
+
+                <table style="width: 940px">
+                    <tr>
+                        <td style="width:178px">
+                            <label>Define queryable entities:</label>
+                        </td>
+                        <td style="text-align: center">
+                            <table style="margin: 0px; padding: 0px">
+                                <tr>
+                                    <td style="width:250px; height: 140px; padding: 0px">
+                                        <select multiple="false" id="qent" class="entPicker"></select>
+                                    </td>
+                                    <td style="width: 160px; height: 140px; padding: 0px">
+                                        <button id="newqentbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-plusthick"></span></td><td class="nopad">New</td></tr></table></button>
+                                        <button id="editqentbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-pencil"></span></td><td class="nopad">Edit</td></tr></table></button>
+                                        <button id="delqentbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-trash"></span></td><td class="nopad">Delete</td></tr></table></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+
+            <div id="fragment-2">
+
+                <table style="width: 940px">
+                    <tr>
+                        <td style="width:178px">
+                            <label>Define query paths between entities:</label>
+                        </td>
+                        <td style="text-align: center">
+                            <table style="margin: 0px; padding: 0px">
+                                <tr>
+                                    <td style="width:250px; height: 140px; padding: 0px">
+                                        <select multiple="false" id="qpaths" class="entPicker"></select>
+                                    </td>
+                                    <td style="width: 160px; height: 140px; padding: 0px">
+                                        <button id="newqpbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-plusthick"></span></td><td class="nopad">New path</td></tr></table></button>
+                                        <button id="autoqpbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-search"></span></td><td class="nopad">Auto search</td></tr></table></button>
+                                        <button id="viewqpbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-info"></span></td><td class="nopad">View path</td></tr></table></button>
+                                        <button id="delqpbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-trash"></span></td><td class="nopad">Delete path</td></tr></table></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+        </div>
+            
+    </article>
+</section>
+    
+<article class="dialog" id="newdsdialog" title="Add new data source">
+    <p>Please fill in the fields below:</p>
+    <form id="newdsform" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td><label>Name:</label></td>
+                <td><input id="newds_name" type="text" name="name" style="width: 200px" /></td>
+            </tr>
+            <tr>
+                <td><label>URL:</label></td>
+                <td><input id="newds_url" type="url" name="url" style="width: 200px" /></td>
+            </tr>
+            <tr>
+                <td><label>Description:</label></td>
+                <td><input id="newds_descr" type="text" name="descr" style="width: 200px" /></td>
+            </tr>
+            <tr>
+                <td><label>Icon:</label></td>
+                <td style="height: 50px; vertical-align: middle; padding: 0px">
+                    <table style="margin: 0px">
+                        <tr>
+                            <td id="previewcont" style="padding:0px; width: 60px">
+                                <span><img class="thumb" src="/caQuery_media/images/noimage.gif"/></span>
+                            </td>
+                            <td>
+                                <input id="iconfile" name="iconfile" type="file" style="width: 85px" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Colors:</label></td>
+                <td style="height: 50px; vertical-align: middle; padding: 0px">
+                    <input type="hidden" value="" id="normcolhex" name="normcolhex" />
+                    <input type="hidden" value="" id="hcolhex" name="hcolhex" />
+                    <table style="margin: 0px">
+                        <tr>
+                            <td>
+                                <div id="normcolor" class="color-box"></div>
+                            </td>
+                            <td style="padding:0px; width: 100px; text-align:left">
+                                normal
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="hovercolor" class="color-box"></div>
+                            </td>
+                            <td style="padding:0px; width: 100px; text-align:left">
+                                onMouseOver
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+</article>
+
+<article class="dialog" id="plswait">
+    <center>
+    <p>Please wait...</p>
+    <img src="/caQuery_media/images/loading.gif" height=50 />
+    </center>
+</article>
+
+<article class="dialog" id="newqpdialog" title="Add new query path">
+    <p>Please select entities to connect:</p>
+    <table>
+        <tr>
+            <td style="width: 290px">
+                <table>
+                    <tr>
+                        <td style="width: 80px"><label>Entity A:</label></td>
+                        <td style="width: 152px"><select id="newqp_entA" style="width: 150px"></select></td>
+                        <td style="width: 43px; height: 45px; vertical-align: bottom"><img height=32 src="/caQuery_media/images/arrow-up-left.png"></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="text-align: right"><span id="qpavl">Query path available:</span></td>
+                        <td style="text-align: right; vertical-align: middle"><span id="pathimg" class="statuscheck"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 80px"><label>Entity B:</label></td>
+                        <td style="width: 152px"><select id="newqp_entB" style="width: 150px"></select></td>
+                        <td style="width: 43px; height: 45px; vertical-align: top"><img height=32 src="/caQuery_media/images/arrow-down-left.png"></td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 150px; text-align: center">
+                <button id="findpathbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-search"></span></td><td class="nopad">Find path</td></tr></table></button>                
+                <button id="editpathbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-pencil"></span></td><td class="nopad">Edit path</td></tr></table></button>                
+            </td>
+        </tr>
+    </table>
+    <div style="font-weight: bold; margin-top: 10px">Query path connecting entities:</div>
+    <div id="pathcontainer"><ul id="pathdisplay"></ul></div>
+</article>
+
+<article class="dialog" id="defqedialog1" title="Define new queryable entity (1/3)">
+    <div style="margin-top:150px; text-align: right">
+        <p>
+            Please select source entity:
+            <select id="srcent1" style="width:150px"></select>
+        </p>
+    </div>
+</article>
+
+<article class="dialog" id="defqedialog2" title="Define new queryable entity (2/3)">
+    <input type="hidden" id="srcent2" value="" />
+    <p>Please define filtering attributes</p>
+    <table style="width: inherit">
+        <tr>
+            <td style="width: 250px">
+                Target entity:<br>
+                <input style="margin: 8px" type="radio" name="target" id="tgtsrc" value="src" checked="checked">source entity<br>
+                <input style="margin: 8px" type="radio" name="target" id="tgtrel" value="rel">related entity:
+                <select id="relent" style="width: 100px"></select><br>
+                
+            </td>
+            <td style="width: 280px">
+                <div id="pathcontainer2"><ul id="pathdisplay" class="uldisplay"></ul></div>
+            </td>
+            <td style="width: 120px; text-align: center">
+                <span>Path to target entity:</span>
+                <br>
+                <span id="pathimg" class="statuscheck" style="margin: 10px"></span>
+                <button id="findpathbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-search"></span></td><td class="nopad">Find path</td></tr></table></button>
+                <button id="editpathbtn" class="qpbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-pencil"></span></td><td class="nopad">Edit path</td></tr></table></button>                
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>
+                Target attribute:<select id="tgtattr" style="width: 100px"></select>
+            </td>
+            <td>
+                Pre-filter:<input type="radio" name="usrpvd" id="usryes" value="yes">yes &nbsp; <input type="radio" name="usrpvd" id="usrno" value="no" checked="checked">no
+            </td>
+        </tr>
+        <tr>
+            <td colspan=2>
+                <p id="no">
+                Name:<input id="attrname" type="text">&nbsp;&nbsp;
+                Description:<input id="attrdesc" type="text">&nbsp;&nbsp;
+                Type:<select id="attrtype" style="width: 60px"></select>
+                </p>
+                <p id="yes" style="display: none">
+                    Value:<input id="attrval" type="text">
+                </p>
+            </td>
+            <td style="text-align: center">
+                <button id="addattr"><span class="ui-icon ui-icon-circle-plus" style="display: inline-block; margin-top: 2px"></span></button>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>
+                <ul id="filters">
+                
+                </ul>
+                
+            </td>
+        </tr>
+    </table>
+        
+</article>
+
+	
+{% endblock %}

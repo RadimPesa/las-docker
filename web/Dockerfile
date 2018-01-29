@@ -1,0 +1,84 @@
+FROM ubuntu
+
+RUN export DEBIAN_FRONTEND=noninteractive &&\
+    apt-get update &&\
+    apt-get install -y apache2 python2.7 python-pip libapache2-mod-evasive libapache2-mod-jk libapache2-mod-wsgi libmysqlclient-dev libpq-dev libmemcached-dev libffi-dev &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/*
+RUN mkdir /las-conf
+
+RUN mkdir /virtualenvs
+
+COPY conf/pip-reqs_1.4.txt /las-conf/pip-reqs_1.4.txt
+COPY conf/pip_reqs_1.7.txt /las-conf/pip-reqs_1.7.txt
+
+RUN pip install --upgrade pip
+RUN pip install virtualenv
+RUN pip install virtualenvwrapper
+ENV WORKON_HOME /virtualenvs
+RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh \
+    && mkvirtualenv venvdj1.4 \
+    && workon venvdj1.4 \
+    && pip install --default-timeout=100 -r /las-conf/pip-reqs_1.4.txt"
+
+RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh \
+    && mkvirtualenv venvdj1.7 \
+    && workon venvdj1.7 \
+    && pip install --default-timeout=100 -r /las-conf/pip-reqs_1.7.txt"
+    
+#COPY LASAuthServer /srv/www/LASAuthServer
+#COPY catissue /srv/www/catissue
+#COPY storage /srv/www/storage
+#COPY caxeno /srv/www/caxeno
+#COPY cellline /srv/www/cellline
+#COPY caquery /srv/www/caquery
+#COPY uarray /srv/www/uarray
+#COPY realTime /srv/www/realTime
+#COPY sangerLight /srv/www/sangerLight
+#COPY fingerPrinting /srv/www/fingerPrinting
+#COPY ngsmanager /srv/www/ngsmanager
+#COPY clinicalManager /srv/www/clinicalManager
+#COPY repmanager /srv/www/repmanager
+#COPY annotationsManager /srv/www/annotationsManager
+#COPY newAnnotationsManager /srv/www/newAnnotationsManager
+#COPY analysismanager /srv/www/analysismanager
+#COPY beaming /srv/www/beaming
+#COPY digitalPcr /srv/www/digitalPcr
+
+COPY conf/las-ssl.conf /etc/apache2/sites-available/las-ssl.conf
+
+COPY ssl/apache.crt /etc/apache2/ssl/las.crt
+COPY ssl/apache.key /etc/apache2/ssl/las.key
+
+RUN rm -rf /etc/apache2/sites-enabled/* &&\
+    ln -s /etc/apache2/sites-available/las-ssl.conf /etc/apache2/sites-enabled/las-ssl.conf
+RUN ln -sf /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load
+RUN ln -sf /etc/apache2/mods-available/proxy.conf /etc/apache2/mods-enabled/proxy.conf
+RUN ln -sf /etc/apache2/mods-available/proxy.load /etc/apache2/mods-enabled/proxy.load
+RUN ln -sf /etc/apache2/mods-available/proxy_html.conf /etc/apache2/mods-enabled/proxy_html.conf
+RUN ln -sf /etc/apache2/mods-available/proxy_html.load /etc/apache2/mods-enabled/proxy_html.load
+RUN ln -sf /etc/apache2/mods-available/proxy_http.load /etc/apache2/mods-enabled/proxy_http.load
+RUN ln -sf /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+RUN ln -sf /etc/apache2/mods-available/socache_shmcb.load /etc/apache2/mods-enabled/socache_shmcb.load
+RUN ln -sf /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled/ssl.conf
+RUN ln -sf /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled/ssl.load
+RUN ln -sf /etc/apache2/mods-available/unique_id.load /etc/apache2/mods-enabled/unique_id.load
+RUN ln -sf /etc/apache2/mods-available/xml2enc.load /etc/apache2/mods-enabled/xml2enc.load
+
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
+    ln -sf /proc/self/fd/1 /var/log/apache2/error.log
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+EXPOSE 443
+EXPOSE 80
+
+RUN mkdir /las
+COPY start.sh /las/start.sh
+COPY wait-for-it.sh /las/wait-for-it.sh
+
+CMD ["/las/start.sh"]

@@ -1,0 +1,105 @@
+{% extends "baseReport.html" %}
+{% block title %}Change container features{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/plate_change.js"></script>
+
+	<style type="text/css">
+		#field1 select { display:block; position:relative;}
+		#id_Aliquot_Type {height:100%;}
+		#cont_table tr {text-align: center;}
+	</style>
+
+{% endblock %}
+
+{% block content %}
+	{% if not fine %}
+		<form id="form_fin" action={% url archive.views.ChangePlate %} method="post">{% csrf_token %}
+			<input type="submit" disabled="disabled" style="float:right;margin-right:0.3em;" value="Save&Finish" class="button" id="conferma"/>
+		</form>	
+		<div align="center" style="float:left;width:90%;">
+			<fieldset class="fieldset" style="float:left;text-align:left;">
+				<p style="margin-bottom:0em;">
+					<label for="barcodecont">Container barcode:</label>
+					<input id="barcodecont" type="text" maxlength="45" name="father">
+					<input type="submit" value="Load" style="margin-top:0.5em;" class="button" id="loadcont"/>
+				</p>
+			</fieldset>
+			<fieldset id="field1" class="fieldset" style="text-align:left;width:25%;">
+				<legend class="legend">General information</legend>
+				{{ form.as_p }}
+				
+				<p>
+					<label for="id_Aliquot_Type">Allowed biological content<br>(multiple selection is allowed):</label>
+					<select id="id_Aliquot_Type" name="Aliquot_Type" multiple="multiple" size="7">
+						{% for elem in lista %}
+							<option value="{{elem.idDefaultValue.id}}" abbr="{{elem.idDefaultValue.abbreviation}}">{{elem.idDefaultValue.longName}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<input type="button" class="button" value="Select all" id="seltutto"/>
+				</p>
+				<p>
+					<label>Geometry:</label>
+					<div style="float:left;">
+						<label for="id_row" style="vertical-align: middle;">Rows:</label>
+						<input id="id_row" name="row" size="3" length="4" />
+					</div>
+					<div style="float:left;margin-left:3em;">
+						<label for="id_col" style="vertical-align: middle;">Columns:</label>
+						<input id="id_col" name="col" size="3" length="4" />
+					</div>
+					<br style="clear:both;">
+				</p>
+				<div style="float:left;">
+					<label for="id_use">Disposable container:</label>
+					<input id="id_use" type="checkbox" name="use">
+				</div>
+				<br style="clear:left;">
+				<br>
+				<input type="submit" style="align:center;margin:auto;margin-bottom: 0.6em;" value="Save changes" class="button" id="insert" disabled="disabled" />
+			</fieldset>
+		</div>
+		<br style="clear:both;">
+			
+		 <fieldset  class="fieldset" style="height:85%;margin-top:1em;">
+	        <legend class="legend"> Container </legend>
+	        <div style="height:100%;">
+	            <table id="cont_table" border="2px" align="center">
+	            </table>
+	        </div>
+	   	</fieldset> 
+	{% else %}
+		<style type="text/css">
+			#cont_fin_filter{margin-right: 20px;}
+			select { display:inline;}
+			#cont_fin_paginate a {padding-top:4px;}
+			#cont_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		<script type="text/javascript">
+			jQuery(document).ready(function () {
+				generate_result_table("Change_features","cont_fin");
+			});
+		</script>
+		<div style='float:right'>
+		    <a href="{% url archive.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both;">
+		<h2>Containers changed:</h2>
+		<table border='2px' id="cont_fin">
+			<thead>
+				{{  intest|safe  }}
+			</thead>
+			<tbody>			
+				{% for i in dati %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>		           
+		</table>
+	{% endif %}
+{% endblock %}

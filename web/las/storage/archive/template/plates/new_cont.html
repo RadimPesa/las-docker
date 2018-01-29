@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}New Container{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/container/nuovo_cont.js"></script>
+
+
+<style type="text/css">
+		select, input { display:block; position:relative;font-size: 2em;}
+		label {font-size:1.4em;}
+	</style>
+{% endblock %}
+
+{% block menu %}
+
+    <ul>
+    	<li><a id="home" href={% url archive.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+{% if not fine and not errore%}
+	<h1  align="center" style="font-size: 1.5em;">Insert new container</h1>
+	<br><br>
+		<div id=inizio style="float:left;margin-right: 15em;" class="ui-widget-content">
+			<table align="center" style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;" id="iniziale">
+				<tr>
+					<td>
+						<form action={% url archive.views.InsertNewContainerInstance %} method="post" >{% csrf_token %}
+							<section class="f" style="float:left;margin-right:1em;">
+								{{ form.as_p }}
+							</section>
+							<br style="clear:both;">
+							<br>
+							<input type="submit" class="button" value="Confirm" id="conferma"/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		{% if fase2%}
+			<div id=inizio style="float:left;padding-right:1em;" class="ui-widget-content">
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url archive.views.InsertNewContainerFinal %} enctype="multipart/form-data" method="post" >{% csrf_token %}
+							<section class="f" style="float:left;">
+								<p>
+									<label for="id_barcode">Barcode:</label>
+									<input id="id_barcode" type="text" maxlength="40" name="barcode" size="15">
+								</p>
+								<p>
+									<label for="id_cont_tipo">Container Type:</label>
+									<select id="id_cont_tipo" name="cont_tipo">
+										<option selected="selected" value="">---------</option>
+										{% if lista %}
+											{% for cont in lista %}
+												<option value={{cont.id}} >{{cont}}</option>
+												{{forloop.counter}}
+											{% endfor %}
+										{% endif %}
+									</select>
+								</p>
+								<p>
+									<label for="id_geom">Geometry:</label>
+									<select id="id_geom" name="geom">
+										<option selected="selected" value="">---------</option>
+										{% if l_geom %}
+											{% for g in l_geom %}
+												<option value={{g.id}} >{{g.name}}</option>
+												{{forloop.counter}}
+											{% endfor %}
+										{% endif %}
+									</select>
+								</p>
+							</section>
+							{% if not freezer%}
+								<section class="interna" style="float:left;margin-left:5em;">
+									<p>
+										<label for="id_freezer">Freezer/Cabinet:</label>
+										<select id="id_freezer" name="freezer">
+											<option selected="selected" value="">---------</option>
+										</select>
+									</p>
+									{% if not rack%}
+										<p>
+											<label for="id_rack">Rack:</label>
+											<select id="id_rack" name="rack">
+												<option selected="selected" value="">---------</option>
+											</select>
+										</p>
+										
+									{% endif %}							
+										<p>
+											<label for="id_position">Position:</label>
+											<input id="id_position" type="text" maxlength="10" name="position" size="6">
+										</p>
+										<input style="font-size:1.5em;" type="button" value="Check" class="button" id="controlla"/>
+										<section id="sect_foto" style="margin-top:1em;display:none">
+											<img id="foto_contr" width="25" height="25">
+											<div id="div_foto" style="margin-left:0.8em;font-size:1.5em;display:inline;"></div>
+										</section>
+								</section>	
+							{% endif %}
+							{% if tube%}
+								<section class="interna" style="float:left;margin-left:5em;">
+									<p>
+										<label for="id_plate">Plate/Drawer:</label>
+										<input id="id_plate" type="text" maxlength="20" name="plate" size="6">
+									</p>
+									<p>
+										<label for="id_position">Position:</label>
+										<input id="id_position" type="text" maxlength="10" name="position" size="6">
+									</p>
+									<input style="font-size:1.5em;" type="button" class="button" value="Check" id="controlla"/>
+									<section id="sect_foto" style="margin-top:1em;display:none">
+										<img id="foto_contr" width="25" height="25">
+										<div id="div_foto" style="margin-left:0.8em;font-size:1.5em;display:inline;"></div>
+									</section>
+								</section>							
+							{% endif %}
+							<br style="clear:both;">
+							<br>	
+							<input type="submit" value="Submit" class="button" id="conferma_tutto"/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		{% endif %}
+{% else %}
+	{% if errore %}
+		<h2 align="center">Error: barcode <strong> "{{errore}}"</strong> already exists in storage</h2>
+		<div align="center">
+			<form><input type="button" value="Back" style="display: inline;font-size:1.7em;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+	{% if fine %}
+		<h1  align="center" style="font-size: 1.5em;">Container has been saved</h1>
+		<div align="center">
+			<form action={% url archive.views.InsertNewContainerInstance %} method="get">{% csrf_token %}
+				 <br>
+				 <input type="submit" value="Save another container" class="button" title="Click to save another container" style="display: inline;font-size: 1.6em;"/>
+			</form>
+		</div>
+	{% endif %}
+{% endif %}
+{% endblock %}

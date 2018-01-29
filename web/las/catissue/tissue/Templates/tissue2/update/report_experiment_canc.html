@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<section style="color: black;">
+	<h3 style="color: black;">Experiment aborted</h3>
+	
+    <table border='2px' id="tab_fin2" style="border-collapse:collapse;width:25%;color:black;">
+		<tr>
+			<td style="padding:3px;"><b>By:</b></td>
+			<td style="padding:3px;"> {{esec}} </td>
+		</tr>
+		<tr>
+			<td style="padding:3px;"><b>Notes:</b></td>
+			<td style="padding:3px;"> {{notes}} </td>
+		</tr>
+	</table>
+	
+	<h3>Aliquots:</h3>
+	<table border='2px' id="tabella_fin" style="border-collapse:collapse;">
+		<th style="padding:4px;">N</th>
+		<th style="padding:4px;">Genealogy ID</th>
+		<th style="padding:4px;">Barcode</th>
+		<th style="padding:4px;">Position</th>
+		<th style="padding:4px;">Assignment Date</th>
+		<th style="padding:4px;">Experiment</th>
+		<th style="padding:4px;">Description</th>
+		{% for alexp in listafin %}
+			<tr>
+				<td style="padding:5px;">{{forloop.counter}}</td>
+				<td style="padding:5px;">{{alexp.gen}}</td>
+				<td style="padding:5px;">{{alexp.barc}}</td>
+				<td style="padding:5px;">{{alexp.pos}}</td>
+				<td style="padding:5px;">{{alexp.dat|date:"jS F Y"}}</td>
+				<td style="padding:5px;">{{alexp.exp}}</td>
+				<td style="padding:5px;">{{alexp.note}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</section>
+</body>
+</html>

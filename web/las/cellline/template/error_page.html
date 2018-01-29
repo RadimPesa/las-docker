@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block head %}Cell Line Management Module{% endblock %}
+{% block content %}
+	<p style="text-align:center;font-size:2em;">{{err_message}}</p>
+	<div style="float:center;text-align:center;">
+		<form method="post" action="{% url cellLine.views.home %}">{% csrf_token %}
+			<input type="submit" style="font-size:16px;" value="Go Back to the Menu Page" />
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+
+<!DOCTYPE html> 
+<html> 
+<head>
+
+
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/piastra.png">
+<title>{% block title %}{% endblock %}</title>
+<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+<!-- [if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">window.__admin_media_prefix__ = "{{MEDIA_URL}}";</script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/jquery.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/jquery-ui-1.10.1.custom.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/eseguiInvio.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/fileSaver.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/canvas-toBlob.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/General/blobBuilder.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/utils.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css"/>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/spinning.css" type="text/css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}css/smoothness/jquery-ui-1.10.1.custom.css" />
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css"/>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="{{MEDIA_URL}}js/General/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+
+    function initCsrf() {
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+          var token;
+          if (!options.crossDomain) {
+            token = $.cookie("csrftoken");
+            if (token) {
+              return jqXHR.setRequestHeader('X-CSRFToken', token);
+            }
+          }
+        });
+    }
+
+	$(document).ready(function() {
+        initCsrf();
+        jQuery(document).ajaxComplete(function(e, xhr, settings) {
+                    if (xhr.status == 278) {
+                        window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                    }
+                });
+        window.alert = alert2;
+
+		//ADD WORKING GROUPS HEADER FOR FUTURE AJAX CALLS!!
+	    workingGroups="";
+	    {% if request.workingGroups %}
+	        workingGroups="{{request.workingGroups}}";
+	        $.ajaxSetup({
+	            beforeSend: function (request){
+	                request.setRequestHeader("workingGroups", workingGroups);
+	            }
+	        });
+	    {% endif %}
+	
+		
+	    $('body').ajaxComplete(function(e, xhr, settings) {
+	        if (xhr.status == 278) {
+	            window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+	        }
+	    });
+	
+		$("span.home").click(function(){
+			window.location="{% url cellLine.views.home %}";
+		});
+
+	});        
+
+	function validateFreeInput(evt) {
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		//sono le frecce a destra e a sinistra			
+		if((key==39)||(key==37)){
+			return;
+		}
+		key = String.fromCharCode( key ); 
+		var regex = /[a-zA-Z0-9\b]|\(|\)|\_|\s|\-|\+|\.|\#|\,/;
+		if( !regex.test(key) ) {
+			theEvent.returnValue = false;
+			if(theEvent.preventDefault) theEvent.preventDefault();
+			alert("Unsupported character");
+		}
+	}
+	
+    function alert2(message, title, buttonText, callback) {
+        buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+        title = (title == undefined) ? "The page says:" : title;
+        cback = (callback == undefined) ? function() {$(this).dialog("close");div.remove();} : function() {$(this).dialog("close");div.remove(); callback()}
+        var div = $('<div>');
+        div.html(message);
+        div.css("padding","25px");
+        div.attr('title', title);
+        div.dialog({
+            autoOpen: true,
+            modal: true,
+            draggable: false,
+            resizable: false,
+            buttons: [{
+                    text: buttonText,
+                    click: cback
+                }]
+            });
+    }
+</script>
+
+{% block script %}{% endblock %}
+{% block report %}{% endblock %}
+</head>
+<body {%block bodyoption %}{% endblock %}>
+	<header>
+			
+		    <h1 style="float:left;"> <a id="home" href="{% url cellLine.views.home %}"><img width="143px" height="46px" src="/rtpcr_media/img/logo-trasp.png"></a> Cell Lines </h1>
+		   <!--  <h2> Tissues collection, storage and management </h2>  -->
+		   
+		   {% if user.is_authenticated %}
+		   <p id="user_name" style="float:right;">
+			<span id="datename">{% now "jS F Y" %} | <a href="{% url cellLine.views.logout_view %}">LAS Home</a> [{{  user.username  }}]</span><!--  <span class="home" title="home"></span> -->
+			</p>
+			{% endif %}
+		<br style="clear:both;">
+		<input type="hidden" id="actual_username" value={{user.username}} cod={{user.id}} />
+	</header>
+
+
+	<section id="content">	
+		{% block content %}{% endblock %}
+	</section>
+	
+    <div class="modal"><!-- Place at bottom of page --></div>	
+
+
+	</body>
+</html>

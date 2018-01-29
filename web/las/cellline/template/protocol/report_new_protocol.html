@@ -1,0 +1,40 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'NewProtocol_';
+	</script>
+{% endblock %}
+{% block title %}Report of New Protocol Creation{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div align="center">
+			<table id="table_res" border="1">
+				<thead>
+					<tr>
+						<th>Element Name</th>                
+						<th>Name Feature</th>
+	                    <th>Value</th>
+						<th>Unity of Measurement</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for m in listReport %}
+						{{  m|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

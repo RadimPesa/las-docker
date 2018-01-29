@@ -1,0 +1,31 @@
+{% extends "baseReport.html" %}
+{% block title %}Inserted samples{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		#aliq_paginate a, #aliq_info {padding-top:4px;}	
+	</style>
+	<script type="text/javascript">actionname='insert_samples';</script>
+	<div style="width:90%;">
+	
+	<fieldset>
+		<legend><b>Samples</b></legend>
+		<table id="aliq" class='report' align="center" cellspacing="5">
+			 	<thead>
+		            <th>N</th>
+		            <th>Label</th>
+		            <th>Sample name</th>	            
+		        </thead>
+		        <tbody align="center">
+	    	{% for val in lissample %}
+			        <tr>
+			            <td>{{forloop.counter}}</td>
+			            <td>{{val.label}}</td>
+			            <td>{{val.barc}}</td>		            
+			        </tr>
+			{% endfor %}
+		       </tbody>
+		</table> 
+	</fieldset>
+	</div>
+{% endblock %}

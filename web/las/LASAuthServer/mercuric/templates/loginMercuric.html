@@ -1,0 +1,63 @@
+{% extends "baseMercuric.html" %}
+
+{% block title %}Laboratory Assistant Suite - Login{% endblock %}
+
+{% block content %}
+<script>
+function setLoginFocus()
+{
+	document.loginForm.username.focus();
+}
+
+$("section#content").addClass("home");
+</script>
+
+
+<div style='width:100%;float:left'>
+<section id="description">
+	<br><br>
+	Database of Plasma Samples collected for liquid biopsy analysis within the MErCuRIC clinical trial.
+
+	<br><br>
+	<br><br><br><br><br><br>
+</section>
+	<section id="login">
+	<h1> Login </h1>
+	<p class="hr"></p>
+	<form name="loginForm" action="{% url mercuric.views.MercuricLogin %}" method="post">
+        <a class="login" href="{% url auth_password_reset %}">Forgot Your Password?</a>        
+        </br></br>
+        {% if err_message %}
+        <table>
+    	<td><img src="/lasauth_media/img/fail.gif" /></td>
+        <td><p id="error" style="font-family: Arial; font-weight: bold; color: red">{{  err_message|safe  }}</p></td>
+        </tr>
+        </table>
+        {% endif %}
+		<table>
+			<tr>
+			<td><label for="username">Username:</label></td>
+			<td><input type="text" name="username" value="" id="username"></td>
+			</tr>
+			<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" name="password" value="" id="password"></td>
+			</tr>
+		</table>
+        <br>
+		<a href="{% url registration_register 'Mercuric' %}">Register</a>        
+		<input id="login" type="submit" value="Login" class="button">
+
+	</form>
+	</section>
+
+    <p id="header" style="visibility: hidden">You will be logged in to the following applications:</p>
+    <table id="modTable" width="350px" border="1" style="visibility: hidden"></table>
+ </div>
+	
+{% endblock %}
+{% block footer %}
+<footer>
+	Powered by <a href="{% url loginmanager.views.index %}"><b>Laboratory Assistant Suite</b></a>
+</footer>
+{% endblock %}

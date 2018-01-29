@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Patient - PDF</title>
+
+</head>
+<body>
+<section>
+        {% block content %}
+	        <h1 align="center">Patient aliquots</h1>
+	        
+	        <h4>Operator: {{  operatore  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: {{data_coll|date:"jS F Y"}} </h4>
+	        
+	        <table border="1">
+	        
+            	 {{  intest|safe  }}
+	               
+		         {% for m in list_report %}
+		                 {{  m|safe  }}
+		         {% endfor %}
+	        </table>
+        {% endblock %}
+</section>
+</body>
+</html>

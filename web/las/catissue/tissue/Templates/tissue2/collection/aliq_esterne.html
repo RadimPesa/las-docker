@@ -1,0 +1,244 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Save an external aliquot{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/extern.js"></script>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+<!-- height nel .f p serve per fare in modo che il float left funzioni bene -->
+<style type="text/css">
+	td {border-width:0px;border-right:4px; padding:3px;}
+	#tabpiastra button {width:40px; height:40px; font-size: 15px; 
+			background-color:rgb(249,248,242); -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;}	
+	.f p {float:left;margin-right:5px;height:3em;}
+	.f select, .f input {display:block; position:relative;text-align:justify;}
+	#aliquots_table tr{text-align: center;}
+	#aliquots_table_length select{display:inline;}
+	#aliquots_table_filter {margin-bottom:4px;}
+	#aliquots_table img {cursor:pointer;}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% if primo %}
+	<br><br>
+	<div align="center">
+		<div id=inizio style="width:40%;" >
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url tissue.collection.ExternAliquots %} method="post">{% csrf_token %}
+								{{ form.as_p }}
+								<br>
+							<input type="submit" value="Submit" id="conferma1" class='button'/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% endif %}
+{% if secondo and tipo == '1' %}
+	<input type="hidden" id="tipo_collezione" value={{tipo}} />
+<!--	 se il secondo form e' completo e sto facendo un assign to existing -->
+		<br><br>
+		<div id=inizio style="max-width:48%;float:left;padding-right:1em;padding-bottom:1em;">
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="dati">
+				<tr>
+					<td>
+						<form id="secondo_form" action={% url tissue.collection.SaveExternAliquots %} method="post">{% csrf_token %}
+							<section class="f" style="float:left;">
+								{{ formfinale.as_p }}
+								<p>
+									<span style="font-size:1.1em;">You are collecting for:</span>
+									<select id="id_workgr" name="workgr"></select>
+									<input id="id_wgroup" type="hidden" value={{wgroup}} />
+								</p>
+							</section>
+							<br style="clear:both;"/>
+							<br>
+							<input type="submit" value="Save&Finish" id="conferma_esistente" class='button' style="float:right;" />
+							<input type="button" id="conf_aliq" value="Save aliquot" style="float:left;" class="button"/>
+							<br>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	<table border='2px' style="float:right;" id="tabpiastra">
+		<tr>
+			<td>
+				{{ a.table_extern|safe }}
+			 	<div style="padding:5px;float:left;">
+					<label for="barcode_rna">Plate Barcode:</label>
+					<input id="barcode_rna" type="text" maxlength="45" name="barcode_r" >
+				</div>
+				<div style="float:left;">
+					<br>
+			<input type="submit" value="LoadPlate" id="load_rna_plate" style="display:inline;margin-top:3px;" class='button'/>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br style="clear:both;"/>
+	<section class="canc">
+           <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+               <fieldset  class="fieldset" style="height:85%;">
+                   <legend class="legend"> Aliquots </legend>
+                   <div style="height:100%;">
+                       <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+                       </table>
+                   </div>
+               </fieldset> 
+           </div>
+       </section>
+{% endif %}
+{% if secondo and tipo == '0' %}
+	<input type="hidden" id="tipo_collezione" value={{tipo}} />
+	<input type="hidden" id="caso_fin" value={{caso}} />
+	<!--	 se il secondo form e' completo e sto facendo una nuova collezione -->
+	<br><br>
+	<div id=inizio style="max-width:48%;float:left;padding-right:1em;padding-bottom:1em;">
+		<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;width:100%;"  id="dati">
+			<tr>
+				<td>
+					<form id="primo_form" action={% url tissue.collection.ExternAliquotsNewCollection %} method="post">{% csrf_token %}
+						<section class="f" style="float:left;">
+							<span id="form1">
+								{{ formfinale.as_p }}								
+							</span>
+						</section>
+						<br style="clear:both;">
+						<br>
+						<div>
+							<span style="font-size:1.1em;">You are collecting for:</span>
+							<select id="id_workgr" name="workgr"></select>
+							<input id="id_wgroup" type="hidden" value={{wgroup}} />
+						</div>
+						<!-- metto solo qui il campo per il consenso perche' nell'assign to existing non devo creare niente di nuovo sul grafo -->
+						<input type="hidden" id="cons_exists" name="cons_exists" value={{ic_exists}} />
+						<input type="hidden" id="localid" name="localid" value={{local_id}} />
+						<input type="hidden" id="local_exists" name="local_exists" value={{local_exists}} />
+						<input type="hidden" id="posto" value={{ospedale}} />
+						<br>
+						{% if not form2 %}
+							<br style="clear:both;"/>
+							<input type="button" id="param" value="Add clinical parameters" name="start" style="float:left;" class="button"/>
+							<br style="clear:both;"/>
+							<input type="submit" value="Confirm" id="conferma2" class='button' style="float:right;" />
+						{% endif %}
+						
+					</form>
+					{% if form2 %}
+						<br style="clear:both;"/>
+						<p class="hr2"></p>
+					{% endif %}
+					<form id="secondo_form" action={% url tissue.collection.SaveExternAliquots %} method="post">{% csrf_token %}
+						<section class="f" style="float:left;">
+	    					{% if form2 %}
+								<br style="clear:both;"/>
+								
+								<label for="gen_id">GenealogyID:</label>
+								<input id="gen_id" type="text" readonly="readonly" name="genealogy_id" value="{{gen}}">
+								<br style="clear:both;"/>			
+								<span id="form2" style="float:left;display:inline;">
+									{{ form2.as_p }}
+								</span>
+							{% endif %}
+						</section>
+						<br style="clear:both;"/>
+						
+						
+						<br>					
+						{% if form2 %}
+							<input type="submit" value="Save&Finish" id="conferma_finale" class='button' style="float:right;" />
+							<input type="button" id="conf_aliq" value="Save aliquot" style="float:left;" class="button"/>
+						{% endif %}
+						<br>
+					</form>
+								
+				</td>
+			</tr>
+		</table>
+	</div>
+	{% if form2 %}
+		<table id="tabpiastra" border='2px' style="float:right;">
+			<tr>
+				<td>
+					{{ a.table_extern|safe }}
+				 	<div style=padding:5px;float:left;>
+						<label for="barcode_rna">Plate Barcode:</label>
+						<input id="barcode_rna" type="text" maxlength="45" size="15" name="barcode_r" >
+					</div>
+					<div style=padding-top:6px;float:left;>
+						<br>
+						<input type="submit" value="LoadPlate" id="load_rna_plate" style="display:inline;margin-top:3px;" class='button'/>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<br style="clear:both;"/>
+		<section class="canc">
+            <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+                <fieldset  class="fieldset" style="height:85%;">
+                    <legend class="legend"> Aliquots </legend>
+                    <div style="height:100%;">
+                        <table id="aliquots_table" class="aliquots_tab" border="2px" align="center">
+                        </table>
+                    </div>
+                </fieldset> 
+            </div>
+        </section>
+	{% endif %}
+	<div id="dia" class="dialog confirm" title="Warning" style="display:none;position: relative;">
+    	<p id='dialogMess'></p>
+    </div>
+    
+{% endif %}
+{% if fine %}
+	<style type="text/css">
+		select{display:inline;}
+	</style>
+	
+	<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both">
+	
+    <h2>You collected these aliquots:</h2>
+    <table border='2px' id="aliq">
+        <thead>
+	        {{  intest|safe  }}
+	    </thead>
+  	    <tbody>
+  	        {% for i in aliq %}
+           	    {{  i|safe  }}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <span style="font-size:1.4em;">Please note that these aliquots have to be archived <a href="{{DOMAIN_URL}}/storage/archive/" target="_blank" > here </a></span>
+
+
+<!-- 	<form action={% url tissue.collection.createPDFExtern %} method="post">{% csrf_token %}
+        <input id="pdf" type="submit" class="button" name="pdf" value="Save to PDF" title="Click to view PDF"/>
+	</form>
+	<br>
+	<form action={% url tissue.collection.createCSVExtern %} method="post">{% csrf_token %}
+        <input id="csv" type="submit" class="button" name="csv" value="Save to CSV" title="Click to view CSV" />
+	</form>
+	<br>
+	<form action={% url tissue.views.index %} method="post">{% csrf_token %}
+        <input id="finish" type="submit" class="button" name="termina" value="Finish" title="Click to finish"/>
+	</form>  -->
+{% endif %}
+{% endblock %}

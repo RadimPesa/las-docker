@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Explore Scans{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/uarray_media/js/explore_scan.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+
+<fieldset style="margin-bottom:3em;">
+	<legend>Chip filter</legend>
+		<div style="margin-bottom:4px; float:left;">
+		<table>
+        <tr>
+			<th><label for="id_barcode">Barcode:</label></th>
+			<td><input type="text" name="barcode" id="id_barcode" onkeyup="checkKeyP(event)"></td>
+		    <td><input style="float:left" id="load_chip" class="button" type="submit" value="Load Chip"/></td>
+        </tr>
+
+		</table>
+		</div>
+</fieldset>
+
+<div id="scan_events" style="width:48%;display:none;float:left">
+	<fieldset style="overflow:auto">
+	<legend>Scan events</legend>
+		<table id='event_table'>
+			<thead>
+				<tr>
+				<th>Id</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+				<th>Protocol</th>
+				<th>Notes</th>
+				<th>Link</th>
+				<th>Files</th>
+				</tr>
+			</thead>
+		<tbody>
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+	
+
+<div id="sample_scanned" style="width:48%;display:none;float:left;padding-left:3%">
+	<fieldset style="overflow:auto">
+	<legend>Samples</legend>
+		<table id='sample_table'>
+			<thead>
+				<tr>
+				<th>Sample Identifier</th>
+				<th>Position</th>
+				<th>Q/C</th>
+				<th>Link Rep</th>
+				<th>Files</th>
+				</tr>
+			</thead>
+		<tbody>
+		</tbody>
+		</table>
+	</fieldset>
+
+</div>
+
+<div id="files" style="width:99%;display:none;float:left;padding-top:5px">
+	<fieldset style="overflow:auto">
+	<legend>Files</legend>
+		<table id='file_table'>
+			<thead>
+				<tr>
+				<th>Name</th>
+				<th>Extension</th>
+				<th>Owner</th>
+				<th>Created</th>
+				<th>Download</th>			
+				</tr>
+			</thead>
+		<tbody>
+		</tbody>
+		</table>
+	</fieldset>
+
+</div>
+
+{% endblock %}

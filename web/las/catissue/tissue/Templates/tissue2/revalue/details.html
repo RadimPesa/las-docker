@@ -1,0 +1,101 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Revalue Aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/revalue/revaluate_details.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	{% if lista %}
+		
+		<style type="text/css">
+			td{padding:6px;}
+			th{padding:6px;}
+			#aliq input{display:inline;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+			h2{font-size:1.3em;}
+		</style>
+
+		<div class="bordicurvi" style="float:left;border-style: solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;" size="10" autocomplete="off" >
+				<input id="validate_barc" type="submit" class="button" style="float:left;" value="Verify barcode" title="Click to verify sample you are working with now"/> 
+			</div>			
+		</div>
+
+		<form action={% url tissue.revalue.ConfirmDetailsRevaluedAliquots %} method="post">{% csrf_token %}
+			<div style="float:right;">
+				<input id="conf_all" type="submit" class="button" value="Confirm all" title="Click to confirm"/>
+			</div>
+			<br style="clear:both;"/>
+		
+			<table border='2px solid' style="float:left;" id="aliq">
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th >Position</th>
+				<th><input type="submit" class="button" id="add_mis_tutti" value="Add Measures for all" title="Click to insert measures for all aliquots" /></th>
+				<th></th>
+				<th>Exhausted</th>
+				
+				{% for aliquota,barc,pos in lista %}
+					<tr align="center" class="interna">
+						<input type="hidden" class="campi_prot" id="proto" name="prot_{{forloop.counter0}}" value={{aliquota.idAliquot.idAliquotType.id}} />						
+						<td class="lis_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{aliquota.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" name="gen_{{forloop.counter0}}" value={{aliquota.idAliquot.uniqueGenealogyID}} />
+						</td>
+						<td class="lis_barcode">{{barc}}</td>
+						<td>{{pos}}</td>
+						<td>
+							<input type="submit" class="button add_measure" id="add_misura_{{forloop.counter0}}" value="Add Measures" title="Click to insert aliquot measures" />
+						</td>
+						<td>
+							<input type="submit" class="button" id="view_misura_{{forloop.counter0}}" value="View Measures" title="Click to view inserted measures" />
+						</td>
+						<td>
+							<input style="margin:10px;" id="exh_{{forloop.counter0}}" type="checkbox" name="exhaus_{{forloop.counter0}}" size=5 />
+						</td>
+						<input type="hidden" class="tipoaliq" id="tipoaliquota_{{forloop.counter0}}" value={{aliquota.idAliquot.idAliquotType.type}} />
+					</tr>
+				{% endfor %}
+			</table>			
+		</form>
+		<div id="dia1" style="display:none" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+	{% endif %}
+	{% if fine %}
+		<style type="text/css">
+			td{padding:8px;border-width:1px;}
+			th{padding:8px;}
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>Aliquots:</h2>
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				{{  intest|safe  }}
+			</thead>
+			<tbody>
+				{% for i in lista_riv %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		           
+		</table>
+	{% endif %}
+{% endblock %}

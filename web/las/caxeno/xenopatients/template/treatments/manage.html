@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Manage Treatments{% endblock %}
+
+{% block script %}
+	<style>
+		.defCursor {cursor:pointer;}
+	</style>
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xeno_script.js"></script> 
+	<script>
+		function loadStep(event){
+			var event=event||window.event;
+			idEl = event.target.id;
+			arm = document.getElementById(idEl).getAttribute("armName");
+            var table = document.getElementById('stepTable');
+            
+            var tableA = document.getElementById('armTable');
+            var j = 0;
+			for (j = tableA.rows.length; j >= 0; j--){
+				if (document.getElementById("arm_cell"+j))
+					document.getElementById("arm_cell"+j).style.color = 'black';
+			}
+            
+            
+            document.getElementById(idEl).style.color = "red";
+			var url = base_url + "/api.list_step/" + arm;
+			jQuery.ajax({
+				url:url,
+				method: 'get',
+				success:function(transport) {
+					var steps = JSON.parse(transport['list_step']);
+					var i = 0; 	var j = 0;
+					document.getElementById('listStep').style.display = 'inline';
+					for (j = table.rows.length; j >= 0; j--){
+						if (document.getElementById("rowS"+j))
+						    table.deleteRow(j);
+					}
+					while(steps[i])
+						{
+							var rowCount = table.rows.length;
+							var row = table.insertRow(rowCount);
+							row.setAttribute("id","rowS"+i); 
+							var cell = row.insertCell(0);
+							cell.setAttribute("id","step_cell"+i); 
+							cell.innerHTML = 'From '+ steps[i]['start_step'] +' to '+ steps[i]['end_step'] +': '+ steps[i]['drugs_id'] +', '+ steps[i]['dose'] + ' mg, ' + steps[i]['schedule'] +' times via '+ steps[i]['id_via'];
+							i++;
+						}
+				}
+			});
+		}
+		function loadArms(){
+			var nameP = ""
+			if (document.listProtocolsForm.list_protocols.length){
+			    for (i=0; i<document.listProtocolsForm.list_protocols.length; i++){
+				    if (document.listProtocolsForm.list_protocols[i].checked==true){	
+					    nameP = document.listProtocolsForm.list_protocols[i].nextSibling.data;
+				    }
+			    }
+			}else{
+			    nameP = document.getElementById('id_list_protocols_0').nextSibling.data;
+		    }
+		    console.log(nameP);
+            var table = document.getElementById('armTable');
+			var protocol = nameP;
+			var url = base_url + "/api.list_arm/" + protocol.substr(1);
+			console.debug("%s %s",url,nameP);
+			jQuery.ajax({
+				url:url,
+				method: 'get',
+				dataType:'json',
+				success:function(transport) {
+					//var response = transport.responseJSON;
+					//var arms = eval('(' + transport + ')');
+					var arms = JSON.parse(transport['list_arm']);
+					var i = 0; var j = 0;
+					document.getElementById('listArms').style.display = 'inline';
+					document.getElementById('listStep').style.display = 'none';
+					for (j = table.rows.length; j >= 0; j--){
+						if (document.getElementById("row"+j))
+						    table.deleteRow(j);
+					}
+					while(arms[i])
+						{
+							var rowCount = table.rows.length;
+							var row = table.insertRow(rowCount);
+							row.setAttribute("id","row"+i); 
+							var cell = row.insertCell(0);
+							cell.setAttribute("id","arm_cell"+i); 
+							cell.setAttribute("onclick","loadStep(event)"); 
+							cell.setAttribute("class","defCursor"); 
+							cell.setAttribute("style", "border:4px outset lightgrey;background-color:silver;color:black;");
+							var armName = arms[i].split(' --- ')
+							cell.setAttribute("armName", armName[0]);
+							cell.innerHTML = arms[i];
+							i++;
+						}
+				}
+			});
+		}
+	</script>
+{% endblock %}
+{% block content %}
+	{% if not fine %}
+		<div id='listProt' style="width:25%;float:left;" align='left'>
+	        <fieldset  class="fieldset" >
+	            <legend class="legend"> List Protocols </legend>
+				<div style="overflow:auto; height:300px;">
+					<form name="listProtocolsForm" action="" method="" align="left">
+						{{ form.as_p }}
+					</form>
+				</div>						
+			</fieldset>
+		</div>
+	
+		<div id='listArms' style="width:25%;float:left;display:none;margin-left:5%;" align='center'>
+	        <fieldset  class="fieldset" >
+	            <legend class="legend"> Measured Groups </legend>
+				<div style="overflow:auto;">
+					<br>List arms:<br><br>
+					<table id="armTable"></table><br>
+				</div>
+			</fieldset>
+		</div>
+	
+		<div id='listStep' style="width:40%;float:right;display:none;" align='left'>
+	        <fieldset  class="fieldset" >
+	            <legend class="legend"> Measured Groups </legend>
+				<div style="overflow:auto;">
+					<form name="listStepForm" action="" method="" align="left">
+						<br>List step:<br><br>
+						<table id="stepTable"></table><br>
+					</form>
+				</div>
+			</fieldset>
+		</div>
+	
+		<br style="clear:both"><br>
+	
+		<form action="{% url xenopatients.treatments.newProtocol %}" method="post">
+			<input type="submit"  value="Create new Protocol"></input>
+		</form>
+	{% else %}
+		<h1 id="h1_finale" align="center">{{messaggio}}</h1>
+	{% endif %}
+{% endblock %}

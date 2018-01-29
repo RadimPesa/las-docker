@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block report %}
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/ZeroClipboard.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/js/TableTools.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColReorder/media/js/ColReorder.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/js/HVis.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColVis/media/js/ColVis.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/css/TableTools.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColReorder/media/css/ColReorder.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/ColVis/media/css/ColVis.css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.4/extras/HVis/media/css/HVis.css" />
+		<style type="text/css">
+	        table.dataTable {
+		        z-index:105;
+	        }
+
+		    table.dataTable td.highsel {
+		        background-color: #FECA40;
+			}
+		</style>
+	<script>
+		function pad(n) { return ("0" + n).slice(-2); }
+
+		jQuery(document).ready(function () {
+			console.log('readybase');
+			generate_result_table('table#table_res');
+		});
+
+		function generate_result_table(tableID){
+		    var d = new Date();
+		    var lasauth_url = "{{LAS_URL}}";
+		    var user = jQuery('#username').text();
+		    var filename = actionName + user + '_' + $.datepicker.formatDate('yy-mm-dd', d) + "--" + pad(d.getHours()) + "-" + pad(d.getMinutes()) + "-" + pad(d.getSeconds());
+		    jQuery(tableID).dataTable( {
+		        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+		        "iDisplayLength": -1,
+		        "sDom":'TRCH<\"clear\">lfrtip',
+		        "oTableTools": {
+		                "aButtons": [  //"copy",
+		                {
+                            "sExtends": "las",
+                            "sButtonText": "Las",
+                            "sTitle": filename,
+                            "mColumns": "visible"
+		                }, 
+		                {
+	                        "sExtends": "pdf",
+	                        "sButtonText": "Pdf",
+	                        "sPdfMessage": "Laboratory Assistant Suite - Cell Line Management Module - " + user + " - " + $.datepicker.formatDate('yy/mm/dd', d) + " @ " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()),
+	                        "sTitle": filename,
+	                        "mColumns": "visible",
+	                        "sPdfSize": "tabloid"
+		                },
+		                {
+                            "sExtends": "data",
+                            "sButtonText": "Data",
+                            "sTitle": filename,
+                            "mColumns": "visible"
+		                },
+		                {
+                            "sExtends": "xls",
+                            "sButtonText": "Xls",
+                            "sTitle": filename,
+                            "mColumns": "visible"
+	                	}, 
+		                "print" ],
+	                	"sUrl": lasauth_url + "/generate_report/",          
+	                	"sSwfPath": base_url + "{{MEDIA_URL}}js/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+		        	}
+		        /*"oTableTools": {
+	                "aButtons": [ "copy", 
+	                {
+	                    "sExtends": "csv",
+	                    "sButtonText": "Las",
+	                    "sTitle": filename,
+	                    "sFileName": "*.las",
+	                    "sFieldSeperator": "\t",
+	                    "mColumns": "visible",
+	                    "sFieldBoundary": "",
+	                }, 
+	                {
+	                    "sExtends": "pdf",
+	                    "sButtonText": "Pdf",
+	                    "sPdfOrientation": "landscape",
+	                    "sPdfMessage": "Laboratory Assistant Suite - Xenopatients Management Module - " + user + " - " + $.datepicker.formatDate('yy/mm/dd', d) + " @ " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()),
+	                    "sTitle": filename,
+	                    "mColumns": "visible"
+	                }
+	                , "print"],
+	                "sSwfPath": base_url + "/xeno_media/js/DataTables-1.9.0/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+		        }*/
+		    });
+		}
+	</script>
+{% endblock %}
+
+{% block home %}
+	<div style='float:right'>
+	    <a href="{% url cellLine.views.home %}">
+	    <button id='homebut' class='button'><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+{% endblock %}

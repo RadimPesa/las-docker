@@ -1,0 +1,63 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'ManageGroups_';
+		jQuery(document).ready(function () {
+			generate_result_table('table#table_res2');
+		});
+	</script>
+{% endblock %}
+{% block title %}Report Change Groups{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div align="center">
+			<h1>Involved Groups:</h1>
+			<table id="table_res" border="1">
+				<thead>
+					<tr>
+						<th>Name</th>                
+						<th>Creation Date</th>
+						<th>Suggested Protocol</th>
+						<th>Type Group</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in listReportGroups %}
+						{{  i|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+		    <br>
+			<h1>Moved Mice:</h1>
+			<table id="table_res2" border="1">
+				<thead>
+					<tr>
+						<th>Gen ID</th>                
+						<th>New Group Name</th>
+						<th>Status</th>
+						<th>Treatment</th>
+						<th>Start Date</th>
+						<th>Duration</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in listReportMice %}
+						{{  i|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+            <br><br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

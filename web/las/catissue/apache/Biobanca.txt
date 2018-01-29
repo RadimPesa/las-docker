@@ -1,0 +1,21 @@
+ALTER TABLE `biobanca`.`qualityevent` DROP FOREIGN KEY `fk_QualityEvent_Aliquots1` , DROP FOREIGN KEY `fk_QualityEvent_DerivationEvent1` ;ALTER TABLE `biobanca`.`qualityevent` DROP COLUMN `idDerivationEvent` , ADD COLUMN `idAliquotDerivationSchedule` INT NULL  AFTER `idAliquot` , ADD COLUMN `operator` VARCHAR(45) NOT NULL  AFTER `misurationDate` , CHANGE COLUMN `idAliquot` `idAliquot` INT(11) NOT NULL  ,   ADD CONSTRAINT `fk_QualityEvent_Aliquots1`  FOREIGN KEY (`idAliquot` )  REFERENCES `biobanca`.`aliquot` (`id` )  ON DELETE NO ACTION  ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_QualityEvent_AliqDerSched1`  FOREIGN KEY (`idAliquotDerivationSchedule` )  REFERENCES `biobanca`.`aliquotderivationschedule` (`id` )  ON DELETE NO ACTION  ON UPDATE NO ACTION, ADD INDEX `fk_QualityEvent_AliqDerSched1` (`idAliquotDerivationSchedule` ASC) , DROP INDEX `fk_QualityEvent_DerivationEvent1` ;
+
+ALTER TABLE `biobanca`.`derivationevent` DROP FOREIGN KEY `fk_DerivationEvent_SamplingEvent1` , DROP FOREIGN KEY `fk_DerivationSpecification_KitBatch1` , DROP FOREIGN KEY `fk_DerivationEvent_DerivationSchedule1` , DROP FOREIGN KEY `fk_DerivationEvent_DerivationProtocol1` , DROP FOREIGN KEY `fk_DerivationEvent_Aliquots1` ;
+
+ALTER TABLE `biobanca`.`derivationevent` ADD COLUMN `idAliqDerivationSchedule` INT NULL  AFTER `idSamplingEvent` , set idAliqDerivationSchedule=null, ADD COLUMN `operator` VARCHAR(45) NOT NULL  AFTER `derivationDate`  , CHANGE COLUMN `loadQuantity` `loadQuantity` DOUBLE NULL, CHANGE COLUMN `idDerivationProtocol` `idDerivationProtocol` INT NULL, CHANGE COLUMN `idAliquot` `idAliquot` INT NULL, CHANGE COLUMN `idKit` `idKit` INT NULL, CHANGE COLUMN `idDerivationSchedule` `idDerivationSchedule` INT NULL, CHANGE COLUMN `failed` `failed` TINYINT(1) NULL, CHANGE COLUMN `volumeOutcome` `volumeOutcome` DOUBLE NULL, ADD CONSTRAINT `fk_DerivationEvent_SamplingEvent1`  FOREIGN KEY (`idSamplingEvent` )  REFERENCES `biobanca`.`samplingevent` (`id` )  ON DELETE NO ACTION  ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_DerivationEvent_AliqDerSched1`  FOREIGN KEY (`idAliqDerivationSchedule` )  REFERENCES `biobanca`.`aliquotderivationschedule` (`id` )  ON DELETE NO ACTION  ON UPDATE NO ACTION, ADD INDEX `fk_DerivationEvent_AliqDerSched1` (`idAliqDerivationSchedule` ASC) , DROP INDEX `fk_DerivationEvent_DerivationSchedule1` , DROP INDEX `fk_DerivationEvent_Aliquots1` , DROP INDEX `fk_DerivationEvent_DerivationProtocol1` , DROP INDEX `fk_DerivationSpecification_KitBatch1` ;
+
+ALTER TABLE `biobanca`.`aliquotderivationschedule` ADD COLUMN `loadQuantity` DOUBLE NULL  AFTER `operator` , ADD COLUMN `volumeOutcome` DOUBLE NULL  AFTER `loadQuantity` , ADD COLUMN `failed` TINYINT(1)  NULL  AFTER `volumeOutcome` , ADD COLUMN `initialDate` DATE NULL  AFTER `failed` , ADD COLUMN `measurementExecuted` TINYINT(1)  NULL  AFTER `initialDate` ;
+
+ALTER TABLE `biobanca`.`aliquotderivationschedule` ADD COLUMN `aliquotExhausted` TINYINT(1)  NULL  AFTER `measurementExecuted` ;
+
+CREATE TABLE `las_auth_session` (
+    `session_key` varchar(40) NOT NULL PRIMARY KEY,
+    `django_session_key` varchar(40),
+    `login_expire_date` datetime NOT NULL,
+    `next_url` longtext NOT NULL,
+    `session_open` bool NOT NULL
+) engine=innoDB
+;
+ALTER TABLE `las_auth_session` ADD CONSTRAINT `django_session_key_refs_session_key_57a5cc49` FOREIGN KEY (`django_session_key`) REFERENCES `django_session` (`session_key`);
+
+ALTER TABLE `biobanca`.`derivationprotocol` ADD COLUMN `rules` TEXT NOT NULL  AFTER `expectedVolume` ;

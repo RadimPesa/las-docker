@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="list">
+<head>
+    <title>Enrollment list</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <style>
+    .ng-invalid.ng-dirty {
+        border-color: #FA787E;
+    }
+    .ng-valid.ng-dirty {/* //commented ng-dirty to make green also undirty input when loading existing patient*/
+        border-color: #78FA89;
+    }
+
+    /* arrows for table headers */
+    .st-sort-ascent:before {
+        content: '\25B2';
+    }
+
+    .st-sort-descent:before {
+        content: '\25BC';
+    }
+
+    /* pagination */
+    .select-page {
+      width: 50px;
+      text-align: center;
+    }
+    .pagination li a input {
+      padding: 0;
+      margin: -5px 0;
+    }
+    </style>
+
+    <script>
+    // init of Django MEDIA_URL
+    var MEDIA_URL  = '{{ MEDIA_URL|escapejs }}';
+    function static_media(path) {
+        return MEDIA_URL + path;
+    };
+    var initializing = true;
+    var USER = '{{ user.username }}';
+    </script>
+
+
+
+    <!-- Bootstrap's JavaScript requires jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+
+    <script src="{{MEDIA_URL}}js/clinical/list/app.js"></script>
+
+    <script src="{{MEDIA_URL}}js/bower_components/angular-smart-table/dist/smart-table.js"></script>
+
+    <link href="{{MEDIA_URL}}js/bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+
+    <script src="{{MEDIA_URL}}js/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+
+</head>
+{% verbatim %}
+<body ng-controller="SmartTableController as stc">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Trials List</h1>
+            <p class="lead">Select a trial and visualize data of enrolled patients</p>
+            <p><a class="btn btn-lg btn-success" href="/clinical" role="button">&laquo; Back to Clinical Home</a></p>
+        </div>
+
+
+        <h3>Select a Trial</h3>
+        <form class="form-horizontal" role="form" name="trialForm" novalidate >
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Trial:</label>
+                <div class="col-lg-6">
+                    <select class="form-control" ng-model="stc.trial" ng-change="stc.fetchData(stc.trial)" required>
+                        <option ng-repeat="trial in stc.trials | orderBy : trial.name" value="{{trial.identifier}}">{{trial.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <hr />
+        <span ng-show="stc.trial">
+            <h3>Patients in <b>{{stc.trial}}</b></h3>
+            <h4 ng-show="!stc.fetching"><i>{{stc.rowList.length}} Patient(s)</i></h4>
+            <progressbar ng-show="stc.fetching" class="progress-striped active" ><i>Fetching data...</i></progressbar>
+            <form class="form-horizontal" role="form" name="trialForm" novalidate >
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Records per page:</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" name="items" id="items" type="number" min="1" ng-model="stc.itemsByPage" no-dirty-check>
+
+                    </div>
+                </div>
+            </form>
+
+            <table st-table="stc.displayedCollection" st-safe-src="stc.rowList" st-set-filter="myCustomFilter" class="table table-striped">
+                <thead>
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div st-pagination="" st-items-by-page="stc.itemsByPage" st-displayed-pages="" st-template="/clinical_media/js/clinical/list/pagination.custom.html"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th st-sort="alias">alias</th>
+                        <th>CRF</th>
+                        <th>IC Code(s)</th>
+                        <th>first name</th>
+                        <th st-sort="lastName">last name</th>
+                        <th>fiscal code</th>
+                        <th>gender</th>
+                        <th>vital status</th>
+                    </tr>
+                    <tr>
+                        <th colspan="8"><input st-search="" class="form-control" placeholder="smart search (search for alias, first name, last name or fiscal code)..." type="text" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="row in stc.displayedCollection">
+                        <td><i editable-text="row.alias" e-required e-placeholder="Enter {{stc.trial}} alias" onbeforesave="stc.updateData(row.patientId, $data, stc.trial)">{{row.alias || "_empty" }}</i></td>
+                        <td>
+                            <a ng-show = "row.firstName && row.lastName" ng-click="stc.goToCrf(row.patientId)" class="btn btn-primary" popover-trigger="mouseenter" popover="go to {{row.firstName}} {{row.lastName}}'s CRF" role="button"><i class="glyphicon glyphicon-list-alt"></i>
+                            </a>
+                            <a ng-show = "!(row.firstName && row.lastName)" ng-click="stc.goToCrf(row.patientId)" class="btn btn-primary" popover-trigger="mouseenter" popover="go to this CRF" role="button"><i class="glyphicon glyphicon-list-alt"></i>
+                            </a>
+                        </td>
+                        <td><span ng-repeat = "ic in row.icList">{{ic.icCode}} - <i>{{ic.medicalCenter}}</i><br/></span></td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.fiscalCode}}</td>
+                        <td>{{row.gender}}</td>
+                        <td>{{row.vitalStatus}}</td>
+                    </tr>
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div st-pagination="" st-items-by-page="stc.itemsByPage" st-displayed-pages="" st-template="/clinical_media/js/clinical/list/pagination.custom.html"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <span>
+            </div>
+        </body>
+        {% endverbatim %}
+        </html>

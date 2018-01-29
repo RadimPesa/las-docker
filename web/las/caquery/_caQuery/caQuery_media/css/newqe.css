@@ -1,0 +1,205 @@
+label.head
+{
+	font-weight: bold;
+	width: 125px;
+	text-align: right;
+	display: inline-block;
+	margin: 5px;
+}
+
+label.disabled
+{
+    text-shadow: 0px 1px 0px #ffffff;
+    color: #aaaaaa;
+}
+
+select {
+    height: 24px;
+    width: 61%;
+    margin: 0;
+    margin-right: 10px;
+    padding: 0;
+    border: 1px solid gray;
+    background-color: #ffffff;
+}
+
+input
+{
+    border: 1px solid gray;
+    width: 60%;
+    height: 20px;
+    margin-right: 10px;
+    padding: 1px;
+}
+
+select[multiple]#filters, select[multiple]#outputs, select#jndtab, select[multiple]#attrs {
+    width: 60%;
+    height: 120px;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+#fltdetails select, #outdetails select {
+    width: 51%;
+}
+
+#fltdetails input[type=text], #outdetails input[type=text] {
+    width: 50%;
+}
+
+#fltdetails label, #outdetails label {
+    width: 35%;
+}
+
+button {
+    width: 120px;
+}
+
+input[type='radio'], input[type='checkbox'] {
+    width: 20px;
+    height: 14px;
+    margin-right: 5px;
+    border: none;
+}
+
+
+td.centered,th.centered{
+    text-align: center;
+}
+
+a.dst, a.path {
+    text-decoration: underline;
+    color: #606060;
+}
+
+a.dst:hover, a.path:hover {
+    cursor: pointer;
+    color: #282828;
+}
+
+p.path {
+    margin-top: 0px;
+}
+
+div.pathdiv, #pathdiv, #outpathdiv {
+    display: block;
+    vertical-align: top;
+    margin: 5px;
+    border: 1px solid gray;
+    width: inherit;
+    padding: 5px;
+    min-height: 20px;
+}
+
+#qent {
+    width: 62.5%;
+    height: 120px;
+    margin: 0;
+    margin-left: -4px;
+    padding: 0;
+    vertical-align: top;
+}
+
+.btn {
+    width: 160px;
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+
+input.error
+{
+	border: 2px solid red;
+}
+
+.nopad {
+    padding: 0px;
+}
+
+span.one {
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #005C5C;
+    color: white;
+    font-weight: bold;
+    font-family: Arial;
+    border: 2px ridge white;
+    border-radius: 3px;
+    margin: 2px;
+    margin-left: 10px;
+}
+span.one::after {
+    content: "1";
+}
+
+span.many {
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #8E1D00;
+    color: white;
+    font-weight: bold;
+    font-family: Arial;
+    border: 2px ridge white;
+    border-radius: 3px;
+    margin: 2px;
+    margin-left: 10px;
+}
+span.many::after {
+    content: "N";
+
+}
+
+input[type=text].pathdef
+{
+    border: 1px solid gray;
+    margin-left: 10px;
+    width: 200px;
+    height: 20px;
+    padding: 1px;
+}
+
+textarea#manpathdiv {
+    border: 1px solid gray;
+    margin-left: 10px;
+    width: 450px;
+    height: 20px;
+    line-height: 20px;
+    padding: 1px;
+    resize: none;
+    vertical-align: top;
+    font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+select.dt {
+    height: 27px;
+    width: 98%;
+    margin: 0;
+    padding: 0;
+}
+
+span.path {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+span.iconlock {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    vertical-align: top;
+    padding-left: 5px;
+    padding-right: 6px;
+    border: 1px solid gray;
+    border-left: none;
+    background-color: azure;
+    cursor: pointer;
+}

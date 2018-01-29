@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load jsonify %}
+
+{% block title %}Annotations Manager - Define technology{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/definetech.js"></script> 
+<script>
+var api_url = "{% url api.newapi.getAmpliconTech %}";
+var amplicons = $.parseJSON('{{amplicons|jsonify|safe}}');
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+label.captions {display: inline-block; width: 80px; margin-right: 10px; margin-bottom: 16px; vertical-align: top;}
+label.captions.wide {width: 120px;}
+ul.inline {display: inline-block; margin-top: 0px; margin-left: 0px; padding-left: 0px;}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<article id="riquadro">
+<h3>Define technologies for sequence pair</h3>
+<br>
+<div style="width: 500px; min-height: 285px; height: 285px; margin-top: 30px; margin-left: 25px; display: block">
+    <p>Select one of the available sequence pairs:</p>
+    <table id="amplicons">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Length</th>
+                <th>Gene</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for uuid,data in amplicons.items %}
+            <tr id="{{ uuid }}">
+                <td>{{ data.pcrp_name }}</td>
+                <td>{{ data.pcrp_length }}</td>
+                <td>{{ data.a_gene_symbol|join:", " }}</td>
+                <td style="text-align: center"><span class="boxed-letter" onclick="selectAmplicon('{{ uuid }}');">&rarr;</span></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div style="margin-top: 50px; margin-left: 25px; width: 75%" id="details">
+    <p>Amplicon details:</p>
+    <label for="aname" class="captions wide">Name:</label>
+    <input id="aname" class="wide" disabled />
+    <br>
+    <label for="aref" class="captions wide">Chrom/transcript:</label>
+    <input id="aref" class="wide" disabled />
+    <br>
+    <label for="astart" class="captions wide">Start:</label>
+    <input id="astart" class="wide" disabled />
+    <br>
+    <label for="aend" class="captions wide">End:</label>
+    <input id="aend" class="wide" disabled />
+    <br>
+    <label for="alen" class="captions wide">Length:</label>
+    <input id="alen" class="wide" disabled />
+    <br>
+    <label for="agene" class="captions wide">Gene(s):</label>
+    <input id="agene" class="wide" disabled />
+    <br>
+    <form id="ainfo" action="./" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="auuid" name="auuid" />
+        <label for="atech" class="captions wide">Technologies:</label>
+        <ul id="atech" class="inline">
+            {% for t in technologies %}
+            <li><input class="tech" id="tech_{{t.id}}" name="tech_{{t.id}}" type="checkbox" />{{t.name}}</li>
+            {% endfor %}
+        </ul>
+    <br>
+    <input type="submit" value="Save" />
+    </form>
+
+    <br>
+</div>
+
+</article>
+{% endblock %}

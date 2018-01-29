@@ -1,0 +1,55 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'ArchiveSession_';
+	</script>
+{% endblock %}
+{% block title %}Report Archive {% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div align="center">
+			<table id="table_res" border="1">
+				<thead>
+					<tr>
+						<th>Cell Line</th>
+						<th>#Plates</th>
+						<th>Start Date</th>
+						<th>Condtion Configuration</th>
+						<th>Generated Aliquot</th>
+						<th>Plate</th>
+						<th>Position</th>
+						<th>Volume</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for nickname,genID,numP, date, cc, aliquot, plate, pos, volume, count in reportList %}
+						<tr>
+							<td>{{nickname}} {{genID}}</td>
+							<td>{{numP}}</td>
+							<td>{{date}}</td>
+							<td>{{cc}}</td>
+							<td>{{aliquot}}</td>
+							<td>{{plate}}</td>
+							<td>{{pos}}</td>
+							<td>{{volume}}</td>
+							<td>{{count}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

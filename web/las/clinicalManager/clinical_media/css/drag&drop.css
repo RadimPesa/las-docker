@@ -1,0 +1,40 @@
+/* make drag container visible */
+#drag{
+	border: 2px dashed LightBlue;
+	display: table;
+}
+
+/* table */
+div#drag table {
+	background-color: #eee;
+	border-collapse: collapse;
+	margin: 7px;	
+}
+
+/* table cells */
+div#drag td{
+	border: 1px solid navy;
+	height: 50px;
+    width: 213px;
+	text-align: center;
+	font-size: 10pt;
+	padding: 2px;
+}
+
+/* drag object (DIV inside table cell) */
+.drag{
+	margin: auto;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	border: 2px solid SteelBlue;
+	background-color: white;
+	cursor:move;
+}
+
+/* message cell (marked as forbidden) */
+.mark {
+	color: white;
+	background-color: SteelBlue;
+	/*width:100%;*/
+}

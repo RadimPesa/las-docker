@@ -1,0 +1,38 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {chapter}{\numberline {2}Application context}{5}
+\contentsline {section}{\numberline {2.1}Introduction}{5}
+\contentsline {section}{\numberline {2.2}Approaches to cancer - Target Therapy}{6}
+\contentsline {section}{\numberline {2.3}Xenopatients}{7}
+\contentsline {chapter}{\numberline {3}Casi d'uso}{13}
+\contentsline {section}{\numberline {3.1}Caricamento xenopazienti nel sistema}{14}
+\contentsline {section}{\numberline {3.2}Aggiornamento status degli xenopazienti}{16}
+\contentsline {section}{\numberline {3.3}Misurazioni}{18}
+\contentsline {section}{\numberline {3.4}Gestione trattamenti}{21}
+\contentsline {section}{\numberline {3.5}Impianti}{24}
+\contentsline {section}{\numberline {3.6}Espianti}{27}
+\contentsline {chapter}{\numberline {4}Conclusioni}{33}
+\contentsline {section}{\numberline {4.1}Sviluppi futuri}{34}
+\contentsline {chapter}{\numberline {5}Tabelle del database}{37}
+\contentsline {section}{\numberline {5.1}Xenopazienti}{37}
+\contentsline {section}{\numberline {5.2}Impianti - Espianti}{40}
+\contentsline {subsubsection}{Tabella Site}{41}
+\contentsline {section}{\numberline {5.3}Operatori}{42}
+\contentsline {subsubsection}{Tabella auth\_user}{42}
+\contentsline {subsubsection}{Tabella XenoUsers }{43}
+\contentsline {subsubsection}{Tabella cancer\_research\_group}{44}
+\contentsline {subsubsection}{Tabella institution}{44}
+\contentsline {section}{\numberline {5.4}Gestione misurazioni}{44}
+\contentsline {subsubsection}{Tabella MeasurementSeries}{44}
+\contentsline {subsubsection}{Tabella QualitativeMeasure}{44}
+\contentsline {subsubsection}{Tabella Qualitative\_values}{45}
+\contentsline {subsubsection}{Tabella QuantitativeMeasure}{45}
+\contentsline {subsubsection}{Tabella TypeOfMeasure}{46}
+\contentsline {subsection}{\numberline {5.4.1}Gestione dei trattamenti}{46}
+\contentsline {subsubsection}{Tabella Treatments}{46}
+\contentsline {subsubsection}{Tabella Detail\_treatments}{46}
+\contentsline {subsubsection}{Tabella Mice\_has\_treatments}{47}
+\contentsline {subsubsection}{Tabella Drugs}{47}
+\contentsline {subsubsection}{Tabella Via\_mode}{48}
+\contentsline {section}{\numberline {5.5}Supporto}{48}
+\contentsline {subsubsection}{Tabella Urls}{48}

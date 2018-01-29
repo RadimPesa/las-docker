@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Insert  New Chip{% endblock %}
+
+
+{% block content %}
+
+<style>
+#chip_info { 
+    float:left; 
+    width: 40%; 
+    margin-right: 2em;
+}
+
+#insert_chips { 
+    float: left;
+    width: 50%;
+}
+
+</style>
+
+<script src="/uarray_media/js/new_chip.js"></script>
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+
+	<section id="1">
+        <div id="chip_info">
+		  <article id="riquadro"  style="overflow:auto;height:500px">
+		    <h3> Insert New Chip </h3>
+             <div id="chip_form" style="margin-bottom:4px; float:left;">	
+		        <table>
+                    <tbody>
+                <tr><th><label for="id_barcode">Barcode:</label></th><td><input type="text" name="barcode" id="id_barcode" onkeyup="checkKeyP(event)"/></td></tr>
+                <tr><th><label for="id_type">Type:</label></th><td><select name="type" id="id_type">
+                    {% for type in chip_choices%}
+                    <option value="{{type.id}}">{{type.title}}</option>
+                    {% endfor %}
+                </select></td></tr>
+                <tr><th><label for="id_owner">Owner:</label></th><td><input type="text" name="owner" id="id_owner" /></td></tr>
+                <tr><th><label for="id_exp_date">Exp date:</label></th><td><input type="text" name="exp_date" id="id_exp_date" /></td></tr>
+                <tr><th><label for="id_lot">Lot:</label></th><td><input type="text" name="lot" id="id_lot" /></td></tr>
+                <tr><th><label for="id_DMAP_file">Dmap file:</label></th><td><input type="text" name="DMAP_file" id="id_DMAP_file" /></td></tr>
+                <tr><th><label for="id_notes">Notes:</label></th><td><textarea id="id_notes" rows="10" cols="40" name="notes"></textarea></td></tr>
+                </tbody>
+			        </table>
+			        <input class="button" style="float:right" type="submit" value="Add Chip" onclick="insertRow()"/></p>
+                    </div>
+		        </article>
+
+        </div>
+
+        <div id="insert_chips">
+		
+		        <article id="riquadro" style="overflow:auto;height:500px">
+		
+		            <h3> Chip inserted</h3>
+
+                    <article style="width:inherit;overflow:auto;padding:1em">
+                        <input id="submit_chips" class="button" type="submit" style="float:right" value="Insert Chips" />
+                    
+                    </article>
+
+                	<article style="width:inherit;overflow:auto">
+                        <table id="chip_table" border=1px>
+                            <thead>
+			                    <TR><TH style="text-align:center;">#</TH>
+                                <TH style="text-align:center;">Barcode</TH>
+                                <TH style="text-align:center;">Type</TH>
+                                <TH style="text-align:center;">Owner</TH>
+                                <TH style="text-align:center;">Exp date</TH>
+                                <TH style="text-align:center;">Lot</TH>
+                                <TH style="text-align:center;">Dmap file</TH>
+                                <TH style="text-align:center;">Notes</TH>
+                                <TH style="text-align:center;">idType</TH>
+                                <TH></TH>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+
+
+            
+            
+		            </article>
+
+             </article>
+        </div>
+	</section>
+
+
+<br>
+
+
+<div id="dialog-form" title="Modify Aliquot" style="display:none;position:relative" class="dialog confirm">
+	<span id="aliquot_index_span" ></span><br>
+	<table style="border-spacing:10px;">
+	<tbody>
+    <tr><th>Barcode: </th><td><input type="text" maxlength="45" value="" name="barcode"></td></tr>
+    <tr><th>Type: </th><td><select name="type">
+        {% for type in chip_choices%}
+        <option value="{{type.id}}">{{type.title}}</option>
+        {% endfor %}
+        </td></tr>
+    <tr><th>Owner: </th><td><input type="text" maxlength="45" value="" name="owner"></td></tr>
+    <tr><th>Exp date: </th><td><input type="text" maxlength="45" value="" name="exp_date"></td></tr>
+    <tr><th>Lot: </th><td><input type="text" maxlength="45" value="" name="lot"></td></tr>
+    <tr><th>Dmap file: </th><td><input type="text" maxlength="45" value="" name="DMAP_file"></td></tr>
+    <tr><th>Notes: </th><td><textarea rows="10" cols="40" value="" name="notes"></textarea></td></tr>
+	</tbody>
+	</table>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

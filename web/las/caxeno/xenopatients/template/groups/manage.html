@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Manage Groups{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/groups.js"></script> 
+    <script>
+        function openSx(){
+            var w = window.open("{% url xenopatients.groups.loadG %}","_blank",'width=900,height=600,left=100,top=100,screenX=99,screenY=100,modal=yes');
+            w.sourceT = 'sx';
+        }
+
+        function openDx(){
+            var w = window.open("{% url xenopatients.groups.loadG %}","_blank",'width=900,height=600,left=100,top=100,screenX=99,screenY=100,modal=yes');
+            w.sourceT = 'dx';
+        }
+    </script>
+{% endblock %}
+{% block bodyoption %}onload="setFocus()"{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}	
+        <div id="divSx" style='width:45%;float:left;'>
+	        <fieldset  class="fieldset">
+                <legend class="legend"> Experimental Group </legend>
+                <div id="headGroupSx">
+                    <div style='float:left;'>
+                        <table>
+                            <tr>
+                                <td><input type="button" value="Load Group" onclick="openSx();" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value="Edit Group" onclick="editGroup('sx');" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value="New Group" onclick="newGroup('sx');" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value=" Recents " onclick="recentGroup('sx');" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style='float:left;'>
+                        <textarea id="infoTL" rows = "8" cols = "45" readonly="readonly" style="font-weight: bold;">Group's Properties:</textarea>
+                    </div>
+                </div>
+	        </fieldset>
+            <br>
+	        <fieldset  class="fieldset">
+                <legend class="legend"> Mice </legend>
+                <div id="miceLeft">
+                    <table id="miceSx"></table>
+                </div>
+            </fieldset>
+        </div>
+        <div id="divCen" style='width:10%;float:left; text-align:center;'>
+            <br>
+	        <fieldset  class="fieldset">
+                <legend class="legend"> Actions </legend><br><br>
+                <img id="remove" src="{{MEDIA_URL}}img/toRight.png" style="cursor:pointer;width:40px;" title="Move selected mice to right" onclick="moveTo('dx');"/><br/><br/>
+                <img id="remove" src="{{MEDIA_URL}}img/toLeft.png" style="cursor:pointer;width:40px;" title="Move selected mice to left" onclick="moveTo('sx');"/><br/><br/>
+    	        <input type="button" id="save" value="Save all changes" onclick="saveAll();" style='width:75%;white-space:normal;display:none;'/>
+	        </fieldset>
+        </div>
+        <div id="divDx" style='width:45%;float:right;'>
+	        <fieldset  class="fieldset">
+                <legend class="legend"> Experimental Group </legend>
+                <div id="headGroupDx">
+                    <div style='float:right;'>
+                        <table>
+                            <tr>
+                                <td><input type="button" value="Load Group" onclick="openDx();" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value="Edit Group" onclick="editGroup('dx');" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value="New Group" onclick="newGroup('dx');" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" value=" Recents " onclick="recentGroup('dx');" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style='float:right;'>
+                        <textarea id="infoTR" rows = "8" cols = "45" readonly="readonly" style="font-weight: bold;">Group's Properties:</textarea>
+                    </div>
+                </div>
+	        </fieldset>
+            <br>
+	        <fieldset  class="fieldset">
+                <legend class="legend"> Mice </legend>
+                <div id="miceLeft">
+                    <table id="miceDx"></table>
+                </div>
+            </fieldset>
+        </div>
+        <br style='clear:both;'>
+		<div id="dialog" class="dialog confirm" title="Group's info" style="display:none;position: relative;">
+        	<p>Insert the new informations of the group.</p>
+        	{{ formDetails.as_p }}
+        </div>
+		<div id="recentDialog" class="dialog confirm" title="Recently used groups" style="display:none;position: relative;">
+        	<p>Recently used groups (only for this editing group)</p>
+        	<div id='recentList'>
+        	    <!--radiobutton list here (one for group) -->
+        	</div>
+        </div>
+	{% endif %}
+    {%  if message  %}
+    	<script>
+    		document.getElementById("message").style.display = 'inline';
+    	</script>
+    {% endif %}
+{% endblock %}

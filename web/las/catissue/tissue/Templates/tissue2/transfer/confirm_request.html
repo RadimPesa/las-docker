@@ -1,0 +1,264 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Validate aliquots{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/transfer/confirm_request.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		.f { display:block; position:relative;}
+		#aliq_originali,#aliq_definitive {margin-bottom:4px;margin-top: 4px;}
+		#aliq_originali_paginate a,#aliq_definitive_paginate a {padding-top:4px;}
+		#aliq_originali_length,#aliq_definitive_length {margin-top: 8px;}
+	</style>
+	
+{% endblock %}
+{% block content %}
+{% if not fine %}
+	{% if not ricevuto %}
+		<form id="form_fin" action={% url tissue.transfer.SendTransferAliquots %} method="post">{% csrf_token %}		
+			<input type="hidden" name="idtransfer" value={{idtrasf}} />
+			<input type="hidden" id="convalidatutto" name="convalidatutto" />
+			<fieldset align="center" style="float:left;margin-bottom:1em;">
+				<div style="float:left;">
+					<label for="id_corr">Courier:</label>
+					<select class="f" id="id_corr" name="corr">
+						{% for c in liscorr %}
+							<option value={{c.id}}>{{c.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div style="float:left;margin-left:2em;">
+					<label for="id_number">Tracking N°:</label>
+					<input class="f" id="id_number" type="text" name="number" maxlength="50">
+				</div>
+				<div style="float:left;margin-left:2em;">
+					<label for="dateto">Shipment Date:</label>
+					<input id="dateto" type="text" name="senddate" value="" size="8">
+				</div>
+			 	<div style="float:left;margin-left:7em;margin-right:5em;">
+					<label for="id_val_all">Validate all aliquots:</label>
+					<input id="id_val_all" type="checkbox" name="val_all" style="margin-top: 0.6em; margin-left: 3.5em;">
+				</div>
+				<div style="float:left;">
+					<label for="id_val_all">Action:</label>
+					<select class="f"  id="containertype" >
+						<option selected="selected" value="">---------</option>
+						<option value="tube">Send tubes</option>
+						<option value="plate">Send tubes and their father containers</option>								
+					</select>
+				</div>
+			</fieldset>			
+			<input id="conf_all" class="button" name="final" type="submit" value="Confirm" disabled="disabled" style="float:right;margin-bottom:1em;">
+	{% else %}
+		<form id="form_fin" action={% url tissue.transfer.ReceiveFinalTransferAliquots %} method="post">{% csrf_token %}
+			<input type="hidden" name="idtransfer" value={{idtrasf}} />
+			<input type="hidden" name="convalidatutto" />
+			<fieldset align="center" style="float:left;margin-bottom:1em;">
+				<div style="float:left;margin-left:2em;margin-right:5em;">
+					<label for="dateto">Receiving Date:</label>
+					<input id="dateto" type="text" name="senddate" value="" size="8">
+				</div>
+			</fieldset>
+			<input id="conf_all" class="button" name="final" type="submit" value="Confirm" style="float:right;margin-bottom:1em;">
+	{% endif %}
+			
+	</form>
+	<input type="hidden" id="ricezione" value={{ricevuto}} />
+	<br style="clear:both;">
+	<fieldset>
+		<h2 align="center" style="font-size:1.3em;">Retrieve aliquots</h2>
+		<table border='2px' style="border-color: black;float:left;" id="aliq_originali">
+			<thead>
+				<th>N </th>
+				<th>Genealogy ID</th>
+				<th>Freezer</th>
+				<th>Rack</th>
+				<th>Plate Pos.</th>
+				<th>Plate</th>
+				<th>Tube Pos.</th>
+				<th>Barcode</th>
+				<th>Available</th>
+			</thead>
+			<tbody align="center">
+			{% for trasf in listainiz %}
+				<tr align="center">
+					<td>{{forloop.counter}}</td>
+					<td>{{trasf.idAliquot.uniqueGenealogyID}}</td>	
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</fieldset>
+	<br>
+	<div style="float:left;">
+		<label for="id_barcode"><b>Barcode:</b></label>
+		<input id="id_barcode" type="text" style="margin-right:20px" value="" maxlength="50" autocomplete="off" >
+	</div>
+	<input id="conf" class="button" type="submit" style="margin-left:1em;margin-top:0.9em;float:left;" value="Validate Barcode" title="Click to add aliquot to the samples to send now">
+	<h2 id="contatore" style="float:left;margin-left:10em;font-size:1.2em;">
+	
+	</h2>
+
+	<br style="clear:left;">
+	<fieldset style="margin-top:1em;">
+		<div id="inferio" class="inferiore" style="display:inline;">
+			<h2 align="center" style="font-size:1.3em;">Validated aliquots</h2>
+			<table border='2px' id="aliq_definitive" align="center">
+				<thead>
+					<th>N </th>
+					<th>Genealogy ID</th>
+					<th>Freezer</th>
+					<th>Rack</th>
+					<th>Plate Pos.</th>
+					<th>Plate</th>
+					<th>Tube Pos.</th>
+					<th>Barcode</th>
+				</thead>
+				<tbody align="center">
+				</tbody>
+			</table>
+		</div>
+	</fieldset>
+	
+	<div id="dia" class="dialog confirm" title="Warning" style="display:none;position: relative;">
+    	<p id='dialogMessage'>Tracking N° is empty. Do you want to proceed anyway?</p>
+    </div>
+{% endif %}
+{% if fine %}
+	{% if not ricevuto %}
+	    <div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>		
+	    <fieldset style="width:40%;float:left;">
+	    	<table>
+		    	<tr>
+		    		<td>
+		    			<b>Sent to:</b> 
+		    		</td>
+		    		<td>
+		    			{{addr}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Shipment date:</b> 
+		    		</td>
+		    		<td>
+		    			{{data|date:"jS F Y"}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Courier:</b> 
+		    		</td>
+		    		<td>
+		    			{{corr}}
+		    		</td>
+		    	</tr>
+		    	{% if track != "" %}
+			    	<tr>
+			    		<td>
+			    			<b>Tracking N°:</b> 
+			    		</td>
+			    		<td>
+			    			{{track}}
+			    		</td>
+			    	</tr>
+		    	{% endif %}	
+		    </table>
+	    </fieldset>
+	    <br style="clear:both;">
+	    <h2 style="font-size:1.4em;">You sent these samples:</h2>
+	    <table border='2px' id="aliquote_fin">
+    	<thead>
+	  		{{  intest|safe  }}
+	  	</thead>
+  		<tbody>
+  			{% for i in aliq %}
+           		{{  i|safe  }}
+            {% endfor %}
+        </tbody>
+    </table>
+	{% else %}
+	    <div style='float:right;'>
+		    <a href="{% url tissue.views.index %}">
+		    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+	    <fieldset style="width:40%;float:left;">
+	    	<table>
+		    	<tr>
+		    		<td>
+		    			<b>Receiving date:</b> 
+		    		</td>
+		    		<td>
+		    			{{trasf.deliveryDate|date:"jS F Y"}}
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<b>Courier:</b> 
+		    		</td>
+		    		<td>
+		    			{{trasf.idCourier}}
+		    		</td>
+		    	</tr>
+		    	{% if trasf.trackingNumber != "" %}
+			    	<tr>
+			    		<td>
+			    			<b>Tracking N°:</b> 
+			    		</td>
+			    		<td>
+			    			{{trasf.trackingNumber}}
+			    		</td>
+			    	</tr>
+		    	{% endif %}	
+		    </table>
+		</fieldset>
+		<br style="clear:both;">
+		{% if aliq1|length > 0 %}			
+			<h2 style="font-size:1.4em;">Received samples:</h2>		
+		    <table border='2px' id="aliquote_fin">
+		    	<thead>
+			  		{{  intest1|safe  }}
+			  	</thead>
+		  		<tbody>
+		  			{% for i in aliq1 %}
+		           		{{  i|safe  }}
+		            {% endfor %}
+		        </tbody>
+		    </table>
+		{% endif %}
+	    
+	    {% if aliq2|length > 0 %}
+	    	<br style=clear:both;>
+		    <h2 style="font-size:1.4em;">NOT received samples:</h2>
+		    <table border='2px' id="aliquote_fin2">
+		    	<thead>
+			  		{{  intest2|safe  }}
+			  	</thead>
+		  		<tbody>
+		  			{% for i in aliq2 %}
+		           		{{  i|safe  }}
+		            {% endfor %}
+		        </tbody>
+	    	</table>
+    	{% endif %}
+  	{% endif %}
+{% endif %}
+{% endblock %}

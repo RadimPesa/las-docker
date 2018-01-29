@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Select Samples working session{% endblock %}
+
+
+{% block content %}
+
+
+
+<meta charset="utf-8">
+	
+<script src="/uarray_media/js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="/uarray_media/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/uarray_media/js/select_hybplan.js"></script>
+<link rel="stylesheet" href="/uarray_media/css/jquery.dataTables.css" />
+
+	<h3>Selection of planned hybridizations</span></h3>
+		
+        <article style="width:inherit;overflow:auto">
+		
+		<p style="text-align:right;float:right"><input id="select" class="button" disabled="disabled" type="submit" value="Select" /></p> 
+
+		<table border=1px id="plan_table">
+        	<thead>
+				<Tr>
+				<th style="text-align:center;">Timestamp</th>
+                <th style="text-align:center;">Hybridization protocol</th>
+                <th style="text-align:center;">Instrument</th>
+                </tr>
+        	</thead>
+        	<tbody>
+		    {% for p in plans%}
+		
+				<tr plan_index={{p.id}}>
+				<td>{{p.timeplan}}</td>
+				<td>{{p.idHybProtocol.name}}</td>
+				<td>{{p.idInstrument.name}}</td>
+			</tr>
+			{% endfor %}
+
+        	</tbody>
+        </table>
+
+
+        </article>
+
+
+{% endblock %}

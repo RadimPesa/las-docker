@@ -1,0 +1,71 @@
+/*
+
+Darko Bunic
+http://www.redips.net/
+Jan, 2010.
+
+*/
+body {
+	font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+/* add bottom margin between tables */
+#table1,#table2 {
+	margin-bottom: 20px;
+}
+
+/* drag container (contains two tables) */
+#drag {
+	margin: auto;
+	//width: 730px;
+}
+
+/* drag objects (DIV inside table cells) */
+.drag {
+	position: relative;
+	cursor: move;
+	margin: 2px auto;
+	background-color: gray;
+	text-align: center;
+	padding: 5px;
+	font-size: 12px;
+	/* round corners for FF, Chrome, Safari (except IE) */
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	height:10px;
+	width:17px;
+	border-style: hidden;
+	
+}
+
+/* drag objects border for the first table */
+.t1 {
+	border: 1px solid #9B9EA2;;
+}
+
+/* tables */
+div#drag table {
+	background-color: #E8E8E8;#9BBFC0;#D5D5D5;#e0e0e0;
+	border-collapse: collapse;
+}
+
+/* table cells */
+div#drag td {
+	//height: 50px;
+	border: 1px solid #1E4D4F;
+	text-align: center;
+	font-size: 12px;
+	//padding: 2px;
+}
+
+div#drag th {
+	border: 1px solid #1E4D4F;
+
+}
+
+/* message cell (marked as forbidden) */
+.mark {
+	//color: white;
+	//background-color: SteelBlue;
+}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Batch actions{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xenoBatch.js"></script> 
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+			
+		</script>
+    {%  else  %}	
+        <form id="form_file" action="/xeno/batch/read" enctype="multipart/form-data" method="post"> <div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="qbbiMABjKmYDMuy8KqMMYpP9ZFmQeVne"></div>
+		    <label for='actions'>Type action: </label>
+		    <select id='action' name='action'>
+        		<!--<option value="default">-</option>-->
+    		    {% for act in typeAction %}
+            		<option value="{{act.action}}" filetemplate="{{MEDIA_URL}}{{act.template}}">{{act.name}}</option>
+    		    {% endfor %}
+            </select>
+            <a id="templatefile" href="">Template</a>
+			<input id="id_file" type="file" name="file" size="6" style="display:none;">
+			<input id="filename" type="text" size="10" style="display:inline;">
+			<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;">
+			<input id="addfile" type="submit" class="button" value="Add file" name="aggiungi_file" onclick='checktypeaction();'>
+		</form>
+ 	{% endif %}
+{%  if message  %}
+	<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+	<script>
+		document.getElementById("message").style.display = 'inline';
+	</script>
+{% endif %}
+{% endblock %}

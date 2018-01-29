@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Annotation Management Module - Home{% endblock %}
+
+
+{% block content %}
+
+
+	
+
+<nav id="menuImg">
+
+<!--			<nav id="experimentoverlay" class="overlay" style="display:none">
+                    <span id="closeexperiment" class="close"><img src="/media/img/x.png"></span>
+                        <table>
+                                <tr>
+                                        <td class="navbut expdef">
+                                                <table></tr>
+                                                <td><img id="topo" src="/media/img/menu.png"></td><td>Experiment layout definition</td>
+                                                </tr></table>
+                                        </td>
+                                        <td class="navbut expres">
+                                                <table><tr>
+                                                <td><img id="topo" src="/media/img/menu.png"></td><td>Measurement collection</td>
+                                                </tr></table>
+                                        </td>
+                                </tr>
+                        </table>
+            </nav>
+-->
+
+			<table align="center" style='float:left;'>
+				<tr>
+					<td class="navbut a">
+						<table>
+						<tr>
+						<td><img id="topo" src="/media/img/menu.png"></td><td>New target sequence</td>
+						</tr>
+						</table>
+					</td>
+					<td class="navbut b">
+						<table>
+						<tr>
+						<td><img id="topo" src="/media/img/menu.png"></td><td>New sequence pair</td>
+						</tr>
+						</table>
+					</td>
+
+				</tr>
+<!--				<tr>
+					<td class="navbut c">
+						<table>
+						<tr>
+						<td><img id="topo" src="/media/img/menu.png"></td><td>Experiments</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+-->
+			</table>
+
+
+
+	<article id="immagini" style='float:right;padding-left:10px;'>
+		<p class="imghome">
+			<img src="/media/img/front.png">
+		</p>
+	</article>
+</nav>	
+
+	<br style="clear:both;"><br>
+
+<script>
+	$("span.home").remove();
+
+	$("section#content").addClass("home");
+
+	$("td.navbut.a").click(function(){
+		window.location="{% url annotations.views.create_targetseq %}";	
+	});
+	$("td.navbut.b").click(function(){
+		window.location="{% url annotations.views.create_seqpair %}";
+	});
+
+/*	$("td.navbut.c").click(function(){
+		$("nav#experimentoverlay").show("bind");	
+	});
+
+	$("td.navbut.expdef").click(function(){
+		window.location="";	
+	});
+
+
+	$("td.navbut.expres").click(function(){
+		window.location="";	
+	});
+
+	$("span#closeexperiment").click(function(){
+               $("nav#experimentoverlay").hide("bind");
+        });
+*/
+</script>
+
+{% endblock %}

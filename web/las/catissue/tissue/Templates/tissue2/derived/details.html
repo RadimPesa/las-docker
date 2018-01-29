@@ -1,0 +1,175 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Derive Aliquots - Step 1{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/derived/derive_details.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	{% if lista %}
+		<style type="text/css">
+			td{padding:6px;vertical-align: middle;}
+			th{padding:6px;vertical-align: middle;}
+			#aliq input{display:inline;}
+			#tabella_barc td {border-width: 0px;}
+			#tab_riepilogo td {padding:3px;}
+			.bordicurvi {border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+		</style>
+
+		<div class="bordicurvi" style="float:left;border-style: solid;border-width:0.1em;border-color:black;margin-right: 2em;margin-bottom: 1em;padding:0.5em;">
+			<label for="id_valid_barc">Barcode (optional):</label>
+			<div>
+				<input id="id_valid_barc" type="text" style="float:left;margin-right:10px;"  size="10" autocomplete="off" >
+				<input id="validate_barc" type="submit" class="button" style="float:left;" value="Verify barcode" title="Click to verify sample you are working with now"/> 
+			</div>
+			
+		</div>
+		<form id="form_conf" action={% url tissue.derived.ConfirmDetailsDerivedAliquots %} method="post">{% csrf_token %}
+			<input id="id_robot" type="hidden" name="robot" value="{{robot}}">
+			<div style="float:right;">
+				<input id="conf_all" type="submit" class="button" value="Confirm and stop" style="margin-right:0.5em;display:inline;" name="stop" title="Click to confirm and stop derivation procedure at this step"/>
+				<input id="next_step" type="submit" class="button" value="Next step" style="display:inline;" name="next" title="Click to confirm and pass to 'Select Kit' step" />
+				
+			</div>
+			<br style="clear:both;"/>
+		
+			{% for val in listatipiprot %}
+				<input type="hidden" id="tipo_{{forloop.counter0}}" value={{val}} />
+			{% endfor %}
+				<input type="hidden" id="lungtipi" value={{listatipiprot|length}} />
+			{% for val in listavol %}
+				<input type="hidden" id="volu_{{forloop.counter0}}" name="vol_{{forloop.counter0}}" value={{val}} />
+			{% endfor %}
+			{% for val in listaconc %}
+				<input type="hidden" id="concen_{{forloop.counter0}}" value={{val}} />
+			{% endfor %}
+			<input type="hidden" id="complem" value={{complementary}} />
+			<!-- input per salvare l'id dell'utente a cui eventualmente do' le provette -->
+			<input id="newuser_t" type="hidden" name="newusertubes" />			
+			<table border='1px' style="float:left;" id="aliq">
+			{% if complementary %}
+				<tr>
+					<th colspan="4">General info</th>
+					<th colspan="3">Protocol info</th>
+					<th colspan="2">Aliquot info</th>
+					<th colspan="2">Event info</th>
+				</tr>
+				<tr>
+					<th>N</th>
+					<th>Genealogy ID</th>
+					<th>Barcode</th>
+					<th>Position</th>
+					<th>Reaction volume(ul)</th>
+					<th>Reaction quantity(ug)</th>
+					<th>Max vol.(ul)</th>
+					<th>Aliquot total vol.(ul)</th>  
+					<th>Aliquot total conc.(ng/ul)</th>
+					<th>Actual load vol.(ul)</th>
+					<th>H2O vol.(ul)</th>
+					<th>Aliquot exhausted</th>
+					<th><input type="button" id="calcall" class="button" value="Calculate all" title="Click to calculate all volume values" /></th>
+				</tr>
+				
+				{% for aliquota,lquant,lvol,maxvol,barc,pos in lista %}
+					
+					<input type="hidden" id="proto_{{forloop.counter0}}" name="prot_{{forloop.counter0}}" value={{aliquota.idDerivationProtocol.id}} />
+					
+					<tr align="center" class="interna">
+						<td class="lis_indici" style="font-size: 14px;">{{forloop.counter}}</td>
+						<td>{{aliquota.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" readonly="readonly" type="hidden" name="gen_{{forloop.counter0}}" value={{aliquota}} size=33 style="font-size:1.15em;" />
+						</td>
+						<td class="lis_barcode">{{barc}}</td>
+						<td >{{pos}}</td>
+						<td>{{lvol}}
+							<!-- e' il volume utilizzato di aliquota originale secondo il protocollo -->
+							<input id="loadvol_{{forloop.counter0}}" readonly="readonly" type="hidden" value={{lvol}} size=6 />
+						</td>
+						<td>
+							<!-- e' la quantita' utilizzata di aliquota originale in ug -->
+							<input id="quantity_{{forloop.counter0}}" maxlength="7" type="text" value={{lquant}} size=6 onFocus="calcola=false;" />
+						</td>
+						<td>{{maxvol}}
+							<input type="hidden" id="maxvol_{{forloop.counter0}}" value={{maxvol}} readonly="readonly" size=6 />
+						</td>
+						<td id="volum_{{forloop.counter0}}"></td>
+						<td id="conc_{{forloop.counter0}}"></td>
+						<td>
+							<input id="vol_temp_{{forloop.counter0}}" name="quant_{{forloop.counter0}}" readonly="readonly" type="text" size=6 />
+						</td>
+						<td id="h2o_{{forloop.counter0}}"></td>
+						<td>
+							<input style="margin:10px;" id="exhausted_{{forloop.counter0}}" class="exha" type="checkbox" name="exhausted_{{forloop.counter0}}" size=5 />
+						</td>
+						<td>
+							<input type="button" id="calc_{{forloop.counter0}}" class="button" value="Calculate" title="Click to calculate volume value" />
+						</td>						
+					</tr>
+				{% endfor %}
+			{% else %}
+				<th>N </th>
+                <th>Genealogy ID</th>
+                <th>Barcode</th>
+                <th>Position</th>
+                <th>Used quantity<br><input id="quant_apply_all" type="text" maxlength="8" size=4 style="margin-top:0.5em;" />
+                	<input type="button" id="button_apply_all" class="button" value="Apply all" style="margin-top:0.5em;" title="Click to apply this used quantity to all aliquots" />
+                </th>
+                <th>Aliquot exhausted</th>	
+                {% for aliquota,load,unit,l,barc,pos in lista %}
+                    <tr align="center" class="interna">                         
+                        <input type="hidden" id="proto_{{forloop.counter0}}" name="prot_{{forloop.counter0}}" value={{aliquota.idDerivationProtocol.id}} />
+                        
+                        <td class="lis_indici" style="font-size: 14px;">{{forloop.counter}}</td>
+                        <td>{{aliquota.idAliquot.uniqueGenealogyID}}
+                        	<input id="gen_{{forloop.counter0}}" maxlength="7" readonly="readonly" type="hidden" name="gen_{{forloop.counter0}}" value={{aliquota}} size=25 style="font-size:1.15em;" />
+                        </td>
+                        <td class="lis_barcode">{{barc}}</td>
+                        <td >{{pos}}</td>
+                        <td>
+	                        <!-- e' la quantita' utilizzata di aliquota originale -->
+	                        <input id="quantity_{{forloop.counter0}}" maxlength="8" class="cl_quant" type="text" name="quant_{{forloop.counter0}}" value="{{load}}" size=4 /> {{unit}}
+                        </td>
+                        <td>
+                        	<input style="margin:10px;" id="exhausted_{{forloop.counter0}}" class="exha" type="checkbox" name="exhausted_{{forloop.counter0}}" size=5 />
+                        </td>                           
+                    </tr>
+            	{% endfor %}
+			{% endif %}
+			</table>
+			<br style="clear:both;">
+			<input id="seltutte" type="button" class="button" value="Set all aliquots exhausted" style="display: inline;margin-top:1em;">
+			<!-- 	<input id="deseltutte" type="button" class="button" value="Deselect all aliquots exhausted" style="display: inline;font-size:1.4em;">  -->
+			<br>
+			
+		</form>
+		
+		<div id="dia1" style="display:none;" title="Info">
+			<p id='dialogMess'></p>
+		</div>
+		<div id="dia2" style="display:none;" title="Transfer tubes">
+			<p id="dialogGive" ></p>
+		</div>
+		<div id="dia3" style="display:none;" title="Transfer tubes">
+			<p id="dialogUser" >
+				Please choose the user to whom give the tubes:
+				<br>
+				<table style="background-color:transparent;">
+				{% for user in lisutenti %}
+					<tr>
+						<td><input id={{user.id}} type="checkbox" class="checkuser" ></td>
+						<td>{{user.first_name}} {{user.last_name}}</td>
+					</tr>
+				{% endfor %}
+				</table>
+			</p>
+		</div>
+	{% endif %}
+	{% if fine %}
+		<h1 id="h1_finale" align="center">Operation executed. All data have been saved</h1>
+	{% endif %}
+{% endblock %}

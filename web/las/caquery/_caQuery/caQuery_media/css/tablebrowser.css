@@ -1,0 +1,39 @@
+label
+{
+	font-weight: bold;
+	width: 120px;
+	text-align: right;
+	display: inline-block;
+	margin: 5px;
+}
+
+select {
+    height: 27px;
+    width: 40%;
+    margin: 0;
+    padding: 0;
+}
+
+
+.btn {
+    width: 160px;
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+input
+{
+	border: 1px solid black;
+	width: 62%;
+}
+
+input.error
+{
+	border: 2px solid red;
+}
+
+.nopad {
+    padding: 0px;
+}

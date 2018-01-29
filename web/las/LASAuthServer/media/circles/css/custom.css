@@ -1,0 +1,269 @@
+
+
+
+/* Links & type =============== */
+ul,li{ list-style:none}
+
+/* Border */
+.border0{ border:none !important}
+/* Background Color */
+
+
+.circles-ctn{
+	/*position:fixed;*/
+	/*height:100%;*/
+
+	top:52px ;
+	right:0;
+	overflow:auto;
+	/*background-color:#EBEBEB;*/
+}
+.circles-ctn.affix .circle-right-ctn{
+	/*width:100%;*/
+	padding:0;
+
+}
+.circle-right-ctn{
+	height:100%;
+}
+.circle-list-ul, .circle-drop-ul{
+	margin:0;
+	padding:30px 0;
+}
+.circle-list-ul > li .circle-bdr{
+	border: 5px solid transparent;
+	margin-bottom: 10px;
+}
+.circle-list-ul > li.circle-card .circle-bdr:hover{
+	border: 5px solid rgba(77,148,255,0.8);
+}
+.circle-list-ul > li > .circle-bdr > .circle-list-item {
+	background:#fff;
+	position: relative;
+	/*min-height: 80px;*/
+	display:table;
+	width:100%;
+	-webkit-box-shadow: 3px 3px 6px 0px rgba(102, 102, 102, 0.75);
+	-moz-box-shadow:    3px 3px 6px 0px rgba(102, 102, 102, 0.75);
+	box-shadow:         3px 3px 6px 0px rgba(102, 102, 102, 0.75);
+}
+.circle-list-ul > li.ui-state-highlight > .circle-bdr > .circle-list-item {
+	background: rgba(77,148,255,0.4)
+}
+.circle-list-ul > li > .circle-bdr > .circle-list-item.add-user{
+	cursor: pointer;
+}
+
+.circle-list-ul > li > .circle-bdr > .circle-list-item.drag-cursor{
+	cursor:url(../images/cursor_hand.png), auto;
+}
+.circle-list-item .list-row {
+	display:table-row;
+}
+.circle-list-item.add-user > .add-user-icon {
+	vertical-align: middle;
+	height: 80px;
+	margin-right:15px;
+	padding: 26px 15px 0 15px;
+	border-right: 1px solid #ccc;
+	display: inline-block;
+}
+.circle-list-item  h5 {
+	font-weight: 700;
+}
+.circle-list-item.add-user:hover h5{
+	text-decoration:underline;
+}
+.circle-list-item .close-btn {
+	display:none;	
+}
+.circle-list-ul > li > .circle-bdr:hover > .circle-list-item .close-btn  {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display:block;
+	margin:5px 5px 0 0;
+}
+.circle-list-ul > li > .circle-bdr:hover > .circle-list-item .close-btn i{
+margin: 16px 0 0 15px;
+}
+.circle-list-item > .list-row > span{
+	width:90px;
+	padding-right:10px;
+	height:80px;
+}
+.circle-list-item > .list-row > .item-cell{
+	display: table-cell;
+	vertical-align:middle;
+}
+.circle-list-item > .list-row > .item-dec .level-icon{
+	margin-top:5px;
+	float:left;
+	color: #f9532f;
+}
+.circle-left-ctn{
+	z-index:8;
+}
+.circle-right-ctn{
+	padding:0;
+	overflow-y:auto;
+}
+.circle-ui { 
+	width: 100px;
+	height: 100px; 
+	border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+	-moz-border-radius: 50%; 
+	 background: #f9532f; 
+	transition: all 200ms ease-in-out; 
+	-webkit-transition: all 200ms ease-in-out; 
+	-moz-transition: all 200ms ease-in-out; 
+	-o-transition: all 200ms ease-in-out; 
+	margin-right: 50px; 
+	text-align: center; 
+	color: #fff; 
+	float: left; 
+	padding:10px;
+	cursor:pointer;
+}
+.circle-ui:hover h5{
+	text-decoration:underline;
+}
+.circle-ui > .circle-drop-inner{
+	display: table;
+	overflow:visible;
+	width:100%;
+	height:100%;
+}
+.circle-ui.drop-hover{
+	background:#FE8A71;
+	transform:scale(1.2); 
+	-webkit-transform:scale(1.2); 
+}
+.circle-ui .inner { 
+	display: table-cell; 
+	vertical-align: middle; 
+	position:relative 
+}
+.circle-ui.add-circles {
+	background: #777;
+	color: #fff;
+	position: relative;
+}
+.circle-ui:hover { 
+	transform:scale(1.2); 
+	-webkit-transform:scale(1.2); 
+}
+.circle-ui .circle-drop-item > li{
+	padding:0 !important;
+	position:absolute;
+}
+.circle-ui .circle-drop-item > li .item-dec , .content > .circle-card .item-dec{
+	display:none;	
+}
+.circle-ui .circle-drop-item > li .list-row > span, .content > .circle-card .list-row > span{
+	padding:0;
+	width:22px;
+	height:22px;
+}
+.circle-ui .circle-drop-item > li .circle-bdr, .content > .circle-card .circle-bdr{
+	position:relative;
+}
+.content > .circle-card{
+	z-index:999999;
+}
+.content >.circle-card .list-row > span{
+	float:left;
+	
+}
+.circle-ui .circle-drop-item > li .list-row > span img, .content > li .list-row > span img{
+	border-radius:50%;
+}
+.circle-ui > .circle-drop-item {
+	display:none;
+}
+.circle-ui:hover .circle-drop-item, .content .circle-card{
+	display:block;
+}
+.dorp-action{
+	width:20px;
+	height:20px;
+	border-radius:50%;
+	position:absolute;
+	top:0;
+	left:25px;
+	color:#fff;
+	opacity:0;
+}
+.dorp-action.delete{
+	background:red;
+}
+.dorp-action.add-new{
+	background:green;
+}
+.circle-list-ul > .circle-card{
+	position:static;	
+}
+.circle-list-ul > .circle-card.ui-state-highlight{
+	border:0;
+	background:none;
+	height:auto;
+}
+.dragging-info{
+	background-color:#666;
+	padding:15px;
+	
+}
+.dragging-info p{
+	color:#fff;
+	font-size:16px;
+}
+#dragInfo-affix.affix{
+	top:135px;
+	left:0;
+	z-index:9;
+}
+.drop-arrow-img{
+	position:absolute;
+	top: 40px;
+	left: 60%;
+	width:200x;
+	height:40px;
+	z-index:9;
+}
+
+
+.add-circle-user{
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	padding:1px;
+	background:#fff;
+	border-radius:0;
+}
+.add-circle-user .ui-widget-header{
+	background-color: #ebf1f8;
+	border:0;
+	border-radius:0;
+	border-bottom: 1px solid #CBDAEB;
+	font-size: 15px;
+	color: #164c87;
+}
+.add-circle-user label{
+	font-size: 14px;
+}
+.add-circle-user .ui-dialog-buttonpane {
+	border-top: 1px solid #CBDAEB;
+	padding-right:.5em;
+}
+.draggable-tooltip{
+	position:absolute;
+	bottom: -18px;
+	left: -15px;
+	width:25px;
+	height:25px;
+	float:left;
+	background:url(../images/dropIcon.png) 0 0 no-repeat;
+	
+}
+.draggable-tooltip.delete{
+		background:url(../images/dropIcon.png) 0 -35px no-repeat;
+}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Mice Measurements{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/measure.js"></script> 
+    <script type="text/javascript" src="{{MEDIA_URL}}js/qual_weight.js"></script> 
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div id="inputDiv" align="center">
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Insert Measure </legend>
+				<div id="input" align='left' style="float:left;">
+                    <label for="id_weight">Weight (g):</label>
+                    <input type="text" name="weight" id="id_weight" onkeyup="wToBlank(event)">
+					<label for = "id_barcode">Mouse barcode:</label>
+					<input id="id_barcode" type="text" name="barcode" maxlength="15" onKeyup="wToBlank(event)">
+                    {{formSite}}
+                    <!--
+                    <label for = "id_value">Tumor size:</label>
+                    <input id="id_value" type="text" readonly name="id_value" title='Slide to change tumor size.'> -->
+				</div>
+				<div id='a' align='left' class='valueQual'>
+                    <!--div id='slider'  style='float:left;'>
+                        {{ formValue }}
+                    </div-->
+					<label for="id_notes" style="padding-left:10px;">Notes:</label> 
+					<input id="id_notes" type="text" name="notes" maxlength="45" onPaste="return false;" onkeypress="validate(event)">
+                    <input type="button" value="Add Row" id="Add" onclick="makeMeasure()" />
+                    <input type="button" value="Delete Row(s)" id="Delete" onclick="deleteRow('qual')" />
+				</div>
+			</fieldset>
+		</div>
+		<br>
+        <div class="HorizontalMain" style="width:100%;height:120px;" align='center'>
+            <fieldset  class="fieldset" >
+                <legend class="legend"> Measured Groups </legend>
+                <table id="tableList" currGroup=""><tr id="row1"><tr></tr></table>
+            </fieldset>
+        </div>
+		</div>
+		<br/><br/>
+        <div style="width:100%;">
+            <div class="VerticalMain" style="height:400px;">
+                <table id="measure" class="group">
+                    <thead id="measureHead">
+                        <tr>
+                            <th>Counter</th>
+                            <th align="center">Id Genealogy</th>
+                            <th align="center">Value</th>
+                            <th align="center">Weight</th>
+                            <th align="center">Previous Weight</th>
+                            <th align="center">Previous Weight Date</th>
+                            <th align="center">Explant</th>
+                            <th align="center">Scope</th>
+                            <th>H</th>
+                            <th align="center">Barcode</th>
+                            <th>H</th>
+                            <th align="center" >Treatment</th>
+                            <th>H</th>
+                            <th>H</th>
+                            <th align="center" >Start Date</th>
+                            <th align="center" >Duration</th>
+                            <th>H</th>
+                        </tr>
+                    </thead>
+                    <tbody id="measureBody">
+                    </tbody>
+                </table>
+            </div>
+            <fieldset class="fieldset" >
+                <legend class="legend"  align='center'> Actions </legend>
+                <div align="center">
+                    <table>
+                        <tr>
+    		          	    <td><input type="button" id='save' name="save" value="Save Measure Serie" onclick="saveQual()"/></td>
+    				        <td><input type="button" value="Program treatment" id='startT' name='startT' class='startT' onclick='openTreat("{% url xenopatients.measure.startTreatment %}")'/></td>
+    				        <td><input type="button" value="Stop treatment" id='StopT' name='stopT' class='stopT' onclick='stopTreat()'/></td>
+                            <td><input type="button" value="Sacrifice" id='Sacr' name='sacr' onclick="makeAction('sacrifice without explant')"/></td>
+                            <td><input type="button" value="Explant without sacrifice" id='lite' name='lite' onclick="makeAction('explant without sacrifice')"/></td>
+                            <td><input type="button" value="Request review" id='evaluation' name='evaluation' onclick="supervisor()"/></td>
+                        </tr>
+                    </table>
+    				<table>
+    				    <tr>
+    					    <td><input type="button" value="Explant" onclick="makeAction('ready for explant')" /></td>
+    					    <td>{{ formSD.as_p }}</td>
+    					    <td><label for="explNotes">Notes for explant: </label></td>
+    					    <td><textarea rows="2" cols="40" type="text" id="explNotes" name="explNotes" value="" maxlength="180" onpaste="return false;" onkeypress="validate(event)"> </textarea></td>
+    				    </tr>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        
+		<div id="dialog" class="dialog confirm" title="OPS!!" style="display:none;position: relative;">
+        	<p id='dialogMessage'></p>
+        </div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

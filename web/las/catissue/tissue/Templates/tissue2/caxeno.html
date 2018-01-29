@@ -1,0 +1,23 @@
+{% extends "tissue2/base.html" %}
+{% block title %}caxeno{% endblock %}
+{% block script %}
+
+  <script type="text/javascript" src="{{MEDIA_URL}}JS/prova.js"></script>
+{% endblock %}
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+{% block content %}
+<h1 align="center">caxeno</h1>
+<h3>{{  err_message  }}</h3>
+	<h3>{{  err_message  }}</h3>
+	<br>
+	<!--  <form id="savef" >{% csrf_token %} da mettere o no?-->
+	<input id="ins" type="button" value="Invia"> 
+
+
+{% endblock %}

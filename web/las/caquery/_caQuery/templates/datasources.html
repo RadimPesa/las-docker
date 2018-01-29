@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/datasources.css">
+<link rel="stylesheet" href="{{MEDIA_URL}}css/colpick.css" type="text/css"/>
+{% endblock %}
+{% block title %}Multidimensional Data Manager - API Registration{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/datasources.js"></script> 
+<script type="text/javascript" src="{{MEDIA_URL}}js/colpick.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<section id="riquadroapi">
+    <h3>Data sources</h3>
+
+    <article id="commands">
+
+        <div style="float: left; width: 20%">
+            <div>
+                <label>Data source:</label>
+                <select id="selds">
+                    {% for s in datasrc %}
+                    <option value="{{s.id}}">{{s.name}}</option>
+                    {% endfor %}
+                </select>
+
+                <script>
+                    $("#selds").prop("selectedIndex", -1);
+                </script>
+            </div>
+
+            <div>
+                <form id="dsform" accept_charset="UTF-8">
+                    {% csrf_token %}
+                    <label>Name:</label><input id="dsname" type="text" name="name" class="dsdata" /><br>
+                    <label>Description:</label><input id="dsdescr" type="text" name="descr" class="dsdata" /><br>
+                    <label>Color (base):</label><input id="dscolor" style="width: 10%" type="color" name="color" class="dsdata" value="#81bb81" /><br>
+                    <label>Color (hover):</label><input id="dscolorh" style="width: 10%" type="color" name="colorh" class="dsdata" value="#aaffaa" /><br>
+                    <label>Color (clicked):</label><input id="dscolorc" style="width: 10%" type="color" name="colorc" class="dsdata" value="#66ff66" /><br>
+                    <label>Icon:</label><input id="dsicon" type="file" name="icon" class="dsdata" /><br>
+                    <label>Preview:</label><span><img id="preview" class="thumb" src="{{MEDIA_URL}}images/pic-icon.png"/></span><br>
+                    <label>URL:</label><input id="dsurl" type="text" name="url" class="dsdata" /><br>
+                </form>
+
+
+            </div>
+        </div>
+
+        <div style="float: left">
+            <button id="newdsbtn" class="button" type="button">New data source</button>
+            <br>
+            <button id="refreshdsbtn" class="button" type="button">Refresh schema</button>
+            <br>
+            <button id="dropdsbtn" class="button" type="button">Delete</button>
+            <br>
+            <!--<button id="savedsbtn" class="dsbtn" type="button"><table style="margin: auto"><tr><td class="nopad"><span class="ui-icon ui-icon-check"></span></td><td class="nopad">Save</td></tr></table></button>-->
+            <button id="savedsbtn" class="button" type="button">Save</button>
+        </div>
+
+        <article class="dialog" id="plswait">
+            <center>
+            <p id="pwcontent"></p>
+            <img src="{{MEDIA_URL}}images/loading.gif" height=50 />
+            </center>
+        </article>
+
+
+    </article>
+</section>
+
+	
+{% endblock %}

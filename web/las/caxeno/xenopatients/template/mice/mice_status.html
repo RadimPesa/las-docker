@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Change Status of a Mouse{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/xeno_script.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/changeStatus.js"></script> 
+	<style>
+    	td.control{cursor:pointer;}
+    </style>
+{% endblock %}
+{% block bodyoption %}onload="setFocus()"{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div id="listDiv" align="center" style="width:30%;float:right;display:none">
+			<fieldset  class="fieldset" >
+				<legend class="legend"> Mice ready for change status </legend>
+				<table id="statusTable"></table>
+			</fieldset>
+		</div>
+		{% if second_step %}	
+			<div align='right' style="float:left;">
+				<fieldset  class="fieldset" >
+					<legend class="legend"> General Info </legend>
+					<label for = "date">Date</label>
+					<input readonly="readonly" id="date" name="date" value="{% now "jS F Y" %}"><br>
+					<label for = "operator">Operator</label>
+					<input readonly="readonly" id="operator" name="operator" value="{{  name  }}"><br>
+					<label for = "date">Target Status</label>
+					<input readonly="readonly" id="tStatus" name="date" value="{{ target_status }}"><br>
+					{% if extra_info %}	
+						{% for info in extra_info %}
+							<label for =="{{  info.extraData  }}">{{  info.extraName  }}</label>
+							<input readonly="readonly" id="{{  info.extraData  }}" value="{{  info.extraData  }}" name="extra_info" /><br>
+		                {% endfor %}
+					{% endif %}
+				</fieldset>
+			</div>
+
+			<div style="width:35%;float:left">
+				<fieldset  class="fieldset" >
+					<legend class="legend"> Input Mouse </legend>
+					<label for = "barcode">Barcode of mouse:</label>
+					<input name="barcode" type="text" id="id_barcode" maxlength="15" onkeyup="checkKey(event)">
+					<input type="hidden" type="text" id="index" name="index" value="{{  index  }}">
+					<input type="submit" name="extra" value="Ok" onClick="addRow('statusTable')"/><br>
+					<div id='finishDiv' style = 'disply:none;'>
+						<br><input type="button" id='finish' name="finish" value="Finish" onclick="save()"/><br>
+					</div>
+				</fieldset>
+			</div>
+			{% if toSacr %}	
+    			<div style='width:35%;float:right;'>
+    				<fieldset class="fieldset">
+    			    <legend>Pending mice to be sacrified</legend>
+    			    <br>
+    			    <table class='dataTable'>
+        				{% for mouse in toSacr %}
+                            <tr id="{{ mouse.genID }}" style='height:20px;'><td>{{ mouse.nameG }}</td></tr>
+                        {% endfor %}
+                    </table>
+                    </fieldset>
+                </div>
+			{% endif %}
+		{% else %}	
+			{% if extra %}	
+				<div align='right' style="width:23%;">	
+					<fieldset  class="fieldset" >
+						<legend class="legend"> General Info </legend>
+						<label for = "date">Date</label>
+						<input readonly="readonly" id="date" name="date" value="{% now "jS F Y" %}"><br>
+						<label for = "operator">Operator</label>
+						<input readonly="readonly" id="operator" name="operator" value="{{  name  }}"><br>
+						<label for = "date">Target Status</label>
+						<input readonly="readonly" id="tStatus" name="date" value="{{ target_status }}"><br>
+					</fieldset>
+				</div>
+				<div align='right'style="width:23%;margin-top:15px;"><br>
+					<fieldset  class="fieldset" >
+						<legend class="legend"> Further Info </legend>
+						<form name="extraForm" action="{% url xenopatients.miceManage.changeStatus %}" method="post">{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" name="go" value="GO!"/><br>
+						</form>
+					</fieldset>
+				</div>
+			{% else %}	
+				<div align="center" style="width:25%;">	
+					<fieldset  class="fieldset" >
+						<legend class="legend"> Target Status </legend>
+						<form name="listForm" action="{% url xenopatients.miceManage.changeStatus %}" method="post">{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" name="Start" value="Start" />
+						</form>
+					</fieldset>
+				</div>
+			{% endif %}
+		{% endif %}
+		{%  if message  %}
+			<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+			<script>
+				document.getElementById("message").style.display = 'inline';
+			</script>
+		{% endif %}
+	{% endif %}
+{% endblock %}

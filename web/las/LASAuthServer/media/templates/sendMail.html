@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/manageModules.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+	<link rel="stylesheet" href="/lasauth_media/manage/css/tables.css">	
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/sendMail.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="/lasauth_media/js/jquery.dataTables.js"></script>
+
+</head>
+<body onload="setLoginFocus()">
+	<header>
+		<hgroup>
+			<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+ 
+		</hgroup>
+	</header>
+	<section id="content">
+		<script>$("section#content").addClass("home");</script>
+		<script> 
+			
+		</script>
+		<p id="user_name">
+			<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+		</p>
+			<div style="padding-left:50px;" id="main">   
+				{% if message%}
+					{% ifequal message "ok" %}
+						<h1 class="title">Mail Sent!</h1>
+					{% else%}
+						<h1 class="title">Error during mail delivery! Please retry later!</h1>
+					{% endifequal%}	
+				{% else%}			 			 
+					<!--  Give the user a "submit" button --> 
+					<form enctype="multipart/form-data" method="post" action="{% url loginmanager.views.sendMail %}">
+					   {% csrf_token %}   
+						<h2>Subject</h2>
+						<textarea name="subject" id="subject" rows=1 cols=60 ></textarea>
+						<h2>Message</h2>
+						<textarea name="message" id="message" rows=10 cols=60 value="Here's some text."></textarea></br>
+						</br>
+						<h3> Select one or more attachments or send the message!</h3>
+						<input type="file" name="file" class="file" multiple/>
+						<input type="hidden" name="toRecipients" id="toRecipients"  value="" />
+						<input type="hidden" name="ccRecipients"  id="ccRecipients" value="" />
+						<input type="hidden" name="bccRecipients" id="bccRecipients"  value="" /> 
+						<input type="button" value="RESET FILES" onClick="resetFiles();"/>
+						<input type="submit" value="SEND MESSAGE" onClick="return updateInput();"/>
+						
+					</form>	
+				{% endif %}
+			</div>
+	</section>
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>	
+</body>
+
+</html>

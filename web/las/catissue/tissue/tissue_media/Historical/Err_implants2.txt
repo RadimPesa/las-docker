@@ -1,0 +1,29 @@
+IMPLdtl00181: problemi sulle date. Data espianto: 19/01/2011 Data impianto: 23/03/2011
+IMPLdtl00841: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00842: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00843: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00844: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00845: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00846: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00847: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00848: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00849: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00850: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00851: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00852: problemi sulle date. Data espianto: 13/09/2011 Data impianto: 12/07/2011
+IMPLdtl00977: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00978: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00979: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl00980: problemi sulle date. Data espianto: 20/12/2011 Data impianto: 11/08/2011
+IMPLdtl02994: problemi sulle date. Data espianto: 19/04/2012 Data impianto: 24/02/2012
+IMPLdtl02995: problemi sulle date. Data espianto: 19/04/2012 Data impianto: 24/02/2012
+IMPLdtl02996: problemi sulle date. Data espianto: 19/04/2012 Data impianto: 24/02/2012
+IMPLdtl02997: problemi sulle date. Data espianto: 19/04/2012 Data impianto: 24/02/2012
+IMPLdtl03821: errore nella creazione del genid del topo impiantato
+IMPLdtl03822: errore nella creazione del genid del topo impiantato
+IMPLdtl03823: errore nella creazione del genid del topo impiantato
+IMPLdtl03824: errore nella creazione del genid del topo impiantato
+IMPLdtl03825: errore nella creazione del genid del topo impiantato
+IMPLdtl03826: errore nella creazione del genid del topo impiantato
+IMPLdtl03827: errore nella creazione del genid del topo impiantato
+IMPLdtl03828: errore nella creazione del genid del topo impiantato

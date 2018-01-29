@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Collected aliquots - PDF</title>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" />
+
+</head>
+<body>
+<section>
+	{% block content %}
+	 	<h1 align="center">Collected aliquots</h1>
+	
+	 	<h4>Operator: {{  operatore  }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: {{data_coll|date:"jS F Y"}} 
+	 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Informed consent: {{  collevent  }}
+	 	{% if paziente != "" %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patient code: {{  paziente  }} {% endif %}</h4>
+	
+	 	<table border="1">
+	         
+	 		{{  intest|safe  }}
+	         
+	 		{% for m in list_report %}
+	        	{{  m|safe  }}
+	 		{% endfor %}
+	 
+	 	</table>
+	{% endblock %}
+</section>
+</body>
+</html>

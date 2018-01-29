@@ -1,0 +1,134 @@
+#selds {
+    height: 26px;
+    width: 100px;
+}
+
+.dsbtn {
+    width: 160px;
+    margin: 0px;
+    margin-left: 10px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.qpbtn {
+    width: 120px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.nopad {
+    padding: 0px;
+}
+
+.entPicker {
+    vertical-align: middle;
+    width: inherit;
+    height: inherit;
+}
+
+.entPbtn {
+    width: 60px;
+}
+
+label {
+    font-weight: bold;
+}
+
+span.statuscheck {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image:url('/caQuery_media/images/qmark-32x32.png')
+}
+
+span.statusload {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image:url('/caQuery_media/images/loading-32x32.gif')
+}
+
+span.statusok {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image:url('/caQuery_media/images/tick-32x32.png')
+}
+
+span.statusnok {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image:url('/caQuery_media/images/forbid-32x32.png')
+}
+
+pathdisplay {
+    list-style-type: decimal;
+    list-style-position: inside;
+    width: 400px;
+    padding: 5px;
+    margin: 5px;
+}
+
+pathdisplay2 {
+    list-style-type: decimal;
+    list-style-position: inside;
+    width: inherit;
+    padding: 5px;
+    margin: 5px;
+}
+
+
+span.highlight {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #851D1D;/*#61102B; #173C7A;*/
+}
+
+span.small {
+    font-size: 9pt;
+}
+
+#pathcontainer {
+    border: 1px solid black;
+    width: 432px;
+    height: 150px;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+#pathcontainer2 {
+    border: 1px solid black;
+    width: inherit;
+    height: 150px;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+
+li.odd {
+    background-color: #FFF3DE;
+}
+
+li.even {
+    background-color: #FFFFF5;
+}
+
+img.thumb {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #000;
+    margin: 0;
+  }
+
+.color-box {
+    float:left;
+    width:30px;
+    height:30px;
+    margin:5px;
+    margin-left: 0px;
+    border: 1px solid black;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="en" class="lt-ie9"> <![endif]-->
+<!--[if IE 9]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Nestable</title>
+</head>
+<body>
+    <h1>Nestable</h1>
+    <p>Drag &amp; drop hierarchical list with mouse and touch compatibility (jQuery plugin)</p>
+    <p><strong><a href="https://github.com/dbushell/Nestable">Code on GitHub</a></strong></p>
+    <menu id="nestable-menu">
+        <button type="button" data-action="expand-all">Expand All</button>
+        <button type="button" data-action="collapse-all">Collapse All</button>
+    </menu>
+    <div class="cf nestable-lists">
+        <div class="dd" id="nestable">
+            <ol class="dd-list">
+            	{% for x in  %}
+                	<li class="dd-item" data-id="{{x.name}}">
+                    	<div class="dd-handle">"{{ x.name }}"</div>
+                    	<ol class="dd-list">
+
+                     		<li class="dd-item" data-id="{{y.codename}}"><div class="dd-handle">{{y.name}}</div></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+        <div class="dd" id="nestable2">
+            <ol class="dd-list">
+                <li class="dd-item" data-id="2">
+                    <div class="dd-handle">Item 2</div>
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="3"><div class="dd-handle">Item 3</div></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <p><strong>Serialised Output (per list)</strong></p>
+
+    <textarea id="nestable-output"></textarea>
+    <textarea id="nestable2-output"></textarea>
+
+    <p>&nbsp;</p>
+
+   
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="jquery.nestable.js"></script>
+<script>
+
+$(document).ready(function()
+{
+
+    var updateOutput = function(e)
+    {
+        var list   = e.length ? e : $(e.target),
+            output = list.data('output');
+        if (window.JSON) {
+            output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+        } else {
+            output.val('JSON browser support required for this demo.');
+        }
+    };
+
+    // activate Nestable for list 1
+    $('#nestable').nestable({
+        group: 1
+    })
+    .on('change', updateOutput);
+    
+    // activate Nestable for list 2
+    $('#nestable2').nestable({
+        group: 1
+    })
+    .on('change', updateOutput);
+
+    // output initial serialised data
+    updateOutput($('#nestable').data('output', $('#nestable-output')));
+    updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+
+    $('#nestable-menu').on('click', function(e)
+    {
+        var target = $(e.target),
+            action = target.data('action');
+        if (action === 'expand-all') {
+            $('.dd').nestable('expandAll');
+        }
+        if (action === 'collapse-all') {
+            $('.dd').nestable('collapseAll');
+        }
+    });
+
+    $('#nestable3').nestable();
+
+});
+</script>
+</body>
+</html>

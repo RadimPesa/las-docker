@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Measurements{% endblock %}
+
+{% block content %}
+
+	<nav id="menuImg">
+		<table align="center">
+			<tr>
+				<td class="navbut">
+					<a id="qual" href="{% url xenopatients.views.qualMeasure %}"><img id="topo" src="{{MEDIA_URL}}img/topo.gif" width="44" height="44"><span id="navtitle">Qualitative Measures</span></a>
+				</td>
+				<td class="navbut">
+					<a id="quant" href="{% url xenopatients.views.quantMeasure %}"><img id="topo" src="{{MEDIA_URL}}img/topo.gif" width="44" height="44"><span id="navtitle">Quantitative Measures</span></a>
+				</td>
+			</tr>
+		</table>
+	</nav>
+{% endblock %}

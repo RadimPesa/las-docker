@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="{{MEDIA_URL}}js/jquery-1.9.1.min.js"></script>
+<script src="{{MEDIA_URL}}js/bam2x.core.js"></script>
+<script src="{{MEDIA_URL}}js/d3.v3.min.js"></script>
+</head>
+<body>
+<div id="output">
+</div>
+
+<script>
+$(document).ready(function(B) {
+  var axis = new B.AxisModel({"chr":"chr12","start":1,"end":3000,"strand":"+"})
+  var svg = d3.select("#output").append("svg").attr("width",1500).attr("height",600)
+  var axis_v= new B.AxisView({"el":svg.append("g"),"model":axis,"x":20,"y":100,"height":5,"width":1000,"color":"black"})
+  axis_v.render(true);
+  var bed = new B.BedModel({
+    chr:"chr12",
+    start:0,
+    stop:3000,
+    id:"KRAS",
+    score:20,
+    strand:"+",
+    itemRgb:"0,0,0",
+    cds_start:250,
+    cds_stop:1850,
+    blockCount: 4,
+    blockSizes: [450,300,600,100],
+    blockStarts: [100,600,1050,1900]
+
+})
+  var bed_v = new B.Bed12View({"model":bed,"el":svg.append("g"),"height":15,"color":"green"})
+  bed_v.render(axis_v,120);
+  
+  var plot = new B.PlotModel({"values":[15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15],"start":290})
+  var plot_v = new B.PlotView({"model":plot,"el":svg.append("g"),"height":30,"y":142.5, "color": "red"})
+  plot_v.render(axis_v);
+  
+}(bam2x))
+</script>
+</body>
+</html>

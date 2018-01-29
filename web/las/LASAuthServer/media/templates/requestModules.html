@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=ISO-8859-1"> 
+	<title>Laboratory Assistant Suite</title>
+	<link rel="stylesheet" href="/lasauth_media/manage/css/styles.css" />
+	<link rel="stylesheet" href="/lasauth_media/manage/css/manageModules.css" />
+	<link rel="stylesheet" type="text/css" href="/lasauth_media/manage/css/jquery-ui-1.8.21.custom.css" />
+	<link rel="shortcut icon" href="/lasauth_media/img/favicon.ico">
+	<link rel="stylesheet" href="/lasauth_media/manage/css/tables.css">
+	
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/requestModules.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/lasauth_media/js/jquery-ui.js"></script>
+	
+</head>
+<body onload="setLoginFocus()">
+	<header>
+		<hgroup>
+			<h1> <a href="{% url loginmanager.views.index %}"><img src="/lasauth_media/img/logo.PNG" width="143" height="46"> Laboratory Assistant Suite </a></h1>
+ 
+		</hgroup>
+	</header>
+	<section id="content">
+		<script>$("section#content").addClass("home");</script>
+		<p id="user_name">
+			<span id="datename">{% now "jS F Y" %} | <a class="head" href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+		</p>
+		{% if modulesnok %}
+			<div style="padding-left:50px;">    
+		    	<div>
+					<input type="text" id="postOrder" name="postOrder" value="" size="30" style="display:none;">
+					<input type="button" id="saveModules" name="saveModules" value ="REQUEST MODULES" onClick="UpdatePostOrder('{% url loginmanager.views.requestModules %}' ,'{% url loginmanager.views.moduleRequestReport %}');" class="button" style="float:right;">
+				</div>
+				</br></br></br>
+	        	<div id="v-nav">
+					<div class="block-content"  >
+						<div id="maincolumn">
+	  						<div class="text">
+								<div class="listBlock">
+									<h2>Available Modules</h2>
+									<ul class="sortable1" id="sortable1" style="min-height: 128px;">	
+										{% for m in modulesnok %}
+											<li class="ui-widget-content" id="{{m.shortname}}">{{m.name}}</li>
+										{% endfor%}
+									</ul>
+									<br/>
+									<a href="javascript:void(0);" id="move_right" style="padding-left:130px; font-size:1.2em;">ADD &raquo;</a>
+								</div>
+								<div class="listBlock">			
+									<h2>Requested Modules</h2>
+									<ul class="sortable2" id="sortable2" style="min-height: 128px;">
+									</ul>
+									<br/>
+									<a href="javascript:void(0);" id="move_left" style="font-color:black; padding-left:130px; font-size:1.2em;">&laquo; REMOVE</a>
+								</div>	
+	  						</div>
+						</div>					
+					</div> 	
+		        </div>           	
+	        </div>
+    	{% else %}
+			<h3><span id="navtitle">You already have all modules! </span></h3>
+		{% endif%}
+	</section>
+	<footer>
+		If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress">click here</a>!
+	</footer>	
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Archive Procedure{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/tooltip.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/archive.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/dataForBiobank.js"></script>
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/archive.css" />
+{% endblock %}
+{% block content %}
+	<style type="text/css">
+		.dialog{display: none;}
+		input {text-align: left;}
+		#toArchive_length,#toArchive_filter {margin-bottom:0px;margin-right:0px;}
+		#divContainer table th {text-align:center;}
+		#archived td.center img, td span.ui-icon-trash {cursor:pointer;}
+		table.dataTable td {padding:3px;}
+	</style>
+
+	<div id="dialog" class="dialog confirm" title="BioBank Information" style="display:none;position:relative;"><p id="dialog_p"></p></div>
+
+
+	{% if archive_genID_list %}		
+        <div id="divContainerArchive" >
+        	<fieldset style="float:left;">
+				<div id="posiz" style="float:left;">
+					<div style="margin-top:1em;">
+					<label for="id_date">Archive date:&nbsp;</label>
+					<input id="id_date" type="text" maxlength="10" size="8">
+					</div>
+					<br>
+					<table id='toArchive'>
+						<thead>
+							<tr>
+								<th>H</th>
+								<th>Cell Line</th>
+								<th>#Plates</th>
+								<th>Start Date</th>
+								<th>Archive Date</th>
+								<th>Condtion Configuration</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for idEvent,nickname,genID,numP, date, dateArchive, cc in archive_genID_list %}
+								<tr>
+									<td>{{idEvent}}</td>	
+									<td>{{nickname}} {{genID}}</td>
+									<td>{{numP}}</td>
+									<td>{{date|date:"Y-m-d H:i:s" }}</td>
+									<td>{{dateArchive|date:"Y-m-d H:i:s" }}</td>
+									<td>{{cc}}</td>
+									<td><span class="ui-icon ui-icon-trash"></span></td>
+								</tr>
+							{% endfor %}
+						</tobdy>
+					</table>
+				</div>
+			</fieldset>
+			<div style="float:right;">
+				<div id='divContainer'>
+					{{plate.table_archive|safe}}
+				</div>
+                <div style="display:inline;">
+                    <label style="display:inline;padding-top:4px;" for="barcode">Barcode:</label>
+                    <input style="display:inline;" id="barcode" autocomplete="off" type="text" maxlength="45" size='10' name="barcode" >
+                </div>
+                <div style="display:inline;">
+					<select id='typeAliquot' name='typeAliquot'>
+						{% for at in listTypeAliquot %}
+							<option value="{{at}}">{{at}}</option>  
+						{% endfor %}
+					</select>
+				</div>
+                <div style="padding:5px;padding-top:9px;display:inline;font-size:15px;">
+                    <input type="radio" name="choose" value="tube" style="display:inline;"/>Tube    
+                    <input type="radio" name="choose" value="plate" style="display:inline;" checked/>Plate
+                </div>
+                <br/>
+                <div style="padding-left:10px;padding-top:12px;display:inline;">
+					<label>Volume(ml):</label>
+					<input maxlength="10" type="text" id="volume" size="6">
+					<label>Count(cell/ml):</label>
+					<input maxlength="10" type="text" id="conta" size="6">
+                    <input type="button" value="Load" id="load_plate" class="button" onclick="carica_piastra();">
+                    <br/><br/>
+                    <input type="button" value="Save Session" id="save" class="button" onclick="saveSession();">
+                </div>
+            </div>
+			<br style='clear:both;'/>
+			<div id="view_aliquots" align="center" style="width:100%;margin-top:35px;">
+				<fieldset  class="fieldset" style="height:85%;">
+					<legend class="legend"> Archived cell lines </legend>
+					<table id="archived" class="table_prot_info" align="center">
+						<thead>
+						</thead>
+						<tbody>
+						</tobdy>
+					</table>
+				</fieldset> 
+			</div>		
+		</div>
+	{% else %}
+		<div id="divContainerExpansion1" style="text-align:center;"> <p style="color:red;font-size:18px;">No cell lines available for archive</p> </div>
+		<div id="divContainerExpansion1" style="text-align:center;">
+			<form method="get" action="{% url cellLine.views.home %}">
+				<input style="font-size=16px;" type="submit" value="Home" />
+			</form>
+		</div>	
+	{% endif %}
+
+<article class="dialog" title="Trash plates" id="trashdialog">
+	<p id="trashCell"></p>
+	<p>
+		Number of plates to trash <input id="platesTrash" name="value"> 
+	</p>
+
+
+</article>
+
+
+<form id="trashform" accept_charset="UTF-8">
+    {% csrf_token %}
+</form> 
+
+{% endblock %}

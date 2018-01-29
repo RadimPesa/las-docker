@@ -1,0 +1,41 @@
+{% extends "baseReport.html" %}
+{% block script %}
+<script type="text/javascript">
+var actionname = 'Measures';
+</script>
+{% endblock %}
+{% block title %}Measurement event{% endblock %}
+{% block content %}
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+<div style="max-width:600px;">
+    <article id="riquadro" style="margin-bottom:20px">
+
+    <div id="infobox" class="confirmbox" style="margin:10px 0px;padding:5px" >Analysis saved.</div>
+
+    <div id="experiment_info" style="width:inherit;">
+        <h3>Analysis Info</h3>
+        <table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+             <tbody>
+                <tr> 
+                    <th class="planinfo">Title:</th> 
+                    <td class="planinfo">{{analysis.id_experiment.title}}</td> 
+                </tr>
+                <tr> 
+                    <th class="planinfo">Description:</th> 
+                    <td class="planinfo">{{analysis.id_experiment.description}}</td> 
+                </tr>
+                <tr> 
+                    <th class="planinfo">Operator:</th> 
+                    <td class="planinfo">{{analysis.idOperator}}</td> 
+                </tr>
+                <tr> 
+                    <th class="planinfo">Executed at:</th> 
+                    <td class="planinfo">{{analysis.time_executed}}</td> 
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+    </article>
+</div>
+{% endblock %}

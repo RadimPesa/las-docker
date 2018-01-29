@@ -1,0 +1,17 @@
+{% extends "tissue2/base.html" %}
+
+{% block title %}Registration successful{% endblock %}
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+{% block content %}
+<h1>Registration completed successfully	</h1>
+<br>
+<p> Thank you for registering. <br> 
+Now you can <a href={% url django.contrib.auth.views.login %}>login</a> 
+</p>
+{% endblock %}

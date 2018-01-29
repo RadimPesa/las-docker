@@ -1,0 +1,88 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Revalue aliquots{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/revalue_robot/save_data.js"></script>
+	<script type="text/javascript">		
+		dizmisure = $.parseJSON('{{dizmisure|safe}}');
+		diznomimisure = $.parseJSON('{{diznomimisure|safe}}');
+	</script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		#aliq td{padding:6px 18px 6px 6px;vertical-align: middle;}
+		th{padding:6px;vertical-align: middle;text-align:center;}
+		#aliq_paginate a {padding-top:4px;}
+		#aliq {margin-top:4px;margin-bottom:4px;}
+		#aliq_length {margin-top:8px;}
+	</style>
+	
+	{% if not fine %}
+		<span id="command" style="float:left;font-size:1.5em;margin-top:0.7em;"><b>Please select the concentration you want to save for each aliquot</b></span>
+		<input id="submit_button" type="submit" style="float:right;" value="Submit data" class="button" />
+		<br style="clear:both;">
+		<br>
+		<form id="form_conf" action={% url tissue.revalue_robot.SaveData %} method="post">{% csrf_token %}
+		</form>
+		<table border='1px solid' id="aliq" style="float:left;">
+			<thead>
+				<th>N</th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Position</th>
+				{% for mis in lisnomimisure %}
+					<th class="{{forloop.counter}}">{{mis}}</th>
+				{% endfor %}
+			</thead>
+			<tbody>
+				{% for alsched,barc,pos in lista %}
+					<tr align="center" class="interna">
+						<td class="lis_indici">{{forloop.counter}}</td>
+						<td class="lis_gen">{{alsched.idAliquot.uniqueGenealogyID}}
+							<input id="gen_{{forloop.counter0}}" type="hidden" class="gen_aliq_der" name="gen_{{forloop.counter0}}" value={{alsched.idAliquot.uniqueGenealogyID}} id_alsched={{alsched.id}} />
+						</td>
+						<td class="lis_barcode">{{barc}}
+							<input id="barc_{{forloop.counter0}}" type="hidden" class="barc_aliq_der" name="barc_{{forloop.counter0}}" value={{barc}} />
+						</td>
+						<td class="td_pos">{{pos}}</td>
+						{% for mis in lisnomimisure %}
+							<td class="{{forloop.counter}}" ></td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>				
+	{% endif %}	
+	{% if fine %}
+		<style type="text/css">
+			td{padding:8px;border-width:1px;}
+			th{padding:8px;}
+			#aliquote_fin_paginate a {padding-top:4px;}
+			#aliquote_fin {margin-bottom:4px;margin-top: 4px;}
+		</style>
+		
+		<div style='float:right'>
+		    <a href="{% url tissue.views.index %}">
+		    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+		    </a>
+		</div>
+		<h2 style="float:left;">Aliquots:</h2>
+		<br style="clear:both">		
+		
+		<table border='2px' id="aliquote_fin">
+			<thead>
+				{{  intest|safe  }}
+			</thead>
+			<tbody>
+				{% for i in lista_riv %}
+		           	{{  i|safe  }}
+		        {% endfor %}
+		    </tbody>
+		           
+		</table>
+	{% endif %}
+{% endblock %}

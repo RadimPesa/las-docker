@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% block title %}Explants{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/fileSaver.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/canvas-toBlob.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/blobBuilder.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/explant.js"></script>
+    
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/explant.css" />
+    <style><!--stile per la paginazione della tabella-->
+        td{
+            border-style:none;
+        }
+        table{
+            border-style:none;
+        }
+        button {
+            width:20px;
+            height:20px;
+        }
+        .ui-dialog-buttonset button{
+            width:50px;
+            height:30px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+        <script>
+            document.getElementById("err_message").style.display = 'inline';
+        </script>
+    {%  else  %}
+        {%if not secondo %}
+            <!-- Pagina iniziale in cui inserire i valori generali della serie -->
+            <script>
+                if (localStorage.getItem('expl')){
+                    var url = base_url + '/explants/start';
+                    jQuery.post(
+                         url,
+                         { 'reload': "reload", 'miceList': localStorage.getItem('miceList'), 'tissueList': localStorage.getItem('tissueList'), 'date': localStorage.getItem('dateE'), 'notes':localStorage.getItem('notesE') },
+                         function(data) {
+                            console.log('aaa');
+                         }
+                    );
+                }
+            </script>
+            <table id="startExpl">
+                <tr>
+                    <td>                        
+                        <div style="padding:30px;">
+                            <fieldset  class="fieldset" >
+                            <legend class="legend"> Programmed Explant </legend>
+                                <form id="initial" action="{% url xenopatients.explant.startExplant %}" method="post">{% csrf_token %}
+                                    <section class="f" >
+                                        {{ form.as_p }}
+                                    </section>
+                                    <br>
+                                    <section class="t" style="float:left;" >        
+                                        {{ formT.as_p }}
+                                    </section>
+                                    <br style="clear:both;"/>
+                                    <br>
+                                    <section id='formPE'>        
+                                        {{ formPE.as_ul}}
+                                    </section>
+                                    <input type='button' value="Delete Selected Explant" name='fine' id='delete' onclick='deleteExplants()' style='float:left;' / >
+                                    <input type="submit" value="Start Explant Session" name="start" id="start" style='float:right;' />
+                                </form>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            <!-- Seconda pagina con le tabelle delle provette -->
+            <fieldset style="padding-bottom:0; margin-bottom:10px;">
+                <!-- <h2 align="center" style="color:black;font-size:16px;"></h2> -->
+                <section class="s">
+                    <form name="hiddenTissuesForm">
+                        {% if idinput %}
+                            {% for t in idinput %}
+                                <input type="hidden" value={{t}} id="tissue" name="tissueH">
+                            {% endfor %}
+                        {% endif %}
+                    </form>
+                </section>
+                <div class="mice" id="miceList">
+                    {% if miceInput %}
+                        {% for m in miceInput %}
+                            <input type="hidden" used='0' value="{{m}}" id="{{m}}" />
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div style="float:left">
+					<label for="barcode" >Barcode of mouse:</label>
+                    <input id="barcode" type="text" name="barcode" maxlength="15" size='12' onkeyup="checkKey(event)">
+                    {{site}}
+                    <input type="button" value="OK" name="ok" id="ok" style="margin-top:5px" onclick="insertMouse()"/>
+                    <br/><br/>
+					<label for="barcode" >GenealogyID: </label>
+                    <p id="genID" name="genID"></p>
+                </div>
+				<div style="float:left; margin-left:40px; text-align:left; margin-bottom:10px">
+                    <section class="t">
+    					<form id="tissueNameList" name="tissueNameList">{{ formT.as_p }}</form>
+                    </section>
+                    <section>
+                        <input type="submit" value="Next Tissue for this mouse" name="fase2" id="confirm_all" style="margin-top:5px"/>
+                        <input type="button" value="Next Mouse" name="nextMouse" id="nextMouse" style="margin-top:5px" onclick="nextM()"/>
+                    </section>
+				</div>
+                <div style="float:left; margin-left:40px; text-align:left; margin-bottom:10px">
+                    <table>
+                        <tr>
+                            <td>Mouse status:</td>
+                            <td id='statusM'></td>
+                        </tr>
+                    </table><br/>
+                    <div style="max-heigth:90px;max-width:400px;overflow:auto;">
+                        <table border=1 cellspacing=0>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Measure</th>
+                                    <th>Explant</th>
+                                    <th>Supervisor</th>
+                                </tr>
+                            </thead> 
+                            <tbody>
+                                <tr>
+                                    <th>Date</th>
+                                    <td id="measureDate"></td>
+                                    <td id="explantDate"></td>
+                                    <td id="supervisorDate"></td>
+                                </tr>
+                                <tr>
+                                    <th>Notes</th>
+                                    <td id="measureNotes"></td>
+                                    <td id="explantNotes"></td>
+                                    <td id="supervisorNotes"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <section class="confirm" style="float:right; margin-top:40px">
+                    <input type='button' value='Submit' name='fine' id='confirm' onclick='submitExplant()' style='margin-top: 5px'/ >
+                </section>
+            </fieldset>
+	    <div>
+            <div id="tabs">
+                <ul>
+				    <li><a href="#tabs-1">Standard Archive</a></li>
+				    <li><a href="#tabs-2">Blood</a></li>
+                    <li><a href="#tabs-3">Urine</a></li>
+                </ul>
+            <div id="tabs-1">
+                <table>
+                    <tr>
+                        <!-- parte che gestisce le aliquote vitali -->
+                        <td>
+                            {{ a.table_vital|safe }}
+                            <div align="center" style="padding:5px;">
+                                <div style="display:inline;">
+                                    <label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_vital">Barcode:</label>
+                                    <input style="display:inline;" id="barcode_vital" type="text" onkeyup="checkKeyForLoadP(event)" maxlength="45" name="barcode_v" size="13">
+                                </div>
+                                <div style="padding:5px;padding-top:9px;display:inline;font-size:15px;">
+                                    <input type="radio" name="choose_vital" value="tube" style="display:inline;"/>Tube                                                      
+                                    <input type="radio" name="choose_vital" value="plate" checked style="display:inline;"/>Plate
+                                </div>
+                                <div style="padding-left:10px;padding-top:12px;display:inline;">
+                                    <input type="submit" class="button" value="Load" id="load_vital_plate" style="display:inline;"/>
+                                </div>
+                            </div>
+                            <section>
+                                <span style="float:left;padding-left:5px;"></span>
+                            </section>
+                        </td> 
+                        <td>
+                            <!-- parte per gestire FFPE, OCT e CB -->
+                            {{ a.table_tubes|safe }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- parte per gestire RNAlater -->
+                        <td>
+                            {{ a.table_rna|safe }}
+                            <br style="clear:both;"/>
+                            <div align="center" style=padding:5px;>
+                                <div style="display:inline;">
+                                    <label style="display:inline;padding-top:4px;" for="barcode_rna">Barcode:</label>
+                                    <input style="display:inline;" id="barcode_rna" type="text" onkeyup="checkKeyForLoadP(event)" maxlength="45" name="barcode_r" >
+                                </div>
+                            <div style="padding:5px;padding-top:9px;display:inline;font-size:15px;">
+                                <input type="radio" name="choose_rna" value="tube" style="display:inline;"/>Tube        
+                                <input type="radio" name="choose_rna" value="plate" checked style="display:inline;"/>Plate
+                            </div>
+                            <div style="padding-left:10px;padding-top:12px;display:inline;">
+                                <input style="display:inline;" type="submit" value="Load" id="load_rna_plate" class="button" />
+                            </div>
+                        </td> 
+                        <!-- parte per gestire SnapFrozen -->
+                        <td style="padding-left:100px">
+                            {{ a.table_sf|safe }}
+                            <div style=padding:5px; align="center">
+                                <div style="display:inline;">
+                                    <label style="display:inline;padding-top:4px;" for="barcode_sf" >Barcode:</label>
+                                    <input style="display:inline;" id="barcode_sf" type="text" onkeyup="checkKeyForLoadP(event)" maxlength="45" name="barcode_s" >
+                                </div>
+                                <div style="padding:5px;padding-top:9px;display:inline;font-size:15px;">
+                                    <input type="radio" name="choose_sf" value="tube" style="display:inline;"/>Tube 
+                                    <input type="radio" name="choose_sf" value="plate" checked style="display:inline;"/>Plate
+                                </div>
+                                <div style="padding-left:10px;padding-top:12px;display:inline;">
+                                    <input style="display:inline;" type="submit" class="button" value="Load" id="load_sf_plate" style="display:inline;"/>
+                                </div>
+                            </div>
+                        </td> 
+                    </tr>
+                </table>
+            </div>
+        <div id="tabs-2">
+            <table id="tabella2" width="100%" style="border-bottom-style: none;">
+                <tr>
+                    <td align="center">
+                        {{ a.table_rna|safe }}
+                        <div align="center" style="padding:5px;">
+                            <label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_blood_plate">Barcode:</label>
+                            <input style="display:inline;" id="barcode_blood_plate" type="text" readonly="readonly" maxlength="45" size="13">
+                        </div>
+                    </td>
+                    <td align="center">
+                        {{ a.table_blood|safe }}
+                    </td>
+                </tr>
+            </table>        
+        </div>
+        <div id="tabs-3">
+            <table id="tabella3" width="100%" style="border-bottom-style: none;">
+                <tr>
+                    <td align="center">
+                        {{ a.table_rna|safe }}
+                        <div align="center" style="padding:5px;">
+                            <label style="display:inline;padding-top:1px;padding-right:2px;" for="barcode_uri_plate">Barcode:</label>
+                            <input style="display:inline;" id="barcode_uri_plate" type="text" readonly="readonly" maxlength="45" size="13">
+                        </div>
+                    </td>
+                    <td align="center">
+                        {{ a.table_urine|safe }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <section class="canc">
+            <div id="view_aliquots" align="center" style="width:100%;float:left;margin-top:35px;">
+                <fieldset  class="fieldset" style="height:85%;">
+                    <legend class="legend"> Aliquots </legend>
+                    <div style="height:100%;">
+                        <table id="aliquots_table" class="aliquots_table" align="center">
+                        </table>
+                    </div>
+                </fieldset> 
+            </div>
+        </section>
+	    <div id="dialog" class="dialog confirm" title="OPS!!" style="display:none;position: relative;">
+        	<p id='dialogMessage'></p>
+        </div>
+        <p id='date' style='display:none;'>{{date}}</p>
+        <p id='notes' style='display:none;'>{{notes}}</p>
+    {% endif %}
+    {%  if message  %}
+        <script>
+            document.getElementById("message").style.display = 'inline';
+        </script>
+    {% endif %}
+{% endif %}
+{% endblock %}

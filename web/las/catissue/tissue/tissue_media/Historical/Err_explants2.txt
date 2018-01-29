@@ -1,0 +1,429 @@
+TiAliquot0000026: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000027: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000028: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000029: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000039: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000042: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000058: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000062: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000078: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000204: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000206: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000218: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000220: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000223: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000229: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000231: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000235: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000236: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000237: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000238: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000239: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000268: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000271: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000274: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000276: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000306: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000420: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000421: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000422: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000578: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000579: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000580: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000581: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000583: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000593: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000598: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000599: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000600: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000607: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000610: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000613: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000615: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000617: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000661: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000662: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000663: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000666: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000667: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000681: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000705: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000706: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000707: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000708: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000709: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000710: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000711: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000712: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000713: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000747: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000752: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000755: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000756: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0000760: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002437: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002438: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002439: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002440: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002448: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002452: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0002983 problemi sulle date. Data espianto: 30/03/2011 Data serie aliquote: 23/04/2011
+TiAliquot0003575: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003576: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003577: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003578: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003579: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003580: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003581: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003582: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003583: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003584: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003585: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003586: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003587: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003588: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0003589: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004897: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004898: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004899: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004900: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004901: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004902: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004903: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004904: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0004905: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0005022 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0005023 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0005024 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0005025 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0005026 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0005027 problemi sulle date. Data espianto: 08/06/2011 Data serie aliquote: 31/05/2011
+TiAliquot0007454: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0007456: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010915: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010916: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010917: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010918: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010919: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010920: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010921: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010922: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0010923: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011211: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011212: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011213: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011214: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011215: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011216: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011217: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011218: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011219: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011220: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011919: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011920: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011921: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011922: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011923: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011924: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011925: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011926: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011927: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0011928: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013159: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013160: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013161: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013162: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013163: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013164: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013165: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013166: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013167: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013168: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013169: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013170: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013353: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013354: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013355: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013356: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013357: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013358: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013359: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013360: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0013361: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014087: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014088: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014089: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014090: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014091: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014092: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014093: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014094: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014095: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014096: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014255: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014256: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014257: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014258: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014259: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0014260: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015080: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015081: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015082: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015083: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015084: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015085: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015086: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015087: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015088: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015089: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015090: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015091: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015092: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015093: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015094: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015095: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015096: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015097: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015098: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015099: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015772: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015773: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015774: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015775: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015776: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015777: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015778: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015779: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015780: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015781: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015782: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015783: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015784: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015785: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015786: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015787: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015788: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015789: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015790: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015791: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015792: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015793: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015794: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015795: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015796: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015797: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015798: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0015799: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0017558: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0017559: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0017562: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0017563: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018023: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018024: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018025: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018026: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018027: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018028: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018029: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018030: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018031: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018104: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018105: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018106: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018603: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018604: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018605: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018606: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018607: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018608: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018609: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018610: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018611: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018612: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018613: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018614: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018615: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018616: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018617: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018618: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018619: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018620: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018759: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018760: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018761: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018762: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018774 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018775 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018776 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018777 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018778 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018779 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018780 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018781 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018782 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018783 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018784 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018785 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018786 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018787 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018788 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018789 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018790 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018791 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018792 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018793 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018794 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018795 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018796 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018797 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018798 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018799 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018800 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018801 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018802: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018802 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018803: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018803 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018804: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018804 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018805: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018805 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018806: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018806 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018807: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018807 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018808: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018808 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018809: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018809 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018810: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018810 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018811: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018811 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018812: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018812 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018813: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018813 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018814: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018814 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018815: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018815 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018816 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018817 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018818 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018819 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018820 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018821 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018822 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018823 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018824 problemi sulle date. Data espianto: 23/03/2012 Data serie aliquote: 27/03/2012
+TiAliquot0018852: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018853: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018854: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018855: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018856: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018857: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018858: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018971: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018972: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018973: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018974: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018975: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018976: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018977: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018978: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018979: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018980: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018981: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018982: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018983: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0018984: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019003: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019004: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019005: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019006: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019007: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019123: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019124: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019125: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019126: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019218: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019219: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019389: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019390: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019391: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019392: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019393: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019394: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019395: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019396: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019397: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019398: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019399: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019400: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019401: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019402: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019403: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019404: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019405: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019406: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019575: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019576: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019577: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019578: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019579: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019580: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019581: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019582: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019583: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019584: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019585: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019586: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019587: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019588: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019589: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019590: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019591: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019592: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019593: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0019594: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020156: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020157: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020158: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020159: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020160: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020161: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020162: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020163: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020164: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020165: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020166: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020167: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020168: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020169: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020170: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020171: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020172: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020173: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020174: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020175: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020176: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020177: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020178: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020179: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020180: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020181: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020182: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020183: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020184: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020185: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020186: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020187: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020188: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020189: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020190: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020191: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020192: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020193: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+TiAliquot0020450: il genid della colonna C di ArchiveTissue.xls non corrisponde con il gen della colonna C di Explants.xls
+

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Insert measures{% endblock %}
+
+{% block script %}
+	<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/read_measures.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	<script type="text/javascript"> 
+		//se l'esperimento arriva dalla biobabanca o e' direttamente interno all'NGS 
+		internal = "{{internal}}";
+	</script>
+	
+	<style type="text/css">
+		#samples_paginate a {padding-top: 4px;}
+		#samples {margin: 4px 0 4px 0; }
+		.ui-icon-search {cursor:pointer;}
+	</style>
+{% endblock %}
+
+{% block content %}
+	{% if not errore %}
+		<div id='aliquot_toval' >
+		<article id='riquadro' style="width:inherit;padding:1em;padding-bottom:2em;">
+	
+		<h3 style='margin: -1em;margin-bottom: 1em;'>Samples</h3>
+	
+			<table border=1px id="samples" >
+	        	<thead>
+					<tr align="center">
+						<th >Id Aliquot</th>
+						<th >Id Sample</th>
+						<th >Select</th>
+		                <th >Genealogy ID</th>
+		                <th >Label</th>
+		                <th >Owner</th>
+		                <th >Volume</th>
+		                <th >Concentration</th>
+		                <th >Cluster dens. (K/mm&sup2;)</th>
+		                <th >Run name</th>
+		                <th >Taken Volume</th>
+		                <th >Barcode</th>
+		                <th >Father Container</th>
+		                <th >Position</th>
+		                <th >Exhausted</th>
+		                <th >Failed</th>
+		                <th >Files</th>
+		                <th >Files</th>
+	                </tr>
+	        	</thead>
+	        	<tbody>
+	            {% for al in aliquots %}
+	                <tr>
+	                    <td>{{al.idaliquot}}</td>
+	                    <td>{{al.experimentid}}</td>
+	                    <td><input type="checkbox" name="select" value="select" /></td>
+	                    <td>{{al.genId}}</td>
+	                    <td>{{al.label}}</td>
+	                    <td>{{al.owner}}</td>
+	                    <td>{{al.volume}}</td>
+	                    <td>{{al.concentration}}</td>
+	                    <td>{{al.cluster}}</td>
+	                    <td>{{al.run}}</td>
+	                    <td>{{al.volumetaken}}</td>
+	                    <td>{{al.barcode}}</td>
+	                    <td>{{al.father_container}}</td>
+	                    <td>{{al.pos}}</td>
+	                    <td> <input type="checkbox" name="exhausted" value="exhausted" /> </td>
+	                    <td> <input type="checkbox" name="failed" value="failed" /> </td>
+	                    <td></td>
+	                    <td></td>
+	                </tr>
+	            {% endfor %}
+	        	</tbody>
+	        </table>
+	
+	     </article>
+	 	</div>
+		<br>
+		<div style="float:left;width:100%">
+			<fieldset>
+		        <legend>Files</legend>
+		        <form id="upload_sample_file" enctype="multipart/form-data" method="post" action="{% url ngs.views.read_measures %}" >
+		        	{% csrf_token %}
+			        	Associated files: <p id='filelist'><input id='currentfile' type="file" name="file" class="file" multiple/> </p>
+		        	<input id='aliquots_list' type="hidden" name='aliquots_list' value=""/>
+		        </form>
+		        	<div style='float:left;width:30%'>
+		        		<input id="associate" class="button" type="submit" value="Associate files" onClick="associateFiles();" style="float:left"/>
+		        	</div>
+		        	<div style='float:right;width:15%'>
+						<input id="submit" class="button" type="submit" value="Save Results" onClick="submitResults();" style="float:left"/>
+					</div>
+		        
+			</fieldset>
+		</div>
+		
+        <article class="dialog" id="viewfile_dialog">
+        	<input id='rowFile' type='hidden'/>
+            <div class="filediv_dialog">
+            	<p>Select files to delete for the sample</p>
+
+            </div>
+        </article>
+    {% else %}
+    	<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+		<br>
+		<div align="center">
+			<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>    
+	{% endif %}
+{% endblock %}

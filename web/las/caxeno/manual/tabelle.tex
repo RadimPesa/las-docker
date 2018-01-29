@@ -1,0 +1,399 @@
+\chapter{Tabelle del database}\label{chap:xenotable}
+
+Gli attributi contrassegnati con '*' sono da considerarsi nullabili; quelli scritti in grassetto rappresentano la chiave primaria e quelli in italico sono le chiave esterne. Sono stati considerati nullabili vari attributi della tabella Mice in quanto tali dati potrebbero non essere presenti nello storico dei topi. Le tabelle contenenti la parola '\_has\_' al loro interno sono utilizzate per modellare le relazioni molti a molti tra le tabelle ad esse collegate. 
+
+\section{Xenopazienti}
+
+\textbf{Tabella Mice}
+
+\begin{longtable}{|l|l|p{4.4cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identifcativo del topo\\ \hline
+\textit{idMouseStrain}* &	BIGINT &	Identifcativo della razza del topo\\ \hline
+\textit{idStatus} &	INT &	Identificativo dello status attuale del topo\\ \hline
+barcode* &	VARCHAR(15) &	Codice del chip assegnato al topo\\ \hline
+availableDate* &	DATE &	Data a partire dalla quale il topo \`e pronto per la sperimentazione\\ \hline
+deathDate* &	DATE &	Data di morte del topo\\ \hline
+\textit{id\_genalogy}* &	VARCHAR(15) &	Genealogia dell'impianto nel topo\\ \hline
+\textit{id\_cancer\_research\_group} &	INT &	Gruppo di ricerca a cui \`e assegnato il topo.\\ \hline
+\textit{id\_source}&	INT &	Chi ha fornito il topo al centro di ricerca.\\ \hline
+gender &	ENUM('m','f') &	Sesso del topo.\\ \hline
+birth\_date &	DATE &	Data presunta di nascita del topo.\\ \hline
+notes* &	VARCHAR(150) &	Eventuali commenti (ad esempio, in caso di morte non naturale)\\ \hline
+\caption{Tabella Mice}
+\end{longtable}
+
+\textbf{Tabella MouseStrain}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo della razza del topo\\ \hline
+mouse\_type\_name &	VARCHAR(50) &	Nome della razza\\ \hline
+description* &	VARCHAR(150) &	Campo per eventuali descrizioni aggiuntive\\ \hline
+linkToDoc* &	VARCHAR(150) & URL riferente alla documentazione ufficiale della razza\\ \hline
+\caption{Tabella MouseStrain}
+\end{longtable}
+
+\textbf{Tabella Source}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo del fornitore di xenopazienti\\ \hline
+name &	VARCHAR(45) &	Nome del fornitore\\ \hline
+description* &	VARCHAR(45) &	Campo per eventuali descrizioni aggiuntive\\ \hline
+\caption{Tabella Source}
+\end{longtable}
+
+
+\textbf{Tabella Status}
+
+\begin{longtable}{|l|l|p{6.2cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo dello stato attuale del topo\\ \hline
+name &	VARCHAR(50) &	Nome dello stato attuale del topo\\ \hline
+description* &	VARCHAR(150) &	Campo per eventuali descrizioni aggiuntive\\ \hline
+default &	BOOLEAN &	Stato di default per i topi inseriti dalla schermata Mice Loading\\ \hline
+\caption{Tabella Status}
+\end{longtable}
+
+\textbf{Tabella ChangeStatus}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} & INT & Chiave della tabella\\ \hline
+\textit{from\_status} & INT & Status di partenza\\ \hline
+\textit{to\_status} & INT & Status di arrivo\\ \hline
+\caption{Tabella ChangeStatus}
+\end{longtable}
+
+
+\textbf{Tabella StatusInfo}
+
+\begin{longtable}{|l|l|p{7.0cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo delle informazioni aggiuntive sullo status\\ \hline
+description &	VARCHAR(45) &	Descrizione dell'informazione aggiuntiva\\ \hline
+\caption{Tabella StatusInfo}
+\end{longtable}
+
+\textbf{Tabella Status\_info\_has\_status}
+
+\begin{longtable}{|l|l|p{8.0cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo\\ \hline
+id\_status &	INT &	Identificativo dello status a cui ci si riferisce\\ \hline
+id\_info &	INT &	Identificativo dell'informazione aggiuntiva associata allo status.\\ \hline
+\caption{Tabella Status\_info\_has\_status}
+\end{longtable}
+
+\section{Impianti - Espianti}
+
+\textbf{Tabella Aliquots}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identifcativo dell'aliquota\\ \hline
+\textit{TypeOfTisue} &	INT &	Identficativo della tabella contenente i diversi tipi di tessuto dell'aliquota\\ \hline
+\textbf{idExplant*} &	BIGINT &	Id dell'eventuale espianto da cui viene prodotta\\ \hline
+id\_genealogy & VARCHAR(15) & Identificativo della genealogia a cui appartiene l'aliquota\\ \hline
+\caption{Tabella Aliquots}
+\end{longtable}
+
+\textbf{Tabella TissueType}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo del tipo di tessuto\\ \hline
+\textit{abbreviation} &	VARCHAR(3) &	Abbreviazione univoca, in 3 lettere, del tipo di tessuto\\ \hline
+\textit{name} &	VARCHAR(45) &	Nome completo del tipo di tessuto\\ \hline
+notes* &	VARCHAR(150) &	Eventuali note\\ \hline
+\caption{Tabella TissueType}
+\end{longtable}
+
+\textbf{Tabella Series}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificativo della serie\\ \hline
+\textit{idOperator} &	BIGINT &	Identificativo dell'operatore\\ \hline
+\textit{idScope} &	INT &	Identficativo della tabella contenente i vari scopi possibili\\ \hline
+\textit{idTypeOfSerie} &	INT &	Identficativo della tabella contenente le varie operazioni possibili\\ \hline
+date &	DATE &	Data della serie\\ \hline
+notes* &	VARCHAR(150) &	Eventuali commenti\\ \hline
+\caption{Tabella Series}
+\end{longtable}
+
+\textbf{Tabella Type\_of\_serie}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo del tipo della serie\\ \hline
+\textit{description} &	VARCHAR(45) &	Breve descrizione della serie \\ \hline
+\caption{Tabella Type\_of\_serie}
+\end{longtable}
+
+\textbf{Tabella ImplantDetails}
+
+\begin{longtable}{|l|l|p{7.0cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificavitvo dell'impianto\\ \hline
+\textit{idMouse} &	BIGINT &	Identificativo del topo\\ \hline
+\textit{idSeries} &	BIGINT &	Identificativo della serie di impianti\\ \hline
+\textit{idAliquot} &	BIGINT &	Identificativo dell'aliquota usata\\ \hline
+BadQualityFlag &	BOOLEAN &	Flag per indicare la riuscita o meno dell'impianto (ad esempio, se si rovina l'aliquota mentre la si impianta)\\ \hline
+site & INT & Riferimento alla tabella Site, per individuare l'impianto nel topo\\ \hline
+\caption{Tabella ImplantDetails}
+\end{longtable}
+
+\subsubsection{Tabella Site}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificavitvo del sito dell'impianto\\ \hline
+name &	VARCHAR(2) & Abbreviazione del nome del sito su due lettere\\ \hline
+longName &	VARCHAR(50) & Nome del sito\\ \hline
+\caption{Tabella Site}
+\end{longtable}
+
+\textbf{Tabella ExplantDetails}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificativo dell'espianto\\ \hline
+\textit{idSeries} &	BIGINT &	Identificativo della serie di espianti\\ \hline
+\textit{idMouse} &	BIGINT &	Identificativo del topo\\ \hline
+\caption{Tabella ExplantsDetails}
+\end{longtable}
+
+\textbf{Tabella Programmed\_explant}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo dell'espianto programmato\\ \hline
+\textit{idScope} &	INT &	Identificativo dello scopo dell'espianto\\ \hline
+\textit{idMouse} &	BIGINT &	Identificativo dello xenopaziente su cui \`e stato programmato l'espianto\\ \hline
+done &	BOOLEAN &	Flag per indicare il completamento dell'espianto programmato\\ \hline
+\caption{Tabella Programmed\_explant}
+\end{longtable}
+
+\textbf{Tabella ScopeDetails}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{idScope} &	INT &	Identificativo dello scopo\\ \hline
+description &	VARCHAR(250) &	Descrizione dello scopo\\ \hline
+\caption{Tabella ScopeDetails}
+\end{longtable}
+
+\section{Operatori}
+
+\subsubsection{Tabella auth\_user}
+
+\begin{longtable}{|l|l|p{6.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificativo dell'operatore\\ \hline
+username &	VARCHAR(30) &	Username dell'operatore\\ \hline
+first\_name &	VARCHAR(20) &	Nome dell'operatore\\ \hline
+last\_name &	VARCHAR(45) &	Cognome dell'operatore\\ \hline
+email &	VARCHAR(30) &	Contatto dell'operatore\\ \hline
+password &	VARCHAR(128) &	Password dell'operatore (salvata dopo essere stata sottoposta ad una funzione di hash)\\ \hline
+is\_staff & BOOLEAN & Flag per indicare se l'utente pu\`o accedere all'interfaccia di admin\\ \hline
+is\_active & BOOLEAN & Flag per indicare se l'account \`e in uso o meno; l'uso di questo flag pu\`o sostituire la cancellazione fisica dell'account nel caso in cui lo si voglia eliminare dal sistema\\ \hline
+is\_superuser & BOOLEAN & Flag per indicare se l'utente \`e l'amministratore del sistema\\ \hline
+last\_login & DATATIME & Data dell'ultimo login di questo operatore\\ \hline
+date\_joined & DATETIME & Data in cui \`e stato creato l'account\\ \hline
+\caption{Tabella auth\_user}
+\end{longtable}
+
+\subsubsection{Tabella XenoUsers }
+
+\begin{longtable}{|l|l|p{6.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textit{\textbf{user\_ptr\_id}}  &	INT &	Identificativo dell'utente (operatore) a cui si riferiscono le informazioni aggiuntive.\\ \hline
+\textit{id\_supervisor*} &	 INT &	Identificativo dell'eventuale supervisore\\ \hline
+\textit{id\_institution} &	INT &	Identificativo dell'istituto di appartenenza.\\ \hline
+\textit{id\_cancer\_research\_group} &	INT &	Identificativo del gruppo di ricerca di appartenenza.\\ \hline
+\caption{Tabella XenoUsers}
+\end{longtable}
+
+\subsubsection{Tabella cancer\_research\_group}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{idCancerResearchGroup} &	INT &	Identificativo del gruppo di ricerca\\ \hline
+name &	VARCHAR(255) &	Nome del gruppo di ricerca\\ \hline
+\caption{Tabella cancer\_research\_group}
+\end{longtable}
+
+\subsubsection{Tabella institution}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{idInstitution} &	INT &	Identificativo dell'istituzione/ente\\ \hline
+name &	VARCHAR(255) &	Nome dell'istituzione/ente\\ \hline
+\caption{Tabella Institution}
+\end{longtable}
+
+\section{Gestione misurazioni}
+
+\subsubsection{Tabella MeasurementSeries}
+
+\begin{longtable}{|l|l|p{7.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificativo della serie di misure\\ \hline
+\textit{idOperator} &	BIGINT &	Identificativo dell'operatore che ha effettuato la misura\\ \hline
+date &	DATE &	Data della misura\\ \hline
+\textit{id\_type*} & INT & Indica con quale tipologia di misurazione sono state effettuate le misure della serie\\ \hline
+\caption{Tabella MeasurementSeries}
+\end{longtable}
+
+\subsubsection{Tabella QualitativeMeasure}
+
+\begin{longtable}{|l|l|p{6.0cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT & Identificativo della misura qualitativa\\ \hline
+\textit{id\_value} & INT &	Valore della misurazione\\ \hline
+\textit{id\_series} & INT &	Serie di appartenenza della misura\\ \hline
+\textit{id\_mouse} & INT &	Topo su cui \`e stata effettuata la misura\\ \hline
+notes* &	VARCHAR(255) & Eventuali note sulla misurazione\\ \hline
+\caption{Tabella QuantitativeMeasure}
+\end{longtable}
+
+\subsubsection{Tabella Qualitative\_values}
+
+\begin{longtable}{|l|l|p{6.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo del valore qualitativo\\ \hline
+value &	VARCHAR(45) &	Uno dei valori ammissibili per la misura qualitativa (es. 'Large', 'None',..)\\ \hline
+description* &	VARCHAR(45) &	Eventuale descrizione.\\ \hline
+\caption{Tabella Qualitative\_values}
+\end{longtable}
+
+\subsubsection{Tabella QuantitativeMeasure}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	INT &	Identificativo del valore quantitativo\\ \hline
+x\_measurement &	DOUBLE &	Valore X ottenuto dalla misurazione\\ \hline
+y\_measurement &	DOUBLE &	Valore Y ottenuto dalla misurazione\\ \hline
+volume &	DOUBLE &	Volume ottenuto dopo un calcolo su X e Y.\\ \hline
+\textit{id\_series} & INT &	Serie di appartenenza della misura\\ \hline
+\textit{id\_mouse} & INT &	Topo su cui \`e stata effettuata la misura\\ \hline
+notes* &	VARCHAR(255) & Eventuali note sulla misurazione\\ \hline
+\caption{Tabella QuantitativeMeasure}
+\end{longtable}
+
+\subsubsection{Tabella TypeOfMeasure}
+
+\begin{longtable}{|l|l|p{6.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id} &	BIGINT &	Identificativo del tipo di misura\\ \hline
+name &	VARCHAR(99) &	Nome della tipologia di misura (attualmente, assume valori 'qualitative' o 'quantitative'.\\ \hline
+\caption{Tabella TypeOfMeasure}
+\end{longtable}
+
+\subsection{Gestione dei trattamenti}
+
+\subsubsection{Tabella Treatments}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} & \textbf{Tipo} & \textbf{Descrizione}\\ \hline
+\textbf{id} & INT & Identificativo del trattamento\\ \hline
+name	 & INT & 	Nome del trattamento\\ \hline
+description & INT & Breve descrizione del trattamento\\ \hline
+duration	& INT & Durata prevista (in giorni o ore) del trattamento\\ \hline
+type\_of\_time & ENUM(hours, days) & Questo campo serve a definire se la durata \`e specificata in ore o giorni\\ \hline
+forces\_explant & BOOLEAN & Questo campo assume valore True o False a seconda del fatto che il trattamento sia acuto o meno.\\ \hline
+\caption{Tabella Treatments}
+\end{longtable}
+
+\subsubsection{Tabella Detail\_treatments}
+
+\begin{longtable}{|l|l|p{6.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id}	&	INT	&	Identificativo (inserito per compatibilit\`a con Django)\\ \hline
+\textit{id\_via}	&	INT	&	Identifica la via di somministrazione\\ \hline
+\textit{treatments\_id} &		INT	&	Identifica il trattamento di cui si stanno specificando i vari step\\ \hline
+\textit{drugs\_id} &	INT	&	Indica il farmaco usato in questo step\\ \hline
+start\_step	&	DATETIME	&	Data/ora di inizio di questo step\\ \hline
+end\_step	&	DATETIME	&	Data/ora di fine di questo step\\ \hline
+dose &	DOUBLE	&	Dose da somministrare (si suppone un numero decimale che rappresenta dei milligrammi)\\ \hline
+schedule &	INT	&	Quante volte somministrare il farmarco nell'arco di tempo specificato con una riga di questa tabella\\ \hline
+\caption{Tabella Detail\_treatments}
+\end{longtable}
+
+\subsubsection{Tabella Mice\_has\_treatments}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id}	 & INT	 & Identificativo (inserito per compatibilit\`a con Django)\\ \hline
+\textit{id\_mouse} &	INT & 	Topo a cui si applica il trattamento\\ \hline
+\textit{id\_treatment} &  INT & Trattemento eseguito sul topo\\ \hline
+\textit{id\_operator} & 	INT	 & Indica l'operatore che ha fatto partire il trattamento\\ \hline
+start\_date &	DATETIME	 & Data/ora di inizio del trattamento\\ \hline
+expected\_end\_date & 	DATETIME	 & Data/ora prevista per la fine del trattamento\\ \hline
+end\_date* & 	DATETIME & 	Data/ora della effettiva fine del trattamento.\\ \hline
+\caption{Tabella Mice\_has\_treatments}
+\end{longtable}
+
+\subsubsection{Tabella Drugs}
+
+\begin{longtable}{|l|l|p{5.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id}	 & INT & 	Identificativo del farmaco\\ \hline
+name & 	VARCHAR(45)	 & Nome del farmaco\\ \hline
+description* & 	VARCHAR(255) & 	Eventuale descrizione del farmaco\\ \hline
+\caption{Tabella Drugs}
+\end{longtable}
+
+\subsubsection{Tabella Via\_mode}
+
+\begin{longtable}{|l|l|p{7.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id}	 & INT	 & Identificativo del tipo di somministrazione del farmaco\\ \hline
+description* & 	INT & 	Eventaule descrizione della somministrazione del farmaco\\ \hline
+\caption{Tabella Via\_mode}
+\end{longtable}
+
+\section{Supporto}
+
+\subsubsection{Tabella Urls}
+
+\begin{longtable}{|l|l|p{7.5cm}|}
+\hline
+\textbf{Nome campo} &	\textbf{Tipo} &	\textbf{Descrizione}\\ \hline
+\textbf{id}	 & INT	 & Identificativo dell'URL\\ \hline
+url & 	VARCHAR(255) & 	URL di destinazione\\ \hline
+default & 	BOOLEAN & 	Flag per indicare quale sia l'URL attualmente selezionato\\ \hline
+\caption{Tabella Urls}
+\end{longtable}

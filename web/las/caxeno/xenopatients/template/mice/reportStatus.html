@@ -1,0 +1,44 @@
+{% extends "baseReport.html" %}
+{% block script %}
+	<script>
+		var actionName = 'ChangeStatus_';
+	</script>
+{% endblock %}
+{% block title %}Report of Changed Status{% endblock %}
+
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+		<div align="center">
+			<table id="table_res"  border="1">
+				<thead>
+					<tr>
+						<th align='center'>Identifier</th>
+		    			<th align='center'>Arrival Date</th>
+	    				<th align='center'>Group</th>
+						<th align='center'>Strain</th>
+						<th align='center'>Gender</th>
+						<th align='center'>Old Status</th>
+						<th align='center'>New Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for m in list_report %}
+						{{  m|safe  }}
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+		</div>
+	{%  if message  %}
+		<!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

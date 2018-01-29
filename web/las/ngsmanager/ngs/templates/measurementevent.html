@@ -1,0 +1,77 @@
+{% extends "baseReport.html" %}
+{% block title %}Measurement Event{% endblock %}
+{% block content %}
+	<script type="text/javascript">
+		actionname='Results';
+		jQuery(document).ready(function(){
+			var oTable = jQuery(".report").dataTable();
+			var sorg=$("#source").val();
+			//vuol dire che devo far vedere label e connessi
+			if(sorg=="Internal"){
+		    	oTable.fnSetColumnVis( 1, false);
+		    	oTable.fnSetColumnVis( 2, false);
+		    	oTable.fnSetColumnVis( 3, true);
+		    	oTable.fnSetColumnVis( 4, true);
+		    	oTable.fnSetColumnVis( 5, true);
+		    }
+			else{
+				oTable.fnSetColumnVis( 1, true);
+		    	oTable.fnSetColumnVis( 2, true);
+		    	oTable.fnSetColumnVis( 3, false);
+		    	oTable.fnSetColumnVis( 4, false);
+		    	oTable.fnSetColumnVis( 5, false);
+			}
+		});
+	</script>
+	<div style="max-width:600px;">
+		<input type="hidden" id="source" value={{measureserie.request_id.source}} />
+		<article id="riquadro" style="margin-bottom:20px">
+		<div id="experiment_info" style="width:inherit;">
+	        <h3>Experiment Info</h3>
+	        <table id="plan_info" cellspacing="3" style="margin-bottom:20px;margin-top:25px;margin-left:22px;">             
+	             <tbody>
+	                <tr> 
+	                    <th class="planinfo">Operator:</th>
+	                    <td class="planinfo">{{measureserie.idOperator}}</td> 
+	                </tr>
+	                <tr> 
+	                    <th class="planinfo">Executed at:</th> 
+	                    <td class="planinfo">{{measureserie.time_executed}}</td> 
+	                </tr>
+	            </tbody> 
+	        </table>
+		</div>
+		</article>
+	</div>
+	<div style="width:100%">
+		<fieldset id="sample_summary">
+	        <legend><b>Samples Summary</b></legend>
+	        <table cellspacing="5" class='report'>
+				<thead>
+	            <tr align="center"> 
+	                <th>Genealogy Id</th>
+	                <th>Barcode</th>
+	                <th>Taken volume</th>
+	                <th>Label</th>
+	                <th>Cluster dens. (K/mm&sup2;)</th>
+	                <th>Run name</th>
+	                <th># Files</th>
+	            </tr>
+	            </thead>
+	            <tbody align="center">
+	        	{% for sample in summary_aliquots %} 
+					<tr>
+	                	<td>{{sample.aliquot}}</td>
+	                    <td>{{sample.barcode}}</td>
+	                    <td>{{sample.volumetaken}}</td>
+	                    <td>{{sample.label}}</td>
+	                    <td>{{sample.cluster}}</td>
+	                    <td>{{sample.run}}</td>
+	                    <td>{{sample.nfiles}}</td>
+	                </tr>
+	            {% endfor %}
+	            </tbody>
+	        </table> 
+	</fieldset>
+	</div>
+{% endblock %}

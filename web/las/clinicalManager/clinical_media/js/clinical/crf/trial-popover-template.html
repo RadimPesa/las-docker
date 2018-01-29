@@ -1,0 +1,11 @@
+<div>
+    <!--p><span class="glyphicon glyphicon-plus" style="color:red"></span><b> {{project.project}}</b></p-->
+
+    <p ng-show="project.alias"><i>{{project.project}} id</i>: <b>{{project.alias}}</b></p>
+    <p ng-show="!project.alias"><i>No alias available</i></p>
+    <i ng-show="project.ic.length == 1">IC code:</i>
+    <i ng-show="project.ic.length  > 1">IC codes:</i>
+    <ul>
+        <li ng-repeat = "ic in project.ic"><b>{{ic.icCode}}</b> - <i>{{ic.institution}}</i></li>
+    </ul>
+</div>

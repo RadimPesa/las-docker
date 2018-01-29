@@ -1,0 +1,47 @@
+{% load i18n %}
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+	<title>Creation Treatment</title>
+		<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+		<!-- [if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	<meta charset="charset=ISO-8859-1"> 
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css" />
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/forms.css" />
+	<script type="text/javascript">window.__admin_media_prefix__ = "/xeno_media/";</script>  
+	<script type="text/javascript" src="{{MEDIA_URL}}js/url.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jsi18n.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/core.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/calendar.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/admin/DateTimeShortcuts.js"></script> 
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('body').ajaxComplete(function(e, xhr, settings) {
+				if (xhr.status == 278) {
+				    window.location.href = xhr.getResponseHeader("Location").replace(/\?.*$/, "?next="+window.location.pathname);
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<header>
+		<hgroup>
+			<h1> <img src="{{MEDIA_URL}}img/logo-trasp.png" width="143px" height="46px"> Xenopatients </h1>
+			<h2> Mice Experiments </h2> 
+		</hgroup>
+	</header>
+	<section id="content">
+		<h2>{{  message  }}</h2>
+		<h3>{{  err_message  }}</h3>
+		<div id='continueDiv' align="center">
+			<form name="startTreatmentForm" action="{% url xenopatients.views.startTreatment %}" method="POST" >
+				<input type="submit" value="Continue" id="continue"/>
+			</form>
+		</div>
+	</section>
+</body>
+</html>

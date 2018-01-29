@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Storage{% endblock %}
+
+
+{% block content %}
+	{% if not errore %}
+	<style type="text/css">
+		table{border-collapse: separate;background-color: transparent;}
+	</style>
+	<script>
+		$(document).ready(function() {
+			$("section#content").css("background-image","url({{MEDIA_URL}}img/sfondost2.png)");
+			$("section#content").css("background-position","right bottom");
+			$("section#content").css("background-repeat","no-repeat");
+			$("td.navbut.a").click(function(){	
+				$("nav#containeroverlay").show("bind");
+			});
+			$("td.navbut.b").click(function(){
+				window.location="{% url archive.views.InsertContainerType %}";		
+			});
+			$("td.navbut.c").click(function(){
+				window.location="{% url archive.views.InsertNewContainerInstance %}";			
+			});
+			$("td.navbut.d").click(function(){
+				window.location="{% url archive.views.ChangePlate %}";
+			});
+			$("td.navbut.e").click(function(){
+				window.location="{% url archive.views.storeAliquots %}";
+			});
+			$("td.navbut.f").click(function(){
+				window.location="{% url archive.views.MoveAliquots %}";
+			});
+			$("td.navbut.g").click(function(){
+				window.location="{% url archive.views.PutAwayAliquots %}";
+			});
+			$("td.navbut.h").click(function(){
+				window.location="{% url archive.views.CreateGeometry %}";
+			});
+			
+			$("span#closecontainer").click(function(){
+			$("nav#containeroverlay").hide("bind");
+			});
+		});
+	</script>
+	<!-- <section style="background-image:url({{MEDIA_URL}}img/sfondost2.png);height:100%;background-position: right bottom;background-repeat: no-repeat;">  -->
+	
+	<section id="indice" style="margin-top:-1em;">
+	 <nav id="menuImg" >
+	 	<nav id="containeroverlay" class="overlay" style="display:none;">
+			<span id="closecontainer" class="close"><img src="{{MEDIA_URL}}img/x.png"></span>		
+	        <table style="background-color: transparent;border-collapse:separate;">
+	            <tr>
+	                <td class="navbut c">
+	                	<table style="background-color:transparent;">
+	                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">New Container</td>                	
+	                	</table>
+	                </td>
+	                <td class="navbut b">
+	                	<table style="background-color:transparent;">
+                			<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">New Container Type</td>                	
+                		</table>
+	                </td>
+				</tr>
+				<tr>
+					<td class="navbut d">
+	                	<table style="background-color:transparent;">
+	                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">Change Plate Status</td>                	
+	                	</table>
+	                </td>
+	               <td class="navbut h">
+	                	<table style="background-color:transparent;">
+	                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">New Geometry</td>                	
+	                	</table>
+	                </td>
+				</tr>
+			</table>
+		</nav>
+        <table id="menu_iniz" align="center" style="float:left;width:60%;">
+            <tr>
+				<td class="navbut a" title="Insert new container or change plate status">
+                	<table style="background-color:transparent;">
+                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">Container</td>                	
+                	</table>
+                </td>
+
+                <td class="navbut e" title="Archive newly generated aliquots">
+                	<table style="background-color:transparent;">
+                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">Archive</td>                	
+                	</table>
+                </td>
+			</tr>
+			<tr>
+                <td class="navbut f" title="Change aliquots position within archive">
+                	<table style="background-color:transparent;">
+                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">Move Container</td>                	
+                	</table>
+                </td>
+
+                <td class="navbut g" title="Return partially used aliquots to archive">
+                	<table style="background-color:transparent;">
+                		<tr><td style="padding:0px;"><img id="beuta" src="{{MEDIA_URL}}img/menu.png"></td><td style="padding:0px;vertical-align:middle;font-size:1.2em;">Return</td>                	
+                	</table>
+                </td>
+			</tr>
+		</table>
+		
+		<article id="immagini" style="float:right;width:35%;">
+			<p class="imghome">
+				<img src="{{MEDIA_URL}}img/archivio.jpg" width="100%" > <!-- width="500" height="320px">  -->
+			</p>
+		</article>
+	  </nav> 
+		<br style="clear:both;">
+		<br>
+		<br>
+	</section>
+	{% else %}
+		<h1 align="center">Error: something went wrong</h1>
+	{% endif %}
+{% endblock %}

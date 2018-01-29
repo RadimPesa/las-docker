@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Treatments{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/checkTreat.js"></script> 
+{% endblock %}
+{% block content %}
+	<div id='listTreat' style="width:31%;float:right;" align='left'>
+		<fieldset class="fieldset" >
+			<legend class="legend"> Proposed Start Datetime </legend>
+            <table >
+                <tr>
+                    <td>
+                        <label for='date'>Start time:</label>
+                        <input type="text" name="date" id="date" size='7' title="Click to edit" value="{{ date }}">
+                        <input type="text" name="time" id="time" size='5' style="cursor:pointer;"><br/>
+                    </td>
+                </tr>
+            </table>
+		</fieldset>
+	</div>
+	<div id='listMice' style="width:50%;float:left;">
+		<fieldset class="fieldset" >
+			<legend class="legend"> Selected Mice </legend>
+			<table id="headerTable" width="100%" border="1">
+				<tr>
+					<td width='60%'><strong>Id Genealogy</strong></td>
+					<td width='40%'><strong>Barcode</strong></td>
+				</tr>
+			</table>
+			<table id="dataTable" width="100%" border="1"></table><br>
+		</fieldset>
+	</div>
+	<br style="clear:both;"><br><br>
+	<div id='listProt' style="width:25%;float:left;" align='left'>
+		<fieldset class="fieldset" >
+			<legend class="legend"> List Protocols </legend>
+			<div style="overflow:auto; height:300px;">
+				<form name="listProtocolsForm" action="" method="" align="left">
+					{{ form.as_p }}
+				</form>
+			</div>						
+		</fieldset>
+	</div>
+	<div id='listArms' style="width:25%;float:left;display:none;margin-left:5%;" align='center'>
+		<fieldset class="fieldset" >
+			<legend class="legend"> List Arms </legend>
+			<div style="overflow:auto;">
+				<br>List arms:<br><br>
+				<table id="armTable"></table><br>
+			</div>						
+		</fieldset>
+	</div>
+	<div id='listStep' style="width:40%;float:right;display:none;" align='left'>
+		<fieldset class="fieldset" >
+			<legend class="legend"> List Step </legend>
+			<div style="overflow:auto;">
+				<form name="listStepForm" action="" method="" align="left">
+					<br>List step:<br><br>
+					<table id="stepTable"></table><br>
+				</form>
+			</div>						
+		</fieldset>
+	</div>	
+	<div id="dialog" class="dialog confirm" title="Comments for your action?" style="display:none;position: relative;">
+    	<p>Do you want to leave some notes?</p>
+    	<textarea id="checkNotes"></textarea>
+    </div>		
+{% endblock %}

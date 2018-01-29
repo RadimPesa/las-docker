@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Define assay{% endblock %}
+{% block content %}
+    <meta charset="utf-8">
+    <script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/defineAssay.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+    <link href="{{MEDIA_URL}}lib/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="{{MEDIA_URL}}lib/select2/dist/js/select2.min.js"></script>
+
+<script type="text/javascript">
+urlAnnot = "{{urlAnnot}}";
+</script>
+
+<style type="text/css">
+span.small {font-size: 10px;}
+
+select.select1 {min-width: 310px; width: 310px;}
+
+.dialog{
+        display: none;  
+}
+
+@media screen and (max-width: 1060px){
+    .#al_list td{
+        font-size: 12px !important;
+    }
+}
+@media screen and (max-width: 900px){
+    #al_list td{
+        font-size: 11px !important;
+    }
+}
+/*
+div.hidden{
+        opacity: 0;
+}
+*/
+</style>
+
+<div id="assays" style="float:left;width:30%;overflow:auto">
+    <article id='riquadro' style="min-height:650px">
+        <h3>Available assays</span></h3>
+        <div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+            <table id="assayTab" >
+                <tbody>
+                    {% for assay in assays%}
+                    <tr>
+                        <td>{{assay.pk}}</td>
+                        <td>{{assay.name}}</td>
+                        <td><span class="ui-icon ui-icon-pencil" style="float:right"></span></td>
+                        <td><span class="ui-icon ui-icon-trash" style="float:right"></span></td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </article>
+
+</div>
+
+
+<div id="editAssay" style="float:right;width:65%;overflow:auto">
+    <article id='riquadro' style="min-height:650px">
+        <h3>Create/Edit Assay</span></h3>
+
+        
+        <div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+            <div id="infobox" class="confirmbox hidden" style="display:none"></div>
+            <label for="nameAssay">Name:&nbsp;</label><input id="nameAssay" type="text"/>
+            <input id="saveAssay" class="button" type="submit" value="Save"/>
+            <br><br>
+            Type:
+            {% for e in expTypes %}
+            <input id="exptype-{{ e.id }}" class="exptype" value="{{ e.id }}" type="checkbox"/><label for="exptype-{{ e.id }}">{{ e.name }}</label>
+            {% endfor %}
+        </div>
+        <div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+            <fieldset style="float:center;text-align:center;margin-top:2%;margin-left:1%;margin-right:2%">
+                <legend>Targets</legend>
+                <table align="center" id='targetAssayTab' style="float:left;padding-left:2%;width:100%">
+                    <tbody>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+
+    </article>
+</div>
+
+
+<div id="targets" style="width:100%;float:left;padding-top:1%">
+    <article id="riquadro" style="min-height:500px">
+        <h3 style="text-align: center">Gene selection</h3>
+        <div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+        <table> <tr><td><b>Gene:</b></td><td><select class="select1" id="search_gene"><option value=""></option></select>
+        <input id="search_target" class="button" type="submit" value="Search Target"/></td>
+        <td><input id="select_target" class="button" type="submit" value="Select Target" disabled='disabled'/></td>  </tr>
+        </table>
+        </div>
+        <div style='float:left;width:100%;margin-top:1%'>
+        <h3 style="text-align: center">Target selection</h3>
+        <div style='float:left;width:90%;padding-left:4%;padding-top:1%'>
+        <table id='table_mut' style='float:left'>
+            <tbody>
+            </tbody>
+        </table>
+        </div>
+        </div>
+    </article>
+</div>
+
+
+<article class="dialog" title="Delete Assay" id="deldialog">
+    <p>
+    Are you sure to delete the assay <span id="delAssayName"></span>?
+    </p>
+    
+
+</article>
+{% endblock %}

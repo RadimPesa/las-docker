@@ -1,0 +1,50 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+<nav>
+	<h1>Users List</h1>		
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$('#example').dataTable();
+		} );
+	</script>
+	<div id="demo">
+		<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>E-mail</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					
+				</tr>
+			</thead>
+			<tbody>			
+				{% for u in user_list %}
+			    	<tr>
+		    			<td class="center">
+							<a href="{% url loginmanager.views.editUser u.id %}">{{ u.username }}</a>	
+						</td>
+						<td>{{ u.email }}</td>
+						<td>{{ u.first_name }}</td>
+						<td>{{ u.last_name }}</td>
+
+					</tr>
+			    {% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</nav>
+
+{% endblock %}

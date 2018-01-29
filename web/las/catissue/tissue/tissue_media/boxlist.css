@@ -1,0 +1,82 @@
+div.boxlist {
+    line-height: 20px;
+    border: 1px solid gray;
+    padding: 3px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+div.itemcontainer {
+    max-height: 112px;
+    overflow-y: auto;
+}
+
+p.boxlisttitle {
+    height: 20px;
+    margin: 0px;
+    margin-bottom: 4px;
+    background-color: #dddddd;
+    font-weight: bold;
+    color: #333333;
+    padding-left: 3px;
+}
+
+span.boxlistitem{
+    font-size: 8pt;
+    color: black;#d3d3d3;
+    font-weight: bold;
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 3px;
+    border-color: #1677CC;
+    border-style: solid;
+    border-width: 1px;    
+    background-color: #d3afa2;
+    margin: 2px;
+    display: inline-block;
+    vertical-align: top;
+    height: 20px;
+}
+
+span.boxlistdel{
+    margin-left: 6px;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+    display: inline-block !important;
+}
+span.boxlistdel:hover {
+    background-color: #BF694D;
+}
+
+span.listdel {
+    font-size: 11px;
+    font-weight: normal;
+    cursor: pointer;
+    float: right;
+    margin-right: 1em;
+}
+span.listdel:hover {
+    text-decoration: underline;
+}
+
+span.add_btn{
+  cursor:                           pointer;
+  border-color:                     #AAAAAA;    
+  border-style:                     solid;
+  border-width:                     1px;
+  padding:                          4px;
+  border-radius:                    4px;
+  -moz-border-radius:               4px;
+  -webkit-border-radius:            4px;
+  background-color:                 #333;
+  color:                            lightGrey;
+  font-weight:                      bold;
+  margin-left:                      5px;
+  display: inline-block;
+}
+
+span#add_btn:hover, span#add_btn2:hover{
+    background-color:               #505050;
+}

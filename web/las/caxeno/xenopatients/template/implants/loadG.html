@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Implants{% endblock %}
+{% block script %}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/drag&drop.css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}js/redips-drag-min.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/implant.css" />
+	<script type="text/javascript">
+        jQuery(document).ready(function () {
+            var oTable = jQuery('#t1').dataTable( {
+                "aaSorting": [[0, 'asc']],
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 1 ] },
+                ],
+            });
+        });
+
+        function getGroup(g){
+	        var tblHeadObj = window.opener.document.getElementById('table1').tHead;
+	        var tblBodyObj = window.opener.document.getElementById('table1').tBodies[0];
+	        for (var i=0; i < tblBodyObj.rows.length; i++) {
+	            if (i == 0){
+		            var newTH = document.createElement('th');
+		            tblBodyObj.rows[i].appendChild(newTH);
+		            newTH.innerHTML = g;
+		            newTH.setAttribute("class","mark");
+	            }else{
+    		        var newCell = tblBodyObj.rows[i].insertCell(-1);
+	    	        newCell.innerHTML = ''
+    	        }
+	        }
+            window.close();
+        }
+
+        function infoG(nameG){
+	        url = base_url+'/api.infoGroup/' + nameG;
+	        jQuery.getJSON(url,function(info){
+                var date = info['date'];
+                var protocol = info['protocol'];
+                var nameG = info['name'];
+                var mice = info['mice'];
+                document.getElementById('infoT').innerHTML = "Group's Properties:\n\n- name: " + nameG + ";\n\n- creation date: " + date + ";\n\n- number of assigned mice: " + mice + ";\n\n- expected protocol: " + protocol + ".";
+	        });
+        }	
+	</script>
+{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <div style="width:40%;height:350px;overflow:auto;float:left;">
+            <table id="t1" >
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th style="width:8%;">Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for g in groups %}
+                        <tr>
+                            <td align="center" onclick="getGroup('{{ g }}');" >{{ g }}</td>
+                            <td onclick="infoG('{{ g }}')" groupname="{{ g }}">
+                                <img src="{{MEDIA_URL}}img/admin/selector-search.gif" groupname="{{ g }}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <textarea id="infoT" rows = "15" cols = "55" readonly="readonly" style="float:right;font-weight: bold;">Group's Properties:</textarea>
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}Available Chips{% endblock %}
+
+
+{% block content %}
+
+
+
+<style>
+	#feedback { font-size: 1.4em; }
+	#selectable .ui-selecting { background: #FECA40; }
+	#selectable .ui-selected { background: #F39814; color: white; }
+	#selectable { list-style-type: none; margin: 1em; padding: 0; width: 60%; }
+	#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+	#selectable .ui-widget-content {
+    	border: 1px solid #AAAAAA;
+    	color: #222222;
+    }
+
+input:disabled{
+	
+	background:#DDDDDD;
+	color:#838383;
+	border-color:#838383;  
+}
+
+.sel_sample_list li { margin: -1px;
+						  margin-right: 3px;
+						  padding: 0.4em; 
+						  /*font-size: 1em; 
+						  height: 45px;
+							line-height: 1.5em;*/}
+.sel_sample_list .ui-widget-content {
+    	border: 1px solid #AAAAAA;
+    	color: #222222;
+    	
+    
+}
+	
+
+#positions_ div { width: 389px;height: 110px;overflow-y: scroll; float: right;} 
+#myList {
+    width: 200px;
+}
+
+.position_on_chip{
+	border-radius: 3px;
+}
+
+.position_index{
+	text-align:left !important;
+}
+
+.added {
+    background: none repeat scroll 0 0 gray !important;
+}
+
+.hybridized {
+	background: none repeat scroll 0 0 red !important;
+}
+
+.selected {
+    background: none repeat scroll 0 0 #F39814 !important;
+    
+}
+#sample_col {
+	float: left;
+	width: 350px;
+	height: 700px;
+}
+#chip {
+	float: left;
+	margin-left: 5px;
+	width: 350px;
+}
+#hyb_chips {
+	float: left;
+	margin-left: 5px;
+	text-align: center;
+	
+	}
+#hyb_chip_list{
+	height: 600px;
+
+}
+#hyb_form {
+	margin-left: 5px;
+	text-align: center;	
+}
+#button_bar {
+	float: left;
+}
+#barcode_div {
+	float: left;
+	width: 280px;
+}
+#barcode_hybr_form {
+	margin-left:2px;
+	
+}
+#right_column {
+	float: left;
+	margin-left: 5px;
+}
+#positions_list{
+height: 615px;
+width: 300px;
+overflow :auto;
+}
+
+#riquadro{
+	margin-right: 30px;
+}
+
+.added_chip_item{
+border: 3px solid #003600;
+padding-bottom: 5px;
+padding-top: 5px;
+border-radius: 3px;
+margin: 20px;
+}
+
+#term_event{
+float: right;
+}
+
+select{
+	width: 150px;
+}
+</style>
+
+<script type="text/javascript" src="/uarray_media/js/hybrid.js"></script>
+	
+<section id="menu">
+
+	<fieldset style="padding-bottom:0">
+		<fieldset style="float:left;text-align:center; width:20%; margin-left:2px;padding-top:13px; padding-bottom:0px; margin-bottom:0px; min-height:60px">
+			<table id="message" planid="{{plan.id}}" style='text-align:left'>
+				<tr>
+					<th>Session:</th>
+					<td>{{plan.timecheck}}</td>
+				</tr>
+				<tr>
+					<th>Protocol:</th>
+					<td>{{plan.idHybProtocol.name}}</td>
+				</tr>
+				<tr>
+					<th>Instrument:</th>
+					<td>{{plan.idInstrument.name}}</td>
+				</tr>
+			</table>
+		</fieldset>
+	
+		<div id = "barcode_hyb_form" style="float:left" name="barcode" > 
+			<table style="display:inline-block" id="searchbar">
+			<tr>
+				<th><label for="id_barcode">Barcode:</label></th>
+				<td><input type="text" name="barcode" id="id_barcode" onkeyup="checkKeyP(event)"></td>
+			</tr>
+            <tr><td></td>
+            <td align="right" style="padding-top:10px"><input id=bar_search_button class="button" type="submit" value="Load chip" /></td></tr>
+			</table>
+
+        </div>
+
+		<fieldset id="message2" style="float:left; width:20%; margin-left:32px;padding:3px 5px; margin-bottom:4px; min-height:90px">
+			
+		</fieldset>
+
+		<div style="float:right">
+			<input id="term_event" class="button" type="submit" value="Terminate">			
+		</div>
+		
+	</fieldset>
+
+
+
+
+</section>
+
+<div id="sample_col">
+	<article id = 'riquadro' style="height:675px; overflow:auto">
+		<h3>Samples</h3>
+		<div style="text-align:right; margin-top:20px; margin-right:20px; margin-bottom:10px"> 
+		<input style="float:right" id="auto_adding" class="button" type="submit" value="Auto Adding"/>
+		</div>
+		<div style="margin-top:60px;margin-right:10px">
+			{% regroup selected_aliquots|dictsort:"virtual_chip" by virtual_chip as alreq_list %}
+			{% for samples in alreq_list %}
+            <ol class='sel_sample_list'>
+			    {% for aliquot in samples.list|dictsort:"virtual_order" %}
+	                <li class="ui-widget-content sample_todo" style="margin-right: 10px;max-heigth:2%" sample_id="{{aliquot.id}}"  sample_identifier="{{aliquot.aliquot_id}}"><b title="name: {{aliquot.aliquot_id}}">{{aliquot.aliquot_id}}</b><i><span style="float:right;margin-right: 5px">{{aliquot.aliquot_id.date}}</span></i></li>
+                {% endfor %}
+            </ol>
+			{% endfor %}
+		</div>
+	</article>
+</div>
+
+<div id="chip">
+		<article id = 'riquadro' style="height:675px">
+			<h3>MicroArray</h3>
+			<div style="margin-top:20px; margin-bottom:5px; margin-right:20px; text-align:right">
+					<input id="save_chip" class="button" type="submit" value="Save Chip ">
+
+			</div>
+
+	        <div id="positions_list" style="margin-top:20px; margin-bottom:5px; margin-right:20px;">        
+              <table id="chip_layout" style="width:95%">
+                <tbody class='content'>
+
+
+                </tbody>
+              </table>
+
+            </div>
+			
+		</article>
+</div>
+
+	
+
+<div id=hyb_chips>
+		<article id= 'riquadro' style="height:675px">
+		<h3>Hybridized Chips</h3>
+			<div id="hyb_chip_list" style="margin-top:20px; margin-bottom:5px; margin-right:20px;">
+                <table id="chip_hybrid" style="width:95%;;">
+                <tbody class='content'>
+
+                </tbody>
+              </table>
+            </div>
+		</article>
+</div>
+
+
+{% endblock %}

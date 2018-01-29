@@ -1,0 +1,1 @@
+Files in this dir are used for thawing sessions too.

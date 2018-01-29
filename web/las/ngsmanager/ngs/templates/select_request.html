@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Select working session{% endblock %}
+
+{% block script %}
+	<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/select_request.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	
+	<style type="text/css">
+		#plan_table {cursor:pointer;}
+	</style>
+{% endblock %}
+
+{% block content %}
+
+	<h3>Selection of request</span></h3>
+		
+        <article style="width:inherit;overflow:auto">
+		
+		<p style="text-align:right;float:right"><input id="select" class="button" disabled="disabled" type="submit" value="Select" /></p> 
+
+		<table border=1px id="plan_table">
+        	<thead>
+				<Tr>
+				<th style="text-align:center;">Timestamp</th>
+                <th style="text-align:center;">Title</th>
+                <th style="text-align:center;">Description</th>
+                </tr>
+        	</thead>
+        	<tbody>
+		    {% for p in plans%}
+		
+				<tr plan_index={{p.id}}>
+				<td>{{p.timestamp}}</td>
+				<td>{{p.title}}</td>
+				<td>{{p.description}}</td>
+
+			</tr>
+			{% endfor %}
+
+        	</tbody>
+        </table>
+
+
+        </article>
+
+
+{% endblock %}

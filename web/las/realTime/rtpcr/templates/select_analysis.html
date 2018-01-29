@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Select working session{% endblock %}
+{% block content %}
+
+<meta charset="utf-8">
+	
+<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/select_analysis.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+
+	<h3>Selection of experiment</span></h3>
+		
+        <article style="width:inherit;overflow:auto">
+		
+		<p style="text-align:right;float:right"><input id="select" class="button" disabled="disabled" type="submit" value="Select" /></p> 
+
+        <p><input type="checkbox" id="hideanalysed" /><label for="hideanalysed">Hide experiments already analysed</label></p>
+
+		<table border=1px id="plan_table">
+        	<thead>
+				<Tr>
+				<th style="text-align:center;">Timestamp</th>
+				<th style="text-align:center;">Title</th>
+                <th style="text-align:center;">Description</th>
+                <th style="text-align:center;">Times analysed</th>
+                </tr>
+        	</thead>
+        	<tbody>
+		    {% for p in plans%}
+			<tr plan_index="{{p.id}}" num_analyses="{{p.analysis}}">
+				<td>{{p.time_creation|date:"Y-m-d H:i:s"}}</td>
+				<td>{{p.title|default:""}}</td>
+				<td>{{p.description|default:""}}</td>
+				<td>{{p.analysis}}</td>
+			</tr>
+			{% endfor %}
+
+        	</tbody>
+        </table>
+
+        </article>
+
+
+{% endblock %}

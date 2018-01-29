@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load jsonify %}
+{% block title %}Insert measures{% endblock %}
+{% block content %}
+	<meta charset="utf-8">
+	<script src="{{MEDIA_URL}}js/jquery.sortElements.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/read_measures.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jeditable.mini.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+
+	<script type="text/javascript">
+
+	targets = $.parseJSON('{{targets|jsonify|safe}}');
+	probes = $.parseJSON('{{probes|jsonify|safe}}');
+	var sampleTouched = {};
+	{% for s in samples %}
+	sampleTouched["{{ s.0 }}"] = false;
+	{% endfor %}
+
+	</script>
+	<style type="text/css">
+	.dialog{
+		display: none;
+	}
+	ul{
+		list-style-type: none;
+		padding: 0;
+	}
+
+	td.overMut{
+		background-color: lightyellow;
+	}
+
+	span.filteron {
+		height: 1em;
+		margin: 1em;
+		padding-left: 18px;
+		background-image: url("/profiling_media/img/ledorange.png");
+		background-repeat: no-repeat;
+		text-align: left;
+	}
+	td.highlight {
+		background-color: lightyellow;
+	}
+	</style>
+
+
+
+<div id="aliquots" style="float:left;width:100%">
+		<article id='riquadro'>
+		<h3>Current Experiment</span></h3>
+
+
+			<div style="width:50%;overflow:auto;margin:1em;float:left">
+				<form id='formMeas' enctype="multipart/form-data">
+					<label for='measFile'>Measure file </label><input id='measFile' type="file" name="file" class="file"/>
+					<input id="submit" class="button" type="submit" value="Upload measures"/>
+				</form>
+			</div>
+
+			<div style="width:45%;overflow:auto;margin:1em;float:right">
+				<form id='form_measures' enctype="multipart/form-data" method="post" action="{% url profiling.views.read_measures %}">
+					{% csrf_token %}
+					<input id='aliquots_list' type="hidden" name='aliquots_list' value="">
+					<input id='probes' type="hidden" name='probes' value="{{probes}}">
+					<input id='plan' type="hidden" name='plan' value="{{plan.id}}">
+					<label>Analysis type </label><select id='analysis_type' name="analysis_type">
+						  <option value="short_genetic_variation">Genetic variation</option>
+					</select>
+					<input id="submit" class="button" type="submit" value="Save Measures" onClick="return updateInput();" style="float:right"/>
+				</form>
+
+			</div>
+		</article>
+
+			<div style='width:100%;overflow:auto;padding-bottom:1em;float:left'>
+			Filter by SNP:
+				<select id='geneFilter'>
+					<option>All</option>
+				{% for t in targets%}
+					<option>{{t}}</option>
+				{% endfor %}
+				</select>
+
+			<p></p>
+
+	        <article style="width:inherit;overflow:auto">
+			    <table border=1px id="measure_table" class='dataTable'>
+	        		<thead>
+						<TR>
+							<TH style="text-align:center;" class="genealogy">Genealogy Id</TH>
+							{% for t in targets %}
+								<TH style="text-align:center;" class="{{t}} no-sort">{{t}}</TH>
+							{% endfor %}
+			            </TR>
+	        		</thead>
+	        		<tbody>
+					    {% for s in samples %}
+							<TR class="row_data" sid="{{s.0}}">
+								<TD class="genealogy" genealogy='{{s.0}}' plate="{{s.1}}" well="{{s.2}}">{{s.0}}<span class='bs'></span> </TD>
+								{% for t in targets %}
+									<TD sid="{{s.0}}" tid="{{t}}" style="background-color:lightgreen"><span class='mut' style="float:left"></span><span class="ui-icon ui-icon-pencil" style="float:right"></span></TD>
+								{% endfor %}
+							</TR>
+						{% endfor %}
+	        		</tbody>
+	        	</table>
+        	</article>
+        	</div>
+
+	</div>
+
+<article class="dialog" title="Edit mutations" id="mutdialog">
+	<p id='obsSample' style='font-weight: bold;'></p>
+	<hr>
+	READ <input type="radio" name="radioMut" value="mut" checked/>
+	N/A <input type="radio" name="radioMut" value="bs"/>
+
+    <div id='mutlist'>
+    	<p>Select the allele and edit corresponding measure. The sum of all selected allele should be equal to 1. Deselect to set the value equal to 0.
+    	</p>
+    	<table id='mutTable'>
+    	</table>
+    </div>
+
+
+</article>
+
+
+
+<article class="dialog" title="Edit probes" id="probedialog">
+	<p id='probeSample' style='font-weight: bold;'></p>
+	<hr>
+    <p>Select the probe not read:
+    </p>
+    <div id='probelist'>
+    	<table id='probeTable'>
+    	</table>
+    </div>
+
+
+</article>
+
+
+{% endblock %}

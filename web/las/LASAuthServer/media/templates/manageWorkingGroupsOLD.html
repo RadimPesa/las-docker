@@ -1,0 +1,309 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+            
+    }
+    .ui-tabs-anchor{
+        color:black !important;
+    }
+    .connectedSortable { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; background: #eee; width: 15%; border:groove;}
+    .connectedSortable li{ margin: 0% 5% 5% 5%; padding-left: 5%; font-size: 1.1em; width: 80%; text-align:center;  cursor: move;}
+    </style>
+    
+    <script> 
+    $(document).ready(function() {
+        $("*[userDiv='true']").hide();
+        $("#htabs-outer").tabs();
+        $("#htabs-inner").tabs();
+        $("#htabs-extern2").tabs();
+        $("#htabs-extern").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        $("#htabs-extern > ul > li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        $("#htabs-registration").tabs();
+        {% for wg in workingGroups %} 
+            $("#htabs-inner-{{wg.id}}").tabs()
+            $("#htabs-inner-{{wg.id}}-3").tabs()
+            
+            $(function() {
+                $('#userSelector-{{wg.id}}').change(function(){
+                    $("*[userDiv='true']").hide();
+                    $('#htabs-inner-{{wg.id}}-3-' + $(this).val()).show();                
+                });
+            });    
+            {% for u in wg.usersList %}
+                $('#perms-{{wg.id}}-{{u.id}}').removeClass("ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all");
+                $('#perms-not-{{wg.id}}-{{u.id}}').removeClass("ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all");
+            {%endfor%}
+        {% endfor %}
+        UserTable = $('#users_table').dataTable();
+        {% for wg in workingGroups %}
+            $("#checkAll-{{wg.id}}").click(function () {
+                $(".checkBoxClass-{{wg.id}}").prop('checked', $(this).prop('checked'));
+            });
+        {% endfor %}
+        $('#htabs-extern').css({'display':'block'});
+    });
+
+    function deleteUsers(wgID){
+        startLag();
+        var checkedVals = $('.checkBoxClass-'+wgID+':checkbox:checked').map(function() {
+            return this.value;
+        }).get();
+
+        var userArray=new Array();
+        userArray=checkedVals;
+
+        if (userArray.length==0){
+            alert('Error! You have to select at least one user to delete!');
+            endLag();
+            return false;            
+        }
+        
+        $.ajax({
+            url:"{% url loginmanager.views.manageWorkingGroups %}",
+	        type: "POST",
+	        data: {usersList:userArray,
+                   wgID:wgID,
+                   step:'deleteUsers',},
+        }).done(function(data) {
+            endLag();        
+            if(data["message"]=='error')
+                alert("Errore!");
+            else{
+                var checked = $('.checkBoxClass-'+wgID+':checkbox:checked').map(function() {
+                    return $(this).parent();
+                }).get();
+                for (item in checked){
+                    $(checked[item]).css({
+                        backgroundColor: 'red'
+                    });
+                    $(checked[item]).animate({
+                        width: '0px'
+                        }, {
+                        duration: 1000,
+                        complete: function() {
+                            $(this).remove();
+                        }
+                    });
+                }
+                for (val in userArray){
+                    $("#userSelector-"+wgID+" option[value="+userArray[val]+"]").each(function() {
+                        $(this).remove();
+                    });
+                }
+                $("#userSelector-"+wgID+" option[value='none']").attr("selected","selected"); 
+                $("*[userDiv='true']").hide();  
+            }
+        });
+    }
+
+function updateFunctionalities(wgID,uID){
+        usersPerm={}
+        usersPermNot={}
+        usersList=new Array();
+        {% for wg in workingGroups %}            
+            if (wgID=={{wg.id}}){
+                {% for u in wg.usersList %}
+		    if (uID=={{u.id}} ){
+                    $('#perms-'+wgID+'-{{u.id}}').each(function(){
+                        var permArray = new Array();
+                        $(this).find('li').each(function(){
+                            var current = $(this);
+                             permArray.push(current.val());
+                        });
+                        usersPerm["{{u.id}}"]=permArray;
+                    });
+                    $('#perms-not-'+wgID+'-{{u.id}}').each(function(){
+                        var permNotArray = new Array();
+                        $(this).find('li').each(function(){
+                            var current = $(this);
+                             permNotArray.push(current.val());
+                        });
+                        usersPermNot["{{u.id}}"]=permNotArray;
+                    });
+                usersList.push({{u.id}});
+		}
+                {% endfor %}
+            }
+        {% endfor %}
+        startLag();
+        $.ajax({
+            url:"{% url loginmanager.views.manageWorkingGroups %}",
+	        type: "POST",
+	        data: {usersPerm:usersPerm,
+                   usersPermNot:usersPermNot,
+                   wgID:wgID,
+                   usersList:usersList,
+                   step:'updateFunctionalities',},
+        }).done(function(data) {        
+            endLag();
+            if(data["message"]=='error')
+                alert("Errore!");
+            else
+                alert("Permission updated for user");
+        });
+    }
+    </script>
+    <script>$("section#content").addClass("home");</script>
+    <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
+    <nav>
+        <div id="htabs-extern" style="display: none;">            
+            <ul>
+   		        <li><a href="#htabs-outer">Manage Working groups</a></li>
+		        <li><a href="#htabs-registration">Manage Pending Registrations</a></li>
+	        </ul>            
+            <div id="htabs-outer">
+                <h1>Select group...</h2>
+	            <!--begin htab outer menu-->
+	            <ul>
+                    {% for wg in workingGroups %}
+		                <li><a href="#htab-outer-{{wg.id}}">{{wg.name}}</a></li>
+                    {% endfor %}
+	            </ul>
+	            <!--end htab outer menu-->
+	            <!--begin htab outer panels-->
+                {% for wg in workingGroups %}
+	                <div id = "htab-outer-{{wg.id}}">
+		                <h2>Working group: {{wg.name}}</h2>
+		                <div id="htabs-inner-{{wg.id}}">
+                            <!--begin vtab menu-->
+                            <ul>
+                                <li><a href="#htabs-inner-{{wg.id}}-1">Add Users</a></li>
+                                <li><a href="#htabs-inner-{{wg.id}}-2">Remove Users</a></li>
+                                <li><a href="#htabs-inner-{{wg.id}}-3">Add/Remove functionality</a></li>
+                            </ul>
+                            <!--end vtab menu-->
+                            <!--begin vtab panels-->
+                            <div id="htabs-inner-{{wg.id}}-1">
+                                TODO
+                            </div>
+                            <div id="htabs-inner-{{wg.id}}-2">
+                            {% if wg.usersList%}
+                                <fieldset>
+                                    <legend>Users</legend>
+                                    <input type="checkbox" id="checkAll-{{wg.id}}"/>Select/Deselect All
+                                    <ul>
+                                    {% for u in wg.usersList %}
+                                        <li style="list-style-type:none;"><input type="checkbox" class="checkBoxClass-{{wg.id}}" value="{{u.id}}"/>{{u.username}}</li>
+                                    {% endfor %}
+                                    </ul>
+                                <button id="delete_button" class="button" style="float:right;" onClick="deleteUsers({{wg.id}});">Delete selected users</button>
+                                </fieldset>
+                            {% else %}
+                                No users in this Working Group!
+                            {% endif %}
+                            </div>
+                            <div id="htabs-inner-{{wg.id}}-3">
+                                {% if wg.usersList%}                                
+                                <fieldset>
+                                    <select id="userSelector-{{wg.id}}">
+                                        <option value="none">Select user...</option>
+                                        {% for u in wg.usersList%}
+                                            <option value="{{u.id}}">{{u.username}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </ul>
+                                    {% for u in wg.usersList%}
+                                        <div id="htabs-inner-{{wg.id}}-3-{{u.id}}" userDiv="true" style="margin-left: 25%;">
+
+                                            <ul id="perms-{{wg.id}}-{{u.id}}" class="connectedSortable">
+                                                {% for p in userPermissionList %}
+                                                    {% ifequal p.WG.id wg.id %}
+                                                        {% ifequal p.lasuser.username u.username %}
+                                                            <li class="ui-state-default" value="{{p.laspermission.id}}">{{p.laspermission.name}}</li>
+                                                        {% endifequal %}  
+                                                    {% endifequal %}
+                                                {% endfor %}
+                                            </ul>
+                                            <ul id="perms-not-{{wg.id}}-{{u.id}}" class="connectedSortable" style="margin-left: 15%;">
+                                                {% for perm in permissionList %}
+                                                    {% for k,v in wg.usersPerm.items %}                                        
+                                                        {% ifequal k u.username %}                                           
+                                                            {% if perm.name not in v %}
+                                                                <li class="ui-state-default" value="{{perm.id}}">{{perm.name}}</li>
+                                                            {% endif %}
+                                                        {% endifequal %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </ul> 
+                                            <script>
+                                                $(function() {
+                                                    $( "#perms-{{wg.id}}-{{u.id}}, #perms-not-{{wg.id}}-{{u.id}}" ).sortable({
+                                                        connectWith: ".connectedSortable"
+                                                    }).disableSelection();
+                                                });
+                                           </script>
+	                                   <button style="float:right;" class="button" onClick="updateFunctionalities({{wg.id}},{{u.id}});">Edit Functionalities</button>
+                                        </div>
+                                    {% endfor %}    
+                            </fieldset>
+                            {% else %}
+                                No users in this Working Group!
+                            {% endif %}
+                            </div>
+                            <!--end vtab panels-->
+                        </div>
+                    </div>
+                {% endfor %}
+                <!--end htab outer panels-->
+            </div>
+            <div id='htabs-registration'>
+                <h2>Registrazioni Pendenti</h2>
+                <table id='users_table'>
+                    <thead>
+				        <tr>
+					        <th>Username</th>
+					        <th>E-mail</th>
+					        <th>First Name</th>
+					        <th>Last Name</th>
+				        </tr>
+			        </thead>
+			        <tbody>			
+				        {% for temp in pendingRegistrations %}
+			            	<tr>
+		            			<td class="center">
+							        <a href="{% url loginmanager.views.managePiRegistration temp.id %}">{{ temp.lasUserTemporaryRegistration.user.username }}</a>	
+						        </td>
+						        <td>{{ temp.lasUserTemporaryRegistration.user.email }}</td>
+						        <td>{{ temp.lasUserTemporaryRegistration.user.first_name }}</td>
+						        <td>{{ temp.lasUserTemporaryRegistration.user.last_name }}</td>
+					        </tr>
+			            {% endfor %}
+			        </tbody>
+               
+                </table>                
+            </div>
+        </div>
+    </nav>
+{% endblock %}

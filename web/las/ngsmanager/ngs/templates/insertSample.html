@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+{% block title %}Insert sample{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/insert_sample.js"></script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.dataTables.css" />
+	
+	<style type="text/css">
+		#tab_insert_paginate a {padding-top: 4px;}
+		#tab_insert {margin: 4px 0 4px 0; }
+		input[type="number"] {
+   			width:4em;
+		}
+		.ui-widget-content .ui-icon {background-image: url("{{MEDIA_URL}}css/ui-lightness/images/ui-icons_222222_256x240.png");}
+		.ui-icon-closethick {cursor:pointer;}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<fieldset style="float:left;">
+		<table style="border-spacing:1em;display:inline;">
+			<tr>
+				<td title="Only for liquid-biopsy samples">
+					<label for="vial" >GenealogyID or barcode of a sample that already exists in LAS (optional):</label>
+					<br>
+					<input type="text" id="vial" maxlength="40" size="30" />
+				</td>
+				<td>
+					<input type="button" id="loadgen" value="Load sample" class="button"/>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	
+	<form id="form_conf" action={% url ngs.views.views_request.insert_sample_final %} method="post" >{% csrf_token %}
+		<input type="button" id="save" value="Save&finish" style="float:right;" class="button"/>
+	</form>
+	<br style="clear:left;">
+	<br>
+	
+	<div style="float:left;">
+		<fieldset id="pageform" style="float:left;">
+			<legend>Basic sample information</legend>
+			<table id="basic" style="border-spacing:1em;display:inline;float:left;">						
+				<tr>							
+					<td>
+						<label for="origin">Origin*:</label>
+					</td>
+					<td>
+						<select id="origin">
+							<option selected="selected" value="">---------</option>
+							<option value="Cell">Cell</option>
+							<option value="CellPz">CellPz</option>
+							<option value="CellXeno">CellXeno</option>
+							<option value="cfDNA">cfDNA</option>
+							<option value="FFPE">FFPE</option>
+							<option value="Fresh">Fresh</option>
+							<option value="PBMC">PBMC</option>
+							<option value="Sph">Sph</option>
+							<option value="Xeno">Xeno</option>
+							<option value="WholeBlood">WholeBlood</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="tissue">Primary tissue*:</label>
+					</td>
+					<td>
+						<select id="tissue">
+							<option selected="selected" value="">---------</option>
+							{% for nome in listumfin %}
+								{% for k,abbreviazione in diztum.items %}
+									{% if k == nome %}
+										<option value="{{abbreviazione}}">{{nome}}</option>
+									{% endif %}	
+								{% endfor %}								
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="stage">Tumor stage:</label>
+					</td>
+					<td>
+						<select id="stage">
+							<option selected="selected" value="">---------</option>
+							<option value="PR">Primary</option>
+							<option value="MET">Metastasis</option>								
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="met_loc" title="Metastasis location">Metastasis tissue:</label>
+					</td>
+					<td>
+						<select id="met_loc">
+							<option selected="selected" value="">---------</option>
+							{% for nome in listess %}
+								{% for k,abbreviazione in diztess.items %}
+									{% if k == nome %}
+										<option value="{{abbreviazione}}">{{nome}}</option>
+									{% endif %}	
+								{% endfor %}								
+							{% endfor %}					
+						</select>					
+					</td>
+				</tr>
+				<tr>
+					<td>						
+						<label for="name" title="Max. 10 characters">Sample name*:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" id="name" maxlength="10" size="10" title="Max. 10 characters"/>
+					</td>
+				</tr>				
+				<tr>
+					<td>
+						<label for="feature">Feature*:</label>
+					</td>
+					<td>
+						<select id="feature" style="margin-right:1em;">
+							<option selected="selected" value="">---------</option>
+							<option value="P">Parental</option>
+							<option value="R">Resistant</option>						
+							<option value="N">Normal</option>
+							<option value="T">Tumor</option>								
+							<option value="BL">Baseline</option>
+							<option value="RLP">Relapse</option>
+							<option value="RLS">Release</option>
+							<option value="D">During</option>
+						</select>
+						<input id="feat_number" class="da_canc" type="text" maxlength="3" size="5" title="Please insert corresponding progressive number (optional)"/>
+					</td>					
+				</tr>
+				<tr>
+					<td>
+						<label for="drug" title="insert the abbreviation of drug name your sample is resistant/baseline to. If there is more than one please separate each other with '_' ">Drug:</label>
+					</td>
+					<td>					
+						<input type="text" onkeypress="validate2(event)" class="da_canc" id="drug" maxlength="50" size="25" title="insert the abbreviation of drug name your sample is resistant/baseline to. If there is more than one please separate each other with '_' "/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="clone" title="If the sample is a clone, please insert corresponding progressive number">Clone:</label>
+					</td>
+					<td>					
+						<input id="clone" class="da_canc" type="text" maxlength="3" size="5" title="If the sample is a clone, please insert corresponding progressive number"/>
+					</td>
+				</tr>
+			</table>
+			<br style="clear:both;">
+			<br>
+			<span>Sample label will be created by joining values inserted <br> in this form in the order of appearance</span>						
+		</fieldset>
+		<br style="clear:both;">
+		<br>
+		<span style="float:left;">* mandatory field</span>
+		<input type="button" id="insert" value="Add sample" style="float:right;" class="button"/>
+	</div>
+	<fieldset style="float:left;margin-left:1em;">
+		<legend>Extra sample information</legend>
+		<table id="extra" style="border-spacing:1em;">
+			<tr>							
+				<td>
+					<label for="user">User*:</label>
+				</td>
+				<td>					
+					<input type="text" id="user" maxlength="30" size="20" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="date_extr" >Extraction date*:</label>
+				</td>
+				<td>					
+					<input type="text" class="da_canc" id="date_extr" size="11" maxlength="10" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="tipo">Type*:</label>
+				</td>
+				<td>
+					<select id="tipo">
+						<option selected="selected" value="DNA">DNA</option>
+						<option value="RNA">RNA</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="source">Source*:</label>
+				</td>
+				<td>
+					<select id="source">
+						<option selected="selected" value="">---------</option>
+						{% for nome in lisnomi %}
+							{% for k,abbreviazione in diznomi.items %}
+								{% if k == nome %}
+									<option value="{{abbreviazione}}">{{nome}}</option>
+								{% endif %}	
+							{% endfor %}
+							
+						{% endfor %}						
+					</select>					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="fluo" >Fluorescence (ng/ul)*:</label>
+				</td>
+				<td>					
+					<input type="text" id="fluo" name="Fluorescence" class="da_canc numvalue" size="5" maxlength="10" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="nano" >Nanodrop (ng/ul)*:</label>
+				</td>
+				<td>					
+					<input type="text" id="nano" name="Nanodrop" class="da_canc numvalue" size="5" maxlength="10" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="pur280" >Purity (260/280)*:</label>
+				</td>
+				<td>					
+					<input type="text" id="pur280" name="Purity280" class="da_canc numvalue" size="5" maxlength="10" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="pur230" >Purity (260/230)*:</label>
+				</td>
+				<td>					
+					<input type="text" id="pur230" name="Purity230" class="da_canc numvalue" size="5" maxlength="10" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="volumefornito" >Provided volume (ul)*:</label>
+				</td>
+				<td>
+					<input type="text" id="volumefornito" name="volumefornito" class="da_canc numvalue" size="5" maxlength="10" />
+				</td>
+			</tr>
+			<!-- <tr>
+				<td>
+					<label for="volumeusato" >Used volume (ul)*:</label>
+				</td>
+				<td>
+					<input type="text" id="volumeusato" class="numvalue" size="5" maxlength="10" />
+				</td>
+			</tr> -->
+			<tr>
+				<td>
+					<label for="elution" title="Please insert a textual description" >Elution buffer*:</label>
+				</td>
+				<td>					
+					<input type="text" onkeypress="validate2(event)" class="da_canc" id="elution" size="20" maxlength="30" title="Please insert a textual description" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="capture">Capture type*:</label>
+				</td>
+				<td>
+					<select id="capture">
+						<option selected="selected" value="">---------</option>
+						<option value="Agnostos">Agnostos</option>
+						<option value="Exome">Exome</option>
+						<option value="IRCC_TP">IRCC_TP</option>
+						<option value="Mini_mut">Mini_mut</option>
+						<option value="Mini_FP">Mini_FP</option>																				
+						<option value="WGA">WGA</option>							
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="id_descr" title="Please describe the bioinformatic analysis required and clinical/treatment features" >Description*:</label>
+				</td>
+				<td>					
+					<textarea id="id_descr" onkeypress="validate2(event)" class="da_canc" maxlength="2000" name="notes" cols="30" rows="5" size="30" title="Please describe the bioinformatic analysis required and clinical/treatment features"></textarea>
+				</td>
+			</tr>							
+
+		</table>
+	</fieldset>
+	
+	<table border=1px id="tab_insert">
+   		<thead>			
+    	</thead>
+    	<tbody align="center">
+       	</tbody>
+    </table>
+    
+    <div id="dialogTitle" class="dialog confirm" title="Request title" style="display:none;position: relative;">
+		<p style="font-size:1.1em;">Please insert the request title and the description</p>
+		<div>
+			<label for="titolodialog" title="Please insert a title for this request">Request title:</label>
+			<br>
+			<input type="text" onkeypress="validate2(event)" id="titolodialog" maxlength="60" size="40" title="Please insert a title for this request" />
+		</div>
+		<div style="margin-top:0.4em;">
+			<label for="id_notes" >Description (optional):</label>
+			<br>					
+			<textarea id="id_notes" onkeypress="validate2(event)" maxlength="100" name="notes" cols="30" rows="5" size="30" ></textarea>
+		</div>
+	</div>
+{% endblock %}

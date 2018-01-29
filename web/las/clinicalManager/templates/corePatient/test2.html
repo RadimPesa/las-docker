@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Clinical Data</title>
+  <meta charset="utf-8">
+  <!-- Ensure proper rendering and touch zooming -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"-->
+  <!-- jQuery library -->
+  <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+  <!-- Latest compiled JavaScript -->
+  <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script--!-->
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-cookies.js"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Modules -->
+  <script src="{{MEDIA_URL}}js/clinical/homeApp.js"></script>
+
+  <!-- Controllers -->
+  <script src="{{MEDIA_URL}}js/clinical/controllers/homeController.js"></script>
+</head>
+
+<body ng-app="myModule" data-ng-controller="homeCtrl">
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span> Clinical Home</a>
+      </div>
+      <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Personal Data</a></li>
+            <li><a href="#">Relevat Features</a></li>
+            <li><a href="#">Oncologic Pathologies</a></li>
+            <li><a href="#">Lesions</a></li>
+            <li><a href="#">Therapies</a></li>
+            <li><a href="#">Imaging</a></li>  
+            <li><a href="#">Sampling</a></li>  
+            <li><a href="#">Surgery</a></li>  
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Mario Rossi</a></li>
+        </ul>
+    </div>
+</div>
+</nav>
+
+<div class="container">
+    <h1>Patient Profile</h1>
+    <hr>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="alert alert-info alert-dismissable">
+          <a class="panels-close close" data-dismiss="alert">×</a> 
+          <span class="glyphicon glyphicon-tags"></span> Use this <strong>.alert</strong> for last Patient activities...
+        </div>
+        <div class="alert alert-info alert-dismissable">
+          <a class="panels-close close" data-dismiss="alert">×</a> 
+          <span class="glyphicon glyphicon-flag"></span> Use this <strong>.alert</strong> for last Patient activities...
+        </div>
+        <div class="alert alert-info alert-dismissable">
+          <a class="panels-close close" data-dismiss="alert">×</a> 
+          <span class="glyphicon glyphicon-camera"></span> Use this <strong>.alert</strong> for last Patient activities...
+        </div>
+
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Firs Name</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.firstName">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.lastName">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Fiscal Code:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.fiscalCode">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Birth Date:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.birthDate">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Birth Place:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.birthPlace">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Race:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.race">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Residence place:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.residencePlace">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Gender:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.sex">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Vital Status:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="patient.vitalStatus">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="button" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+        </form>
+        <ul>
+<ul>
+
+      </div>
+  </div>
+</div>
+<hr>
+
+
+
+</body>

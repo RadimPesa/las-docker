@@ -1,0 +1,211 @@
+body {
+    background: 					none repeat scroll 0 0 #FAEBE6;
+    color: 							#333333;
+    margin-top: 					0px;
+    font-family: 					"Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-size: 						11.5px;
+}
+
+section#content p#error {
+	color: 							red;
+	font-weight:					bold;
+}
+
+p#user_name{
+	text-align:						right;
+	margin-bottom:					2em;
+}
+
+header
+{  
+	color:							#d3d3d3;
+	background-color:				#A32900;
+	padding-bottom:					0.2px;
+	padding-top: 					0.2px;
+	padding-left: 					2em;
+	border-radius: 					0px 0px 5px 5px;
+	-moz-border-radius: 			0px 0px 5px 5px;
+	-webkit-border-radius: 			0px 0px 5px 5px;
+	box-shadow: 					0px 10px 12px #3D0F00;
+	-moz-box-shadow: 				0px 10px 12px #3D0F00;
+	-webkit-box-shadow: 			0px 10px 12px #3D0F00;
+}
+
+header h1
+{
+	font-size:						18px;
+	margin-top:						0px;
+	padding-top:					10px;
+}
+header h2
+{
+	font-size:						11px;
+	margin-bottom:					0px;
+	padding-bottom:					10px;
+}
+
+section#content
+{
+    margin-top:						2em;
+    margin-bottom:					0em;
+	padding-left:					3em;
+	padding-top:					2em;
+	padding-right:					2em;
+	padding-bottom:					2em;
+	border-radius: 					5px;
+	-moz-border-radius: 			5px;
+	-webkit-border-radius: 			5px;
+	box-shadow: 					0px 0px 12px #3D0F00;
+	-moz-box-shadow: 				0px 0px 12px #3D0F00;
+	-webkit-box-shadow: 			0px 0px 12px #3D0F00;
+}
+
+section#content a
+{
+	color: 							black;
+	font-weight: 					bold;
+	text-decoration:				none;
+}
+
+section#content a:hover
+{
+	color: 							#606060;
+	font-weight: 					bold;
+	text-decoration:				none;
+}
+
+section#content:after {
+content: 							".";
+display: 							block;
+height: 							0;
+clear: 								both;
+visibility: 						hidden;
+}
+
+
+section#content section#leftcol
+{	
+	margin-bottom:					2em;
+	float:							left;
+}
+section#content section#central
+{
+	margin-left:					3em;
+	float:							left;
+	
+}
+section#content section#rightcol{
+	float:			right;
+	margin-left:	3em;
+}
+
+.button {
+  background-color: 				#A32900; /* colore di sfondo    */
+  border-radius: 					5px;
+  -moz-border-radius: 			    5px;
+  -webkit-border-radius: 			5px;
+  color: 							#fff;               /* colore del testo    */  
+}
+
+span.button2 {
+  cursor:							pointer;
+  border-color:					    #A32900;    
+  border-style:					    solid;
+  border-width:                     1px;
+  padding-left:						8px;
+  padding-right:					8px;
+  padding-top:						3px;
+  padding-bottom:					3px;
+  background-color: 				#E08566;    /* colore di sfondo    */
+  border-radius: 					4px;
+  -moz-border-radius: 			    4px;
+  -webkit-border-radius: 			4px;
+  color: 							#282828;               /* colore del testo    */
+  font-weight: 						bold;         /* testo in grassetto  */
+}
+
+
+.button:hover{
+	background-color:				#D65C33;
+
+}
+span.button2:hover{
+	background-color:				#EBAD99;
+}
+
+span.button2.a, span.button2.b{
+  
+  padding-left:						23px;
+  padding-right:					23px;
+}
+
+
+
+article#riquadro{
+    border-color:					#A32900;    
+    border-style:					solid;
+    border-width:                   1px;
+    border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+    margin-top:						2px;	
+}
+
+h3{
+	margin-top:						0px;
+	margin-bottom:					1px;
+	color:							#d3d3d3;
+	background-color:				#A32900;
+	padding-bottom:					0.2em;
+	padding-top: 					0.2em;
+	padding-left: 					2em;
+	padding-right: 					2em;
+	box-shadow: 					0px 1px 2px #000000;
+	-moz-box-shadow: 				0px 1px 2px #000000;
+	-webkit-box-shadow: 			0px 1px 2px #000000;
+	text-align:						left;
+}
+
+article#commands
+{
+	padding:						11px;
+}
+
+
+nav{
+padding:							7em;
+}
+
+td.navbut{
+	border-color:					#FAEBE6;    
+    border-width:                   1px;
+	border-style:					solid;
+    border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+	padding:						10px;
+	width:							250px;
+}
+
+td.navbut:hover{
+	border-color:					#A32900;    
+    border-style:					solid;
+    border-width:                   1px;
+    border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+	padding:						10px;
+	background-color:				#FFD199;
+}
+
+img#topo{
+	margin-right:					25px;
+	border-radius: 					5px;
+    -moz-border-radius: 			5px;
+    -webkit-border-radius: 			5px;
+}
+
+span#navtitle{
+	position:						relative;
+	bottom:							16px;
+}

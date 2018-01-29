@@ -1,0 +1,25 @@
+\select@language {english}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Operational flow on the xenopatients}}{9}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Caso d'uso generico}}{14}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces UCD del caricamento xenopazienti}}{14}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagramma delle sequenze del caricamento xenopazienti}}{16}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces UCD dell'aggiornamento dello status degli xenopazienti}}{16}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagramma delle sequenze dell'aggiornamento dello status degli xenopazienti}}{18}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces UCD delle operazioni di misurazioni}}{18}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Schermata per la collezione di misure quantitative}}{20}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagramma delle sequenze della gestione delle operazioni delle misurazioni}}{21}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces UCD della gestione dei trattamenti}}{21}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Esempio di utilizzo del diagramma di Gantt in XMS}}{23}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagramma delle sequenze delle operazioni effettuate per creare un trattamento}}{23}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces UCD relativo agli impianti}}{24}
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Utilizzo della tabella contenente i dati delle aliquote}}{25}
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Diagramma delle sequenze delle operazioni effettuate per creare un trattamento}}{26}
+\contentsline {figure}{\numberline {3.15}{\ignorespaces UCD relativo agli espianti}}{27}
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Struttura della pagina per collezionare i vari tessuti}}{29}
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Diagramma delle sequenze relativo agli espianti}}{30}
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Diagramma di flusso delle comunicazione con la BioBanca}}{31}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

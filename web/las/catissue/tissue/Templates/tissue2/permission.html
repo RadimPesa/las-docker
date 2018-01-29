@@ -1,0 +1,20 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Permission denied{% endblock %}
+
+{% block menu %}
+
+    <ul>
+        <li><a id="home" href={% url tissue.views.index %}>Home</a></li>
+    </ul>
+
+{% endblock %}
+{% block content %}
+	<br>
+	<h1 ><b>You don't have the permission to see this page.</b> 
+	<br><br><br>
+	
+	You can <a href={% url tissue.views.login %}>relogin</a> 
+	</h1>
+	
+	
+{% endblock %}

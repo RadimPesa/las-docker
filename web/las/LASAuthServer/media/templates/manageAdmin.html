@@ -1,0 +1,96 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+
+
+<nav>	    
+	<table id="navlist">		
+		<tr>
+			<td class="navbut manageUsers">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/list-icon.png" width="44" height="44"></td><td>Manage Users</td></tr></table>
+			</td>
+		</tr>
+		
+		<script>
+		$(".navbut.manageUsers").click(function(){
+			//window.location.href="http://{{siteInfo.domain}}/manageUsersList"
+			window.location.href="{% url loginmanager.views.manageUsersList %}"
+		});
+		</script>
+		
+
+
+	
+        <tr>
+			<td class="navbut manageNewRegistrations">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/approved-icon1.png" width="44" height="40"></td><td>Manage  Registrations</td></tr></table>
+			</td>
+		</tr>
+	
+		<script>
+		$(".navbut.manageNewRegistrations ").click(function(){
+			//window.location.href="http://{{siteInfo.domain}}/manageRegistrations"
+			window.location.href="{% url loginmanager.views.manageRegistrationsManager %}"
+		});
+		</script>
+		
+                <tr>
+                        <td class="navbut createAffiliation">
+                        <table><tr><td><img id="clip" src="/lasauth_media/img/approved-icon1.png" width="44" height="40"></td><td>Create Affiliation</td></tr></table>
+                        </td>
+                </tr>
+
+                <script>
+                $(".navbut.createAffiliation ").click(function(){
+                        //window.location.href="http://{{siteInfo.domain}}/manageRegistrations"
+                        window.location.href="{% url loginmanager.views.createAffiliation %}"
+                });
+                </script>
+
+
+		<tr>
+			<td class="navbut manageModulesRequest">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/manage_req.png" width="44" height="44"></td><td>Manage Modules Request</td></tr></table>
+			</td>
+		</tr>
+	
+		<script>
+		$(".navbut.manageModulesRequest").click(function(){
+			window.location.href="{% url loginmanager.views.manageModulesRequest %}"		
+		});
+		</script>
+		
+		<tr>
+			<td class="navbut managePermissionsRequest">
+		    	<table><tr><td><img id="clip" src="/lasauth_media/img/manage_req.png" width="44" height="44"></td><td>Manage Permissions Request</td></tr></table>
+			</td>
+		</tr>
+	
+		<script>
+		$(".navbut.managePermissionsRequest").click(function(){
+			window.location.href="{% url loginmanager.views.managePermissionsRequest %}"		
+		});
+
+		</script>
+<tr>
+	<td class="navbut sendMail">
+		<table><tr><td><img id="clip" src="/lasauth_media/img/icon_mail.png" width="44" height="44"></td><td>Send Mail</td></tr></table>
+	</td>
+</tr>
+	
+<script>
+	$(".navbut.sendMail").click(function(){
+	window.location.href="{% url loginmanager.views.sendMail %}"		
+});
+</script>
+	</table>
+	<article id="immagini">
+		<p class="imghome a"><img class="home" id="dna" width="400" height="250" src="/lasauth_media/img/dna3.jpg"><br>Molecular Analysis</p>
+		<p class="imghome b"><img class="home" width="400" height="250" src="/lasauth_media/img/tumorali.jpg"><br>Biological Data Management</p>
+	</article>
+			
+</nav>
+{%endblock%}

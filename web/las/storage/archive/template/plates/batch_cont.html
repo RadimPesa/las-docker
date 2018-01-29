@@ -1,0 +1,156 @@
+{% extends "baseReport.html" %}
+{% block title %}Container{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/popup.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/container/batch_cont.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/fancybox/source/jquery.fancybox.pack.js"></script>
+	<!-- <script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/dataTables.grouping.js"></script>  -->
+
+	<link rel="stylesheet" href="{{MEDIA_URL}}JS/fancybox/source/jquery.fancybox.css" type="text/css" media="screen" />
+	
+	<style type="text/css">
+		select { display:block; position:relative;}
+		//label {font-size:1.4em;}
+		.group td, .divdatatab td{vertical-align: middle;}
+		.group select, .divdatatab select { display:inline;font-size: 1.3em;}
+		.group a, .divdatatab a {padding-top:4px;}
+		.group, #cont_table {margin-bottom:4px;margin-top: 4px;}
+		#accordion .ui-widget-content {background:none;}
+		.tabcont td, #tabpadri td, #cont_table td {vertical-align: middle;}
+		#tabpadri_wrapper {width:50%;float:left;}
+		#cont_table tr {text-align: center;}
+
+		#accordion .ui-state-default,#accordion .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background:none;background-color:#1E4D4F;}
+		.ui-state-default h2, .ui-widget-content h2, .ui-widget-header h2 {color:#D3D3D3;font-size:1em;}
+		.ui-state-default span, .ui-widget-content span, .ui-widget-header span {color:#D3D3D3;}
+		.ui-state-active h2, .ui-state-active span {color:white;}
+		//.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {padding-right:0px;}
+		#accordion .ui-accordion-content { padding-right: 0; }
+		#accordion .ui-accordion-header { padding-top: 0.2em;padding-bottom:0.2em; }
+		.ui-state-hover .ui-icon,
+		.ui-state-focus .ui-icon {background-image:url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;}
+		.contpres {cursor:pointer;}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+	{% if not errore and not fase2%}
+		<fieldset class="fieldset" style="width:20%;">
+			<form action={% url archive.views.InsertContainerBatch %} enctype="multipart/form-data" method="post" >{% csrf_token %}
+				
+				<p>
+					<label for="id_file_cont">File/s:</label>
+					<br>
+					<input id="id_file_cont" type="file" name="file_plate" multiple="multiple" size="6" style="display:none;">
+					<input id="filename" type="text" size="10" style="display:inline;">
+					<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;">
+				</p>
+				<a id="file" class="anchor" href="{{MEDIA_URL}}File_Format/Plate.txt" >File Format</a>
+				<br>
+				<br>
+		
+				<input type="submit" value="Next step" class="button" id="conferma" disabled="disabled" />
+			</form>
+		</fieldset>
+	{% endif %}
+	{% if fase2 %}
+		{% for elem in listarapporti %}
+			{% for padre,val in elem.items %}
+				{% for figlio,pos in val.items %}
+					<input type="hidden" class="rapporti" padre={{padre}} figlio={{figlio}} pos={{pos}} />
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
+		{% for elem,padre in dizpresenti.items %}
+			<input type="hidden" class="presenti" value="{{elem}}" padre="{{padre}}" />
+		{% endfor %}
+		{% for elem in listavuoti %}
+			<input type="hidden" class="vuoti" value="{{elem}}" />
+		{% endfor %}
+		 <div id="accordion" style="width:50%;float:left;">
+			{% for key,val in diz.items %}
+				<div class="group">
+					<div class="divinterna">
+						<h2 class="barcpadri" fath="{{key}}" style="display:inline;">{{key}}</h2>
+						<input style="float:right;" id="checkest_{{forloop.counter}}" fath="{{key}}" barc="{{key}}" type="checkbox" class="checkest">
+						<br style="clear:both" class="brclear">
+					</div>
+					
+					<div class="divtabelle" fath="{{key}}">
+						<input type="button" style="float:right;margin-right:0.5em;" barc="{{key}}" class="button seleztutto" value="Select all" />
+						<br style="clear:both">
+						<div id="{{key}}"></div>
+						
+						<div class="acc">
+						{% for elem in val %}
+							{% for barc,pos in elem.items %}
+								<div>
+									<div class="figliint">
+										<h2 fath="{{key}}" style="display:inline;">{{barc}} in {{pos}}</h2>
+										<input style="float:right;" id="checkint" barc="{{barc}}" fath="{{key}}" position={{pos}} type="checkbox" class="checkint">
+										<br style="clear:both" class="brclear">
+									</div>
+								</div>
+							{% endfor %}
+						{% endfor %}
+						</div>
+
+					</div>
+				</div>
+			{% endfor %}		
+		</div>  
+
+		<fieldset class="fieldset" style="width:30%;float:left;margin-left:5em;">
+			<legend class="legend">General information</legend>
+			{{ form.as_p }}
+			<p>
+				<input type="button" class="button" value="Select all" id="seltutto"/>
+			</p>
+			<p>
+				<label>Geometry:</label>
+				<div style="float:left;">
+					<label for="id_row" style="vertical-align: middle;">Rows:</label>
+					<input id="id_row" name="row" size="3" length="4" />
+				</div>
+				<div style="float:left;margin-left:3em;">
+					<label for="id_col" style="vertical-align: middle;">Columns:</label>
+					<input id="id_col" name="col" size="3" length="4" />
+				</div>
+				<br style="clear:both;">
+			</p>
+			<div style="float:left;">
+				<label for="id_use">Disposable container:</label>
+				<input id="id_use" type="checkbox" name="use">
+			</div>	
+			<br style="clear:both;">	
+				<input type="submit" style="margin-bottom: 0.6em;margin-top:0.5em;" value="Insert" class="button" id="insert"/>
+			
+			
+		</fieldset>
+		<form id="form_fin" action={% url archive.views.InsertNewContainerInstance %} method="post" >{% csrf_token %}
+			<input type="submit" disabled="disabled" style="float:right;" value="Save&Finish" class="button" id="confermafinale"/>
+		</form>
+		<br style="clear:both;">
+		<br>
+		<input id="selpadri" type="button" style="display:inline;" class="button" value="Select all roots" />
+		<input id="selfigli" type="button" style="display:inline;" class="button" value="Select all leaves" />
+		<br>
+		<fieldset class="fieldset" style="height:85%;margin-top:1em;">
+	        <legend class="legend"> Container </legend>
+	        <div class="divdatatab" style="height:100%;">
+	            <table id="cont_table" border="2px" align="center">
+	            </table>
+	        </div>
+	    </fieldset> 
+	    <div id="infobox" style="display:none;"></div>
+	{% endif %}	
+	{% if errore %}
+		<h2 align="center">{{errore}}</h2>
+		<div align="center">
+			<form><input type="button" value="Back" class="button" style="display: inline;" onclick="history.go(-1)"></form>
+		</div>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+This file has to be taken from barcode scanner.
+It has this structure:
+
+Plate barcode
+position,barcode
+position,barcode
+position,barcode
+position,barcode
+...
+
+Ex:
+plate: 3456653322
+A01,3456
+A02,7686
+A03,5776
+...

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="charset=UTF-8"> 
+	<script src="/datamanager_media/js/jquery-1.6.2.min.js"></script>
+	<script src="/datamanager_media/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script src="/datamanager_media/js/jquery.tablesorter.min.js"></script>
+	<script src="/datamanager_media/js/jquery.tablesorter.pager.js"></script>
+	<script src="/datamanager_media/js/jquery.tablesorter.js"></script>
+	<script src="/datamanager_media/js/jquery.jsort.0.4.js"></script>
+	<script src="/datamanager_media/js/jquery.metadata.js"></script>
+	<script src="/datamanager_media/js/inputvalidation.js"></script>
+	 <script src="/datamanager_media/js/urls.js"></script>
+	
+	<link rel="stylesheet" href="/datamanager_media/css/style.css">
+	<link rel="stylesheet" href="/datamanager_media/css/ui-lightness/jquery-ui-1.8.21.custom.css">
+	
+	{% block script %} {% endblock %}
+	
+	<title>{% block title %}{% endblock %}</title>
+		
+	<link rel="shortcut icon" href="/datamanager_media/img/favicon.ico">	
+	
+	<!-- il seguente script viene eseguito solo su versioni di IE inferiori alla 9, serve per far si che il browser recepisca il Dom stabilito in modo corretto, anche in caso ci siano elementi che non riconosce -->
+	<!-- [if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script>
+	//customizzazione delle alert
+	function alert2(message, title, buttonText) {
+
+    buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+    title = (title == undefined) ? "The page says:" : title;
+
+    var div = $('<div>');
+    div.html(message);
+	div.css("padding","25px");
+    div.attr('title', title);
+    div.dialog({
+        autoOpen: true,
+        modal: true,
+		height: 200,
+        draggable: true,
+        resizable: true,
+        buttons: [{
+            text: buttonText,
+            click: function () {
+                $(this).dialog("close");
+                div.remove();
+            }
+        }]
+    });
+	}
+	window.alert = alert2
+	
+	$(document).ready(function() {
+	$("span.home").click(function(){
+        window.location="{% url datamanager.views.home %}";
+    });
+	});
+
+    jQuery(document).ready(function() {
+                        jQuery('body').ajaxComplete(function(e, xhr, settings) {
+                                if (xhr.status == 278) {
+                                    window.location.href = xhr.getResponseHeader("Location").replace(/\?.*jQuery/, "?next="+window.location.pathname);
+                                }
+                        });
+                });
+	</script>
+	
+</head>
+
+<body>
+
+	<header>
+	<hgroup>
+		<h1> <a href="{% url datamanager.views.home %}"><img src="/datamanager_media/img/logo-verde.png" width="143" height="46" border="0"></a> Repository Management Module </h1>
+		<h2> Repository Management Experimental Module </h2> 
+	</hgroup>
+		
+	</header>
+
+	<section id="content">	
+		<p id="user_name">
+                	<span id="datename">{% now "jS F Y" %} | <a href="https://devircc.polito.it/lasauth/index/">LAS Home</a> [{{  user  }}]</span> <span class="home" title="datamanager Home"></span>
+        	</p>
+	
+		{% block content %}{% endblock %}
+	</section>
+
+
+<footer>
+	If you have any comments or suggestions, <a target="_blank" href="http://devircc.polito.it/wordpress/?p=558#respond">click here</a>!
+</footer>
+
+
+</body>
+
+</html>

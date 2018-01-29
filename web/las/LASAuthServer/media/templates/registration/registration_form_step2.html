@@ -1,0 +1,217 @@
+{% ifequal userType 'pi'%}
+    <script> 
+        $(document).ready(function() {      
+             $(".checkCategory").click(function(event) {
+                event.stopPropagation();
+                $(".checkCategory" + this.id).attr('checked', this.checked);
+            });
+
+            $('#theMenu').accordion({
+                collapsible: true,
+            });
+        });
+        {% if invalid_flag %}
+            var invalid_flag=true;
+        {% else %}
+            var invalid_flag=false;
+        {% endif %}
+
+    </script>
+    <fieldset style="width:30%;">    
+        <legend>Dear {{username}}, please choose your profile!</legend>
+        <!--<label id = "usernameLabelPI" >Username: {{username}}</label>-->
+        <br><br>
+        <label for="wg_name">Select your Working Group Name</label>
+        <input type="text" id="wg_name" value="{{username}}_WG"/>
+        <br><br>
+        <fieldset id="fieldModules"> 
+            <legend>Select desired activities</legend>
+            <br>
+            <ul id="theMenu">   
+                {% for c in categories%}
+                    <li><h3 class="head"><a href="javascript:;">{{c.name}}</a><input type="checkbox" style="float:right;" id="{{c.id}}" class="checkCategory" checked></h3>
+                        <ul>
+                            <table>
+                                {% for act in c.activities%}
+                                    <li><tr><td><a href="">{{act.name}}</a></td><td><input type="checkbox" id="{{act.id}}" class="checkCategory{{c.id}}" checked></td></tr></li>
+                                {% endfor %}
+                           </table>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+        <br>
+        <br>
+        <div style="margin-left:0;">    
+            <button class="button" id='register_pi' onClick="register();" style='float:right;'>Register!</button>
+        </div>
+    </fieldset>
+{% else %}
+    <style type="text/css">
+        .ui-tabs-vertical {
+            width: 100%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 15%;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li > a {
+            display:block;
+        }
+        .ui-tabs-vertical > .ui-tabs-nav > li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+            border-right-width: 1px;
+        }
+        .ui-tabs-vertical > .ui-tabs-panel {
+            /*padding-left: 25            */
+            padding: 1em;
+            float: right;
+            width: 80%;
+                
+        }
+        .ui-tabs-anchor{
+            color:black !important;
+        }
+        .connectedSortable { list-style-type: none; margin: 0; padding: 0 0 2.5em; float: left; margin-right: 10px; background: #eee; width: 143px; border: groove;}
+        .connectedSortable li{ margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 120px;}
+        
+
+        {% for sup in supervisors %}
+            #sortable1{{sup.id}}, #sortable2{{sup.id}} { 
+                list-style-type: none; 
+                margin: 0; 
+                padding: 0 0 2.5em; 
+                float: left; 
+                margin-right: 10px; 
+                background: #eee; 
+                width: 143px;
+            }
+            #sortable1{{sup.id}} li, #sortable2{{sup.id}} li {
+                margin: 0 5px 5px 5px; 
+                padding: 5px; 
+                font-size: 1.2em; 
+                width: 120px; 
+            }
+        {% endfor %}
+    </style>
+    <script> 
+        var roles= new Array();
+        var affiliationArray=new Array();
+        var supervisorsArray = new Array();
+        {% if project%}
+            project='{{project}}';
+        {% endif %}
+        $(document).ready(function() {      
+            $("#htabs-outer").tabs();
+            {% for sup in supervisor %}
+                supervisorsArray.push({{sup.id}});
+                roles[{{sup.id}}]=new Array();
+                affiliationArray[{{sup.id}}]=new Array();
+                $("#htab-outer-{{sup.id}}").tabs()
+            {% endfor %}
+            {% for sup in supervisor %}
+                $(function() {
+                    $( "#my-select{{sup.id}}" ).multiSelect({ 
+                        keepOrder: true,
+                        afterSelect: function(values){
+                            var val=values.pop();
+                            var i = roles[{{sup.id}}].indexOf(val);
+                            if(i == -1) {
+                                roles[{{sup.id}}].push(val);
+                            }
+                        },
+                        afterDeselect: function(values){
+                            var val=values.pop();
+                            var i = roles[{{sup.id}}].indexOf(val);
+                            if(i != -1) {
+                               	roles[{{sup.id}}].splice(i,1);
+                            }
+                        }
+                    });
+                    {% if DEMO%}
+                    $("#my-select{{sup.id}}").multiSelect("select_all");
+                    {% endif %}
+                });
+                $(function() {
+                    $( "#my-select-aff{{sup.id}}" ).multiSelect({ 
+                        keepOrder: true,
+                        afterSelect: function(values){
+                            var val=values.pop();
+                            var i = affiliationArray[{{sup.id}}].indexOf(val);
+                            if(i == -1) {
+                                affiliationArray[{{sup.id}}].push(val);
+                            }
+                        },
+                        afterDeselect: function(values){
+                            var val=values.pop();
+                            var i = affiliationArray[{{sup.id}}].indexOf(val);
+                            if(i != -1) {
+                               	affiliationArray[{{sup.id}}].splice(i,1);
+                            }
+                        }
+                    });
+                    {% if DEMO%}
+                    $("#my-select-aff{{sup.id}}").multiSelect("select_all");
+                    {% endif %}
+                });
+            {% endfor%}
+   
+        });
+    </script>
+
+    <fieldset style="z-index: 10;float:left; width:40%;">    
+        <legend>Dear {{username}}, please choose your profile!</legend>
+        <br>
+        <div id="htabs-outer">
+            <h1>Select desired role(s) and affiliation(s) for each supervisor.</h2>
+            <!--begin htab outer menu-->
+            <ul>
+                {% for sup in supervisor %}
+                    <li><a href="#htab-outer-{{sup.id}}">{{sup.name}} {{sup.lastname}}</a></li>
+                {% endfor %}
+            </ul>
+            <!--end htab outer menu-->
+            <!--begin htab outer panels-->
+            {% for sup in supervisor %}
+                <div id = "htab-outer-{{sup.id}}">
+                    <fieldset>    
+                        <br>
+                        <legend>Roles</legend>   
+                        <select multiple="multiple" id="my-select{{sup.id}}" name="my-select{{sup.id}}[]">
+                            {% for r in roles %}
+                                <option value="{{r.id}}" id="multi{{r.id}}">{{r.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+                    {% ifnotequal sup.id 0 %}
+                        <fieldset>    
+                            <br>
+                            <legend>Affiliations</legend>  
+                            <select multiple="multiple" id="my-select-aff{{sup.id}}" name="my-select-aff{{sup.id}}[]">
+                                {% for aff in sup.affiliations %}
+                                    <option value="{{aff.id}}" id="multi{{aff.id}}">{{aff.name}}, {{aff.department}}, {{aff.state}}</option>
+                                {% endfor %}
+                            </select>
+                        </fieldset>
+                    {% else %}
+                        <h1><img src="/lasauth_media/img/fail.gif">&nbsp;&nbsp;&nbsp;Supervisor not yet verified</h1> 
+                    {% endifnotequal %}
+                </div>
+            {% endfor %}
+        </div>
+        <br><br>
+        <button class="button" style=" float:right;" id='register_user' onClick="register();">Register!</button>
+    </fieldset>    
+{% endifequal %}
+   

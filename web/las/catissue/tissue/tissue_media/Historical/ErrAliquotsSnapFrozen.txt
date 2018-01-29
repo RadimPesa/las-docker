@@ -1,0 +1,140 @@
+//CRC324LMXB03004PHISF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03004PHISF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03004PHISF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03004PHISF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC265LMXB03002 24HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC265LMXB03002 24HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC265LMXB03002 24HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03004 72HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC254LMXCA02002SF03: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CRC254LMXCA02002SF04: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR303LMXB02001SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF027_nu00122526.xls
+//CRC239LMXA03009CRONSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC239LMXA03009CRONSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC239LMXA03009CRONSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC239LMXA03009CRONSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC264LMXA03001PHISF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03001PHISF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03001PHISF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC239LMXA03011CRONSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC239LMXA03011CRONSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC103LMXB04003CETUXSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC103LMXB04003CETUXSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC262LMXA03002 24HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03002 24HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC265LMXB03002 24HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC254LMXCA02002SF01: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CRC254LMXCA02002SF02: Problema su codice topo. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CRC265LMXB03005 72HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03005 72HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03005 72HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03005 72HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC103LMXB04025CETUXSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06014TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06014TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06014TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06014TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC103LMXB04025CETUXSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC264LMXA03003 24HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03001PHISF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03003 48HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03003 48HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03003 48HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CCR303LMXB02003SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF027_nu00122526.xls
+//CRC265LMXB03001PHISF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC265LMXB03001PHISF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC050LMXB05056TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05056TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05056TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05056TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC124LMXB050031SF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF007_NU00120363.xls
+//CRC264LMXA03006 72HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC264LMXA03006 72HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC264LMXA03006 72HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03002 24HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03002 24HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CCR303LMXB02004SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF027_nu00122526.xls
+//CCR343LMXA01001SF02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF024_nu00120375.xls
+//CCR343LMXA01001SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF024_nu00120375.xls
+//CRC324LMXB03003 24HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03003 24HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03003 24HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC080LMXB05028TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC124LMXB06016TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06016TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06016TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06016TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06022LAPA+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06022LAPA+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CCR395PRXA01001SF02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF030_NU00136032.xls
+//CCR395PRXA01001SF03: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF030_NU00136032.xls
+//CRC264LMXA03003 24HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03003 24HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03003 24HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC124LMXB06006LAPA+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC103LMXB04020CETUXSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC103LMXB04020CETUXSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC080LMXB05028TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC080LMXB05028TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC080LMXB05028TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03004 72HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03004 72HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03004 72HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF05: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05034TRAST+PERTSF06: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC324LMXB03005 48HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03005 48HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC265LMXB03001PHISF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC324LMXB03003 24HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC080LMXB05024LAPASF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CCR395PRXA01001SF04: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF030_NU00136032.xls
+//CRC124LMXB06006LAPA+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06006LAPA+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06006LAPA+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CCR395PRXA01001SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF030_NU00136032.xls
+//CRC265LMXB03001PHISF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC324LMXB03005 48HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03005 48HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC050LMXB05050TRAST+PERTSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05050TRAST+PERTSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05050TRAST+PERTSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC050LMXB05050TRAST+PERTSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CCR297LMXB03008SF02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF026_NU00120351.xls
+//CCR297LMXB03008SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF026_NU00120351.xls
+//CRC124LMXB06033LAPASF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03006 72HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03006 72HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03006 72HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC324LMXB03006 72HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06033LAPASF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CCR237LMXA02001SF03: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR237LMXA02001SF02: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR237LMXA02001SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR237LMXA02001SF06: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR237LMXA02001SF05: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CCR237LMXA02001SF04: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF002_LR00005765.xls
+//CRC264LMXA03006 72HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CCR303LMXB02002SF01: tumore inesistente. /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF027_nu00122526.xls
+//CRC262LMXA03001PHISF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03001PHISF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03001PHISF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC262LMXA03001PHISF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF018_nu00122491.xls
+//CRC264LMXA03004 48HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC264LMXA03004 48HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC264LMXA03004 48HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC264LMXA03004 48HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03004 48HSF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03004 48HSF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03004 48HSF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC265LMXB03004 48HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC124LMXB050031SF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF007_NU00120363.xls
+//CRC124LMXB050031SF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF007_NU00120363.xls
+//CRC124LMXB050031SF03: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF007_NU00120363.xls
+//CRC080LMXB05024LAPASF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC262LMXA03003 48HSF04: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF020_nu00122522.xlsx
+//CRC124LMXB06033LAPASF02: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls
+//CRC124LMXB06033LAPASF01: Problema sul tipo di aliquota (RL,SF,...). /DATABASE/Archive&WorkingPlates_ThermoSystem/SnapFrozen/ArchivePlates/SF021_nu00120325.xls

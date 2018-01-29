@@ -1,0 +1,91 @@
+{% extends "baseManage.html" %}
+{% block title %}Laboratory Assistant Suite{% endblock %}
+{% block content %}
+ </script>
+  <script>
+    var userActivities=new Array();
+    $(document).ready(function() {
+        $(function() {
+            $( "#my-select" ).multiSelect({ 
+                keepOrder: true,
+                selectableHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Available activities</div>",
+                selectionHeader: "<div style='text-align: center; padding: 3px; background: #000; color: #fff;'>Current activities</div>",
+            });
+        });
+
+        $('#select-all').click(function(){
+            $('#my-select').multiSelect('select_all');
+            return false;
+        });
+
+        $('#deselect-all').click(function(){
+            $('#my-select').multiSelect('deselect_all');
+            return false;
+        });
+    });
+    function updateFunctionalities(){
+        var userActivities=new Array()    
+        $("#my-select option:selected").each(function () {
+            var $this = $(this);
+            if ($this.length) {
+                userActivities.push($this.val());
+            }
+        });
+        console.log(userActivities);
+        startLag();
+        $.ajax({
+            url:"{% url loginmanager.views.manageWorkingGroups %}",
+	        type: "POST",
+	        data: {userActivities:userActivities,
+                   userID:{{lasuser.id}},
+                   wgID:{{wg.id}},
+                   step:'updateFunctionalities',},
+        }).done(function(data) {        
+	        endLag();
+            if(data["message"]=="error"){
+                alert("Errore!");
+	        }
+            else{
+        		console.log(data["message"]);
+                alert("Activities updated!");
+    	    }
+        });
+    }
+    </script>
+    <script>$("section#content").addClass("home");</script>
+    <link rel="stylesheet" href="/lasauth_media/registration/css/jquery.multiselect.css">
+    <nav>
+        <div>
+            <div style="float:left; padding-left:3%">
+                <fieldset style='font-size: 1.2em;'>    
+                    <legend >User Data </legend><br>
+                    <label style="font-weight:bold;" >&nbsp;Username:</label> {{lasuser.username}}<br><br>
+                    <label style="font-weight:bold;" >&nbsp;First name:</label> {{lasuser.first_name}}<br><br>
+                    <label style="font-weight:bold;" >&nbsp;Last name:</label> {{lasuser.last_name}}<br><br>
+                    <label style="font-weight:bold;" >&nbsp;e-mail:</label> {{lasuser.email}}<br><br><br>
+                    <label style="font-weight:bold;" >&nbsp;Working Group:</label> {{wg.name}}<br>
+                </fieldset>
+                <br><br>
+                <button id='updateButton' class='button' onClick="updateFunctionalities();" style="float:left">Update Functionalities</button>
+            </div>
+            <div style="padding-left:40%">
+                <fieldset style="width:40%; ">    
+                <br>
+                <legend style='font-size: 1.2em;'>Activities</legend>   
+                <a href='#' id='select-all'>SELECT ALL /</a>
+                <a href='#' id='deselect-all'>DESELECT ALL</a><br><br>
+                <select multiple="multiple" id="my-select" name="my-select[]">
+                    {% for key,value in userDict.items %}
+                        <optgroup label="{{key}}">
+                            {% for item in value %}
+                              <option value="{{item.id}}" id=multi{{item.id}} {% ifequal item.found 1 %}selected{% endifequal%}>{{item.name}} </option>
+                            {%endfor%}
+                        </optgroup>
+                    {% endfor %}
+                </select>
+                </fieldset>
+            </div>
+
+        </div>
+    </nav>
+{% endblock %}

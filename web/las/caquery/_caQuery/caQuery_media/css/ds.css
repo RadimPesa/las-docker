@@ -1,0 +1,92 @@
+.xenografts_management_module {
+    background-color: #818fbb;
+}
+.xenografts_management_module:hover {
+    background-color: #aab9ff;
+}
+.xenografts_management_module.clicked {
+    background-color: #6866ff;
+}
+.xenografts_management_module.clicked:hover {
+    background-color: #6866ff;
+}
+p.box.xenografts_management_module {
+    background-color: #818fbb;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#818fbb), to(#aab9ff)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #818fbb, #aab9ff); /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image:    -moz-linear-gradient(top, #818fbb, #aab9ff); /* FF3.6 */
+    background-image:     -ms-linear-gradient(top, #818fbb, #aab9ff); /* IE10 */
+    background-image:      -o-linear-gradient(top, #818fbb, #aab9ff); /* Opera 11.10+ */
+    background-image:         linear-gradient(top, #818fbb, #aab9ff);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#818fbb', EndColorStr='#aab9ff'); /* IE6-IE9 */
+}
+
+.biobanking_management_module {
+    background-color: #d6543f;
+}
+.biobanking_management_module:hover {
+    background-color: #d04464;
+}
+.biobanking_management_module.clicked {
+    background-color: #be2537;
+}
+.biobanking_management_module.clicked:hover {
+    background-color: #be2537;
+}
+p.box.biobanking_management_module {
+    background-color: #d6543f;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#d6543f), to(#d04464)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #d6543f, #d04464); /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image:    -moz-linear-gradient(top, #d6543f, #d04464); /* FF3.6 */
+    background-image:     -ms-linear-gradient(top, #d6543f, #d04464); /* IE10 */
+    background-image:      -o-linear-gradient(top, #d6543f, #d04464); /* Opera 11.10+ */
+    background-image:         linear-gradient(top, #d6543f, #d04464);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#d6543f', EndColorStr='#d04464'); /* IE6-IE9 */
+}
+
+.storage_management_module {
+    background-color: #ffe766;
+}
+.storage_management_module:hover {
+    background-color: #fff7cc;
+}
+.storage_management_module.clicked {
+    background-color: #ffd700;
+}
+.storage_management_module.clicked:hover {
+    background-color: #ffd700;
+}
+p.box.storage_management_module {
+    background-color: #ffe766;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffe766), to(#fff7cc)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #ffe766, #fff7cc); /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image:    -moz-linear-gradient(top, #ffe766, #fff7cc); /* FF3.6 */
+    background-image:     -ms-linear-gradient(top, #ffe766, #fff7cc); /* IE10 */
+    background-image:      -o-linear-gradient(top, #ffe766, #fff7cc); /* Opera 11.10+ */
+    background-image:         linear-gradient(top, #ffe766, #fff7cc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffe766', EndColorStr='#fff7cc'); /* IE6-IE9 */
+}
+
+.cellline_management_module {
+    background-color: #81bb81;
+}
+.cellline_management_module:hover {
+    background-color: #aaffaa;
+}
+.cellline_management_module.clicked {
+    background-color: #66ff66;
+}
+.cellline_management_module.clicked:hover {
+    background-color: #66ff66;
+}
+p.box.cellline_management_module {
+    background-color: #81bb81;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#81bb81), to(#aaffaa)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #81bb81, #aaffaa); /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image:    -moz-linear-gradient(top, #81bb81, #aaffaa); /* FF3.6 */
+    background-image:     -ms-linear-gradient(top, #81bb81, #aaffaa); /* IE10 */
+    background-image:      -o-linear-gradient(top, #81bb81, #aaffaa); /* Opera 11.10+ */
+    background-image:         linear-gradient(top, #81bb81, #aaffaa);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#81bb81', EndColorStr='#aaffaa'); /* IE6-IE9 */
+}
+

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Implants{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}js/implant.js"></script> 
+	
+    <link rel="stylesheet" href="{{MEDIA_URL}}css/implant.css" />
+    <style>
+    	td.control{cursor:pointer;}
+    </style>
+{% endblock %}
+{% block bodyoption %}	onLoad="if (document.getElementById('id_barcode_of_mouse')) document.getElementById('id_barcode_of_mouse').focus();"{% endblock %}
+{% block content %}
+    {%  if err_message  %}
+		<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+		<script>
+			document.getElementById("err_message").style.display = 'inline';
+		</script>
+    {%  else  %}
+        <fieldset  class="fieldset">
+            <legend class="legend"> Serie's data </legend>
+    	    <div id='start'  style="width:100%;">
+		        {{ formS.as_table }}
+		        <input type="button" value="Set" name='set' id='set' onclick='checkSerie();' typeAction='s' />
+	        </div>
+        </br>
+        </fieldset>
+        </br></br>
+
+        <div id='secondPhase' style='display:none;'>
+            <div id='left' style="float:left;width:60%;">
+                <fieldset  class="fieldset" >
+                    <legend class="legend"> Input mouse </legend>
+			        <div id="insert" >
+				        {{ formI.as_table }}
+				        <input type="button" value="Ok" id='ok' name='ok' onclick="selectMouse()"/>
+			        </div>
+			        <br/>
+			        <div style="floating:left;">
+				        <table>
+				        	<tr>
+				        		<td style='float:left;'><strong>Selected Mouse:</strong></td>
+				        		<td id='selectedMouse' style='float:left;margin-left:5px;'></td>
+				        		<td> </td>
+				        		<td style='float:left;'> <strong>Selected Site:</strong></td>
+				        		<td id='selectedSite' style='float:left;margin-left:5px;'></td>
+			        		</tr>
+		        		</table>
+	        		</div>
+
+		        </fieldset>
+		        </br>
+                <fieldset  class="fieldset">
+                    <legend class="legend"> Implants ready to be confirmed </legend>
+		            <table id="listTable"></table>
+			        </br>
+		        </fieldset>
+            </div>			    
+			    
+		    <div style="width:35%;float:right;">
+                <fieldset  class="fieldset"  >
+                    <legend class="legend"> Vital Plate </legend>			    
+        			{{ skeletonPlate.plate|safe }}
+	        		</br>
+                    <div style="padding:5px;padding-top:9px;display:inline;font-size:15px;">
+                        <input type="radio" name="choose_vital" value="tube" style="display:inline;"/>Tube                                                      
+                        <input type="radio" name="choose_vital" value="plate" checked style="display:inline;"/>Plate
+                    </div>	        		
+	        		<input name="barcodeP" ength="40" onkeyup="checkKeyP(event)" title="Insert the barcode of the plate." type="text" id="barcodeP">
+	        		<input type="button" value="Load" id='loadP' name='loadP' onclick="loadPlate()"/>
+                    </br><hr>
+			        <input id='confirmI' type="button" value="Next Step" name='confirm' onclick="submitImplant();" />
+        		</fieldset>
+            </div>
+			<div id="dialog_empty" class="dialog confirm" title="Empty the working plate?" style="display:none;position: relative;">
+            	<p>There are still some tissues in the plates. Do you want to empty it?</p>
+            	<div id='plateList'></div>
+            </div>
+			<div id="dialog2" class="dialog confirm" title="WARNING! Really empty the working plate?" style="display:none;position: relative;">
+            	<p>You are going to empty the plates: are you sure you want to proceed?</p>
+            </div>
+            <div id="dialog" class="dialog confirm" title="Warning" style="display:none;position: relative;">
+        		<p id='dialogMessage'></p>
+        	</div>
+        </div>
+	    {%  if message  %}
+		    <!-- visualizza solo il messaggio, altrimenti fa vedere correttamente il resto -->
+		    <script>
+			    document.getElementById("message").style.display = 'inline';
+		    </script>
+	    {% endif %}
+	{% endif %}
+{% endblock %}

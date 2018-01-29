@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Treatments{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{MEDIA_URL}}js/measureTreat.js"></script> 
+	<style><!--stile per la paginazione della tabella-->
+		h2  {
+				border: 						none;
+			}
+		h3  {
+				margin-top:						0px;
+				margin-bottom:					0px;
+				padding-bottom:					0em;
+				padding-top: 					0em;
+				padding-left: 					0em;
+				padding-right: 					0em;
+			}
+	</style>
+{% endblock %}
+{% block content %}
+	<div id='listTreat' style="width:33%;float:right;" align='left'>
+        <fieldset  class="fieldset" >
+	    	<legend class="legend"> Proposed datetime start </legend>
+            <input type="text" name="date" id="date" size='7' title="Click to edit" value="{{date}}">
+            <input type="text" name="time" id="time" size='5' style="cursor:pointer;"><br/>
+		</fieldset>
+	</div>
+	<div id='listMice' style="width:50%;float:left;">
+		<table id="headerTable" width="100%" border="1">
+			<tr>
+				<td width='60%'><strong>Id Genealogy</strong></td>
+				<td width='40%'><strong>Barcode</strong></td>
+			</tr>
+		</table>
+		<table id="dataTable" width="100%" border="1"></table><br>
+	</div>
+	<br style="clear:both;"><br><br>
+	<div id='listProt' style="width:25%;float:left;" align='left'>
+		<fieldset  class="fieldset" >
+            <legend class="legend"> Protocol List </legend>
+			<div style="overflow:auto; height:300px;">
+				<form name="listProtocolsForm" action="" method="" align="left">
+					{{ form.as_p }}
+				</form>
+			</div>						
+		</fieldset>
+	</div>
+
+	<div id='listArms' style="width:25%;float:left;display:none;margin-left:5%;" align='center'>
+		<div style="overflow:auto;">
+			<br>List arms:<br><br>
+			<table id="armTable"></table><br>
+		</div>						
+	</div>
+
+	<div id='listStep' style="width:40%;float:right;display:none;" align='left'>
+		<div style="overflow:auto;">
+			<form name="listStepForm" action="" method="" align="left">
+				<br>List step:<br><br>
+				<table id="stepTable"></table><br>
+			</form>
+		</div>						
+	</div>	
+{% endblock %}

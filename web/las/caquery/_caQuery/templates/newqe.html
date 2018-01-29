@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/newqe.css">
+{% endblock %}
+{% block title %}Multidimensional Data Manager - New entity{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/newqe.js"></script>
+<script>
+    var tablebrowser_url = "{% url _caQuery.views.tablebrowser %}";
+    {% if qe %}
+        qeid = "{{qe.id}}";
+        basedst = "{{qe.dsTable.id}}";
+    {% endif %}
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+<section id="riquadroapi">
+    <h3>Manage entities</h3>
+
+    <article id="commands">
+
+        <div id="entfirst" style="width: 25%; float: left">
+            <label class="head">Data source:</label><input type="text" disabled="true" value="{{ ds.name }}" />
+            <input type="hidden" value="{{ ds.id }}" name="ds" id="ds" />
+            <br><br>
+            {%if qe %}
+                <label class="head">Name*:</label><input id="qename" type="text" name="name" value="{{qe.name}}"/>
+            {% else %}
+                <label class="head">Name*:</label><input id="qename" type="text" name="name" />
+            {% endif %}
+            <br><br>
+            {%if qe %}
+                <label class="head">Description:</label><input id="qedescr" type="text" name="descr" value="{{qe.description}}"/>
+            {% else %}
+                <label class="head">Description:</label><input id="qedescr" type="text" name="descr" />
+            {% endif %}
+            <br><br>
+            <label class="head">Source table*:</label>
+
+            {%if qe %}
+                <select id="seldst" disabled>
+            {% else %}
+                <select id="seldst">
+            {% endif %}
+            {% for x in dst %}
+                {%if qe %}
+                    {% if qe.dsTable.id == x.id %}
+                        <option value="{{x.id}}" selected>{{x.name}}</option>
+                    {% else %}
+                        <option value="{{x.id}}">{{x.name}}</option>
+                    {% endif %}    
+                {% else %}
+                    <option value="{{x.id}}">{{x.name}}</option>
+                {% endif %}
+            {% endfor %}
+            </select><br><br>
+            <label class="head"></label><a id="viewdst" class="dst" target="_blank">view table</a><br><br>
+            <!--label class="head">GenID prefilter:</label>
+                {% if qe %}
+                    {% if qe.genid_prefilter == 1 %}
+                        <input type="radio" name="genid" value="yes" checked="checked">Yes
+                        <input type="radio" name="genid" value="no">No
+                    {% else %}
+                        <input type="radio" name="genid" value="yes" >Yes
+                        <input type="radio" name="genid" value="no" checked="checked">No
+                    {% endif %}    
+                {% else %}
+                    <input type="radio" name="genid" value="yes">Yes
+                    <input type="radio" name="genid" value="no" checked="checked">No
+                {% endif %}
+            <span id="genidfield" style="display: none">
+                <br><br><label class="head">GenID column*:</label>
+                <select id="selgenid"></select>
+            </span>
+            <br><br-->
+            <div id='shareable' style='display:none;margin-bottom: 1em;'>
+                <label class='head'>Shareable by</label>
+                <input type="text" disabled="true" value=""/>
+            </div>
+            
+            <label class="head"></label>
+            {% if not qe %}<button class="button" id="create" style="width: 120px">Create entity</button>{% endif %}
+            {% if qe %}
+                <button class="button btn1" id="finish" style="width: 120px">Finish</button>
+            {% else %}
+                <button class="button btn1" id="finish" style="width: 120px" disabled="disabled">Finish</button>
+            {% endif %}
+            <br>
+
+            <form id="qeform" action="./" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="enableqe" />
+                <input type="hidden" name="qe" id="qe" />
+                <input type="hidden" name="qe_name" id="qe_name" />
+                <input type="hidden" name="qe_description" id="qe_description" />                
+            </form>
+
+        </div>
+
+        <div id="entsecond" style="float: left; width: 30%">
+            <div style="float: left; width: 75%">
+                <label class="head">Joined tables:</label><select size="10" id="jndtab"></select>
+            </div>
+
+            <div style="float: left; width: 20%">
+                <button class="button btn1" id="newjndtab">New</button><br>
+                <button class="button btn1" id="deljndtab">Delete</button><br>
+                <button class="button btn1" id="viewjndtab">View path</button>
+            </div>
+
+            <div style="clear: left; float: left; width: 75%; margin-top: 30px">
+                <label class="head">Attributes:</label><select multiple="multiple" id="attrs"></option>
+                </select>
+            </div>
+
+            <div style="float: left; width: 20%; margin-top: 30px">
+                <button class="button btn1" id="newattr">New</button><br>
+                <button class="button btn1" id="delattr">Delete</button><br><br>
+                <button class="button btn1" id="addflt">Use as filter</button><br>
+                <button class="button btn1" id="addsubflt">Use as subfilter</button><br>
+                <button class="button btn1" id="addout">Use as output</button>
+            </div>
+        </div>
+
+        <div id="entthird" style="float: left; width: 35%">
+            <div style="float: left; width: 65%">
+                <label class="head">Filters:</label><select multiple="multiple" id="filters"></select>
+            </div>
+
+            <div style="float: left; width: 30%">
+                <button class="button btn1" id="delflt">Delete</button>
+                <p style="width: 90%; margin-top: 25px; font-weight: bold; background-color: white; border: 1px solid grey; padding: 5px" id="subflt2">&#8592; Now choose a filter</p>
+            </div>
+
+            <div style="clear: left; float: left; width: 65%; margin-top: 30px">
+                <label class="head">Outputs*:</label><select multiple="multiple" id="outputs"></option>
+                </select>
+            </div>
+
+            <div style="float: left; width: 20%; margin-top: 30px">
+                <button class="button btn1" id="delout">Delete</button>
+                <button class="button btn1" id="shareout">Share</button>
+                <button class="button btn1" id="unshare" style='display:none'>Unshare</button>
+            </div>
+        </div>
+
+        <article class="dialog" id="viewjndtab_dialog">
+            <div class="pathdiv"><ol></ol></div>
+        </article>
+
+
+        <article class="dialog" id="newjndtab_dialog">
+            <label class="head">Target table*:</label><select class="edit" id="jndtab_tab"></select><br><br>
+            <label class="head path" style="text-align: left; width: auto; margin-right: 10px">Path to target table:</label><span class="path" id="jndtab_pathman">edit</span><div class="pathdiv" id="jndtab_pathauto"></div>
+        </article>
+
+        <article class="dialog" id="newattr_dialog">
+            <label class="head">Target attribute*:</label><select class="edit" id="attrdstattr"></select><br><br>
+            <label class="head">Name*:</label><input type="text" id="attrname" /><br><br>
+            <label class="head">Description:</label><input type="text" id="attrdescr" /><br><br>
+            <label class="head">Attribute type*:</label><select id="attrtype">
+            {% for x in attrtype %}
+                <option value="{{x.id}}" data-subflt="{{x.subfilter}}">{{x.name}}</option>
+            {% endfor %}
+                </select><br><br>
+            <span id="vocab"><label class="head">Controlled vocabulary:</label><input type="radio" value="tab" name="vocab" />from related table&nbsp;<input type="radio" value="attr" name="vocab" />from attribute<br><br></span>
+
+
+        </article>
+
+        <article class="dialog" id="newflt_dialog">
+            <label class="head">Options:</label>
+            <div id="options" style="width: 50%; overflow: auto; margin: 5px; display: inline-block; vertical-align: top">
+                <input name="opts" id="fltmulti" type="checkbox" value="multi" /><label for="fltmulti">Multi-valued</label>
+                <input name="opts" id="fltbatch" type="checkbox" value="batch" style="margin-left: 15px" /><label for="fltbatch">Batch input</label>
+                <br>
+                <input name="opts" id="fltfile" type="checkbox" value="file" /><label for="fltfile">File input</label>
+            </div>
+            <div id="genidtypes">
+                <label class="head">Entity types:</label>
+                <div style="width: 50%; overflow: auto; margin: 5px; display: inline-block; vertical-align: top">    
+                {% for gtype in genidtypes %}
+                    <input name="genidopts" type="checkbox" value="{{gtype.id}}" checked='checked'/><label>{{gtype.name}}</label><br>
+                {% endfor %}
+            </div>
+        </article>
+
+
+        <article class="dialog" id="newout_dialog">
+            <div style="height: 100px">
+                <div style="float: left; width: 78%">
+                    <label class="head">Order:</label><select size="10" id="outattrs" style="vertical-align: top; height: 100px; width: 55%"></select>
+                </div>
+                <div style="float: left; width: 10%; vertical-align: bottom">
+                    <br>
+                    <button class="button" id="attrup" style="width: 50px">&uarr;</button><br><br>
+                    <button class="button" id="attrdown" style="width: 50px">&darr;</button><br>
+                </div>
+            </div>
+            <br>
+            <label class="head">Name*:</label><input type="text" id="outname" /><br><br>
+            <label class="head">Map function name:</label><input type="text" id="outfnname" /><br><br><br>
+        </article>
+
+        <article class="dialog" id="listdiag">
+            <p>Define values to be displayed as predefined list items.</p>
+            Please choose a column:&nbsp;<select id="selectcolumn" class="edit" style="width: 200px"></select>
+        </article>
+
+    
+        <article class="dialog" id="plswait">
+            <center>
+            <p id="pwcontent"></p>
+            <img src="{{MEDIA_URL}}images/loading.gif" height=50 />
+            </center>
+        </article>
+
+        <article class="dialog" id="editpath">
+                <br>
+                <label class="head">Source table:</label><input id="srcdst" type="text" class="pathdef" readonly />
+                <label class="head">Destination table:</label><input id="destdst" type="text" class="pathdef" readonly />
+                <br><br><br>
+                <table id="joindest" style="width: 100%; table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th>From table</th>
+                            <th>Attribute</th>
+                            <th>To table</th>
+                            <th>Attribute</th>
+                            <th>C</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br>
+                <button id="resetdest" class="button" type="button">Reset</button>
+                <br><br>
+
+        </article>
+
+        <article class="dialog" id="subflt_dialog">
+
+        </article>
+
+    </article>
+</section>
+
+	
+{% endblock %}

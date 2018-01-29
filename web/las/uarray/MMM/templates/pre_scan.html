@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Available Chips{% endblock %}
+
+
+{% block content %}
+
+
+
+<style>
+	
+
+#chip_button_div{
+    margin-right: 20px;
+    margin-top: 10px;
+	text-align: right;
+}
+#sample_col {
+	float: left;
+	width: 200px;
+	heitgth: 500px;
+	overflow: auto;
+}
+select{
+	width: 150px;
+}
+
+#chip_layout {
+	margin-left: 5px;
+	margin-right: 15px;
+	float: left;
+}
+
+#scan_composition {
+	margin-right: 15px;
+	float: left;
+}
+
+
+input:disabled{
+	
+	background:#DDDDDD;
+	color:#838383;
+	border-color:#838383;  
+}
+
+#button_bar {
+	float: left;
+}
+#barcode_div {
+	
+	width: auto;
+}
+#barcode_hybr_form {
+	margin-left:2px;
+	
+}
+
+th {
+    valign:top;
+}
+
+#scan_composition{
+float:left;
+}
+
+li.position{
+background: none repeat scroll 0 0 lightgrey;
+border: 1px solid #FCEFA1;
+font-size: 1em;
+height: 30px;
+margin: 1px;
+padding: 5px;
+text-align: center;
+padding-top: 15px;
+line-height: 12px;
+}	
+
+.positions
+{ 
+ margin: 10px; 
+ padding: 0; background: #eee; padding: 5px; 
+ }
+
+#samples {margin-right: 2em; }
+	
+	
+#navigation_div{
+    margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	width: 100px;
+}
+
+div.array_layout:after{
+	clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+
+}
+
+div.array_layout{
+	margin-bottom: 20px;
+}
+
+
+.ui-icon-closethick{
+	cursor:pointer;
+}
+
+</style>
+
+<script src="/uarray_media/js/pre_scan.js"></script>
+
+
+<div id="pre_scan_commands">
+	<fieldset style="margin-bottom:20px">
+		<legend>Settings</legend>
+		
+	    <div id="protocol_setting" style="margin-bottom:4px; float:left;">
+	    <table>
+		    <tr>
+			    <th style="text-align:right;padding-right:20px;padding-left:20px">Scan Protocol:
+			    <td style="text-align:left;">{{ scan_form.Protocol }}
+		    </tr>
+	    </table>
+
+	    <p style="float:right"><input id="protocol_button" class="button" type="submit" value="Set Protocol" /></p>
+	
+	    </div>
+
+		<div id = "barcode_scan_form" style="float:left" name="barcode" > 
+			<table style="display:inline-block" id="searchbar">
+			<tr>
+				<th><label for="id_barcode">Barcode:</label></th>
+				<td><input type="text" name="barcode" id="id_barcode" onkeyup="checkKeyP(event)"></td>
+			</tr>
+            <tr><td></td>
+            <td align="right" style="padding-top:10px"><input style="float:left; margin-top:4px" disabled="disabled" id="load_chip" class="button" type="submit" value="Load Chip" /></td></tr>
+			</table>
+
+        </div>
+
+
+        <div id="notes" style="float:left;">        
+		<table>
+			{{ notes }}
+        </table>
+        </div>        
+
+        <input style="float:left" id="terminate" disabled="disabled" class="button" type="submit" value="Proceed"/>
+
+
+	</fieldset>
+	
+</div>
+
+<div id="scan" style="min-height: 200px; display:none">
+    <div id="chip_layout">
+	    <article id = 'riquadro'>
+		    <h3>Positions of chip: <span id="chip_info"> ---- </span></h3>
+		    
+		
+		    <div id="positions_list" style="min-width:400px;height:610px;overflow:auto">
+			    <table id="chip_positions" style="display:none">
+                    <tbody> </tbody>
+                </table>
+		
+		    </div>
+		
+	    </article>
+    </div>
+    <div id="scan_composition">
+	    <article id='riquadro'>
+	        <h3>Instrument Layout</h3>
+	        <article id="scanner" style="padding:30px; min-height:400px;">
+                <ol class="positions" style="width:300px">
+                </ol>
+	        </article>
+        </article>
+    </div>
+    <div id='prot_info'>
+		<fieldset id="message" style="float:left; margin-right:30px; margin-left:2px;padding-top:13px; padding-bottom:10px; margin-bottom:0px; min-height:60px">
+			<legend>Scan Protocol Information</legend>
+		</fieldset>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

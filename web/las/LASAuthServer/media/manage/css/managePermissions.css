@@ -1,0 +1,8 @@
+.listBlock {float: left;}
+.sortable1 .ui-selecting { background: #FECA40; }
+.sortable1 .ui-selected { background: #F39814; color: white; }
+.sortable2 .ui-selecting { background: #FECA40; }
+.sortable2 .ui-selected { background: #F39814; color: white; }
+.sortable1 { list-style-type: none; margin: 0; padding: 0;  background: #eee; padding: 5px; width: 225px; border: 1px solid black;}
+.sortable2 { list-style-type: none; margin: 0; padding: 0; margin-left: 100px; background: #eee; padding: 5px; width: 225px; border: 1px solid black;}
+.sortable1 li, .sortable2 li{ cursor: default; margin: 5px; padding: 5px; font-size: 1.2em; width: 200px;  background: none; background-color: white;}		

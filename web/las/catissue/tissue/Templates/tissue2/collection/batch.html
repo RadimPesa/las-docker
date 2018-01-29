@@ -1,0 +1,145 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Batch load{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/collection/batch.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+<style type="text/css">
+	.f p {float:left;margin-right:5px;}
+	.f select, .f input {display:block; position:relative;text-align:justify;}
+	#aliquots_table_length select{display:inline;}
+    #aliquots_table_paginate a {padding-top:4px;}
+	#aliquots_table_filter {margin-bottom:4px;}
+	#aliquots_table th {font-size:0.9em;}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% if primo %}
+	<br><br>
+	<div align="center">
+		<div id=inizio style="width:40%;" >
+			<table align="center"  style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+				<tr>
+					<td>
+						<form action={% url tissue.collection.BatchStart %} method="post">{% csrf_token %}
+								{{ form.as_p }}
+								<br>
+							<input type="submit" value="Submit" id="conferma1" class='button'/>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% endif %}
+{% if secondo %}
+	{% if not errore and not fine%}
+		<div id=inizio style="width:20%;float:left;padding-right:1em;padding-bottom:1em;">
+			<h3 style="margin-left:-0.85em;margin-right:-0.85em;-webkit-border-top-left-radius: 5px;-webkit-border-top-right-radius: 5px;-moz-border-radius-topleft: 5px;-moz-border-radius-topright: 5px;border-top-left-radius: 5px;border-top-right-radius: 5px;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;">Batch load</h3>
+			{% if tipo == '0' %}
+				<form action={% url tissue.collection.BatchCollection %} enctype="multipart/form-data" method="post" >{% csrf_token %}
+			{% else %}
+				<form action={% url tissue.collection.BatchArchiveCollection %} enctype="multipart/form-data" method="post" >{% csrf_token %}	
+			{% endif %}
+				<p>
+					<label for="id_file_cont">File/s:</label>
+					<br>
+					<input id="id_file_cont" type="file" name="file_batch" size="6" style="display:none;">
+					<input id="filename" type="text" size="10" style="display:inline;">
+					<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;">
+					<div>
+						<span style="font-size:1.1em;">You are collecting for:</span>
+						<select id="id_workgr" name="workgr"></select>
+						<input id="id_wgroup" type="hidden" value={{wgroup}} />
+					</div>
+				</p>
+				{% if tipo == '0' %}
+					<a id="file" class="anchor" download="Batch_load.las" href="{{MEDIA_URL}}File_Format/Batch_load.las" >File format</a>
+				{% else %}
+					<a id="file" class="anchor" download="Batch_load_archive.las" href="{{MEDIA_URL}}File_Format/Batch_load_archive.las" >File format</a>	
+				{% endif %}
+				<br>
+				<br>
+		
+				<input type="submit" value="Submit" class="button" id="conferma" />
+			</form>
+		</div>
+		<br style="clear:both;">
+		<br>
+		
+		{% if parte2 %}
+			{% if listapiastre %}
+				{% if lung == 1 %}
+					<h2 style="font-size:1.4em;">Attention: plate {{listapiastre}} does not exist. If you confirm, its aliquots will be created but will not be positioned. Otherwise you can create the plate and submit again the file.</h2>
+				{% else %}
+					<h2 style="font-size:1.4em;">Attention: plates {{listapiastre}} do not exist. If you confirm, their aliquots will be created but will not be positioned. Otherwise you can create the plates and submit again the file.</h2>
+				{% endif %}
+			{% endif %}
+		    <fieldset class="fieldset">
+		        <legend class="legend"> Aliquots </legend>
+		        <div style="height:100%;">
+		            <table id="aliquots_table" border='2px solid black' align="center" >
+			            <thead>
+			            	<th>N</th>
+			            	{% for val in intest %}
+		            			<th>{{val}}</th>
+		            		{% endfor %}
+			            </thead>
+			            <tbody align="center">
+				            {% for list in listot %}
+			            		<tr align="center">
+			            			<td>{{forloop.counter}}</td>
+			            			{% for val in list %}
+			            				<td>{{val}}</td>
+			            			{% endfor %}
+			            		</tr>
+			            	{% endfor %}
+			            </tbody>
+		            </table>
+		        </div>
+		    </fieldset>
+		    <br>
+		    <form action={% url tissue.collection.BatchCollectionSave %} enctype="multipart/form-data" method="post" >{% csrf_token %}
+		    	<input type="submit" value="Save&Finish" class="button" id="salvafin" />
+		    	{% if tipo == '1' %}
+		    		<input type="hidden" name="archive" /> 	
+				{% endif %}
+		    </form>
+	    {% endif %}
+	    
+	{% else %}
+		{% if fine %}
+		    <h2 style="float:left;">Saved aliquots:</h2>
+			<div style='float:right'>
+			    <a href="{% url tissue.views.index %}">
+			    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+			    </a>
+			</div>
+			<br style="clear:both">
+		    <table border='2px' id="aliquote_fin">
+			    <thead>
+					{{  intest|safe  }}
+				</thead>
+			  	<tbody>
+		  			{% for i in aliq %}
+		           		{{  i|safe  }}
+		            {% endfor %}
+			   	</tbody>
+		    </table>
+	    {% endif %}
+	    {% if errore %}
+			<h2 style="font-size:1.4em;" align="center">{{errore}}</h2>
+			<br>
+			<div align="center">
+				<form><input type="button" class="button" value="Back" style="display: inline;" onclick="history.go(-1)"></form>
+			</div>
+		{% endif %}
+	{% endif %}
+{% endif %}	
+{% endblock %}

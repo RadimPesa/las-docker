@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Annotations Manager - Define target sequences{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/cvi_busy_lib.js"></script>
+<script src="{{MEDIA_URL}}js/opentip-jquery.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/new_annotation_feature_value.js"></script>
+<script>
+    var ref = "{{ref}}";
+</script>
+{% endblock %}
+{% block style %}
+<link href="{{MEDIA_URL}}css/opentip.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+
+<article id="riquadro">
+<h3>Insert new Annotation Feature value</h3>
+
+    <div style="position: relative; float: left; margin: 25px; width: 30%">
+        <form id="alignfrm" method="GET" action="{% url annotations.views.create_targetseq %}">
+            <input type="hidden" name="ref" value="{{ref}}">
+            <table style="width: 100%" class="form">
+                <tbody>
+                    <tr>
+                        <td style="width: 15%">Feature:</td>
+                        <td style="width: 85%"><select class="main" id="feature" name="feature">
+                            {% for f in annotationFeatures %}
+                            <option value="{{ f.id }}">{{ f.name }}</option>
+                            {% endfor %}
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 15%">Subtype:</td>
+                        <td style="width: 85                                                                                                        %"><select class="main" id="featureSubtype" name="subtype">
+                            {% for s in annotationSubtypes %}
+                            <option value="{{ s.id }}" class="{{ s.annotation_feature_id }}">{{ s.name }}</option>
+                            {% endfor %}
+                        </select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+</article>
+{% endblock %}

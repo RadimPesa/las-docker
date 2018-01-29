@@ -1,0 +1,70 @@
+{% extends "tissue2/base.html" %}
+{% block title %}Select request{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/DataTables-1.9.1/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/transfer/sel_request.js"></script>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jquery.dataTables.css" />
+
+<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+
+	<style type="text/css">
+		#trasf td{vertical-align: middle;}
+		#trasf{margin-bottom:4px;margin-top: 4px;}
+		#trasf_paginate a{padding-top:4px;}
+		#trasf_length {margin-top: 5px;}
+		#trasf_filter {margin-bottom: 5px;}
+		//#trasf_length select {font-size: 1.5em;}
+		#trasf tbody tr{cursor:pointer;}
+	</style>
+	
+{% endblock %}
+{% block content %}
+	<h1  align="center">Request selection</h1>
+	{% if not ricevuto %}
+		<form id="form_fin" action={% url tissue.transfer.PendingTransferAliquots %} method="post">{% csrf_token %}
+	{% else %}
+		<form id="form_fin" action={% url tissue.transfer.ReceiveTransferAliquots %} method="post">{% csrf_token %}
+	{% endif %}
+		<input id="select" class="button" type="submit" value="Select" disabled="disabled" style="float:right;margin-bottom:1em;">
+		<input type="hidden" id="ricezione" value={{ricevuto}} />
+	</form>
+	<table align="center" border='2px' style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;width:100%;"  id="trasf">
+		<thead>
+			<th>N</th>
+			{% if not ricevuto %}
+				<th>Assigned by</th>
+				<th>Destination</th>
+				<th>Schedule date</th>
+			<!-- siccome riutilizzo il template sia per le spedizioni che per le ricezioni, nella ricezioni non ha senso 
+			permettere all'utente di cancellare il trasferimento -->	
+				<th>Abort</th>
+			{% else %}
+				<th>Source</th>
+				<th>Shipment date</th>
+				<th>Courier</th>
+				<th>Tracking Number</th>
+			{% endif %}
+		</thead>
+		<tbody>
+		{% for trasf in trasferire %}
+			<tr align="center">
+				<td>{{forloop.counter}}<input type="hidden" value={{trasf.id}} /></td>
+				{% if not ricevuto %}
+					<td>{{trasf.idTransferSchedule.operator}}</td>	
+					<td>{{trasf.addressTo}}</td>
+					<td>{{trasf.idTransferSchedule.scheduleDate|date:"Y-m-d"}}</td>
+					<td class="control_center"><img width='16px' height='16px' style='cursor:pointer;' src='{{MEDIA_URL}}img/admin/icon_deletelink.gif'></img></td>
+				{% else %}
+					<td>{{trasf.operator}}</td>
+					<td>{{trasf.departureDate|date:"Y-m-d"}}</td>
+					<td>{{trasf.idCourier}}</td>
+					<td>{{trasf.trackingNumber}}</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

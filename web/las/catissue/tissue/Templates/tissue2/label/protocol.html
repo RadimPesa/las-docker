@@ -1,0 +1,111 @@
+{% extends "tissue2/baseReport.html" %}
+{% block title %}Define protocol{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}JS/label/protocol.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}JS/boxlist.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}JS/jquery-ui.js"></script>
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}jquery_ui/jquery-ui.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}boxlist.css" />
+{% endblock %}
+
+{% block content %}	
+	<style type="text/css">
+		.f select,.f input { display:block;}
+	</style>
+	
+	{% if not fine %}
+		<script type="text/javascript">
+	        dizrel = $.parseJSON('{{dizrel|safe}}');
+	        dizmarker = $.parseJSON('{{dizmarker|safe}}');
+	        urlannotazioni="{{urlannotaz}}";
+		</script>
+		
+		<div align="center">
+			<div id=inizio  style="width:40%;">
+				<table align="center" style="-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+					<tr>
+						<td>
+							<form id="form_fin" action={% url tissue.label.DefineLabelProtocol %} enctype="multipart/form-data" method="post">{% csrf_token %}
+								<section class="f">
+									<p>
+										<label for="id_name">Protocol name:</label>
+										<input id="id_name" type="text" maxlength="40" name="name" size="15">
+									</p>
+									<p>
+										<label for="id_technique">Technique:</label>
+										<select id="id_technique" name="Technique">
+											<option selected="selected" value="">---------</option>
+											{% for tecn in listecn %}
+												<option value={{tecn.id}} >{{tecn.name}} </option>
+											{% endfor %}
+										</select>
+									</p>
+									<p>
+										Marker: <strong><span id="marker" ></span></strong>
+									</p>
+									<p style="margin-bottom:0px;">
+										<label for="id_markname">Marker name:</label>
+										<div style=float:left;>									
+											<input style="float:left;" id="id_markname" class="mdam-input" type="text" maxlength="30" size="15">
+											<span id="span_probe" style="display:none;" >
+												<span style="float:left;margin-left:1em;margin-right:1em;">or</span>
+												<input style="float:left;" id="search_gene" type="button" style="" class="button" value="Search probe" title="Search by gene symbol" />
+											</span>
+										</div>
+										<br style=clear:left;>
+									<p>
+										<input id="id_markname2" style="display:none;" class="mdam-input" type="text" >
+										<input type="button" style="display:none;" class="button add_btn" id="add_btnprot"/>
+										<input type="button" style="margin-bottom:0.5em;margin-top:0.5em;" class="button" value="Add marker" id="add_marker" title="Insert marker in the list below" />
+									</p>
+									<br>
+									<p>
+										<input type="button" class="button" value="Create marker" id="addMark" title="Create a new marker to use in this protocol" />
+									</p>
+									<p>
+										<label for="id_file">Sheet file:</label>
+										<br>
+										<input id="id_file" type="file" name="file" size="6" style="display:none;" />
+										<input id="filename" type="text" size="10" style="display:inline;" />
+										<input id="tastofile" type="button" class="button" value="Browse..." style="display:inline;" />					
+									</p>
+								</section>
+								<br>
+								<input type="submit" class="button" value="Save&Finish" id="conferma"/>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	{% else %}
+		<div style='float:right'>
+	    <a href="{% url tissue.views.index %}">
+	    <button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+		</div>
+		<br style="clear:both">
+		
+		<h2>This protocol has been saved:</h2>
+		<table border='2px' id="prot_fin">
+			<thead>
+				<th>Name</th>
+				<th>Technique</th>
+				<th>Marker</th>
+				<th>File</th>
+			</thead>
+			<tbody>
+				<tr align="center">
+					<td>{{nome}}</td>
+					<td>{{technique}}</td>
+					<td>{{marker}}</td>
+					<td>{{file}}</td>
+				</tr>
+			</tbody>
+		</table>
+	{% endif %}	
+
+{% endblock %}

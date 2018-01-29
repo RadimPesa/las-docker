@@ -1,0 +1,209 @@
+{% extends "baseReport.html" %}
+{% block title %}Move containers{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="{{MEDIA_URL}}JS/tooltip.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/url.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/redips-drag-min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/archive.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}JS/merge.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}style_drag.css" type="text/css" />
+
+<style type="text/css">
+	//select, input{ display:block; position:relative;}
+	#drag button {width:30px; height:28px; font-size: 16px; 
+			 -moz-border-radius:5px; 
+			border-radius:5px;border-style:hidden;background-color:#CCCCCC;}
+	td {border-right:4px; padding:3px;vertical-align: middle;}
+	th {padding:6px;}
+	#listapias1 th,#listapias2 th {padding:6px;}
+	#listapias1 td,#listapias2 td {padding:6px;}
+	#listapias1 td:hover,#listapias2 td:hover {border-color:black;border-style:solid;border-width:1px;background-color:silver;cursor:pointer;}
+	.selezionato {background-color:mediumblue !important;color:#fff;}
+	.disable {background-color:rgb(249,248,242);color:graytext;}
+	.disp {border-color:black !important;border-style:solid !important;}
+	.aliqclass {border-color:red !important;}
+	#tab_riass_paginate a {padding-top:4px;}
+	#tab_riass_filter, #tab_riass {margin-bottom: 4px;}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% if not fine %}
+	<div style="float:left;">
+		<div style="float:left;margin-right:1em;">
+			<label for="id_selez">Select:</label>
+			<select id="id_selez" style="display:inline;" >
+				<option value="all">All</option>
+				<option value="full">Not empty</option>
+				<option value="empty">Empty</option>
+			</select>
+		</div>
+		<input style="float:left;" type="submit" class="button" value="Select" id="select" />
+		<input style="float:left;margin-left:3em;" type="submit" class="button" value="Move selected batch" id="esegui_batch" />
+		<input style="float:left;margin-left:20em;" type="submit" class="button" value="Undo" id="undo" />
+	</div>
+	<form id="form_fin" action={% url archive.views.ArchiveContainer %} method="post">{% csrf_token %}
+		<input style="float:right;" type="submit" class="button" value="Save&Finish" id="conf_all" />
+	</form>
+	<br style="clear:both;">
+	<br>
+	<div id="drag" style="float:left;width:100%;">
+		<table border='1px' style="float:left;" id="operativa">
+			<th class="mark">
+				SOURCE CONTAINER
+			</th>
+			<tr>
+				<td id="plate_operative" class="intest">
+					<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="intest" style="text-align: left;">
+					<div style=padding:5px;float:left;>
+						<label for="barcode_operative">Barcode:</label>
+						<input id="barcode_operative" type="text" maxlength="45" size="12" >		
+					</div>
+					<div align="left" style="padding:5px;float:left;padding-top:12px;">
+					<!-- 	<input type="radio" name="choose_sorg" value="itself" style="display:inline;"/>Itself
+						<br>
+				       	<input type="radio" name="choose_sorg" value="children" style="display:inline;"/>Children  -->
+				    	<input id="view_sorg" type="checkbox" style="display:inline;"/>View content				    	
+					</div>
+					<div style="padding-left:10px;padding-top:12px;padding-right:5px;float:left;">
+						<input type="submit" value="Load" class="button" id="load_sorg" style="display:inline;"/>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div style="float:left;">
+			<input type="button" value="Zoom +" class="button" id="sorgpiu" style="display:inline;margin-left:1em;"/>
+			<br>
+			<input type="button" value="Zoom -" class="button" id="sorgmeno" disabled="disabled" style="margin-left:1em;margin-top:0.5em;"/>
+		</div>
+		
+		<table border='1px' style="float:left;margin-left:7%;" id="temp">
+			<th class="mark">
+				Temporary <br>place<br>(optional)
+			</th>
+			<tr><td></td></tr>
+			<tr><td></td></tr>
+			<tr><td></td></tr>
+			<tr><td></td></tr>
+			<tr><td></td></tr>
+		</table>
+		
+		<div style="float:right;">
+			<input type="button" value="Zoom +" class="button" id="destpiu" style="display:inline;margin-left:1em;"/>
+			<br>
+			<input type="button" value="Zoom -" class="button" id="destmeno" disabled="disabled" style="margin-left:1em;margin-top:0.5em;"/>
+		</div>
+		<div style="float:right;">
+			<table border='1px' id="freezer">
+				<th class="mark">
+					DESTINATION CONTAINER
+				</th>
+				<tr>
+					<td id="plate_stored" class="intest">
+						<span></span>
+					</td>
+				</tr>
+				<tr>
+				<td class="intest" style="text-align: left;">
+					<div style=padding:5px;float:left;>
+						<label for="barcode_freezer">Barcode:</label>
+						<input id="barcode_freezer" type="text" maxlength="45" size="12" >	
+					</div>
+					<div align="left" style="padding:5px;float:left;padding-top:12px;">
+						<input id="view_dest" type="checkbox" checked="checked" style="display:inline;"/>View content
+					</div>
+					<div style="padding-left:5px;padding-top:12px;padding-right:5px;float:left;">
+						<input type="submit" value="Load" class="button" id="load_dest" style="display:inline;margin-right:15px;"/>
+						<input style="display:inline;" type="submit" class="button" value="Deselect container" id="delete_plate" />
+					</div>
+				</td>
+				</tr>
+			</table>
+			<br>
+			
+		</div>
+		
+	</div>
+	<table border='2px' style="margin-top:10px;margin-right:20em;display:none;float:right;" id="listapias2">
+		<th class="mark">
+			Plate list
+		</th>
+	</table>
+	<table border='2px' style="float:left;margin-left:10em;margin-top:10px;display:none;" id="listapias1">
+		<th>
+			Plate list
+		</th>
+	</table>
+	<br style="clear:left;"/>
+	<br>
+	
+	<fieldset  class="fieldset" style="width:20%;">        
+		<label for="id_tipi">Choose aliquot type (optional):</label>
+		<br>
+		<select id="id_tipi" name="tipi" style="display:inline;margin-bottom:0.5em;margin-top:0.3em;">
+			{% for aliq in tipaliq %}
+				<option value={{aliq.abbreviation}}>{{aliq.longName}}</option>
+			{% endfor %}
+		</select>
+		<input id="l_aliquote" class="button" type="button" value="Load">
+	</fieldset>
+	
+	<fieldset id="fieldtabella" class="fieldset" style="margin-top:0.5em;display:none;">
+		<legend class="legend"> Container </legend>	
+		<table border='2px' style="border-color: black;" id="tab_riass">
+			<thead>
+				<th>N </th>
+				<th>Genealogy ID</th>
+				<th>Barcode</th>
+				<th>Creator</th>
+				<th>Creation date</th>
+			</thead>
+			<tbody align="center">
+			</tbody>
+		</table>
+	</fieldset>
+	
+	<div id="dialog-confirm" style="display:none" title="Empty container">
+		<p>Source container still contains some aliquots. Do you want to empty it?</p>
+	</div>
+	<div id="dialog-last" style="display:none" title="Warning">
+		<p>You are going to empty the container, are you sure you want to proceed?</p>
+	</div>
+{% else %}
+	<style type="text/css">
+		#cont_fin_filter{margin-right: 20px;}
+		select { display:inline;}
+		#cont_fin_paginate a {padding-top:4px;}
+		#cont_fin {margin-bottom:4px;margin-top: 4px;}
+	</style>
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			generate_result_table("Archive","cont_fin");
+		});
+	</script>
+	<div style='float:right'>
+	    <a href="{% url archive.views.index %}">
+	    	<button id='homebut' class="button" ><img src="{{MEDIA_URL}}img/home.png"><span>Home</span></button>
+	    </a>
+	</div>
+	<br style="clear:both;">
+	<h2>Containers moved:</h2>
+	<table border='2px' id="cont_fin">
+		<thead>
+			{{  intest|safe  }}
+		</thead>
+		<tbody>			
+			{% for i in dati %}
+	           	{{  i|safe  }}
+	        {% endfor %}
+	    </tbody>		           
+	</table>
+{% endif %}
+{% endblock %}

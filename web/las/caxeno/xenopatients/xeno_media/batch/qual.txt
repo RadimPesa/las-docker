@@ -1,0 +1,6 @@
+ID	Barcode	Site	Operator	Date	Weight	Value
+1	B1	SCR	username	2014-07-18	5.8	None
+2	B2	SCL	username	2014-07-18	7.8	Very small
+3	B1	SCR	username	2014-07-17	12	Small
+4	B1	SCL	username	2014-07-15	0	Medium
+5	B2	SCR	username	2014-07-10		Large

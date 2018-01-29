@@ -1,0 +1,98 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+
+	<meta charset="charset=ISO-8859-1"> 
+    <link rel="stylesheet" href="/lasauth_media/registration/css/jquery-ui.css">
+	<link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
+
+    <script language="JavaScript" type="text/javascript" src="{{MEDIA_URL}}js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{{MEDIA_URL}}manage/js/script.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{{MEDIA_URL}}js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="{{MEDIA_URL}}js/jquery.dataTables.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{{MEDIA_URL}}manage/js/centralizedMail.js"></script>
+
+
+    <script> 
+
+        function aaa(){
+            users=[];
+            $("input[type='checkbox']:checked").each(
+                function() {
+                    var className = $(this).attr('class');
+                    if (className != 'checkCategory'){
+                        if ($.inArray($(this).attr('username'),users)==-1)
+                            users.push($(this).attr('username'));
+                    }
+                }
+            );
+            console.log(users);
+        }
+        $(document).ready(function() {      
+             $(".checkCategory").click(function(event) {
+                event.stopPropagation();
+                $(".checkCategory" + this.id).attr('checked', this.checked);
+            });
+
+            $('#theMenu').accordion({
+                collapsible: true,
+            });
+            
+        });
+       
+
+    </script>
+	<div id="wrap" style="width: auto;position: relative;">
+		<div style="padding-left:50px; float: left; width:30%;">    
+	    	<fieldset id="fieldModules"> 
+            <legend>Select desired User(s) /WG (s)</legend>
+            <br>
+            <ul id="theMenu">   
+                {% for wgName,values in wgDict.items %}
+                    <li><h3 class="head"><a style='color:black;' href="javascript:;">{{wgName}}</a><input type="checkbox" style="float:right;" id="{{wgName}}" class="checkCategory" ></h3>
+                        <ul>
+                            <table>
+                                {% for user in values%}
+                                    <li><tr><td><a href="" style='color:black;'>{{user}}</a></td><td><input type="checkbox" username="{{user}}" id="{{wgName}}_{{user}}" class="checkCategory{{wgName}}" ></td></tr></li>
+                                {% endfor %}
+                           </table>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+        </div>
+
+		</p>
+			<div style="padding-right:10%; float:right;" id="main">   
+				{% if message%}
+					{% ifequal message "ok" %}
+						<h1 class="title">Mail Sent!</h1>
+					{% else%}
+						<h1 class="title">Error during mail delivery! Please retry later!</h1>
+					{% endifequal%}	
+				{% else%}			 			 
+					<!--  Give the user a "submit" button --> 
+					<form enctype="multipart/form-data" method="post" action="{% url loginmanager.views.sendMail %}">
+					   {% csrf_token %}   
+						<h2>Subject</h2>
+						<textarea name="subject" id="subject" rows=1 cols=100 text="[LAS]&nbsp;">[LAS]&nbsp;</textarea>
+						<h2>Message</h2>
+						<textarea name="message" id="message" rows=20 cols=100 value="Here's some text."></textarea></br>
+						</br>
+						<h3> Select one or more attachments or send the message!</h3>
+						<input type="file" name="file" class="file" multiple/>
+						<input type="hidden" name="toRecipients" id="toRecipients"  value="" />
+						<input type="hidden" name="ccRecipients"  id="ccRecipients" value="" />
+						<input type="hidden" name="bccRecipients" id="bccRecipients"  value="" /> 
+						<input type="button" value="RESET FILES" onClick="resetFiles();"/>
+						<input type="submit" value="SEND MESSAGE" onClick="return updateInput();"/>
+					</form>	
+				{% endif %}
+			</div>
+    </div>
+{% endblock %}
+

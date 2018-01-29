@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Check Measurements&Actions{% endblock %}
+{% block script %}
+    <script>lasauth_url = "{{LAS_URL}}";</script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}js/check.js"></script> 	
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/TableTools.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/js/ColReorder.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/js/ZeroClipboard.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/js/ColVis.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/TableTools/media/css/TableTools.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColReorder/media/css/ColReorder.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}js/DataTables-1.9.0/extras/ColVis/media/css/ColVis.css" />
+    <script>
+        //apre la finestra per assegnare i trattamenti
+        function openTreat() {
+            firstUse();
+            if (fnGetSelected().length > 0){
+                checkSelectedMice();
+                jQuery( "#dialog" ).dialog({
+                    //resizable: false,
+                    height:dHeight,
+                    width:dWidth,
+                    modal: true,
+                    draggable :false,
+                    buttons: {
+                        "Yes": function() {
+                            jQuery( this ).dialog( "close" );
+                            window.open("{% url xenopatients.check.checkTreat %}","_blank",'width=900,height=600,left=100,top=100,screenX=100,screenY=100');
+                        },
+                        "No":function(){jQuery( this ).dialog( "close" );}
+                    }
+                });
+            }else
+                alert("You have to select at least one row.");
+        }
+
+        jQuery(document).ready(function() {
+            oTableList = jQuery('#group').dataTable( {
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "iDisplayLength": 10,
+                //"aaSorting": [[0, 'asc']]
+                "aoColumns" : [   
+                    { sClass: "alignCenter" }  
+                ] 
+            });
+            oSettingsList = oTableList.fnSettings();
+            var i = 0;
+            {% for g in groups %}
+                oTableList.fnAddData(["{{g.name}}"]);
+                var tr = oSettingsList.aoData[i].nTr;
+                jQuery(tr).click( function() {
+                    loadMeasure("{{g.name}}");
+                });
+                jQuery(tr).css('cursor', 'pointer');
+                i++;
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+{%  if err_message  %}
+	<!-- visualizza solo il messaggio di errore, altrimenti fa vedere correttamente il resto -->
+	<script>
+		document.getElementById("err_message").style.display = 'inline';
+	</script>
+{%  else  %}
+    <div style="float:left;width:25%;">
+        <div style="height:350px;overflow:auto;">
+            <table id="group" class="group">
+                <thead id="groupHead">
+                    <tr>
+                        <th>Group Name</th>
+                    </tr>
+                </thead>
+                <tbody id="measureBody">
+                </tbody>
+            </table>
+            <br>
+        </div>
+        <div style="overflow:auto;">
+            <div style="width:80%;"></p><p id="whoWas" style="display:none;"></p></div>
+            <p id='avg'></p>
+            <p id='avgChecked'></p><br>
+        </div>
+    </div>
+    <div id="button_div" style="float:left;width=5%;">
+		<table id='buttons'>
+    		<tr><td><input type="button" id='save' value="Confirm all" onclick="confirmCheck()" style="width:159px;"/></td></tr>
+    		<tr><td><input type="button" value="Reset row(s)" onclick="resetAction()" style="width:159px;"/></td></tr>
+    		<tr><td><input type="button" value="Delete pending action(s)" onclick="deleteAction()" style="width:159px;"/></td></tr>
+    		<tr><td><input type="button" value="Insert comment(s)" onclick="insertComment()" style="width:159px;"/></td></tr>
+       		<tr><td><input type="button" value="Assign treatment" onclick="openTreat()" style="width:159px;"/></td></tr>
+       		<tr><td><input type="button" value="Stop treatment" onclick="stopTreat()" style="width:159px;"/></td></tr>
+    		<tr><td><input type="button" value="Sacrifice" onclick="makeAction('Sacrifice without explant')" style="width:159px;"/></td></tr>
+    		<tr><td><input type="button" value="Expl. without sacrifice" onclick="makeAction('Explant without sacrifice')" style="width:159px;"/></td></tr>
+    		<tr><td>{{ formSD.as_p }} <p id="2"><input type="button" value="Explant" onclick="makeAction('ready for explant')"/></p></td></tr>
+    		<tr><td><label for="explNotes">Notes for explant: </label></td></tr>
+    		<tr><td><textarea rows="4" cols="16" type="text" id="explNotes" name="explNotes" value="" maxlength="180"> </textarea></td></tr>
+    		<tr><td>
+    		    <form action="{% url xenopatients.check.graphCSV %}" method="post">{% csrf_token %}
+        		    <input type="submit" value="Graph as CSV" style="width:100px;"/>
+    		        <input type=image src="{{MEDIA_URL}}img/floppy.png">
+                </form>
+		    </td></tr>
+
+		</table>
+    </div>
+    <div id="chart_div" style="float:right;width:60%;"></div>
+    <br style="clear:both;"><br>
+    <p id = "selGroup" style="display:none;"></p>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1" class="selected">Pending Actions</a></li>
+            <li><a href="#tabs-2" onclick="initTab2()" class="">History of Measurement</a></li>
+            <li><a href="#tabs-3" onclick="initTab3();" class="">Weight History</a></li>
+        </ul>
+    	<div id="tabs-1">
+            <div style="width:100%;overflow:auto;heigth:150px;">
+                <table id="measure" class="group">
+                    <thead id="measureHead">
+                        <tr>
+                            <th>Genealogy ID</th>
+                            <th>Barcode</th>
+                            <th>Date</th>
+                            <th>Value</th>
+                            <th>Weight</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th>Explant</th>
+                            <th>H</th>
+                            <th>Treatment</th>
+                            <th>Start treatment</th>
+                            <th>Duration</th>
+                            <th>H</th>
+                            <th>End Treatment</th>
+                            <th>Treatment notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="measureBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    	<div id="tabs-2">
+            <table id="measureLong" class='report'>
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    	<div id="tabs-3">
+            <div style="width:100%;overflow:auto;heigth:150px;">
+                <table id="allW" class='report'>
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+	<div id="dialog" class="dialog confirm" title="Comments for your action?" style="display:none;position: relative;">
+    	<p id='confirmAction'>Do you confirm the selected actions? You can add some optional comments.</p>
+    	<textarea id="checkNotes" style='width:95%;height:50%;'></textarea>
+    </div>
+	{%  if message  %}
+		<script>
+			document.getElementById("message").style.display = 'inline';
+		</script>
+	{% endif %}
+{% endif %}
+{% endblock %}

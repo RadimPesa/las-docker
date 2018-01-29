@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>File Input Implant</title>
+</head>
+
+<body>
+    <form name="fileInput" enctype="multipart/form-data" action="{% url xenopatients.views.startFileImplant %}" method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" name="submit"></input>
+    </form>
+</body>
+</html>

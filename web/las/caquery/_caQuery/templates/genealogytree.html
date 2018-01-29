@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load jsonify %}
+{% block title %}Case genealogy tree{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/vis.min.css">
+<style>
+form label {
+	display: inline-block;
+	width: 300px;
+};
+</style>
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/genealogytree.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/vis.min.js"></script>
+
+<script type="text/javascript">
+var mice = $.parseJSON('{{mice|jsonify|safe}}');
+var plot = $.parseJSON('{{plot|jsonify|safe}}');
+var savedParents = $.parseJSON('{{parents|jsonify|safe}}');
+var case_id = "{{ case_id }}";
+</script>
+
+<div>
+<form id="draw_tree" action="./" method="get" onsubmit="return submitHandler()">
+<label for="case">Case identifier (e.g. CRC0001):</label>
+<input type="text" id="case" name="case" value="{{ case_id }}" />
+<!--<textarea placeholder="child_mouse_genid   parent_mouse_or_aliquot_genid" id="missing" name="missing" value="{{ missing }}" style="width: 500px; height: 100px; margin-left: 3px; vertical-align: top; resize: none"></textarea>-->
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="removeisolated" name="removeisolated" {% if removeIsolated %}checked="checked"{% endif %}/>
+<label for="removeisolated" style="width: 350px">Remove isolated mice with no treatments or descendants</label>
+&nbsp;&nbsp;
+<input type="submit" value="Submit" />
+</form>
+</div>
+<br>
+{% if case_id %}
+{% if notFound %}
+<h2>Case {{ case_id }} not found</h2>
+{% else %}
+<h2>Genealogy tree for {{ case_id }}</h2>
+<label for="highlight">Highlight nodes by genid prefix:</label>
+<input type="text" name="highlight" id="highlight"/>
+<button id="dohighlight">Apply</button>
+<button id="removehighlight">Remove</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>Missing father-child relationships:</label>
+&nbsp;
+<button id="editmissing">Edit</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>Selected nodes (long click or CTRL+click for multiple selection):</label>
+&nbsp;
+<button id="exportselected">Export</button>
+<button id="pathtoroot">Highlight path to root</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>Highlight treatments:</label>
+<input type="radio" class="treatcolors" name="treatcolors" value="yes" />yes&nbsp;&nbsp;&nbsp;
+<input type="radio" class="treatcolors" name="treatcolors" value="no" checked="true" />no&nbsp;&nbsp;&nbsp;
+<br><br>
+
+
+<!-- begin legend -->
+<div id="legend" style="border: 1px solid grey; padding: 15px; background-color: #dddddd">
+    <span style="display: inline-block; width: 100px; height: 40px; font-size: 1.5em; vertical-align: middle; font-weight: bold;">Legend</span>
+    <span style="display: inline-block; margin-left: 45px; margin-right: 30px; width: 30px; height: 40px; font-size: 1.1em; vertical-align: middle; font-weight: bold;">Shape:</span>
+    <span style="display: inline-block; width: 40px; height: 40px" id="legend-1"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 50px; height: 40px">Vital material available</span>
+    <span style="display: inline-block; width: 40px; height: 40px" id="legend-2"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 50px; height: 40px">No vital material available</span>
+    <span style="display: inline-block; margin-left: 45px; margin-right: 30px; width: 30px; height: 40px; font-size: 1.1em; vertical-align: middle; font-weight: bold;">Colour:</span>
+    <span style="display: inline-block; width: 40px; height: 40px" id="legend-3"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 50px; height: 40px; vertical-align: middle">Treated</span>
+    <span style="display: inline-block; width: 40px; height: 40px" id="legend-4"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 50px; height: 40px; vertical-align: middle">Untreated</span>
+    <span style="display: inline-block; width: 40px; height: 40px" id="legend-4b"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 50px; height: 40px; vertical-align: middle">Historical</span>
+    <span style="display: inline-block; margin-left: 45px; margin-right: 30px; width: 30px; height: 40px; font-size: 1.1em; vertical-align: middle; font-weight: bold;">Size:</span>
+    <span style="display: inline-block; width: 70px; height: 40px" id="legend-5"></span>
+    <span style="display: inline-block; margin-left: 5px; margin-right: 30px; width: 220px; height: 40px; vertical-align: middle"># aliq. available (0 / 1-2 / 3+)</span>
+    <br>
+    <span class="ui-icon ui-icon-info" style="display: inline-block;"></span><span style="margin-left: 3px; display: inline-block; line-height: 18px; vertical-align: bottom;"><b>Tip:</b> hover the pointer over a node to get detailed information about the xenograft.</span>
+</div>
+<!-- end legend -->
+<br>
+
+<div id="tissues" style="width:100%;float:left;height:90%">
+    <ul>
+    </ul>
+</div>
+{% endif %}
+{% endif %}
+
+<article class="dialog" title="Edit missing relationships" id="editmissing-dialog">
+    <br>
+    Import from/export to external file: &nbsp;
+    <button id="importrel">Import</button><input type="file" id="importfile" style="display: none" />&nbsp;&nbsp;
+    <button id="exportrel">Export</button>
+    <br><br>
+    <table id="child-father">
+        <thead>
+            <th>Child mouse GenID</th>
+            <th>Father mouse GenID</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</article>
+
+<article class="dialog" title="Export selected nodes" id="exportselected-dialog">
+<br>
+<textarea style="width: 768px; height: 370px; resize: none" readonly="true" id="exportselected-text"></textarea>
+</article>
+
+{% endblock %}
+

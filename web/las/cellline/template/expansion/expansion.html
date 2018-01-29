@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block title %}Expansion{% endblock %}
+{% block script %}
+	<script type="text/javascript">
+		cellsDict = JSON.parse('{{ cdDict|safe }}');
+		forFile = {{forFile|safe}};
+		bbUrl = "{{bbUrl}}";
+		infocc = {};
+		forOrder = [];
+		urlWindow = "{% url cellLine.protocol.generation_page_prot_change_cc %}";
+		{% for k,v in idnamecc.items %}
+		    infocc["{{k}}"] = {};
+		    infocc["{{k}}"]['name'] = "{{v}}";
+		{% endfor %}
+		typeOperation = 'Expansion';
+
+		{% if message %}
+
+			$(document).ready(function() {
+		    	//$("#infobox").html("Request has been saved");
+		    	$("#infobox").removeClass("hidden");
+		    	$("#infobox").css('margin', '10px 0px');
+		    	$("#infobox").css('padding' ,'5px');
+		    	setTimeout(function(){
+		        	$("#infobox").fadeTo(1000,0, function(){
+		            	$("#infobox").html("");
+		            	$("#infobox").removeAttr('style');
+		            	$("#infobox").css('border', '0px');
+		        	})
+		    	}, 2000);
+			});
+		{% endif %}
+	</script>
+	
+	</script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/expansion.js"></script>
+<!-- 	<script type="text/javascript" src="{{MEDIA_URL}}js/generation.js"></script>  -->
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/expansion.css" />
+{% endblock %}
+{% block content %}
+	<style type="text/css">
+	div.hidden{
+	    opacity: 0;
+	}
+	</style>
+
+	<div id="infobox" class="confirmbox hidden"> {{message}}</div>
+	<!--<p style="text-align:center;color:#00008B;font-size:22px;">Expansion's Operations</p>-->
+	{% if cdList %}
+	<fieldset >
+	<legend>Actions</legend>
+	    <div >
+		    <table align="center" style='float:left;'>
+			    <tr>
+				    <td><input id="inputFilter" type="text" value="" onkeyup="checkKey(event)"/></td>
+				    <td><input type="button" value="Filter by genealogy ID" onclick="filter();"/></td>
+				    <td>
+				    	<select id="userFilter">
+				    		{% for uWG in usersWG %}
+							<option value="{{uWG}}">{{uWG}}</option>
+							{% endfor %}
+				    	</select>
+				    </td>
+				    <td><input id="filtro_utente" type="button" value="Filter by last user" onclick="filterUser();"/></td>
+			    </tr>
+		    </table>
+		    <table align="center" style='float:right;'>
+			    <tr>
+				    <td><input type="button" value="Apply All Actions" onclick="applyAll();"/></td>
+				    <td><input type="button" value="Save Actions" onclick="saveActions();"/></td>
+			    </tr>
+		    </table>
+	    </div>
+    </fieldset>
+
+		<div id="divContainerExpansion1" style='margin-top:1em'>
+			<table id="table_exp" border="1" align="center" class='dataTable'>
+				<thead>
+					<tr>
+						<!--.columnHeader-->
+						<th>GenID Sample <i class="fa fa-arrow-down" onclick="order('desc', this, 'genID')"></i>  <i class="fa fa-arrow-up" onclick="order('asc',this, 'genID')"></i></th>
+						<th>Culturing conditions <i class="fa fa-arrow-down" onclick="order('desc', this,'cc&conf_name')"></i>  <i class="fa fa-arrow-up"  onclick="order('asc',this, 'cc&conf_name')"></i></th>
+						<th>Started <i class="fa fa-arrow-down"  onclick="order('desc',this, 'startDate')"></i>  <i class="fa fa-arrow-up" onclick="order('asc', this,'startDate')"></i></th>
+						<th>Type of plate <i class="fa fa-arrow-down"  onclick="order('desc',this, 'cc&typeP')"></i>  <i class="fa fa-arrow-up" onclick="order('asc',this, 'cc&typeP')"></i></th>
+						<th>#plates <i class="fa fa-arrow-down" onclick="order('desc',this, 'nPlates')"></i>  <i class="fa fa-arrow-up" onclick="order('asc',this, 'nPlates')"></i></th>						
+						<th>Plan  <i class="fa fa-arrow-down" onclick="order('desc',this, 'plan&Expansion&now')"></i>  <i class="fa fa-arrow-up" onclick="order('asc',this, 'plan&Expansion&now')"></i></th>
+						<th colspan="3">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for key, cd in cdList.items %}
+					    <script> forOrder.push( {{ key }} ); </script>
+						<tr class='mainRow' id="firstRow{{key}}" dictKey="{{key}}">
+							<td style="display:none;">{{ cd.id }}</td>
+							<td rowspan="3">{{ cd.nickname }}<br/><br/>{{ cd.genID }}</td>
+							<td rowspan="3" ccId = '{{ cd.cc.id }}'>{{ cd.cc.conf_name }}<img src="{{MEDIA_URL}}img/info_icon.png" title='Show info' onclick='showInfos({{cd.cc.id}})' style="cursor:pointer;"> </td>
+							<td rowspan="3">{{ cd.startDate }}</td>
+							<td rowspan="3" id='typePlate{{key}}'>{{ cd.cc.typeP }}</td>
+							<td rowspan="3">{{ cd.nPlates }}</td>
+							<td rowspan="3" align="center">
+								<table id="tab_plan{{key}}" key="{{key}}">
+							<!-- 	<tr>
+										<td>To archive</td>
+										<td><input type="checkbox" class="to_archive" key="Archive" ></td>
+									</tr>									
+									<tr>
+										<td>To experiment</td>
+										<td><input type="checkbox" class="to_experiment" key="Experiment" ></td>
+									</tr>  -->
+									<tr>
+										<td>To expansion</td>
+										<td><input type="checkbox" class="to_expansion" key="Expansion" ></td>
+									</tr>									
+								</table>
+							</td>
+							<td>Trash: <input type="text" id="toTrash{{key}}" class="toTrash" name="toTrash" value="{{cd.mods.toTrash.0.amount}}" size="1" onkeypress="validate(event);" onkeyup="writeDict(this, '{{key}}');"/><img src="{{MEDIA_URL}}img/go-back-icon.png" title='Undo' onclick="undo('{{key}}', 'toTrash');"/ style="cursor:pointer;"></td>
+							<td align="center">
+								<input type="button" value="Add slot" onclick="addslot('{{key}}')"/>
+								<br/>
+								{% for c,o in cd.mods.expansion.outputs.items %}
+								    <table class='slot{{key}}' border="0" cellpadding="0" cellspacing="0" style="border:1px solid #254B70" class='cc_output'>
+								        <tr>
+								            <td align='center'>
+        	    								<input type="button" value="Define culture condition" onclick="changecc('{% url cellLine.protocol.generation_page_prot_change_cc %}','{{ cd.cc.id }}', this);"/>
+                                            </td>
+                                            <td>
+                                                <img src="{{MEDIA_URL}}/img/x.png" onclick="deleteSlot('{{key}}',this);" class="deleteIcon" width="16" ccid = "{{c}}">
+                                            </td>
+                                        </tr>
+									    <tr>
+										    <td align='center'>
+											    <p class='typePlate' style='display:none;' ></p>
+											    {% if idnamecc.items|length > 0 %}
+											        {% for k, v in idnamecc.items %}
+											            {% ifequal k c %}
+            											    <p class='name_cc' style='color:red;' > {{ v }} </p>
+											            {%endifequal%}
+										            {%endfor%}
+									            {% else %}
+    									            <p class='name_cc' style='color:red;' ></p>
+									            {% endif %}
+											    <p class='id_cc' style='display:none;' >  </p>
+										    </td>
+									    </tr>
+									    <tr>
+										    <td>
+										        Expansion output: <input type="text" class="expansion_outputA" name="expansion_outputA" value="{{o}}" size="1" onkeypress="validate(event);" onkeyup="writeDictSlot(this, '{{key}}');"/>
+										        Change Media: <input type="text" class="toReset" name="toReset" value="0" size="1" onkeypress="validate(event);" onkeyup="writeDictSlot(this, '{{key}}');"/>
+									       </td>
+									       </tr>
+								    </table>
+                                {% endfor %}
+							</td>
+							<td rowspan="3">
+								<!--<input type="button" value="Reset Row" onclick="resetRow('{{key}}');" /><br/><br/>-->
+								<input type="button" value="Apply Actions" onclick="applyActions('{{key}}');" />
+							</td>
+						</tr>
+						<tr class='mainRow' dictKey="{{key}}">
+							<td>To archive:  <input type="text" id="toArchive{{key}}" class="toArchive" name="toArchive" value="{{cd.mods.toArchive.0.amount}}" size="1" onkeypress="validate(event);" onkeyup="writeDict(this, '{{key}}');"/><img src="{{MEDIA_URL}}img/go-back-icon.png" title='Undo' onclick="undo('{{key}}', 'toArchive');"/ style="cursor:pointer;"></td>
+							<td rowspan=2>
+								<table>
+									<tr>Expansion:</tr>
+									<tr class='mainRow' dictKey="{{key}}">
+										<td>Input: <input type="text" id="inputA{{key}}" class="expansion_inputA" name="expansion_inputA" value="{{cd.mods.expansion.generic.inputA}}" size="1" onkeypress="validate(event);" onkeyup="writeDictGenericSlot(this, '{{key}}');"/></td>
+										<td>Dilution[1:X]: <input type="text" id="reduc{{key}}" class="expansion_reduction" name="expansion_reduction" value="{{cd.mods.expansion.generic.reduction}}" size="1" onkeypress="validate(event);" onkeyup="writeDictGenericSlot(this, '{{key}}');"/></td>
+
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr class='mainRow' id='lastRow{{key}}' dictKey="{{key}}">
+							<td>To experiment: <input type="text" id="toExperiment{{key}}" class="toExperiment" name="toExperiment" value="{{cd.mods.toExperiment.0.amount}}" size="1" onkeypress="validate(event);" onkeyup="writeDict(this, '{{key}}');"/><img src="{{MEDIA_URL}}img/go-back-icon.png" title='Undo' onclick="undo('{{key}}', 'toExperiment');"/ style="cursor:pointer;"></td>
+							<!--<td>Change Media: <input type="text" id="toReset{{key}}" class="toReset" name="toReset" value="0" size="3" onkeypress="validate(event);" onkeyup="writeDict(this, '{{key}}');"/></td>
+
+							-->
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+        <div id="dialog" class="dialog confirm" title="Feature List" style="display:none;position: relative;" align='center'>
+            <p>Protocol infos:</p>
+            <table id="protocol_infos" class="infos">
+            </table>
+        </div>
+		<div id="dialog2" class="dialog confirm" title="Editing nickname" style="display:none;position: relative;">
+        	<p>Insert new nickname for this cell line.</p>
+        	<input type="text" id = "newNick" style="text-align:left;" ></input>
+        </div>
+	{% else %}
+		<div id="divContainerExpansion1" style="text-align:center;">
+			<p style="color:red;font-size:18px;">No ongoing cell lines available.</p>
+		</div>
+		<div id="divContainerExpansion1" style="text-align:center;">
+			<form method="get" action="{% url cellLine.views.home %}">{% csrf_token %}
+				<input type="submit" style="font-size:16px;" value="Home" />
+			</form>
+		</div>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "baseManage.html" %}
+
+{% block title %}Laboratory Assistant Suite{% endblock %}
+
+{% block content %}
+<script>$("section#content").addClass("home");</script>
+<script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageModulesRequest.js"></script>
+
+	<p id="user_name">
+		<span id="datename">{% now "jS F Y" %} | <a href="{% url loginmanager.views.logout %}">Logout</a> [{{  user.username  }}]</span>
+	</p>
+
+<nav>
+{% if request_list%}
+	<table class="table-user">
+		<thead>
+			<tr><th>username</th><th>Request summary</th><th>Update</th></tr>
+		</thead>
+		{% regroup request_list|dictsort:"user.username" by user as req%}
+		{% for x in req%}
+			<tr>
+			<td>{{x.grouper}}</td>
+			<td>
+			<table>
+			<thead>
+				<tr><th>Modules</th><th>Performed at</th></tr>
+			</thead>
+			{% for u in x.list %}
+		    		<tr>
+		    		<td>
+		    			{% for mod in u.modules.all %}
+		    				<input type="checkbox" name="modules_{{x.grouper}}"  value="{{ mod.id }}"/> 
+		    				{{mod.name}}<br>
+		    			{% endfor%}
+		    		</td>
+					<td>{{u.date_time}}</td>
+					</tr>
+			{%endfor%}
+			</table>
+			</td>
+			<td style="padding-left:30px;"><a href="" onClick="acceptModules('{{x.grouper}}','{% url loginmanager.views.manageModulesRequest %}')" ><img src="/lasauth_media/img/button-ok.png"></a></td>
+			</tr>
+	    {% endfor %}
+	</table>
+	{% else %}
+		<h3><span id="navtitle">There is no module pending request. </span></h3>
+	{% endif%}
+</br>
+
+
+</nav>
+
+{% endblock %}
