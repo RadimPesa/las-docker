@@ -16,6 +16,7 @@ services:
       - lasneo4j:lasneo4j
     volumes:
       - ./web/las:/srv/www
+      - ./web/adminScripts:/adminScripts
       - ./blat:/blat
     depends_on:
       - lasmysql
