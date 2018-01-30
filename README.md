@@ -12,9 +12,9 @@ git clone https://github.com/lasircc/las-docker.git
 ```
 
 * Download the seed databases. Due their large size, the seed databases are stored separately from the GitHub repo on an FTP server. Please contact us at *las at ircc dot it* to get access credentials. Extract the contents of the downloaded gzipped tarballs to the following paths:
-- ```docker-entrypoint-initdb.d.tar.gz``` inside ```./las-docker/mysql/docker-entrypoint-initdb.d/```
-- ```graph.db.tar.gz``` inside ```./las-docker/neo4j-data/graph.db```
-- ```seq.tar.gz``` inside ```./las-docker/blat/seq/```
+    * ```docker-entrypoint-initdb.d.tar.gz``` inside ```./las-docker/mysql/docker-entrypoint-initdb.d/```
+    * ```graph.db.tar.gz``` inside ```./las-docker/neo4j-data/graph.db```
+    * ```seq.tar.gz``` inside ```./las-docker/blat/seq/```
 
 ## Configuration
 ### Environment variables
