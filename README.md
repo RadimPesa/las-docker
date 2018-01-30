@@ -45,7 +45,7 @@ Cd to the ```las-docker``` folder and issue the following command:
 ```bash
 docker-compose up
 ```
-On the first execution, genomic annotation data will be automatically downloaded from the web and imported inside the LAS instance database. This process may take a long time.
+Upon the first execution, seed databases as well as annotation data downloaded from the web will be automatically imported inside the LAS instance database. This process may take a long time.
 
 ## Running scripts
 ### Clinical and biobanking modules
