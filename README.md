@@ -47,6 +47,8 @@ docker-compose up
 ```
 Upon the first execution, seed databases as well as annotation data downloaded from the web will be automatically imported inside the LAS instance database. This process may take a long time.
 
+---
+
 # Running scripts for data management
 
 > _Hello there!_
