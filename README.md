@@ -52,3 +52,5 @@ Upon the first execution, seed databases as well as annotation data downloaded f
 ```bash
 docker-compose run web ...
 ```
+### Trials and Medical Centers data management
+To create a new Trial (a.k.a. Project or Protocol) or a new Medical Center see the [Wiki](https://github.com/lasircc/las-docker/wiki).
