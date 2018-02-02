@@ -234,7 +234,7 @@ You should get your new Project linked to the WG.
 
 ## How to Link a Medical Center to a Project
 
-In order to complete the Project creation, you need to link your new Project to one (or more) Medical Center. You can do it directly via `Python`.
+In order to complete the Project creation, you need to link your new Project to one or more Medical Centers. You can do it directly via `Python`.
 
 Make sure you are working in virtualenv `venvdj1.7` and then start an interactive Python session:
 
