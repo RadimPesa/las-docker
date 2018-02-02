@@ -55,13 +55,13 @@ Upon the first execution, seed databases as well as annotation data downloaded f
 
 Today's LAS is a huge modular project and has been changing over time. The designs of the modules reflect such an evolution of the system. We will work in the next future to a _normalization_ of the modules and to a _rationalization_ of the whole platform. During this restyling, we will provide some admin pages in order to manage the initialization of data (e.g., a medical centers, projects, etc.). Besides, we plan to upgrade the system to the latest version of Django an to Python 3.
 
-In the meanwhile, data must be placed in the right place to make the system work properly. We have created a couple of scripts for simplifying that kind of tasks.
+In the meanwhile, data must be placed in the right place to make the system work properly. We have created a couple of scripts for simplifying that kind of tasks (you can find them in [./web/adminScripts](web/adminScripts)).
 
 Further information below.
 
 ## Medical Centers (a.k.a. Institutions)
 
-A `Medical Center` represents a place like a medical center or an institution. Related data are managed both by the `biobank` (as Sources) and by the `clinicalManager` module (as Institutions) with some annoying data denormalizations.
+A `Medical Center` represents a place like a medical center or a generic institution. Related data are managed both by the `biobank` (as Sources) and by the `clinicalManager` module (as Institutions) with some annoying data denormalizations.
 
 Related tables in MySQL are:
 * biobank: `biobanca.source`
