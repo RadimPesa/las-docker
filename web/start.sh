@@ -5,12 +5,12 @@
 
 # wait for mysql to be ready then populate annotations tables (will skip import if not first run)
 /las/wait-for-it.sh lasmysql:3306 -s -t 86400 -- /srv/www/newAnnotationsManager/scripts/populate_tables.sh
+# set administrator password
+/las/wait-for-it.sh lasmysql:3306 -s -t 86400 -- /srv/www/LASAuthServer/set_admin_password.sh
+
 
 # create fqdn.conf
 echo "Define FQDN ${HOST}" >/etc/apache2/fqdn.conf
-
-# set administrator password
-/srv/www/LASAuthServer/set_admin_password.sh
 
 # run Apache
 /usr/sbin/apache2ctl -D FOREGROUND
