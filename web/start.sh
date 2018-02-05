@@ -9,5 +9,8 @@
 # create fqdn.conf
 echo "Define FQDN ${HOST}" >/etc/apache2/fqdn.conf
 
+# set administrator password
+/srv/www/LASAuthServer/set_admin_password.sh
+
 # run Apache
 /usr/sbin/apache2ctl -D FOREGROUND
