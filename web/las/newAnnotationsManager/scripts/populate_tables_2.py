@@ -9,5 +9,5 @@ from annotations.models import *
 
 if __name__ == '__main__':
     print "Starting to populate annotations tables"
-    EnsemblTranscriptXref.objects.populate()
-    #UCSCSnp141.objects.populate()
+    #EnsemblTranscriptXref.objects.populate()
+    UCSCSnp141.objects.populate()
