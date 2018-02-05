@@ -6,6 +6,6 @@ setup_environ(settings)
 from django.contrib.auth.models import User
 
 if __name__ == '__main__':
-    u = User.objects.get(username__exact='john')
+    u = User.objects.get(username__exact='administrator')
     u.set_password(os.environ['ADMIN_PASSWORD'])
     u.save()
