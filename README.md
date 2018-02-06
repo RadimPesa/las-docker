@@ -19,7 +19,8 @@ git clone https://github.com/lasircc/las-docker.git
 ## Configuration
 ### Environment variables
 Edit the ```.env``` file in the root folder. In particular, set the following variables as appropriate:
-* ```HOST```: the name under which the LAS instance will be accessible
+* ```ADMIN_PASSWORD```: password for the LAS administrator user
+* ```HOST```: host name under which the LAS instance will be accessible e.g. las.mycompany.com
 * ```EMAIL_HOST```: email server e.g. smtp.mail.com
 * ```EMAIL_ADMIN_USER```: email user e.g. user@mycompany.com
 * ```EMAIL_ADMIN_PASSWORD```
@@ -45,11 +46,18 @@ Cd to the ```las-docker``` folder and issue the following command:
 ```bash
 docker-compose up
 ```
-Upon the first execution, seed databases as well as annotation data downloaded from the web will be automatically imported inside the LAS instance database. This process may take a long time.
-
+Upon the first execution, seed databases will be automatically imported. This operation will take some time (10 minutes or more), depending on your CPU and hard drive speed.
 ---
+# Running scripts for genomic annotation management
 
-# Running scripts for data management
+The Genomic Annotation Manager module exploits annotation data from various public resources. These data must be downloaded and imported in the database prior to using the module. If you don't plan to use the Genomic Annotation Module, you can safely ignore this step (or you can always run it at a later time).
+We provide a script that automatically handles the download and import process. To start the script, run the code below in a terminal:
+```bash
+docker-compose run web /srv/www/newAnnotationsManager/scripts/populate_tables_2.sh
+```
+It will take a long time (from a few hours to a day), so sit back an relax. ;)
+
+# Running scripts for clinical data management
 
 > _Hello there!_
 
@@ -80,7 +88,7 @@ In order to create **all required data**, run `createMedicalCenter.sh`. Here is 
 
 Run the script
 ```bash
-$ docker-compose run web bash createMedicalCenter.sh 
+$ docker-compose run web bash /adminScripts/createMedicalCenter.sh 
 ```
 
 You will be prompted for medical center `name`. In this example we are going to type: **_The Hospital_**
@@ -174,7 +182,7 @@ In order to create all required data, run `createProject.sh`. Here is an example
 Run the script
 
 ```
-$ docker-compose run web bash createProject.sh 
+$ docker-compose run web bash /adminScripts/createProject.sh 
 ```
 You will be prompted for project `title`. In this example we are going to type: **_The New Project_**
 ```
@@ -238,16 +246,24 @@ You should get your new Project linked to the WG.
 
 In order to complete the Project creation, you need to link your new Project to one or more Medical Centers. You can do it directly via `Python`.
 
-Make sure you are working in virtualenv `venvdj1.7` and then start an interactive Python session:
+Make sure you are working in virtualenv `venvdj1.7` and then start an interactive Python session. To achieve this goal, you can use the following command:
 
-Run `utils1_7.centersToProjects()`. It takes two arguments: (i) a list of Medical Centers internal names and (ii) a list of Projects ids. It links all passed Projects to all Medical Centers (i.e., Cartesian product). Here an example where we link `ZZ` to `The_new_proj`.
+```bash
+docker-compose run web /virtualenvs/venvdj1.7/bin/ipython
 ```
-In [1]: from utils1_7 import centersToProjects
+
+Inside the Python shell, run `utils1_7.centersToProjects()`. It takes two arguments: (i) a list of Medical Centers internal names and (ii) a list of Projects ids. It links all passed Projects to all Medical Centers (i.e., Cartesian product). Here an example where we link `ZZ` to `The_new_proj`. Note that we first need to add ```/adminScripts``` to the Python path in order to use the ```utils1_7``` library.
+```
+In [1]: import sys
+
+In [2]: sys.path.append('/adminScripts')
+
+In [3]: from utils1_7 import centersToProjects
 /srv/www/clinicalManager/corePatient/models.py:7: RemovedInDjango18Warning: `WgObjectManager.get_query_set` method should be renamed `get_queryset`.
   class WgObjectManager(models.Manager):
 
 
-In [2]: centersToProjects(['ZZ'],['The_new_proj'])
+In [4]: centersToProjects(['ZZ'],['The_new_proj'])
 linking hospital: ZZ
 		...to project: The_new_proj
 Project(s) linked to hospital(s)
