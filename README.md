@@ -13,13 +13,13 @@ git clone https://github.com/lasircc/las-docker.git
 
 * Download the seed databases. Due their large size, the seed databases are stored separately from the GitHub repo on an FTP server. Please contact us at *las* at *ircc* dot *it* to get access credentials. Extract the contents of the downloaded gzipped tarballs to the following paths:
     * ```docker-entrypoint-initdb.d.tar.gz``` inside ```./las-docker/mysql/docker-entrypoint-initdb.d/```
-    * ```graph.db.tar.gz``` inside ```./las-docker/neo4j-data/graph.db```
+    * ```graph.db.tar.gz``` inside ```./las-docker/neo4j-data/graph.db/```
     * ```seq.tar.gz``` inside ```./las-docker/blat/seq/```
 
 ## Configuration
 ### Environment variables
 Edit the ```.env``` file in the root folder. In particular, set the following variables as appropriate:
-* ```ADMIN_PASSWORD```: password for the LAS administrator user
+* ```ADMIN_PASSWORD```: password (of your choice) for the LAS administrator user
 * ```HOST```: host name under which the LAS instance will be accessible e.g. las.mycompany.com
 * ```EMAIL_HOST```: email server e.g. smtp.mail.com
 * ```EMAIL_ADMIN_USER```: email user e.g. user@mycompany.com
@@ -27,7 +27,8 @@ Edit the ```.env``` file in the root folder. In particular, set the following va
 * ```EMAIL_PORT```
 * ```EMAIL_USE_TLS```: *True* or *False*
 
-The other variables need not be changed unless you have any particular reason to use different values than the default ones.
+Make sure you choose a strong password for the administrator user and keep it private, since inadvertent access to this account may compromise the data in the LAS system.
+The other variables need not be changed unless you have a specific reason (and know what you're doing).
 
 ### SSL certificates
 A self-signed certificate is provided with the bundle but will raise a security exception with most browsers. You may use your own certificate/key pair by overwriting the following files:
@@ -47,6 +48,13 @@ Cd to the ```las-docker``` folder and issue the following command:
 docker-compose up
 ```
 Upon the first execution, seed databases will be automatically imported. This operation will take some time (10 minutes or more), depending on your CPU and hard drive speed.
+
+## Stopping the platform
+Open a new terminal, cd to the ```las-docker``` folder and issue the following command:
+```bash
+docker-compose down
+```
+
 ---
 # Running scripts for genomic annotation management
 
@@ -55,7 +63,7 @@ We provide a script that automatically handles the download and import process. 
 ```bash
 docker-compose run web /srv/www/newAnnotationsManager/scripts/populate_tables_2.sh
 ```
-It will take a long time (from a few hours to a day), so sit back an relax. ;)
+It will take a long time (from a few hours to a whole day), so sit back an relax. ;)
 
 # Running scripts for clinical data management
 
