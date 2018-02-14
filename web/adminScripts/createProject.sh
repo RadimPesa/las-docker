@@ -15,6 +15,6 @@ read wg
 echo
 
 
-/.virtualenvs/venvdj1.4/bin/python -c "import utils1_4; utils1_4.createCollectionProtocol('$title', '$id')"
+/virtualenvs/venvdj1.4/bin/python -c "import utils1_4; utils1_4.createCollectionProtocol('$title', '$id')"
 echo
-/.virtualenvs/venvdj1.7/bin/python -c "import utils1_7; utils1_7.createProject('$title', '$id', '$wg')"
+/virtualenvs/venvdj1.7/bin/python -c "import utils1_7; utils1_7.createProject('$title', '$id', '$wg')"
