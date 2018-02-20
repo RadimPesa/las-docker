@@ -80,5 +80,5 @@ EXPOSE 80
 RUN mkdir /las
 COPY start.sh /las/start.sh
 COPY wait-for-it.sh /las/wait-for-it.sh
-
+RUN cp -r /virtualenvs/venvdj1.4/django/contrib/admin/templates /virtualenvs/venvdj1.4/lib/python2.7/site-packages/django/contrib/auth
 CMD ["/las/start.sh"]
