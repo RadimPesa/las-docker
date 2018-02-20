@@ -35,22 +35,25 @@ A self-signed certificate is provided with the bundle but will raise a security 
 * ```./las-docker/web/ssl/apache.crt```: certificate file
 * ```./las-docker/web/ssl/apache.key```: private key file
 
-## Installation
+## Installation and deployment
 Cd to the ```las-docker``` folder and issue the following command:
 ```bash
 docker-compose build
-```
-The build process may take a long time (30 minutes or more), depending on your connection and CPU speed.
-
-## Running the platform
-Cd to the ```las-docker``` folder and issue the following command:
-```bash
 docker-compose up
 ```
-Upon the first execution, seed databases will be automatically imported. This operation will take some time (10 minutes or more), depending on your CPU and hard drive speed.
+The build process may take a long time (30 minutes or more), depending on your connection and CPU speed.
+Next, upon the first execution, seed databases will be automatically imported, which will also take some time (10 minutes or more).
 
-## Stopping the platform
-Open a new terminal, cd to the ```las-docker``` folder and issue the following command:
+## Starting/stopping the platform
+The platform may be stopped and restarted using the following commands:
+```bash
+docker-compose stop
+```
+and
+```bash
+docker-compose start
+```
+To stop and completely remove all containers, issue the following command:
 ```bash
 docker-compose down
 ```
