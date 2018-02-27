@@ -194,6 +194,7 @@ def get_client_ip(request):
 @transaction.commit_on_success
 def LASRegistration(request,projectName=None):
     backend=get_backend()
+    print "backend", backend
     if request.method=='POST':
         reg_session_id = request.COOKIES.get('reg_session', None)
         if request.POST.get('step') not in ['data_check', 'demo_register']:
@@ -215,6 +216,7 @@ def LASRegistration(request,projectName=None):
                 return_dict = {"critical_error": 'true'}
                 return HttpResponse(json.dumps(return_dict),mimetype='application/json')
         if request.POST.get('step')=='demo_register':
+            print "demo_register"
             import urllib, urllib2
             username= request.POST.get('username')
             firstname = request.POST.get('firstname')
@@ -223,7 +225,7 @@ def LASRegistration(request,projectName=None):
             try:
                 new_user = backend.register(username, email , request)
             except Exception,e:
-                print e
+                print "demo register", e
                 transaction.rollback()
                 return_dict = {"result": 'mail_error'}
                 json_response = json.dumps(return_dict)
@@ -572,7 +574,7 @@ def LASRegistration(request,projectName=None):
                 try:
                     new_user = backend.register(username, email , request)
                 except Exception,e:
-                    print e
+                    print "register", e
                     transaction.rollback()
                     return_dict = {"result": 'mail_error'}
                     return_dict["critical_error"] = 'false'

@@ -36,6 +36,8 @@ from django.forms.models import model_to_dict
 from py2neo import *
 from django.utils import timezone
 
+import loginas.utils
+
 RETURN_TO_FIELD_NAME = 'return_to'
 SESSION_KEY_FIELD_NAME = 'session_key'
 APP_FIELD_NAME = 'appid'
@@ -97,10 +99,7 @@ def login_required(function):
     return wrapper
 
 
-
-
-@login_required
-def logout(request):
+def logoutFromLASModules(request):
     um_list = LASUser_logged_in_module.objects.filter(father_session_key=request.session.session_key)
     for um in um_list:
         url = um.lasmodule.logout_url
@@ -119,7 +118,11 @@ def logout(request):
             print e
         
         um.delete()
-    
+
+@login_required
+def logout(request):
+    logoutFromLASModules(request)
+ 
     for sesskey in request.session.keys():
         del request.session[sesskey]
 
@@ -608,7 +611,12 @@ def manageAccount(request):
             wgList.append(wgDict)
         #CIRCLES
         rt=RelationalTag.objects.all()
-        return render_to_response('manageAccount.html',{'tempRecord':LASUser_invite.objects.filter(lasuser=LASUser.objects.get(username=request.user.username)),'workingGroups':wgList,'fatherActivities':Activity.objects.filter(father_activity__isnull=True), 'tags':rt},RequestContext(request))
+
+        ### loginas ###
+        hasPreviousUser = loginas.utils.existsPreviousUser(request)
+        isSuperUser = request.user.is_superuser
+
+        return render_to_response('manageAccount.html',{'tempRecord':LASUser_invite.objects.filter(lasuser=LASUser.objects.get(username=request.user.username)),'workingGroups':wgList,'fatherActivities':Activity.objects.filter(father_activity__isnull=True), 'tags':rt, 'hasPreviousUser': hasPreviousUser, 'isSuperUser': isSuperUser},RequestContext(request))
 
 
 @login_required

@@ -28,3 +28,19 @@ class QueryModuleUserHandler(BaseHandler):
             print e
             print "[LASAuthServer][api query] - error ModuleUser autocomplete"
             
+class AutocompleteUserHandler(BaseHandler):
+    allowed_methods = ('GET')
+    def read(self, request):
+        try:
+            print request.GET
+            if 'q' in request.GET:
+                mulist = LASUser.objects.filter(username__icontains=request.GET.get('q'))
+                res=[]
+                for mu in mulist:
+                    res.append(mu.username)
+                #print res
+                return res
+            return " "
+        except Exception, e:
+            print e
+            print "[LASAuthServer][api AutocompleteUserHandler] - error"

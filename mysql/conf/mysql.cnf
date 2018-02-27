@@ -1,0 +1,57 @@
+# Copyright (c) 2014, 2016, Oracle and/or its affiliates. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+#
+# The MySQL  Server configuration file.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysqld]
+pid-file	= /var/run/mysqld/mysqld.pid
+socket		= /var/run/mysqld/mysqld.sock
+datadir		= /var/lib/mysql
+#log-error	= /var/log/mysql/error.log
+# By default we only accept connections from localhost
+#bind-address	= 127.0.0.1
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+#
+# * Fine Tuning
+#
+
+key_buffer_size         = 4G
+max_heap_table_size     = 512M
+tmp_table_size          = 512M
+max_allowed_packet      = 256M
+thread_stack            = 256K
+thread_cache_size       = 20
+# This replaces the startup script and checks MyISAM tables if needed
+# the first time they are touched
+myisam-recover-options  = BACKUP
+max_connections        = 214
+#table_cache            = 64
+#thread_concurrency     = 10
+#
+# * Query Cache Configuration
+#
+query_cache_limit       = 1M
+query_cache_size        = 0
+query_cache_type        = 0
+
+
+join_buffer_size = 16M
+table_open_cache = 400

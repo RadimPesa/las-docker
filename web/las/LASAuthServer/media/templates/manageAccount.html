@@ -76,6 +76,7 @@
             active: false
         });
 
+
 	    {% for wg in workingGroups %}
             circlesList[{{wg.wg.id}}]={};
 	        $(function() {
@@ -437,8 +438,36 @@
                 }
             });
         }
+    
     </script>
     <script>$("section#content").addClass("home");</script>
+
+    <script>
+        // loginas
+        $(document).ready(function() {
+            $("#loginas-login-username").autocomplete({
+                minLength: 3,
+                messages: {
+                    noResults: '',
+                    results: function () {}
+                },
+                source: function (request, response) {
+                    jQuery.get("{% url autocompleteuserapi %}", 
+                        {q: request.term},
+                        function (data) {
+                            response(data);
+                        });
+                },
+                select: function (e, ui) {
+                    console.log("ui.item", ui.item)
+                },
+                change: function (e, ui) {
+                    if (!(ui.item)) e.target.value = "";
+                }
+            });
+        });
+    </script>
+
     <script language="JavaScript" type="text/javascript" src="/lasauth_media/manage/js/manageRegistrations.js"></script>
 
     <nav>
@@ -450,6 +479,9 @@
                 <li><a href="#htabs-outer-request">Request Functionalities</a></li>
                 <li><a href="#htabs-outer">Manage Working Groups Invitations</a></li>
                 <li><a href="#htabs-outer-account">Account</a></li>
+                {% if isSuperUser or hasPreviousUser %}
+                <li><a href="#htabs-loginas">Login as a different user</a></li>
+                {% endif %}
             </ul>
             <div id="htabs-outer-account">
                <p style='font-weight:bold;'>ACCOUNT DETAILS</p><br>
@@ -693,6 +725,33 @@
                     {% endif %}
                 <!--end htab outer panels-->
             </div>
+
+            {% if isSuperUser or hasPreviousUser %}
+            <div id="htabs-loginas">
+                <h1>Act on behalf of another user</h1><br>
+                <form id="loginas-login" action="{% url loginas-login %}" method="POST">
+                    <label style='font-weight:bold;'>Login as: </label>
+                    {% if hasPreviousUser %}
+                    <input type="text" id="loginas-login-username" name="username" disabled="disabled"/>
+                    <input type="submit" id="loginas-login-submit" value="Login" disabled="disabled"/>
+                    {% else %}
+                    <input type="text" id="loginas-login-username" name="username" />
+                    <input type="submit" id="loginas-login-submit" value="Login" />
+                    {% endif %}
+                </form>
+                <br><br><br>
+                
+                <form id="loginas-logout" action="{% url loginas-logout %}" method="POST">
+                    {% if hasPreviousUser %}
+                    <input type="submit" id="loginas-logout-submit" value="Restore previous user" />
+                    {% else %}
+                    <input type="submit" id="loginas-logout-submit" value="Restore previous user" disabled="disabled"/>
+                    {% endif %}
+                </form>
+
+            </div>
+            {% endif %}
+
         </div>
     </nav>
 

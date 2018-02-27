@@ -12,8 +12,10 @@ class CsrfExemptResource(Resource):
 
 query_moduleuser_h=CsrfExemptResource(QueryModuleUserHandler)
 checklogin_h=CsrfExemptResource(CheckLoginHandler)
+autocompleteuser_h=CsrfExemptResource(AutocompleteUserHandler)
 
 urlpatterns = patterns('',
     url(r'^moduleuser$', query_moduleuser_h),
     url(r'^checklogin/$', checklogin_h),
+    url(r'^autocompleteuser$', autocompleteuser_h, name="autocompleteuserapi"),
 ) 

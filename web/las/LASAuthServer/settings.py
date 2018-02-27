@@ -218,3 +218,6 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 REGISTRATION_SESSION_TIMEOUT = 10 # minutes
+
+LOGINAS_REDIRECT_URL = "/las/index/"
+LOGINAS_LOGOUT_REDIRECT_URL = "/las/index/"
