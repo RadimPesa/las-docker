@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{{MEDIA_URL}}projekktor/themes/maccaco/projekktor.style.css" type="text/css" media="screen" />
+<!--link rel="stylesheet" href="{{MEDIA_URL}}projekktor/themes/maccaco/projekktor.style.css" type="text/css" media="screen" /-->
 <!-- Load jquery -->
 <!--script type="text/javascript" src="{{MEDIA_URL}}projekktor/jquery-1.9.1.min.js"></script-->
 <!-- load projekktor -->
@@ -35,7 +35,7 @@ a.linkvideo:hover {
                         <div>
                             {% for v in ma.videos %}
                                 {% if v.activity = a.id%}
-                                    <p><a class='linkvideo' id='{{v.id}}' href='#' onClick="loadVideo('{{CENTRAL_MEDIA_URL}}{{v.url}}','{{v.title}}')">{{v.title}}</a></p>
+                                    <p><a class='linkvideo' id='{{v.id}}' href='#' onClick="loadVideo('{{v.url}}','{{v.title}}')">{{v.title}}</a></p>
                                 {% endif%}
                             {% endfor %}
                       </div>  
@@ -57,31 +57,33 @@ a.linkvideo:hover {
                 heightStyle: "content",
                 active: false
             });
-	        videoplayer= projekktor('#player_a', {
+	        /*videoplayer= projekktor('#player_a', {
         	    playerFlashMP4: '{{MEDIA_URL}}projekktor/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',
 	            playerFlashMP3: '{{MEDIA_URL}}projekktor/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',
 	            width: 640,
 	            height: 385,
 	            controls: true,
-                /**playlist:[
-                    {% for ma in mainActivities %}
-                        {% for v in ma.videos %}
-                            { 0 :{src: "{{MEDIA_URL}}"+'{{v.url}}', type: 'video/ogg'} },
-                        {%endfor%}
-                    {%endfor%}
-                ]*/
+              
         	    }
                 , function(player) {
         	        
-		              });       
+                      });       
+            */
 
     		});
   		function loadVideo(url,title){
+                $('#player_a').html()
+                var srcVideo = "https://www.youtube.com/embed/" + url;
+                var iframe = '<iframe width="640" height="385" src="'+ srcVideo+'?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+                $('#player_a').html(iframe);
+                $("#video_title").text(title);
+                /*
          	    projekktor('player_a').setPause();
                 projekktor('player_a').setFile([ { 0 :{src: url, type: 'video/ogg'} } ]);
         	    //projekktor('player_a').setActiveItem(parseInt(id));
-	            $("#video_title").text(title);
+
                 projekktor('player_a').setPlay();
+                */
     		}
 	    </script>            
             <br><br>
