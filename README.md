@@ -16,7 +16,7 @@ git clone https://github.com/lasircc/las-docker.git
     * ```graph.db.tar.gz``` inside ```./las-docker/neo4j-data/graph.db/```
     * ```seq.tar.gz``` inside ```./las-docker/blat/seq/```
 
-**REMARK:** Please download the scripts from the DB_updates folder to update the database after the installation. Each script contains the date of the last update. If you are installing after that date you do not need to run the scripts. Differently, open phpmyadmin at http://<your-domain>:8082 and run the scripts ordered by date.
+**REMARK:** Please download the scripts from the DB_updates folder to update the database after the installation. Each script contains the date of the last update. If you are installing after that date you do not need to run the scripts. Differently, open phpmyadmin at http://`<your-domain>`:8082 and run the scripts ordered by date.
 
 ## Configuration
 ### Environment variables
