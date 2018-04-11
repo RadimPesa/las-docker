@@ -183,15 +183,15 @@ CSRF_COOKIE_PATH = '/las'
 API_SHARED_KEY ='u8Hk;GVTbW|siLN0([_gryt2/c)]G7@g$l}.@t?A+Sq/=2l||2ZVkV@w)9+uLQE('
 
 
-TEMPLATE_CONTEXT_PROCESSORS = (   
-    'django.core.context_processors.request',   
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-    'loginmanager.context_processor.site_processor',  
+    'loginmanager.context_processor.site_processor',
 )
 
 
@@ -200,6 +200,7 @@ EMAIL_HOST_USER = os.environ['EMAIL_ADMIN_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
 EMAIL_PORT = os.environ['EMAIL_PORT']
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS']
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 
 

@@ -28,6 +28,7 @@ Edit the ```.env``` file in the root folder. In particular, set the following va
 * ```EMAIL_ADMIN_PASSWORD```
 * ```EMAIL_PORT```
 * ```EMAIL_USE_TLS```: *True* or *False*
+* ```DEFAULT_FROM_EMAIL```: email address used in From message header
 
 Make sure you choose a strong password for the administrator user and keep it private, since inadvertent access to this account may compromise the data in the LAS system.
 The other variables need not be changed unless you have a specific reason (and know what you're doing).
@@ -88,10 +89,10 @@ Related tables in MySQL are:
 * biobank: `biobanca.source`
 * clinicalManager: `clinical.coreInstitution_institution;`
 
-In the neo4j graph, Medical Center nodes are labelled as `Institution`. If you want to get them, try the Cypher query below: 
+In the neo4j graph, Medical Center nodes are labelled as `Institution`. If you want to get them, try the Cypher query below:
 
     MATCH (n:Institution) RETURN n
-    
+
 ### Creating a new Medical Center
 For creating a medical center you need 2 pieces of information:
 * the name (e.g., _Addenbrookes_)
@@ -101,7 +102,7 @@ In order to create **all required data**, run `createMedicalCenter.sh`. Here is 
 
 Run the script
 ```bash
-$ docker-compose run web bash /adminScripts/createMedicalCenter.sh 
+$ docker-compose run web bash /adminScripts/createMedicalCenter.sh
 ```
 
 You will be prompted for medical center `name`. In this example we are going to type: **_The Hospital_**
@@ -109,12 +110,12 @@ You will be prompted for medical center `name`. In this example we are going to 
 ```
 Hello there, you are going to create a new Medical Center...
 
-Enter the name of the medical center (e.g., Addenbrookes) and press [ENTER]: 
+Enter the name of the medical center (e.g., Addenbrookes) and press [ENTER]:
 The Hospital
 ```
 Then, you will be prompted for medical center `internal name`. In this example we are going to type: **_ZZ_**
 ```
-Enter the 2-characters internal name of the medical center  (e.g., AB) and press [ENTER]: 
+Enter the 2-characters internal name of the medical center  (e.g., AB) and press [ENTER]:
 ZZ
 ```
 A final output message, similar to the one below, should confirm that all worked fine.
@@ -126,7 +127,7 @@ Medical Center created in biobank
 
 /srv/www/clinicalManager/corePatient/models.py:7: RemovedInDjango18Warning: `WgObjectManager.get_query_set` method should be renamed `get_queryset`.
   class WgObjectManager(models.Manager):
-             
+
 Medical Center created in clinicalManager
 	name: The Hospital
 	institutionType: Medical Center
@@ -195,23 +196,23 @@ In order to create all required data, run `createProject.sh`. Here is an example
 Run the script
 
 ```
-$ docker-compose run web bash /adminScripts/createProject.sh 
+$ docker-compose run web bash /adminScripts/createProject.sh
 ```
 You will be prompted for project `title`. In this example we are going to type: **_The New Project_**
 ```
 Creating a new Project (aka protocol)...
 
-Enter the title of the Project (e.g., The Project Foo) and press [ENTER]: 
+Enter the title of the Project (e.g., The Project Foo) and press [ENTER]:
 The New Project
 ```
 Then, you will be prompted for project `id`. In this example we are going to type: **_The_new_proj_**
 ```
-Enter the id of the Project (e.g., TheProjectFoo) and press [ENTER]: 
+Enter the id of the Project (e.g., TheProjectFoo) and press [ENTER]:
 The_new_proj
 ```
 Finally, you will be asked to pick the `WG` which owns the Project. In this example we are going to type: **_Medico_WG_**
 ```
-Enter the wg which owns the Project (e.g., rootpi_WG) and press [ENTER]: 
+Enter the wg which owns the Project (e.g., rootpi_WG) and press [ENTER]:
 Medico_WG
 ```
 A final output message, similar to the one below, should confirm that everithing is fine.
