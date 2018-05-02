@@ -16,6 +16,9 @@ DOMAIN_URL=getLASUrl()
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+)
 
 MANAGERS = ADMINS
 BASEDIR = path.dirname(path.dirname(path.abspath(__file__)))
