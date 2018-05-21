@@ -27,7 +27,7 @@ services:
   
   lasmysql:
     container_name: lasmysql
-    image: mysql
+    image: mysql:5.7.22
     restart: always
     env_file:
       - .env
@@ -53,7 +53,7 @@ services:
 
   lasmongodb:
     restart: always
-    image: mongo:latest
+    image: mongo:3.6.4
     container_name: lasmongodb
     env_file:
       - .env
