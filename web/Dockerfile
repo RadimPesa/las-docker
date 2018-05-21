@@ -1,8 +1,8 @@
-FROM ubuntu
+FROM ubuntu:18.04
 
 RUN export DEBIAN_FRONTEND=noninteractive &&\
     apt-get update &&\
-    apt-get install -y apache2 python2.7 python-pip libapache2-mod-evasive libapache2-mod-jk libapache2-mod-wsgi libmysqlclient-dev libpq-dev libmemcached-dev libffi-dev &&\
+    apt-get install -y apache2 python2.7 python-pip libapache2-mod-evasive libapache2-mod-jk libapache2-mod-wsgi libmysqlclient-dev libpq-dev libmemcached-dev libffi-dev libssl-dev &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
 RUN mkdir /las-conf
