@@ -48,7 +48,7 @@ Pillow==3.4.2
 Pillow-PIL==0.1.dev0
 pisa==3.0.33
 psutil==4.2.0
-psycopg2==2.7
+psycopg2==2.7.4
 ptyprocess==0.5.1
 py2neo==1.6.4
 pyasn1==0.1.9
