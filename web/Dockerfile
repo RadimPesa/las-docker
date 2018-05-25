@@ -77,6 +77,10 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 EXPOSE 443
 EXPOSE 80
 
+RUN usermod -u 1000 www-data
+RUN usermod -G staff www-data
+RUN groupmod -g 1000 www-data
+
 RUN mkdir /las
 COPY start.sh /las/start.sh
 COPY wait-for-it.sh /las/wait-for-it.sh
