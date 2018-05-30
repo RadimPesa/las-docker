@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from forms import *
 from models import *
 from django.contrib import auth
@@ -3116,3 +3116,6 @@ def manageUserWorkingGroupAdmin(request,wgID,uID):
 def privacyView(request):
     return render_to_response('privacy.html',RequestContext(request))
 
+
+def helpdesk(request):
+    return redirect(settings.HELPDESK)

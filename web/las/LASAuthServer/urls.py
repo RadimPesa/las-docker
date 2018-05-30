@@ -32,6 +32,8 @@ urlpatterns = patterns('',
     url('^accounts/', include('registration.urls')),
     url(r'^laslogin/$', 'loginmanager.views.LASLogin'),
     url(r'^index/$', 'loginmanager.views.index'),
+    url(r'^helpdesk/$', 'loginmanager.views.helpdesk'),
+    
 
     
     url(r'^saveUserPermissions/$', 'loginmanager.views.saveUserPermissions'),        

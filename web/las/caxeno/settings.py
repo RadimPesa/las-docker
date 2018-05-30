@@ -12,6 +12,9 @@ DOMAIN_URL=getLASUrl()
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+ADMINS = (
+)
+
 
 MANAGERS = ADMINS
 BASEDIR = path.dirname(path.abspath(__file__))
