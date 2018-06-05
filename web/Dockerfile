@@ -26,29 +26,33 @@ RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh \
     && workon venvdj1.7 \
     && pip install --default-timeout=100 -r /las-conf/pip-reqs_1.7.txt"
     
-#COPY LASAuthServer /srv/www/LASAuthServer
-#COPY catissue /srv/www/catissue
-#COPY storage /srv/www/storage
-#COPY caxeno /srv/www/caxeno
-#COPY cellline /srv/www/cellline
-#COPY caquery /srv/www/caquery
-#COPY uarray /srv/www/uarray
-#COPY realTime /srv/www/realTime
-#COPY sangerLight /srv/www/sangerLight
-#COPY fingerPrinting /srv/www/fingerPrinting
-#COPY ngsmanager /srv/www/ngsmanager
-#COPY clinicalManager /srv/www/clinicalManager
-#COPY repmanager /srv/www/repmanager
-#COPY annotationsManager /srv/www/annotationsManager
-#COPY newAnnotationsManager /srv/www/newAnnotationsManager
-#COPY analysismanager /srv/www/analysismanager
-#COPY beaming /srv/www/beaming
-#COPY digitalPcr /srv/www/digitalPcr
+#COPY las/LASAuthServer /srv/www/LASAuthServer
+#COPY las/catissue /srv/www/catissue
+#COPY las/storage /srv/www/storage
+#COPY las/caxeno /srv/www/caxeno
+#COPY las/cellline /srv/www/cellline
+#COPY las/caquery /srv/www/caquery
+#COPY las/uarray /srv/www/uarray
+#COPY las/realTime /srv/www/realTime
+#COPY las/sangerLight /srv/www/sangerLight
+#COPY las/fingerPrinting /srv/www/fingerPrinting
+#COPY las/ngsmanager /srv/www/ngsmanager
+#COPY las/clinicalManager /srv/www/clinicalManager
+#COPY las/repmanager /srv/www/repmanager
+#COPY las/annotationsManager /srv/www/annotationsManager
+#COPY las/newAnnotationsManager /srv/www/newAnnotationsManager
+#COPY las/analysismanager /srv/www/analysismanager
+#COPY las/beaming /srv/www/beaming
+#COPY las/digitalPcr /srv/www/digitalPcr
 
 COPY conf/las-ssl.conf /etc/apache2/sites-available/las-ssl.conf
+COPY conf/apache2.conf /etc/apache2/apache2.conf
+COPY conf/evasive.conf /etc/apache2/mods-available/evasive.conf
+COPY conf/fqdn.conf /etc/apache2/conf-available/fqdn.conf
 
 COPY ssl/apache.crt /etc/apache2/ssl/las.crt
 COPY ssl/apache.key /etc/apache2/ssl/las.key
+
 
 RUN rm -rf /etc/apache2/sites-enabled/* &&\
     ln -s /etc/apache2/sites-available/las-ssl.conf /etc/apache2/sites-enabled/las-ssl.conf
@@ -64,6 +68,8 @@ RUN ln -sf /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled/ssl.co
 RUN ln -sf /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled/ssl.load
 RUN ln -sf /etc/apache2/mods-available/unique_id.load /etc/apache2/mods-enabled/unique_id.load
 RUN ln -sf /etc/apache2/mods-available/xml2enc.load /etc/apache2/mods-enabled/xml2enc.load
+RUN rm /etc/apache2/mods-enabled/reqtimeout.conf  /etc/apache2/mods-enabled/reqtimeout.load
+RUN a2enconf fqdn
 
 RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
     ln -sf /proc/self/fd/1 /var/log/apache2/error.log

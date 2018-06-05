@@ -33,6 +33,9 @@ Edit the ```.env``` file in the root folder. In particular, set the following va
 Make sure you choose a strong password for the administrator user and keep it private, since inadvertent access to this account may compromise the data in the LAS system.
 The other variables need not be changed unless you have a specific reason (and know what you're doing).
 
+### ServerName Apache
+Edit the fqdn.conf file in /web/conf folder to define your domain.
+
 ### SSL certificates
 A self-signed certificate is provided with the bundle but will raise a security exception with most browsers. You may use your own certificate/key pair by overwriting the following files:
 * ```./las-docker/web/ssl/apache.crt```: certificate file

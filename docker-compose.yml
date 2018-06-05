@@ -24,7 +24,7 @@ services:
       - lasneo4j
       - blat-genome
       - blat-transcriptome
-  
+    
   lasmysql:
     container_name: lasmysql
     image: mysql:5.7.22
