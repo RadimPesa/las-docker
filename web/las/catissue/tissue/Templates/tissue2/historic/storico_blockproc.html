@@ -1,0 +1,32 @@
+<div id=inizio style="width:40%;border:2px solid black;background-color:#e8e8e8;" class="ui-widget-content">
+    <table align="center"  style="background-color:#e8e8e8;-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+        <tr>
+            <td>
+                <form action="{{ post_url }}" enctype="multipart/form-data" method="post">{% csrf_token %}
+                    <section class="f">
+                        <p>Select initial procedure:</p>
+                        <table>
+                            <thead>
+                                <th>Choose</th>
+                                <th>Timestamp</th>
+                                <th>Operator</th>
+                                <th>New WG</th>
+                            </thead>
+                            <tbody>
+                                {% for p in procedures %}
+                                <tr>
+                                    <td><input type="radio" name="proc_id" value="{{ p.id }}" /></td>
+                                    <td>{{ p.timestamp}}</td>
+                                    <td>{{ p.operator.username }}</td>
+                                    <td>{{ p.workGroup.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                    </section>
+                    <br>
+                    <input type="submit" value="Submit" id="conferma1"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>

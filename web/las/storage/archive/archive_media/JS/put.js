@@ -3,12 +3,15 @@ var lbarcletti=new Array();
 var listaappoggio=new Array();
 
 function removeBarcode(barcode){
-    for (var i=0; i < listabarcgenerale.length; i++){
-        if (listabarcgenerale[i] == barcode){
-        	listabarcgenerale.splice(i,1);
+    for (var i=0; i < listaappoggio.length; i++){
+        if (listaappoggio[i] == barcode){
+			listaappoggio.splice(i,1);
+			// console.log("Removed "+ barcode + "\n");
+			break; //break if found
         }
     }
 }
+
 
 //serve a trovare quali padri possono essere accettati nella schermata.
 //Si tratta di quei padri i cui figli devono essere tutti riposizionati
@@ -29,6 +32,7 @@ function trova_figli_container(){
 		if(barc=="None"){
 			var pias=$(listapias[i]).text();
 			listabarcgenerale.push(pias.toUpperCase());
+			// console.log("Added "+ pias + " to listabarcgenerale");
 		}
 	}
 	
@@ -48,6 +52,7 @@ function trova_figli_container(){
 			var lista=result;
 			for(var i=0;i<lista.length;i++){
 				listabarcgenerale.push(lista[i].toUpperCase());
+				// console.log("Added "+ lista[i].toUpperCase() + " to listabarcgenerale");
 			}
 			clearTimeout(timer);
 			$("body").removeClass("loading");
@@ -96,6 +101,10 @@ function aggiorna_dati(){
 			listaappoggio.push(freezer.toUpperCase());
 		}
 	}
+	var diff = $(listaappoggio).not(listabarcgenerale).get();
+	// console.log("listaappoggio has " + listaappoggio.length + " elements: " + JSON.stringify(listaappoggio, null, 2));
+	// console.log("listabarcgenerale has " + listabarcgenerale.length + " elements: " + JSON.stringify(listabarcgenerale, null ,2));
+	// console.log("The diff is: " + JSON.stringify(diff, null ,2));
 }
 
 function conf_barcode(){
@@ -106,7 +115,8 @@ function conf_barcode(){
 		var barcorig=$("#id_barcode").attr("value");
 		var barc=barcorig.toUpperCase();
 		if ($.inArray(barc,listaappoggio)!=-1){
-			if ($.inArray(barc,listabarcgenerale)!=-1){
+			// console.log(barc + " is in listaappoggio \n");
+			// if ($.inArray(barc,listabarcgenerale)!=-1){   //
 				var tabella=$("#aliq_originali").dataTable();
 				var tabellasotto=$("#aliq_definitive").dataTable();
 				var aTrs = tabella.fnGetNodes();			
@@ -116,8 +126,10 @@ function conf_barcode(){
 				// scandisce tutte le righe della tabella
 				var contatore=0;
 		        jQuery.each(tabella.fnGetData(), function(key, d) {
-		        	if ((d[7].toUpperCase() == barc)||(d[5].toUpperCase()== barc)||(d[3].toUpperCase()==barc)||(d[2].toUpperCase()==barc)){
-		        		//mi da' la riga del data table
+				// looks in d[7]=barcode, d[5]=plate, d[3]=rack, d[2]=freezer
+		        	if ((d[7].toUpperCase() == barc)||(d[5].toUpperCase()==barc)||(d[3].toUpperCase()==barc)||(d[2].toUpperCase()==barc)){
+						removeBarcode(barc);
+						//mi da' la riga del data table
 						var riga=aTrs[key];
 		        		var listadatitemp=new Array();
 			        	
@@ -138,7 +150,7 @@ function conf_barcode(){
 				$("#id_barcode").attr("value","");
 				$("#id_barcode").focus();
 				//tolgo il codice dalla lista generale
-				removeBarcode(barc);
+				// removeBarcode(barc); //remove solo d7 all nell'each
 				//aggiorno la scritta con il numero di provette confermate
 				if (contatore==1){
 					$("#contatore").text("You validated "+String(contatore)+" aliquot");
@@ -160,16 +172,19 @@ function conf_barcode(){
 		    		tabellasotto.fnUpdate(j+1,j,0,false,true);
 		    	}
 			tabellasotto.fnDraw();
-			}
-			else{
-				alert("You don't have to position all children's container. Please validate barcode singularly.");
-				$("#id_barcode").attr("value","");
-				$("#id_barcode").focus();
-				$("#contatore").text("");
-			}
+			// }
+			// else{
+			// 	alert("You don't have to position all children's container. Please validate barcode singularly.");
+			// 	$("#id_barcode").attr("value","");
+			// 	$("#id_barcode").focus();
+			// 	$("#contatore").text("");
+			// }
+
 		}
 		else{
-			alert("Invalid barcode");
+			alert("Invalid Barcode");
+			// console.log(JSON.stringify(listaappoggio));
+			// console.log(JSON.stringify(listabarcgenerale));
 			$("#id_barcode").attr("value","");
 			$("#id_barcode").focus();
 			$("#contatore").text("");
@@ -218,6 +233,7 @@ $(document).ready(function () {
 		    			salva:true,
 		    			lbarc:JSON.stringify(lbarcletti)
 			    };
+			    // console.log("listaappoggio has " + listaappoggio.length + " elements: " + JSON.stringify(listaappoggio, null, 2));
 				var url=base_url+"/put/last/";
 				$.post(url, data, function (result) {
 			    	if (result == "failure") {

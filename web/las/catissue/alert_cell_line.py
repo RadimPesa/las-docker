@@ -41,7 +41,7 @@ def getCellLine():
         datapassato=datetime.date(passato.year,passato.month,passato.day)
         #prendo le aliquote vitali ancora disponibili che non siano X o H
         viable=AliquotType.objects.get(abbreviation='VT')
-        lisal=Aliquot.objects.filter(idAliquotType=viable,availability=1)
+        lisal=Aliquot.objects.filter(idAliquotType=viable,availability=1, timesUsed=0)
         print 'len(lisal)',len(lisal)
         stringat=''        
         for al in lisal:

@@ -169,6 +169,7 @@ def SalvaInStorage(listaaliquota,request):
             u = urllib2.urlopen(req)
             #u = urllib2.urlopen(url1, data)
             res1 =  u.read()
+            print 'res1--->', res1
         else:
             res1='ok'
         if len(listaffpe)!=0:
@@ -185,10 +186,11 @@ def SalvaInStorage(listaaliquota,request):
         #transaction.rollback()
         errore=True
         variables = RequestContext(request, {'errore':errore})
+        print 'err salvainstorage', variables
         return render_to_response('tissue2/index.html',variables)
         print e
     if (res1 == 'err')or(len(listaffpe)!=0 and res2=='err'):
-        print 'errore'
+        print 'errore salvainstorage'
         #transaction.rollback()
         errore=True
         return request,errore

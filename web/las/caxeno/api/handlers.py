@@ -374,7 +374,7 @@ def newGenIDGraph(oldG,listG,site):
                 passageTemp = '0' + str(passageTemp)
             genTemp += str(passageTemp)
             lineage = oldGObj.getLineage()
-            query=neo4j.CypherQuery(gdb,"START n=node:node_auto_index('identifier:"+str(genTemp)+"*') MATCH (n:Biomouse) RETURN n.identifier ORDER BY n.identifier")
+            query=neo4j.CypherQuery(gdb,"START n=node:node_auto_index('identifier:"+str(genTemp)+"*') MATCH (n:Genid) RETURN n.identifier ORDER BY n.identifier")
             result=query.execute()
             if len(result) > 0:
                 n = int(GenealogyID(result.data[len(result)-1][0]).getMouse())

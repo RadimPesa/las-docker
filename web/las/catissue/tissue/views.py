@@ -1,5 +1,8 @@
 from __init__ import *
 from catissue.tissue.utils import *
+import tempfile, mimetypes, os, pytz
+from django.core.servers.basehttp import FileWrapper
+from django.utils import timezone
 
 def error(request):
     return render_to_response('tissue2/error.html', RequestContext(request))
@@ -814,6 +817,8 @@ def ProvaFunnel(request):
 
 #Dato in ingresso un file con una lista di gen, li mette ad esauriti
 @transaction.commit_on_success
+@laslogin_required
+@login_required
 def CancAliquot(request):
     try:
         if request.method=='POST':
@@ -866,6 +871,8 @@ def CancAliquot(request):
 
 #Dato in ingresso un file con una lista di gen, li ripristina
 @transaction.commit_on_success
+@laslogin_required
+@login_required
 def RestoreAliquot(request):
     try:
         if request.method=='POST':
@@ -927,6 +934,8 @@ def RestoreAliquot(request):
 
 #Dato in ingresso un file con una lista di gen e i rispettivi pezzi, aggiorna il numero di pezzi salvato
 @transaction.commit_on_success
+@laslogin_required
+@login_required
 def ChangeAliquotPieces(request):
     try:
         if request.method=='POST':
@@ -969,3 +978,76 @@ def ChangeAliquotPieces(request):
         print 'err',e
         transaction.rollback()
         return HttpResponse("err")
+
+#Visualizza la lista delle procedure di block/unblock per mismatch eseguite finora, filtrando solo per unblock (ossia non visualizza le delete)
+#L'utente sceglie un punto di partenza e il sistema genera la lista delle aliquote che risultano sbloccate alla data corrente applicando
+#in successione le procedure di blocco/sblocco a partire da quella selezionata.
+#Il file generato deve poi essere caricato nella view las.ircc.it/biobank/restore/aliquot
+def ListAliquotsToRestore(request):
+    if request.method == 'POST':
+        try:
+            proc_id = request.POST['proc_id']
+        except:
+            procedures = BlockProcedureBatch.objects.filter(delete=False).order_by('timestamp')
+            return render_to_response('tissue2/historic/storico_blockproc.html', RequestContext(request, {'procedures': procedures, 'post_url': reverse('tissue.views.ListAliquotsToRestore')}))
+        try:
+            initial = BlockProcedureBatch.objects.get(pk=proc_id)
+        except:
+            return HttpResponse("error: BlockProcedureBatch with pk=%d does not exist" % proc_id)
+
+        restored_aliquots = set()
+
+        for bpb in BlockProcedureBatch.objects.filter(timestamp__gte=initial.timestamp).order_by('timestamp'):
+            for bp in bpb.blockprocedure_set.all():
+                if bpb.delete == False:
+                    restored_aliquots.update([bb.genealogyID for bb in bp.blockbioentity_set.all() if GenealogyID(bb.genealogyID).isAliquot()])
+                else:
+                    restored_aliquots.difference_update([bb.genealogyID for bb in bp.blockbioentity_set.all() if GenealogyID(bb.genealogyID).isAliquot()])
+
+        f = tempfile.NamedTemporaryFile(delete=False)
+        f.write("\n".join(restored_aliquots))
+        f.close()
+        resp = HttpResponse(FileWrapper(open(f.name,"rb")), content_type=mimetypes.guess_type(f.name)[0])
+        resp['Content-Disposition'] = 'attachment; filename="Restored_aliquots_%s_%s.txt"' % (initial.operator.username, initial.timestamp.astimezone(timezone.get_current_timezone()).strftime("%Y-%m-%d %I:%M %p"))
+        os.remove(f.name)
+        return resp
+    else:
+        procedures = BlockProcedureBatch.objects.filter(delete=False).order_by('timestamp')
+        return render_to_response('tissue2/historic/storico_blockproc.html', RequestContext(request, {'procedures': procedures, 'post_url': reverse('tissue.views.ListAliquotsToRestore')}))
+
+#Visualizza la lista delle procedure di block/unblock per mismatch eseguite finora, filtrando solo per block (ossia non visualizza le change group)
+#L'utente sceglie un punto di partenza e il sistema genera la lista delle aliquote che risultano bloccate alla data corrente applicando1
+#in successione le procedure di blocco/sblocco a partire da quella selezionata.
+#Il file generato deve poi essere caricato nella view https://las.ircc.it/biobank/aliquot/notavailable/ per trasferire le aliquote a un altro gruppo (e.g. QCInspector_WG)
+def ListDeletedAliquots(request):
+    if request.method == 'POST':
+        try:
+            proc_id = request.POST['proc_id']
+        except:
+            procedures = BlockProcedureBatch.objects.filter(delete=True).order_by('timestamp')
+            return render_to_response('tissue2/historic/storico_blockproc.html', RequestContext(request, {'procedures': procedures, 'post_url': reverse('tissue.views.ListDeletedAliquots')}))
+        try:
+            initial = BlockProcedureBatch.objects.get(pk=proc_id)
+        except:
+            return HttpResponse("error: BlockProcedureBatch with pk=%d does not exist" % proc_id)
+
+        deleted_aliquots = set()
+
+        for bpb in BlockProcedureBatch.objects.filter(timestamp__gte=initial.timestamp).order_by('timestamp'):
+            for bp in bpb.blockprocedure_set.all():
+                if bpb.delete == True:
+                    deleted_aliquots.update([bb.genealogyID for bb in bp.blockbioentity_set.all() if GenealogyID(bb.genealogyID).isAliquot()])
+                else:
+                    deleted_aliquots.difference_update([bb.genealogyID for bb in bp.blockbioentity_set.all() if GenealogyID(bb.genealogyID).isAliquot()])
+
+        f = tempfile.NamedTemporaryFile(delete=False)
+        f.write("\n".join(deleted_aliquots))
+        f.close()
+        resp = HttpResponse(FileWrapper(open(f.name,"rb")), content_type=mimetypes.guess_type(f.name)[0])
+        resp['Content-Disposition'] = 'attachment; filename="Deleted_aliquots_%s_%s.txt"' % (initial.operator.username, initial.timestamp.astimezone(timezone.get_current_timezone()).strftime("%Y-%m-%d %I:%M %p"))
+        os.remove(f.name)
+        return resp
+    else:
+        procedures = BlockProcedureBatch.objects.filter(delete=True).order_by('timestamp')
+        return render_to_response('tissue2/historic/storico_blockproc.html', RequestContext(request, {'procedures': procedures, 'post_url': reverse('tissue.views.ListDeletedAliquots')}))
+

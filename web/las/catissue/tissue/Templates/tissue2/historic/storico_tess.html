@@ -1,15 +1,15 @@
 <div id=inizio style="width:40%;border:2px solid black;background-color:#e8e8e8;" class="ui-widget-content">
-	<table align="center"  style="background-color:#e8e8e8;-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
-		<tr>
-			<td>
-				<form action={% url tissue.views.RestoreAliquot %} enctype="multipart/form-data" method="post">{% csrf_token %}
-					<section class="f">
-							{{ form.as_p }}
-					</section>
-					<br>
-					<input type="submit" value="Submit" id="conferma1"/>
-				</form>
-			</td>
-		</tr>
-	</table>
+    <table align="center"  style="background-color:#e8e8e8;-moz-border-radius: 20px;border-radius: 20px;-webkit-border-radius:20px;"  id="iniziale">
+        <tr>
+            <td>
+                <form action={% url tissue.views.RestoreAliquot %} enctype="multipart/form-data" method="post">{% csrf_token %}
+                    <section class="f">
+                            {{ form.as_p }}
+                    </section>
+                    <br>
+                    <input type="submit" value="Submit" id="conferma1"/>
+                </form>
+            </td>
+        </tr>
+    </table>
 </div>

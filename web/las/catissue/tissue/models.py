@@ -12,7 +12,7 @@ from django.db.models.query import QuerySet
 from django.conf import settings
 from catissue.global_request_middleware import *
 from django.db.models.query import QuerySet
-from catissue.tissue.genealogyID2 import *
+from catissue.tissue.genealogyID import *
 from django.core.mail import EmailMessage
 from django.utils import timezone
 
@@ -619,11 +619,24 @@ class BlockProcedure(models.Model):
     extendToChildren=models.BooleanField('Extend to children')    
     operator=models.ForeignKey(User, db_column='operator')
     executionTime=models.DateTimeField('Execution time')
+    blockProcedureBatch = models.ForeignKey('BlockProcedureBatch', db_column='blockProcedureBatch_id')
     class Meta:
         verbose_name_plural='Block procedures'
         db_table='blockprocedure'
     def __unicode__(self):
         return self.genealogyID+' to '+self.workGroup
+
+class BlockProcedureBatch(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    operator = models.ForeignKey(User, db_column='operator',default=lambda: User.objects.get(username=getUsername(0)))
+    workGroup = models.ForeignKey(WG, db_column='wg_id',null=True,blank=True)
+    delete = models.BooleanField(default=False, db_column='isDelete')
+
+    class Meta:
+        verbose_name_plural = 'Block procedure batches'
+        db_table = 'blockprocedurebatch'
+    def __unicode__(self):
+        return self.operator.username + " on " + str(self.timestamp) + " : " + ("delete" if self.delete else self.workGroup.name)
     
 class ClinicalFeature(models.Model):
     name=models.CharField(max_length=50)
@@ -1141,11 +1154,20 @@ class CollectionProtocol(models.Model):
     ethicalCommittee=models.CharField('Ethical Committee',max_length=45)
     approvalDocument=models.CharField('Approval Document',max_length=45)
     approvalDate=models.DateField('Approval Date')
+    defaultSharings = models.ManyToManyField(WG, blank=True, db_table='tissue_collectionprotocol_wg') # Default sharing event(s)
+
     class Meta:
         verbose_name_plural='Collection Protocols'
         db_table='collectionprotocol'
+
     def __unicode__(self):
         return self.name
+
+    def get_defaultSharings(self): # for the admin
+        return ', '.join([ defaultSharing.name for defaultSharing in self.defaultSharings.all() ])
+
+    get_defaultSharings.short_description = 'Default Sharing'
+
 
 class CollectionProtocolInvestigator(models.Model):
     idCollectionProtocol=models.ForeignKey(CollectionProtocol, db_column='idCollectionProtocol',verbose_name='Collection Protocol')

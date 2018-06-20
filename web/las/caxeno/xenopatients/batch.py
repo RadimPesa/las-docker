@@ -331,6 +331,7 @@ def save(request):
                     m = Mice.objects.get(barcode = barcode) 
                     physMicelist.append(m)
                     bm = Implant_details.objects.get(id_mouse__in = BioMice.objects.filter(phys_mouse_id = m), site = Site.objects.get(shortName = record['Site'])).id_mouse
+                    print forbidden_status, m.id_status.name in forbidden_status
                     if m.id_status.name in forbidden_status:
                         print m.id_status.id, m
                         raise Exception("The mouse " + bm.id_genealogy + " is " + m.id_status.name + " and cannot be explanted.")
@@ -441,7 +442,7 @@ def save(request):
                     
                     try:
                         s = Series.objects.filter(id_operator = User.objects.get(username=record['User']), id_type = Type_of_serie.objects.get(description='explant'), date = record['Date'])
-                        print 'serie',s
+                        print 'serie',s, bm.id
                         e = Explant_details.objects.get(id_series__in = s, id_mouse = bm)
                         print 'e.id',e.id
                     except Exception, e:

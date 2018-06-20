@@ -37,8 +37,12 @@ def NotAvailable(request):
             diztot={}
             #lista per mantenere l'ordine dei genid del file
             listot=[]
+
+            blockProcBatch = BlockProcedureBatch()
+
             #se non devo cancellare, ma cambiare di gruppo
             if wg_assegnare.lower()!='delete':
+
                 liswg=WG.objects.filter(name=wg_assegnare)
                 print 'liswg',liswg
                 if len(liswg)==0:
@@ -50,6 +54,11 @@ def NotAvailable(request):
                     raise ErrorDerived('Error: work group "'+wg_assegnare+'" does not exist. Choices are: '+wgstr)
                 else:
                     wg_nuovo=liswg[0].name
+
+                blockProcBatch.delete = False
+                blockProcBatch.workGroup = WG.objects.get(name=wg_nuovo)
+                blockProcBatch.save()
+
                 for i in range(1,len(linee)):
                     lisgenid=[]
                     rbatch = neo4j.ReadBatch(gdb)
@@ -70,7 +79,9 @@ def NotAvailable(request):
                                                  genealogyID=genid,
                                                  extendToChildren=prosegui,
                                                  operator=operatore,
-                                                 executionTime=timezone.localtime(timezone.now()))
+                                                 executionTime=timezone.localtime(timezone.now()),
+                                                 blockProcedureBatch=blockProcBatch
+                                                )
                         blockproc.save()
                         if prosegui:
                             #prendo tutti i campioni che discendono da quel nodo, dividendoli nei tre tipi di bioentita'. In questo modo prendo tutti i
@@ -308,6 +319,10 @@ def NotAvailable(request):
                         listot.append(blockproc)
             else:
                 wg_nuovo='delete'
+
+                blockProcBatch.delete = True
+                blockProcBatch.save()
+
                 for i in range(1,len(linee)):
                     rbatch = neo4j.ReadBatch(gdb)
                     line=linee[i].strip()
@@ -330,7 +345,9 @@ def NotAvailable(request):
                                                  genealogyID=genid,
                                                  extendToChildren=prosegui,
                                                  operator=operatore,
-                                                 executionTime=timezone.localtime(timezone.now()))
+                                                 executionTime=timezone.localtime(timezone.now()),
+                                                 blockProcedureBatch=blockProcBatch
+                                                )
                         blockproc.save()
                         if prosegui:
                             #prendo solo i genid per sapere quali campioni rendere esauriti nel DB. Sul grafo non faccio niente

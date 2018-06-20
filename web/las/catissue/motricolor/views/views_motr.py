@@ -117,7 +117,7 @@ def collectionSaveMotr(request):
                 liswg=WG_User.objects.filter(user=oper)
                 
                 #se il protocollo e' della Marsoni allora devo mettere in share anche lei per le aliquote
-                liscollinvestig=CollectionProtocolInvestigator.objects.filter(idCollectionProtocol=protcoll)
+                """liscollinvestig=CollectionProtocolInvestigator.objects.filter(idCollectionProtocol=protcoll)
                 trovato=False
                 if len(liscollinvestig)!=0:
                     for coll in liscollinvestig:
@@ -126,8 +126,31 @@ def collectionSaveMotr(request):
                             break
                 listawg=[liswg[0].WG.name]
                 if trovato:
-                    listawg.append('Marsoni_WG')
-                print 'listawg',listawg
+                    listawg.append('Marsoni_WG')"""
+                
+                # share with default wg(s)
+                defaultSharings =set()
+
+                #for project in CollectionProtocol.objects.filter(title__in=['EORTC1604','EORTC1615','EORTC1616']):
+                for wg in protcoll.defaultSharings.all():
+                    defaultSharings.add(wg.name)
+
+                print '[Motricolor Collection] defaultSharings ',defaultSharings
+
+                listawg = []
+                # add user wg
+                # TODO attenzione: questa linea di codice recupera il primo WG da una lista. Non viene gestito il caso in cui un utente appartenga a piu' WG. Sarebbe da rivedere.
+                listawg=[liswg[0].WG.name]
+
+                # add default wg(s) to lista wg
+                for wg in defaultSharings:
+                    if wg not in listawg:
+                        listawg.append(wg)
+               
+               
+                print '[Motricolor Collection] listawg ',listawg
+
+                #print 'listawg',listawg
                 set_initWG(listawg)
                 workingGroup=listawg
                 paramnote=ClinicalFeature.objects.get(name='Notes')
@@ -302,8 +325,7 @@ def collectionSaveMotr(request):
                     raise Exception
                 
                 request.session['aliquotCollectionMotricolor']=listaal
-                
-                email = LASEmail (functionality=get_functionality(), wgString=get_WG_string())
+                """email = LASEmail (functionality=get_functionality(), wgString=get_WG_string())
                 msg=['Samples collected:','','N\tPlace\tDate\tPatient code\tBarcode\tVolume(ml)\tNotes']
                 for wg in workingGroup:
                     print 'wg',wg
@@ -322,7 +344,22 @@ def collectionSaveMotr(request):
                     email.addRoleEmail([wg], 'Executor', [operatore])
                     email.addRoleEmail([wg], 'Planner', lisutenti)
 
-                email.send()
+                email.send()"""
+
+                print '[Motricolor Collection] sending mail notification (except fake motricolor PI)'
+                recipients = {s.email for s in WG.objects.get(name='Motricolor_WG').users.all().distinct() if s.username != 'motricolor'}
+                #recipients = ['andrea.mignone@ircc.it']
+                subject="[LAS/Motricolor] Collection notification"
+                message = 'Dear Users,\n\n\tthe present is to notify the following collection(s):\n\n'
+                for a in listaal:
+                    info=a.split(',')
+                    message += '{0}\t{1}\t{2}\t{3}\n'.format(info[9], info[0], info[4], info[8])
+                message += '\n\nBest,\n\n--\nLAS for Motricolor'
+                message=message.encode('utf-8')
+                email = EmailMessage(subject,message,"",recipients,"","","","","")
+                email.send(fail_silently=False)
+                print '[Motricolor Collection] mail sent'
+
                 
                 transaction.commit()
                 return HttpResponse()

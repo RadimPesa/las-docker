@@ -225,12 +225,15 @@ urlpatterns = patterns('',
     (r'^canc/aliquot$','tissue.views.CancAliquot'),
     (r'^restore/aliquot$','tissue.views.RestoreAliquot'),
     (r'^pieces/aliquot$','tissue.views.ChangeAliquotPieces'),
-    
+
     (r'^check/crna$','tissue.historic.CheckcRNA'),
     (r'^check/implant$','tissue.historic.CheckTopiImpiantati'),
     (r'^check/derivation$','tissue.historic.CheckDerivation'),    
     
     (r'^error/$','tissue.views.error'),
+
+    (r'^listrestoredaliquots$','tissue.views.ListAliquotsToRestore'),
+    (r'^listdeletedaliquots$','tissue.views.ListDeletedAliquots'),
 
 )
 if settings.DEBUG:

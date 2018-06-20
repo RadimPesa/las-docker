@@ -1,0 +1,2107 @@
+
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-17 06:00:01.828263
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-18 06:00:02.290812
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-19 06:00:02.088742
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-20 06:00:01.959455
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-21 06:00:02.187189
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-22 06:00:01.632834
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-23 06:00:02.156913
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-24 06:00:02.496030
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-25 06:00:02.435793
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-26 06:00:02.369779
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-27 06:00:02.294897
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-28 06:00:02.480771
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-29 06:00:01.620415
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-30 06:00:02.474344
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-07-31 06:00:01.795588
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-01 06:00:02.144669
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-02 06:00:02.206313
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-03 06:00:01.771480
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-04 06:00:02.215514
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-05 06:00:02.121620
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-06 06:00:01.908858
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-07 06:00:02.126138
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-08 06:00:02.408704
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-09 06:00:02.200221
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-10 06:00:02.104475
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-11 06:00:02.035832
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-12 06:00:01.982368
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-13 06:00:01.865245
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-14 06:00:01.935227
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-15 06:00:02.397642
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-16 06:00:01.726146
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-17 06:00:02.195207
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-18 06:00:01.945512
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-19 06:00:02.364533
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-20 06:00:02.565331
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-21 06:00:02.679085
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-22 06:00:02.585231
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-23 06:00:01.761756
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-24 06:00:01.988634
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-25 06:00:01.813424
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-26 06:00:02.524345
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-27 06:00:01.816916
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-28 06:00:02.216208
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-29 06:00:01.721373
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-30 06:00:01.747367
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-08-31 06:00:02.058929
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-01 06:00:02.375151
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-02 06:00:02.201675
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-03 06:00:01.720168
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-04 06:00:02.587824
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-05 06:00:01.649395
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-06 06:00:02.139364
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-07 06:00:02.287410
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-08 06:00:01.996226
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-09 06:00:01.942129
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-10 06:00:01.666459
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-11 06:00:02.284489
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-12 06:00:01.773006
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-13 06:00:02.645319
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-14 06:00:02.567862
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-15 06:00:01.823510
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-16 06:00:01.850720
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-17 06:00:02.166144
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-18 06:00:02.544547
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-19 06:00:02.134147
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-20 06:00:01.989232
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-21 06:00:02.161046
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-22 06:00:02.298374
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-23 06:00:02.293385
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-24 06:00:01.741090
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-25 06:00:02.506564
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-26 06:00:02.428728
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-27 06:00:02.234283
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-28 06:00:02.210230
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-29 06:00:01.911982
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-09-30 06:00:01.952932
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-01 06:00:02.367469
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-02 06:00:02.115272
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-03 06:00:01.728025
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-04 06:00:02.566739
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-05 06:00:02.329270
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-06 06:00:02.402809
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-07 06:00:02.083788
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-08 06:00:01.991871
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-09 06:00:02.005842
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-10 06:00:02.149308
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-11 06:00:02.104905
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-12 06:00:02.647772
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-13 06:00:01.822453
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-14 06:00:02.385435
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-15 06:00:02.671862
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-16 06:00:02.004891
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-17 06:00:02.349338
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-18 06:00:01.932477
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-19 06:00:01.897980
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-20 06:00:01.885370
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-21 06:00:02.208657
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-22 06:00:02.609154
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-23 06:00:01.952036
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-24 06:00:01.917081
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-25 06:00:02.438737
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-26 06:00:01.942937
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-27 06:00:02.037571
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-28 06:00:02.001509
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-29 06:00:02.139535
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-30 06:00:02.370177
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-10-31 06:00:02.388866
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-01 06:00:02.519396
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-02 06:00:01.981570
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-03 06:00:02.183862
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-04 06:00:02.591872
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-05 06:00:02.022180
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-06 06:00:01.855937
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-07 06:00:02.546064
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-09 06:00:01.954530
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-10 06:00:02.167480
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-11 06:00:02.421260
+listransf []
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+Error retrieving LAS Url: (2003, "Can't connect to MySQL server on '172.28.9.101' (113)")
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-15 06:00:02.461203
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-16 06:00:02.024068
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-17 06:00:02.077518
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-18 06:00:01.728319
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-19 06:00:02.253620
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-20 06:00:01.883219
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-21 06:00:01.507503
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-22 06:00:02.141559
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-23 06:00:01.718900
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-24 06:00:02.213280
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-25 06:00:02.227123
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-26 06:00:02.260455
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-27 06:00:02.628226
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-28 06:00:01.512482
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-29 06:00:02.385878
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-11-30 06:00:02.052386
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-01 06:00:01.941937
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-02 06:00:02.315474
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-03 06:00:01.601385
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-04 06:00:02.482987
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-05 06:00:02.090710
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-06 06:00:01.729887
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-07 06:00:02.336612
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-08 06:00:02.096378
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-09 06:00:02.617603
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-10 06:00:01.669175
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-11 06:00:02.315902
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-12 06:00:02.270125
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-13 06:00:01.875321
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-14 06:00:02.685445
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-15 06:00:02.147116
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-16 06:00:01.685488
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-17 06:00:01.964610
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-18 06:00:02.280613
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-19 06:00:02.259561
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-20 06:00:02.065119
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-21 06:00:01.801464
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-22 06:00:02.172940
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-23 06:00:02.083541
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-24 06:00:01.898124
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-25 06:00:02.169483
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-26 06:00:02.275794
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-27 06:00:02.184107
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-28 06:00:02.026831
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-29 06:00:02.491522
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-30 06:00:02.495018
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2016-12-31 06:00:01.620967
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-01 06:00:01.865204
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-02 06:00:02.343071
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-03 06:00:01.872486
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-04 06:00:02.034098
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-05 06:00:02.157746
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-06 06:00:02.471732
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-07 06:00:01.988752
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-08 06:00:02.223454
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-09 06:00:02.699069
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-10 06:00:02.561093
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-11 06:00:02.548824
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-12 06:00:02.287917
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-13 06:00:01.822759
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-14 06:00:02.151558
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-15 06:00:02.022872
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-16 06:00:01.625167
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-17 06:00:01.633557
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-18 06:00:01.742437
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-19 06:00:02.033371
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-20 06:00:02.087206
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-21 06:00:02.123970
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-22 06:00:01.825812
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-23 06:00:02.234016
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-24 06:00:01.742194
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-25 06:00:02.353365
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-26 06:00:01.698019
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-27 06:00:02.723087
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-28 06:00:02.051637
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-29 06:00:02.522189
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-30 06:00:02.002721
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-01-31 06:00:02.273935
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-01 06:00:02.044733
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-02 06:00:01.813616
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-03 06:00:02.692395
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-04 06:00:02.362673
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-05 06:00:02.484202
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-06 06:00:02.754612
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-07 06:00:02.525183
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-08 06:00:01.786712
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-09 06:00:01.566534
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-10 06:00:02.432701
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-11 06:00:02.370077
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-12 06:00:02.610246
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-13 06:00:02.044354
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-14 06:00:01.981482
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-15 06:00:01.777010
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-16 06:00:02.189657
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-17 06:00:02.311644
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-18 06:00:01.856182
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-19 06:00:02.691467
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-20 06:00:01.789629
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-21 06:00:01.652242
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-22 06:00:01.817783
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-23 06:00:01.823825
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-24 06:00:01.886587
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-25 06:00:02.478464
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-26 06:00:01.627758
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-27 06:00:01.952103
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-02-28 06:00:01.678651
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-01 06:00:01.741174
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-02 06:00:02.485221
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-03 06:00:01.966387
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-04 06:00:02.120516
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-05 06:00:01.705415
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-06 06:00:02.018165
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-07 06:00:02.329651
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-08 06:00:01.828592
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-09 06:00:02.316118
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-10 06:00:02.706091
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-11 06:00:02.067878
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-12 06:00:02.550715
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-13 06:00:01.762149
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-14 06:00:01.927636
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-15 06:00:02.366757
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-16 06:00:01.705647
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-17 06:00:02.506518
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-18 06:00:05.552013
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-19 06:00:02.928722
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-20 06:00:02.474192
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-21 06:00:01.822530
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-22 06:00:02.557889
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-23 06:00:01.729682
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-24 06:00:01.641659
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-25 06:00:01.833392
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-26 06:00:01.992438
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-27 06:00:02.326038
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-28 06:00:01.736292
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-29 06:00:01.942573
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-30 06:00:02.602953
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-03-31 06:00:02.175200
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-01 06:00:02.638295
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-02 06:00:01.895057
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-03 06:00:01.574529
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-04 06:00:01.811480
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-05 06:00:01.603939
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-06 06:00:02.211209
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-07 06:00:02.154283
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-08 06:00:02.149864
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-09 06:00:01.875903
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-10 06:00:02.391607
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-11 06:00:01.804938
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-12 06:00:01.868783
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-13 06:00:02.056872
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-14 06:00:02.000100
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-15 06:00:01.808004
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-16 06:00:01.992149
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-17 06:00:02.395755
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-18 06:00:02.106493
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-19 06:00:02.292549
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-20 06:00:02.265201
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-21 06:00:02.023086
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-22 06:00:02.339096
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-23 06:00:01.684930
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-24 06:00:02.176230
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-25 06:00:02.212440
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-26 06:00:02.514977
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-27 06:00:02.383886
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-28 06:00:02.215370
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-29 06:00:02.572637
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-04-30 06:00:02.649071
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-01 06:00:01.753344
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-02 06:00:01.786440
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-03 06:00:02.263061
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-04 06:00:02.359823
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-05 06:00:02.162285
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-06 06:00:02.269319
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-07 06:00:02.478833
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-08 06:00:02.209235
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-09 06:00:01.920793
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-10 06:00:01.724522
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-11 06:00:02.181928
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-12 06:00:01.784334
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-13 06:00:02.234805
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-14 06:00:02.563388
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-15 06:00:01.932110
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-16 06:00:02.263947
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-17 06:00:02.528027
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-18 06:00:02.465379
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-19 06:00:01.986483
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-20 06:00:01.979355
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-21 06:00:02.678819
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-22 06:00:02.388420
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-23 06:00:01.683328
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-24 06:00:01.728082
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-25 06:00:02.496956
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-26 06:00:02.191743
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-27 06:00:01.982734
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-28 06:00:01.924769
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-29 06:00:01.810908
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-30 06:00:02.163687
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-05-31 06:00:02.312467
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-01 06:00:01.991966
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-02 06:00:02.185036
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-03 06:00:02.451575
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-04 06:00:01.915969
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-05 06:00:02.481552
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-06 06:00:02.287343
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-07 06:00:02.250505
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-08 06:00:02.207436
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-09 06:00:01.838163
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-10 06:00:02.444358
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-11 06:00:01.996417
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-12 06:00:02.004879
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-13 06:00:01.782994
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-14 06:00:02.664597
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-15 06:00:01.914367
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-16 06:00:02.702838
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-17 06:00:02.215004
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-18 06:00:01.862932
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-19 06:00:02.090417
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-20 06:00:02.666093
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-21 06:00:02.101527
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-22 06:00:02.651201
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-23 06:00:02.525895
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-24 06:00:02.777729
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-25 06:00:02.267570
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-26 06:00:01.980598
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-27 06:00:01.775329
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-28 06:00:02.458774
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-29 06:00:01.699057
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-06-30 06:00:01.708449
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-01 06:00:02.241958
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-02 06:00:01.672328
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-03 06:00:02.625446
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-04 06:00:01.814681
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-05 06:00:02.521086
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-06 06:00:02.721481
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-07 06:00:02.116846
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-08 06:00:01.721526
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-09 06:00:01.755480
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-10 06:00:02.076344
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-11 06:00:01.970069
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-12 06:00:02.346272
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-13 06:00:01.676916
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-14 06:00:02.005246
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-15 06:00:02.171131
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-16 06:00:02.281526
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-17 06:00:02.448136
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-18 06:00:01.836100
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-19 06:00:01.875279
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-20 06:00:01.703528
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-21 06:00:02.381967
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-22 06:00:02.157584
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-23 06:00:02.129001
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-24 06:00:02.367439
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-25 06:00:01.782856
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-26 06:00:02.063838
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-27 06:00:02.557951
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-28 06:00:02.218759
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-29 06:00:02.047134
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-30 06:00:01.853297
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-07-31 06:00:01.839318
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-01 06:00:02.520248
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-02 06:00:02.369756
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-03 06:00:02.271318
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-04 06:00:01.894319
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-05 06:00:02.487309
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-06 06:00:02.131898
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-07 06:00:01.733951
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-08 06:00:02.505576
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-09 06:00:01.880309
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-10 06:00:02.256988
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-11 06:00:02.439529
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-12 06:00:02.201110
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-13 06:00:01.551486
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-14 06:00:02.519081
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-15 06:00:01.831045
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-16 06:00:01.903353
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-17 06:00:02.516666
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-18 06:00:02.102587
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-19 06:00:01.550838
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-20 06:00:02.131791
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-21 06:00:02.498927
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-22 06:00:02.575739
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-23 06:00:02.666620
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-24 06:00:01.607757
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-25 06:00:02.223508
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-26 06:00:01.688492
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-27 06:00:02.106641
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-28 06:00:02.119626
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-29 06:00:02.421331
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-30 06:00:01.695073
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-08-31 06:00:01.599393
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-01 06:00:01.991730
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-02 06:00:02.611715
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-03 06:00:02.197359
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-04 06:00:02.071936
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-05 06:00:02.501369
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-06 06:00:01.856234
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-07 06:00:01.831151
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-08 06:00:01.759650
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-09 06:00:02.237116
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-10 06:00:01.553656
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-11 06:00:02.079629
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-12 06:00:02.353675
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-13 06:00:01.682151
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-14 06:00:02.357105
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-15 06:00:02.221424
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-16 06:00:02.454108
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-17 06:00:02.574923
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-18 06:00:02.434480
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-19 06:00:01.745567
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-20 06:00:02.587686
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-21 06:00:02.233488
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-22 06:00:02.188313
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-23 06:00:02.304201
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-24 06:00:02.313904
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-25 06:00:01.563283
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-26 06:00:02.205993
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-27 06:00:01.502158
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-28 06:00:02.244239
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-29 06:00:02.054809
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-09-30 06:00:02.247230
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-01 06:00:01.657295
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-02 06:00:02.180557
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-03 06:00:01.958597
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-04 06:00:02.360864
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-05 06:00:01.699899
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-06 06:00:01.964560
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-07 06:00:01.807845
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-08 06:00:01.893614
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-09 06:00:01.885338
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-10 06:00:02.333317
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-11 06:00:02.446359
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-12 06:00:02.251433
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-13 06:00:02.265340
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-14 06:00:01.641070
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-15 06:00:01.713793
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-16 06:00:01.965866
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-17 06:00:02.381000
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-18 06:00:01.980171
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-19 06:00:02.428157
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-20 06:00:02.384051
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-21 06:00:02.380502
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-22 06:00:01.824874
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-23 06:00:01.800776
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-24 06:00:02.064391
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-25 06:00:02.085256
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-26 06:00:02.063865
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-27 06:00:01.986409
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-28 06:00:01.810769
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-29 06:00:02.125172
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-30 06:00:02.158518
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-10-31 06:00:01.693066
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-01 06:00:02.284746
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-02 06:00:02.220992
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-03 06:00:01.978455
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-04 06:00:01.886537
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-05 06:00:02.661739
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-06 06:00:01.764389
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-07 06:00:02.281072
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-08 06:00:01.766931
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-09 06:00:01.570568
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-10 06:00:01.775444
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-11 06:00:02.330373
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-12 06:00:02.391163
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-13 06:00:01.978156
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-14 06:00:01.945749
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-15 06:00:02.422864
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-16 06:00:02.151440
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-17 06:00:02.407895
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-18 06:00:02.142988
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-19 06:00:02.349978
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-20 06:00:02.371566
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-21 06:00:02.547172
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-22 06:00:02.308376
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-23 06:00:01.924499
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-24 06:00:02.477904
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-25 06:00:02.346890
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-26 06:00:02.304448
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-27 06:00:01.781037
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-28 06:00:02.130025
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-29 06:00:01.920649
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-11-30 06:00:01.715775
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-01 06:00:02.159473
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-02 06:00:02.540572
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-03 06:00:02.549933
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-04 06:00:02.047924
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-05 06:00:01.936515
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-06 06:00:02.103615
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-07 06:00:02.363516
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-08 06:00:02.077435
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-09 06:00:02.404465
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-10 06:00:01.589831
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-11 06:00:02.216409
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-12 06:00:01.955041
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-13 06:00:01.525344
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-14 06:00:01.975080
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-15 06:00:02.436462
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-16 06:00:02.322745
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-17 06:00:01.685169
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-18 06:00:01.870457
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-19 06:00:02.035161
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-20 06:00:01.747149
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-21 06:00:01.595458
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-22 06:00:01.871406
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-23 06:00:02.671769
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-24 06:00:02.029357
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-25 06:00:02.625663
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-26 06:00:01.736857
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-27 06:00:01.546542
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-28 06:00:02.535560
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-29 06:00:02.252899
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-30 06:00:02.203384
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2017-12-31 06:00:01.648336
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-01 06:00:02.186436
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-02 06:00:01.981687
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-03 06:00:02.474092
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-04 06:00:02.511058
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-05 06:00:01.979329
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-06 06:00:01.820364
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-07 06:00:02.211312
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-08 06:00:02.278624
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-09 06:00:02.204241
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-10 06:00:02.460181
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-11 06:00:02.346958
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-12 06:00:01.949789
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-13 06:00:02.470665
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-14 06:00:01.867492
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-15 06:00:02.386893
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-16 06:00:02.305591
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-17 06:00:01.676850
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-18 06:00:02.456334
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-19 06:00:02.390240
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-20 06:00:02.055785
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-21 06:00:02.173685
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-22 06:00:02.420803
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-23 06:00:02.550845
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-24 06:00:01.752381
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-25 06:00:01.936022
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-26 06:00:02.276314
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-27 06:00:01.854749
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-28 06:00:01.982400
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-29 06:00:02.499532
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-30 06:00:01.969991
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-01-31 06:00:02.027362
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-01 06:00:01.868900
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-02 06:00:01.842583
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-03 06:00:02.044564
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-04 06:00:02.475736
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-05 06:00:01.871731
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-06 06:00:02.356784
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-07 06:00:01.873147
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-08 06:00:02.158803
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-09 06:00:01.942099
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-10 06:00:01.754755
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-11 06:00:02.476810
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-12 06:00:02.293841
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-13 06:00:02.303460
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-14 06:00:01.769151
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-15 06:00:02.339580
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-16 06:00:01.706292
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-17 06:00:01.892763
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-18 06:00:01.903955
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-19 06:00:02.222234
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-20 06:00:01.737422
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-21 06:00:02.467416
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-22 06:00:02.155384
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-23 06:00:01.928390
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-24 06:00:01.587813
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-25 06:00:02.078067
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-26 06:00:01.934234
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-27 06:00:02.054631
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-02-28 06:00:02.460241
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-01 06:00:02.532624
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-02 06:00:01.585685
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-03 06:00:02.418646
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-04 06:00:02.264873
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-05 06:00:01.799644
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-06 06:00:01.850448
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-07 06:00:02.512267
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-08 06:00:02.019938
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-09 06:00:01.785700
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-10 06:00:02.482141
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-11 06:00:01.938126
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-12 06:00:01.982189
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-13 06:00:01.786957
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-14 06:00:02.493072
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-15 06:00:02.271503
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-16 06:00:02.562363
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-17 06:00:01.577413
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-18 06:00:02.470978
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-19 06:00:02.297992
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-20 06:00:01.990630
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-21 06:00:02.199523
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-22 06:00:02.117894
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-23 06:00:02.421904
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-24 06:00:01.758252
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-25 06:00:02.343954
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-26 06:00:01.897244
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-27 06:00:01.788369
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-28 06:00:01.837134
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-29 06:00:02.510306
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-30 06:00:02.421849
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-03-31 06:00:02.321277
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-01 06:00:01.509909
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-02 06:00:01.848082
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-03 06:00:02.451204
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-04 06:00:02.317504
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-05 06:00:01.627195
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-06 06:00:02.232699
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-07 06:00:01.955818
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-08 06:00:01.593518
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-09 06:00:01.700462
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-10 06:00:01.913191
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-11 06:00:02.332535
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-12 06:00:01.996179
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-13 06:00:02.545640
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-14 06:00:02.208356
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-15 06:00:02.005860
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-16 06:00:02.394283
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-17 06:00:02.431634
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-18 06:00:01.917943
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-19 06:00:02.413187
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-20 06:00:02.122469
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-21 06:00:01.793407
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-22 06:00:01.865880
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-23 06:00:02.401131
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-24 06:00:01.701407
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-25 06:00:01.877163
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-26 06:00:01.666571
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-27 06:00:01.938458
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-28 06:00:02.203644
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-29 06:00:01.890174
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-04-30 06:00:01.637803
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-01 06:00:01.848929
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-02 06:00:02.397748
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-03 06:00:02.416725
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-04 06:00:01.798507
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-05 06:00:02.503688
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-06 06:00:02.171212
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-07 06:00:02.531586
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-08 06:00:02.544472
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-09 06:00:01.730020
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-10 06:00:02.104715
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-11 06:00:02.492428
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-12 06:00:01.628210
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-13 06:00:01.782309
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-14 06:00:02.344713
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-15 06:00:02.076540
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-16 06:00:01.884867
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-17 06:00:02.542644
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-18 06:00:02.266819
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-19 06:00:02.330151
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-20 06:00:01.580913
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-21 06:00:01.845559
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-22 06:00:01.754287
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-23 06:00:02.050830
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-24 06:00:02.269970
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-25 06:00:01.648887
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-26 06:00:01.633313
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-27 06:00:02.288228
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-28 06:00:01.972602
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-29 06:00:02.407651
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-30 06:00:01.545617
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-05-31 06:00:02.106581
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-01 06:00:02.142309
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-02 06:00:02.455551
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-03 06:00:02.013869
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-04 06:00:02.388582
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-05 06:00:01.617801
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-06 06:00:02.113599
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-07 06:00:02.597050
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-08 06:00:02.285294
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-09 06:00:02.606180
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-10 06:00:02.016013
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-11 06:00:01.665396
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-12 06:00:02.225107
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-13 06:00:01.930022
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-14 06:00:02.512143
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-15 06:00:02.076685
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-16 06:00:01.934038
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-17 06:00:02.510670
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-18 06:00:01.777768
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-19 06:00:02.614215
+listransf []
+[BBM] Sending mail to operator for transferring aliquots
+oggi 2018-06-20 06:00:02.544453
+listransf []

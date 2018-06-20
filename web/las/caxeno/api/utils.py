@@ -37,7 +37,12 @@ def is_number(s):
 
 def getMeasure(mice, operators, dateList):#, measure):
     print 'XMM API: start utils.getMeasure'
-    dateList = Measurements_series.objects.filter(id_series__in=Quantitative_measure.objects.filter(id_mouse__in = mice).values_list('id_series').distinct()).values_list('date', 'id_operator__username').distinct()
+    dateList = Measurements_series.objects.filter(    Q(id_series__in=Quantitative_measure.objects.filter(id_mouse__in = mice).values_list('id_series').distinct()) |  Q(id_series__in=Qualitative_measure.objects.filter(id_mouse__in = mice).values_list('id_series').distinct())   ).values_list('date', 'id_operator__username').distinct()
+    #qualitative = Measurements_series.objects.filter(id_series__in=Qualitative_measure.objects.filter(id_mouse__in = mice).values_list('id_series').distinct()).values_list('date', 'id_operator__username').distinct()
+    # from itertools import chain
+    # dateList = list(chain(quantitative, qualitative))
+    # dateList = quantitative
+    # print dateList
     print '1'
     operators = [str(t) for t in set([t1[1] for t1 in dateList])]
     print '2'

@@ -78,7 +78,7 @@ class CollectionClinicalFeatureAdmin(admin.ModelAdmin):
 class CollectionProtocolAdmin(admin.ModelAdmin):
     list_display = ('name','title','project','projectDateRelease','informedConsent',
                     'informedConsentDateRelease','ethicalCommittee','approvalDocument',
-                    'approvalDate')
+                    'approvalDate','get_defaultSharings')
 
 class CollectionProtocolInvestAdmin(admin.ModelAdmin):
     list_display = ('idCollectionProtocol','idPrincipalInvestigator')
