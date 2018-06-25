@@ -692,7 +692,7 @@ def add_aliquot_node(aliquot):
             data, metadata = cypher.execute(gdb, query)
             if len(data)>0:
                 for d in data:
-                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.node(d[3]), 'rel_type': d[1], 'name':d[2]}
+                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid':  gdb.get_indexed_node('node_auto_index','identifier',d[2]), 'rel_type': d[1], 'name':d[2]}
 
             #relsWg = list(graph_db.match(end_node=nodes[father_gen_id]['nodeid']), rel_type="OwnsData") # e i paramteri associati? e i nodi attaccati?
             fatherNode = nodes[father_gen_id]
@@ -808,7 +808,7 @@ def add_cell_node(cell):
             if len(data)>0:
                 i = 0
                 for d in data:
-                    fatherNodeWG[i] = {'nodeid': gdb.node(d[2]), 'rel_type': d[0], 'name':d[1]}
+                    fatherNodeWG[i] = {'nodeid': gdb.get_indexed_node('node_auto_index','identifier',d[1]), 'rel_type': d[0], 'name':d[1]}
                     i+=1
 
 

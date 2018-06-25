@@ -227,9 +227,10 @@ def add_aliquot_node(aliquot):
             batch = neo4j.WriteBatch(gdb)
 
             nodes = {}
-
+            print aliquot.id_genealogy
             g = GenealogyID(aliquot.id_genealogy)
             altype = 'c'+g.get2Derivation() if g.is2Derivation() else g.getArchivedMaterial()
+            print altype
             dateAl = datetime.datetime.now()
             nodes[g.getGenID()] = {'type':'Aliquot', 'altype': altype, 'id':aliquot.id, 'relationships':{}, 'nodeid': None, 'date':str(dateAl)}
 
@@ -241,7 +242,7 @@ def add_aliquot_node(aliquot):
             data, metadata = cypher.execute(gdb, query)
             if len(data)>0:
                 for d in data:
-                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.node(d[3]), 'rel_type': d[1], 'name':d[2]}
+                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.get_indexed_node('node_auto_index','identifier',d[2]), 'rel_type': d[1], 'name':d[2]}
 
             #relsWg = list(graph_db.match(end_node=nodes[father_gen_id]['nodeid']), rel_type="OwnsData") # e i paramteri associati? e i nodi attaccati?
             fatherNode = nodes[father_gen_id]
@@ -254,6 +255,7 @@ def add_aliquot_node(aliquot):
 
             for n, nInfo in nodes.items():
                 flagInsert = True
+                print n, nInfo
                 if nInfo['nodeid'] is None:
                     nInfo['nodeid'] = batch.create(node(identifier=n))
                     labels = setLabels(nInfo['type'], nInfo['altype'])
@@ -307,9 +309,10 @@ def add_mice_node(mice):
         if gdb.get_indexed_node('node_auto_index','identifier',mice.id_genealogy):
             return
         else:
+            
             print "inizio aggiunta topo", mice.id_genealogy
             father_gen_id = Implant_details.objects.get_old(id_mouse=mice.id).aliquots_id.id_genealogy
-
+            print father_gen_id
             g = GenealogyID(mice.id_genealogy)
             nodes = {}
             dateMouse = datetime.datetime.now()
@@ -322,39 +325,51 @@ def add_mice_node(mice):
 
             query="START n=node:node_auto_index(identifier='"+father_gen_id+"') match (w:WG)-[r]->n WHERE not has(r.endDate) RETURN id(r), type(r), w.identifier, id(w)"
             data, metadata = cypher.execute(gdb, query)
+            print query, data
             if len(data)>0:
                 for d in data:
-                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.node(d[3]), 'rel_type': d[1], 'name':d[2]}
+                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.get_indexed_node('node_auto_index','identifier',d[2]), 'rel_type': d[1], 'name':d[2]}
 
             #relsWg = list(graph_db.match(end_node=nodes[father_gen_id]['nodeid']), rel_type="OwnsData") # e i paramteri associati? e i nodi attaccati?
             fatherNode = nodes[father_gen_id]
+            print fatherNode
 
             nodes[g.getGenID()]['relationships'][father_gen_id] = {'type': 'generates', 'app':'implant'}
 
             buildSemanticNode(g.getGenID(), 'Biomouse', None, nodes, dateMouse)
-
+            print 'after buildSemanticNode for ', g.getGenID()
             batch = neo4j.WriteBatch(gdb)
+            batch.clear()
+
+
+            rels = []
 
             for n, nInfo in nodes.items():
+                print 'before ', n, nInfo
                 if nInfo['nodeid'] is None:
-                    print n, nInfo
                     nInfo['nodeid'] = batch.create(node(identifier=n))
                     labels = setLabels(nInfo['type'], nInfo['altype'])
+                    #print labels
                     batch.add_labels(nInfo['nodeid'], *labels)
                     if nInfo['type'] in ['Biomouse', 'Aliquot', 'Collection']:
                         for wg, wgInfo in fatherNode['wg'].items():
-                            batch.create( rel( wgInfo['nodeid'], wgInfo['rel_type'], nInfo['nodeid'], {'startDate': nInfo['date'], 'endDate':None} ) )
-
-
+                            batch.create( rel (wgInfo['nodeid'], wgInfo['rel_type'], nInfo['nodeid'], {'startDate': nInfo['date'], 'endDate':None} ) )
+                print 'after ', n, nInfo
+            
             for dest, destInfo in nodes.items():
                 for source, relInfo in destInfo['relationships'].items():
+                    print dest, destInfo, source, relInfo
                     if relInfo['app']:
                         batch.create( rel( nodes[source]['nodeid'], relInfo['type'], destInfo['nodeid'], {'app': relInfo['app']} ) )
                     else:
                         batch.create( rel( nodes[source]['nodeid'], relInfo['type'], destInfo['nodeid'] ) )
 
+            print '---------------------------------------------'
+            print 'nodes',nodes
+            print 'batch submit'
             results = batch.submit()
             batch.clear()
+            print 'batch clear'
 
             for wg, wgInfo in fatherNode['wg'].items():
                 if BioMice_WG.objects.filter(biomice=mice,WG=WG.objects.get(name=wgInfo['name'])).count()==0:
@@ -364,8 +379,8 @@ def add_mice_node(mice):
     except Exception,e:
         print e
         transaction.rollback()
-        if BioMice_WG.objects.filter(biomice=mice,WG=WG.objects.get(name='Bertotti_WG')).count()==0:
-            m2m=BioMice_WG(biomice=mice,WG=WG.objects.get(name='Bertotti_WG'))
+        if BioMice_WG.objects.filter(biomice=mice,WG=WG.objects.get(name='admin')).count()==0:
+            m2m=BioMice_WG(biomice=mice,WG=WG.objects.get(name='admin'))
             m2m.save()
         subject='ERROR DURING SAVING XENO IN GRAPH DB'
         message='Error saving genid :',str(mice.id_genealogy)

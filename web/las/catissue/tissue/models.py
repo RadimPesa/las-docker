@@ -255,7 +255,7 @@ def add_aliquot_node(aliquot):
             data, metadata = cypher.execute(gdb, query)
             if len(data)>0:
                 for d in data:
-                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid': gdb.node(d[3]), 'rel_type': d[1], 'name':d[2]}
+                    nodes[father_gen_id]['wg'][d[0]] = {'nodeid':  gdb.get_indexed_node('node_auto_index','identifier',d[2]), 'rel_type': d[1], 'name':d[2]}
 
             #relsWg = list(graph_db.match(end_node=nodes[father_gen_id]['nodeid']), rel_type="OwnsData") # e i paramteri associati? e i nodi attaccati?
             fatherNode = nodes[father_gen_id]
@@ -314,12 +314,12 @@ def add_aliquot_node(aliquot):
         buildSemanticNode(g.getGenID(), 'Aliquot', None, nodes, dateAl)
 
         batch = neo4j.WriteBatch(gdb)
-
+        batch.clear()
+        print '---------------------------------------------'
         print 'nodes',nodes
 
         for n, nInfo in nodes.items():
-            print 'n',n
-            print 'ninfo',nInfo
+            print 'before ', n, nInfo
             if nInfo['nodeid'] is None:
                 nInfo['nodeid'] = batch.create(node(identifier=n))
                 labels = setLabels(nInfo['type'], nInfo['altype'])
@@ -327,18 +327,22 @@ def add_aliquot_node(aliquot):
                 batch.add_labels(nInfo['nodeid'], *labels)
                 if nInfo['type'] in ['Biomouse', 'Aliquot', 'Collection']:
                     for wg, wgInfo in fatherNode['wg'].items():
+                        print 'create rel with wg', wg, wgInfo, nInfo
                         batch.create( rel( wgInfo['nodeid'], wgInfo['rel_type'], nInfo['nodeid'], {'startDate': nInfo['date'], 'endDate':None} ) )
-            
+            print 'after ', n, nInfo
 
         for dest, destInfo in nodes.items():
             for source, relInfo in destInfo['relationships'].items():
+                print dest, destInfo, source, relInfo
                 if relInfo['app']:
                     batch.create( rel( nodes[source]['nodeid'], relInfo['type'], destInfo['nodeid'], {'app': relInfo['app']} ) )
                 else:
                     batch.create( rel( nodes[source]['nodeid'], relInfo['type'], destInfo['nodeid'] ) )
-
+        print 'before batch submit'
         results = batch.submit()
+        print 'batch submit'
         batch.clear()
+        print 'batch clear'
 
         for wg, wgInfo in fatherNode['wg'].items():
             print 'wg', wg
@@ -346,6 +350,7 @@ def add_aliquot_node(aliquot):
             if Aliquot_WG.objects.filter(aliquot=aliquot,WG=WG.objects.get(name=wgInfo['name'])).count()==0:
                 m2m=Aliquot_WG(aliquot=aliquot,WG=WG.objects.get(name=wgInfo['name']))
                 m2m.save()
+        print '---------------------------------------------'
 
     except Exception,e:
         print 'errore grafo',e

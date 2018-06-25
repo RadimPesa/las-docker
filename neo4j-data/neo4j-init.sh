@@ -21,6 +21,7 @@ setting "node_auto_indexing" "true" neo4j.properties
 setting "node_keys_indexable" "identifier,genid,WG" neo4j.properties
 setting "wrapper.java.initmemory" "3072" neo4j-wrapper.conf
 setting "wrapper.java.maxmemory" "3072" neo4j-wrapper.conf
+setting "keep_logical_logs" "7 days" neo4j.properties
 
 # do not run init script at each container strat but only at the first start
 if [ ! -f /data/neo4j-import-done.flag ]; then
