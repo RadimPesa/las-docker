@@ -152,7 +152,9 @@ function seleziona_protocollo(){
 }
 
 function generateRandomColor(idprot){
+    var correctionFactor = 0;
     while (true){
+	console.log('Generating color with correctionFactor = ',correctionFactor);
         var i = Math.floor(Math.random() * 50);
         var r = Math.sin(0.3*i + 0) * 127 +128;
         var g = Math.sin(0.3*i + 2) * 127 +128;
@@ -161,16 +163,19 @@ function generateRandomColor(idprot){
         var tempColor = RGB2Color(r,g,b);
         var flag = true;
         $.each(colors, function (key, value){
-            console.log(value);
+            //console.log(value);
             var diff = Math.abs(r - parseInt(value.substring(1,3), 16)) + Math.abs(g - parseInt(value.substring(3,5), 16)) + Math.abs(b - parseInt(value.substring(5,7), 16));
-            if (diff < 60){
+            if (diff < 60 - correctionFactor){
                 flag = false;
             }
         });
         if (flag){
             colors[idprot]= RGB2Color(r,g,b);//getHex(r,g,b);
             break;
-        }        
+        } else {
+            // if you get here, try to increment correctionFactor
+	    correctionFactor += 10;
+	}
     }
 }
 
