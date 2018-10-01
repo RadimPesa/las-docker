@@ -68,7 +68,7 @@ class IcViewSet(viewsets.ViewSet):
             # request from BioBank
             if 'patientUuid' not in noEmptyValueDict:
                 # Check if each node has been created
-                query = neo4j.CypherQuery(graph,"MATCH (t:Project), (c:Collection), (ic:IC), (ic)-[:belongs]-(t) where t.identifier='"+noEmptyValueDict['project']+"' AND c.identifier='"+noEmptyValueDict['collection']+"' AND ic.icCode='"+noEmptyValueDict['ICcode']+"' return t,c,ic")
+                query = neo4j.CypherQuery(graph,"MATCH (t:Project), (c:Collection), (ic:IC), (ic)-[:belongs]-(t) where t.identifier='"+noEmptyValueDict['project']+"' AND c.identifier='"+noEmptyValueDict['collection']+"' AND ic.icCode=~'(?i)"+noEmptyValueDict['ICcode']+"' return t,c,ic")
                 r = query.execute()
                 if len(r.data)==0:  # if nodes are not aligned
                     raise Exception('[coreProject] graph nodes are not aligned')
@@ -76,7 +76,7 @@ class IcViewSet(viewsets.ViewSet):
                 icNode = r.data[0]['ic']
                 cNode  = r.data[0]['c']
 
-                query = neo4j.CypherQuery(graph,"match (wg:WG)-[r]-(ic:IC) where ic.icCode='"+noEmptyValueDict['ICcode']+"' return wg")
+                query = neo4j.CypherQuery(graph,"match (wg:WG)-[r]-(ic:IC) where ic.icCode=~'(?i)"+noEmptyValueDict['ICcode']+"' return wg")
                 r = query.execute()
                 if len(r) == 0:
                     raise Exception('[coreProject] Error: no social data')
