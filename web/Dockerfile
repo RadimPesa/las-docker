@@ -5,9 +5,9 @@ RUN export DEBIAN_FRONTEND=noninteractive &&\
     apt-get install -y apache2 python2.7 python-pip libapache2-mod-evasive libapache2-mod-jk libapache2-mod-wsgi libmysqlclient-dev libpq-dev libmemcached-dev libffi-dev libssl-dev &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
-RUN mkdir /las-conf
 
-RUN mkdir /virtualenvs
+RUN mkdir /las-conf &&\
+    mkdir /virtualenvs
 
 COPY conf/pip-reqs_1.4.txt /las-conf/pip-reqs_1.4.txt
 COPY conf/pip_reqs_1.7.txt /las-conf/pip-reqs_1.7.txt
@@ -26,32 +26,16 @@ RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh \
     && workon venvdj1.7 \
     && pip install --default-timeout=100 -r /las-conf/pip-reqs_1.7.txt"
     
-#COPY las/LASAuthServer /srv/www/LASAuthServer
-#COPY las/catissue /srv/www/catissue
-#COPY las/storage /srv/www/storage
-#COPY las/caxeno /srv/www/caxeno
-#COPY las/cellline /srv/www/cellline
-#COPY las/caquery /srv/www/caquery
-#COPY las/uarray /srv/www/uarray
-#COPY las/realTime /srv/www/realTime
-#COPY las/sangerLight /srv/www/sangerLight
-#COPY las/fingerPrinting /srv/www/fingerPrinting
-#COPY las/ngsmanager /srv/www/ngsmanager
-#COPY las/clinicalManager /srv/www/clinicalManager
-#COPY las/repmanager /srv/www/repmanager
-#COPY las/annotationsManager /srv/www/annotationsManager
-#COPY las/newAnnotationsManager /srv/www/newAnnotationsManager
-#COPY las/analysismanager /srv/www/analysismanager
-#COPY las/beaming /srv/www/beaming
-#COPY las/digitalPcr /srv/www/digitalPcr
+COPY las /srv/www
+COPY adminScripts /adminScripts
 
 COPY conf/las-ssl.conf /etc/apache2/sites-available/las-ssl.conf
 COPY conf/apache2.conf /etc/apache2/apache2.conf
 COPY conf/evasive.conf /etc/apache2/mods-available/evasive.conf
 COPY conf/fqdn.conf /etc/apache2/conf-available/fqdn.conf
 
-COPY ssl/apache.crt /etc/apache2/ssl/las.crt
-COPY ssl/apache.key /etc/apache2/ssl/las.key
+#COPY ssl/apache.crt /etc/apache2/ssl/las.crt
+#COPY ssl/apache.key /etc/apache2/ssl/las.key
 
 
 RUN rm -rf /etc/apache2/sites-enabled/* &&\
@@ -83,9 +67,9 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 EXPOSE 443
 EXPOSE 80
 
-RUN usermod -u 1000 www-data
-RUN usermod -G staff www-data
-RUN groupmod -g 1000 www-data
+# RUN usermod -u 1000 www-data
+# RUN usermod -G staff www-data
+# RUN groupmod -g 1000 www-data
 
 RUN mkdir /las
 COPY start.sh /las/start.sh
