@@ -1,6 +1,12 @@
 # Django settings for storage project.
 import os
+
 DEBUG = False
+
+if "DEBUG_LAS" in os.environ:
+    if os.environ['DEBUG_LAS'] in ('TRUE', 'True', 'true'):
+        DEBUG = True
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

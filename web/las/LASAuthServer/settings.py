@@ -5,7 +5,17 @@ DB_NAME = 'lasauthserver'
 DB_USERNAME = 'lasauthserver'
 DB_PASSWORD = 'lasauthsrvpwd2012'
 DB_HOST='lasmysql'
+
 DEBUG = False
+if "DEBUG_LAS" in os.environ:
+    if os.environ['DEBUG_LAS'] in ('TRUE', 'True', 'true'):
+        DEBUG = True
+        print "DEBUG is set to True."
+    else:
+        print "DEBUG is set to False."
+else:
+    print "DEBUG_LAS is not defined in .env. DEBUG is by default set to False."
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
